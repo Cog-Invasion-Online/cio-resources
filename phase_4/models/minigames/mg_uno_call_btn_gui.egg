@@ -1,0 +1,70 @@
+<Texture> mg_uno_call_btn-rlvr {
+  "phase_4/maps/mg_uno_call_btn-rlvr.jpg"
+  <Scalar> alpha-file { "phase_4/maps/mg_uno_call_btn-rlvr_a.rgb" }
+  <Scalar> alpha { dual }
+}
+<Texture> mg_uno_call_btn-idle {
+  "phase_4/maps/mg_uno_call_btn-idle.jpg"
+  <Scalar> alpha-file { "phase_4/maps/mg_uno_call_btn-idle_a.rgb" }
+  <Scalar> alpha { dual }
+}
+<Texture> mg_uno_call_btn-down {
+  "phase_4/maps/mg_uno_call_btn-down.jpg"
+  <Scalar> alpha-file { "phase_4/maps/mg_uno_call_btn-down_a.rgb" }
+  <Scalar> alpha { dual }
+}
+<Texture> mg_uno_call_btn-disabled {
+  "phase_4/maps/mg_uno_call_btn-disabled.jpg"
+  <Scalar> alpha-file { "phase_4/maps/mg_uno_call_btn-disabled_a.rgb" }
+  <Scalar> alpha { dual }
+}
+<Group> {
+  <Switch> { 1 }
+  <Scalar> fps { 2 }
+  <VertexPool> vpool {
+    <Vertex> 0 {
+      -0.5 0.5 0
+      <UV> { 0 1 }
+    }
+    <Vertex> 1 {
+      -0.5 -0.5 0
+      <UV> { 0 0 }
+    }
+    <Vertex> 2 {
+      0.5 -0.5 0
+      <UV> { 1 0 }
+    }
+    <Vertex> 3 {
+      0.5 0.5 0
+      <UV> { 1 1 }
+    }
+  }
+  <Group> mg_uno_call_btn-disabled {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_call_btn-disabled }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_call_btn-down {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_call_btn-down }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_call_btn-idle {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_call_btn-idle }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_call_btn-rlvr {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_call_btn-rlvr }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+}

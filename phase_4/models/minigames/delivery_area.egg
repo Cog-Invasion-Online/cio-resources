@@ -1,0 +1,542 @@
+<CoordinateSystem> { Z-up } 
+<Material> Material.001 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.004 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.002 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.005 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.003 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Texture> Texture {
+  "phase_4/maps/grass_larger.jpg"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> UVMap_grass_larger.jpg {
+  "phase_4/maps/grass_larger.jpg"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.004 {
+  "phase_6/maps/tt_central_fence.jpg"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> UVMap_tt_central_fence.jpg {
+  "phase_6/maps/tt_central_fence.jpg"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.002 {
+  "phase_6/maps/tt_central_fence.jpg"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.001 {
+  "phase_6/maps/tt_central_fence.jpg"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.003 {
+  "phase_6/maps/tt_central_fence.jpg"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+  <Group> fence4_coll {
+    <Collide> { Polyset descend }
+    <Transform> {
+      <Matrix4> {
+        -1.0 1.5099580252808664e-07 0.0 0.0 
+        -1.1399865765455465e-14 -7.549790126404332e-08 1.0 0.0 
+        1.5099580252808664e-07 1.0 7.549790126404332e-08 0.0 
+        0.0 -70.0 1.0 1.0 
+      }
+    }
+    
+    <VertexPool> fence4_coll {
+    
+      <Vertex> 0 {25.050541 -70.000000 0.000000
+        <UV>  {
+          -4.000000 0.000002 
+        }
+      }
+      <Vertex> 1 {-30.278452 -70.000000 -0.000000
+        <UV>  {
+          5.000000 0.000000 
+        }
+      }
+      <Vertex> 2 {-30.278452 -70.000000 4.000000
+        <UV>  {
+          5.000000 0.999998 
+        }
+      }
+      <Vertex> 3 {25.050541 -70.000000 4.000000
+        <UV>  {
+          -4.000000 1.000000 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <Normal> {0.000000 1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { fence4_coll }} 
+    }
+  }
+  <Group> fence1_coll {
+    <Collide> { Polyset descend }
+    <Transform> {
+      <Matrix4> {
+        1.0 -3.019916050561733e-07 0.0 0.0 
+        2.279973153091093e-14 7.549790126404332e-08 1.0 0.0 
+        -3.019916050561733e-07 -1.0 7.549790126404332e-08 0.0 
+        -5.26223087310791 11.0 1.0 1.0 
+      }
+    }
+    
+    <VertexPool> fence1_coll {
+    
+      <Vertex> 0 {-30.312773 11.000004 0.000000
+        <UV>  {
+          -4.000000 0.000002 
+        }
+      }
+      <Vertex> 1 {25.016222 10.999995 -0.000000
+        <UV>  {
+          5.000000 0.000000 
+        }
+      }
+      <Vertex> 2 {25.016222 10.999995 4.000000
+        <UV>  {
+          5.000000 0.999998 
+        }
+      }
+      <Vertex> 3 {-30.312773 11.000004 4.000000
+        <UV>  {
+          -4.000000 1.000000 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { fence1_coll }} 
+    }
+  }
+  <Group> fence2_coll {
+    <Collide> { Polyset descend }
+    <Transform> {
+      <Matrix4> {
+        1.0 -3.019916050561733e-07 0.0 0.0 
+        2.279973153091093e-14 7.549790126404332e-08 1.0 0.0 
+        -3.019916050561733e-07 -1.0 7.549790126404332e-08 0.0 
+        -5.4952874183654785 11.157413482666016 1.0 1.0 
+      }
+    }
+    
+    <VertexPool> fence2_coll {
+    
+      <Vertex> 0 {24.783165 11.157409 4.000000
+        <UV>  {
+          -4.000000 1.000000 
+        }
+      }
+      <Vertex> 1 {24.783165 11.157409 -0.000000
+        <UV>  {
+          -4.000000 0.000003 
+        }
+      }
+      <Vertex> 2 {24.783152 -69.950752 0.000000
+        <UV>  {
+          5.000000 0.000000 
+        }
+      }
+      <Vertex> 3 {24.783152 -69.950752 4.000000
+        <UV>  {
+          5.000000 0.999997 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <Normal> {-1.000000 0.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { fence2_coll }} 
+    }
+  }
+  <Group> fence3_coll {
+    <Collide> { Polyset descend }
+    <Transform> {
+      <Matrix4> {
+        -1.0 1.5099580252808664e-07 0.0 0.0 
+        -1.1399865765455465e-14 -7.549790126404332e-08 1.0 0.0 
+        1.5099580252808664e-07 1.0 7.549790126404332e-08 0.0 
+        0.0 -70.0 1.0 1.0 
+      }
+    }
+    
+    <VertexPool> fence3_coll {
+    
+      <Vertex> 0 {-30.278452 -70.000000 4.000000
+        <UV>  {
+          -4.000000 1.000000 
+        }
+      }
+      <Vertex> 1 {-30.278452 -70.000000 -0.000000
+        <UV>  {
+          -4.000000 0.000003 
+        }
+      }
+      <Vertex> 2 {-30.278452 11.108159 0.000000
+        <UV>  {
+          5.000000 0.000000 
+        }
+      }
+      <Vertex> 3 {-30.278452 11.108159 4.000000
+        <UV>  {
+          5.000000 0.999997 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <Normal> {1.000000 -0.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { fence3_coll }} 
+    }
+  }
+  <Group> ground_coll {
+    <Collide> { Polyset descend }
+    <Transform> {
+      <Matrix4> {
+        1.0 0.0 0.0 0.0 
+        0.0 1.0 0.0 0.0 
+        0.0 0.0 1.0 0.0 
+        0.0 0.0 0.0 1.0 
+      }
+    }
+    
+    <VertexPool> ground_coll {
+    
+      <Vertex> 0 {-35.624741 -72.966347 0.000000
+        <UV>  {
+          -0.357076 -0.357076 
+        }
+      }
+      <Vertex> 1 {31.693558 -72.966347 0.000000
+        <UV>  {
+          1.357075 -0.357076 
+        }
+      }
+      <Vertex> 2 {31.693558 13.034076 0.000000
+        <UV>  {
+          1.357076 1.357075 
+        }
+      }
+      <Vertex> 3 {-35.624741 13.034076 0.000000
+        <UV>  {
+          -0.357075 1.357076 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <Normal> {0.000000 0.000000 1.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { ground_coll }} 
+    }
+  }
+  <Group> ground {
+    <Transform> {
+      <Matrix4> {
+        1.0 0.0 0.0 0.0 
+        0.0 1.0 0.0 0.0 
+        0.0 0.0 1.0 0.0 
+        0.0 0.0 0.0 1.0 
+      }
+    }
+    
+    <VertexPool> ground {
+    
+      <Vertex> 0 {-35.624741 -72.966347 0.000000
+        <UV>  {
+          -0.357076 -0.357076 
+        }
+      }
+      <Vertex> 1 {31.693558 -72.966347 0.000000
+        <UV>  {
+          1.357075 -0.357076 
+        }
+      }
+      <Vertex> 2 {31.693558 13.034076 0.000000
+        <UV>  {
+          1.357076 1.357075 
+        }
+      }
+      <Vertex> 3 {-35.624741 13.034076 0.000000
+        <UV>  {
+          -0.357075 1.357076 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { Material.001 }
+      <Normal> {0.000000 0.000000 1.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { ground }} 
+    }
+  }
+  <Group> fence1 {
+    <Transform> {
+      <Matrix4> {
+        1.0 -3.019916050561733e-07 0.0 0.0 
+        2.279973153091093e-14 7.549790126404332e-08 1.0 0.0 
+        -3.019916050561733e-07 -1.0 7.549790126404332e-08 0.0 
+        -5.26223087310791 11.0 1.0 1.0 
+      }
+    }
+    
+    <VertexPool> fence1 {
+    
+      <Vertex> 0 {-30.312773 11.000004 0.000000
+        <UV>  {
+          -4.000000 0.000002 
+        }
+      }
+      <Vertex> 1 {25.016222 10.999995 -0.000000
+        <UV>  {
+          5.000000 0.000000 
+        }
+      }
+      <Vertex> 2 {25.016222 10.999995 4.000000
+        <UV>  {
+          5.000000 0.999998 
+        }
+      }
+      <Vertex> 3 {-30.312773 11.000004 4.000000
+        <UV>  {
+          -4.000000 1.000000 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.004 }
+      <MRef> { Material.005 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { fence1 }} 
+    }
+  }
+  <Group> fence2 {
+    <Transform> {
+      <Matrix4> {
+        1.0 -3.019916050561733e-07 0.0 0.0 
+        2.279973153091093e-14 7.549790126404332e-08 1.0 0.0 
+        -3.019916050561733e-07 -1.0 7.549790126404332e-08 0.0 
+        -5.4952874183654785 11.157413482666016 1.0 1.0 
+      }
+    }
+    
+    <VertexPool> fence2 {
+    
+      <Vertex> 0 {24.783165 11.157409 4.000000
+        <UV>  {
+          -4.000000 1.000000 
+        }
+      }
+      <Vertex> 1 {24.783165 11.157409 -0.000000
+        <UV>  {
+          -4.000000 0.000003 
+        }
+      }
+      <Vertex> 2 {24.783152 -69.950752 0.000000
+        <UV>  {
+          5.000000 0.000000 
+        }
+      }
+      <Vertex> 3 {24.783152 -69.950752 4.000000
+        <UV>  {
+          5.000000 0.999997 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.003 }
+      <MRef> { Material.004 }
+      <Normal> {-1.000000 0.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { fence2 }} 
+    }
+  }
+  <Group> fence3 {
+    <Transform> {
+      <Matrix4> {
+        -1.0 1.5099580252808664e-07 0.0 0.0 
+        -1.1399865765455465e-14 -7.549790126404332e-08 1.0 0.0 
+        1.5099580252808664e-07 1.0 7.549790126404332e-08 0.0 
+        0.0 -70.0 1.0 1.0 
+      }
+    }
+    
+    <VertexPool> fence3 {
+    
+      <Vertex> 0 {-30.278452 -70.000000 4.000000
+        <UV>  {
+          -4.000000 1.000000 
+        }
+      }
+      <Vertex> 1 {-30.278452 -70.000000 -0.000000
+        <UV>  {
+          -4.000000 0.000003 
+        }
+      }
+      <Vertex> 2 {-30.278452 11.108159 0.000000
+        <UV>  {
+          5.000000 0.000000 
+        }
+      }
+      <Vertex> 3 {-30.278452 11.108159 4.000000
+        <UV>  {
+          5.000000 0.999997 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.002 }
+      <MRef> { Material.003 }
+      <Normal> {1.000000 -0.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { fence3 }} 
+    }
+  }
+  <Group> fence4 {
+    <Transform> {
+      <Matrix4> {
+        -1.0 1.5099580252808664e-07 0.0 0.0 
+        -1.1399865765455465e-14 -7.549790126404332e-08 1.0 0.0 
+        1.5099580252808664e-07 1.0 7.549790126404332e-08 0.0 
+        0.0 -70.0 1.0 1.0 
+      }
+    }
+    
+    <VertexPool> fence4 {
+    
+      <Vertex> 0 {25.050541 -70.000000 0.000000
+        <UV>  {
+          -4.000000 0.000002 
+        }
+      }
+      <Vertex> 1 {-30.278452 -70.000000 -0.000000
+        <UV>  {
+          5.000000 0.000000 
+        }
+      }
+      <Vertex> 2 {-30.278452 -70.000000 4.000000
+        <UV>  {
+          5.000000 0.999998 
+        }
+      }
+      <Vertex> 3 {25.050541 -70.000000 4.000000
+        <UV>  {
+          -4.000000 1.000000 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.001 }
+      <MRef> { Material.002 }
+      <Normal> {0.000000 1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { fence4 }} 
+    }
+  }

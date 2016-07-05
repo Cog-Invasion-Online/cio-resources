@@ -1,0 +1,605 @@
+<Comment> {
+  "egg-texture-cards 'ci_uno_cards\mg_uno_actioncards_blue_drawtwo.png' 'ci_uno_cards\mg_uno_actioncards_blue_reverse.png' 'ci_uno_cards\mg_uno_actioncards_blue_skip.png' 'ci_uno_cards\mg_uno_actioncards_green_drawtwo.png' 'ci_uno_cards\mg_uno_actioncards_green_reverse.png' 'ci_uno_cards\mg_uno_actioncards_green_skip.png' 'ci_uno_cards\mg_uno_actioncards_red_drawtwo.png' 'ci_uno_cards\mg_uno_actioncards_red_reverse.png' 'ci_uno_cards\mg_uno_actioncards_red_skip.png' 'ci_uno_cards\mg_uno_actioncards_wild.png' 'ci_uno_cards\mg_uno_actioncards_wild_drawfour.png' 'ci_uno_cards\mg_uno_actioncards_yellow_drawtwo.png' 'ci_uno_cards\mg_uno_actioncards_yellow_reverse.png' 'ci_uno_cards\mg_uno_actioncards_yellow_skip.png' 'ci_uno_cards\mg_uno_numcards_blue_0.png' 'ci_uno_cards\mg_uno_numcards_blue_1.png' 'ci_uno_cards\mg_uno_numcards_blue_2.png' 'ci_uno_cards\mg_uno_numcards_blue_3.png' 'ci_uno_cards\mg_uno_numcards_blue_4.png' 'ci_uno_cards\mg_uno_numcards_blue_5.png' 'ci_uno_cards\mg_uno_numcards_blue_6.png' 'ci_uno_cards\mg_uno_numcards_blue_7.png' 'ci_uno_cards\mg_uno_numcards_blue_8.png' 'ci_uno_cards\mg_uno_numcards_blue_9.png' 'ci_uno_cards\mg_uno_numcards_blue_blank.png' 'ci_uno_cards\mg_uno_numcards_green_0.png' 'ci_uno_cards\mg_uno_numcards_green_1.png' 'ci_uno_cards\mg_uno_numcards_green_2.png' 'ci_uno_cards\mg_uno_numcards_green_3.png' 'ci_uno_cards\mg_uno_numcards_green_4.png' 'ci_uno_cards\mg_uno_numcards_green_5.png' 'ci_uno_cards\mg_uno_numcards_green_6.png' 'ci_uno_cards\mg_uno_numcards_green_7.png' 'ci_uno_cards\mg_uno_numcards_green_8.png' 'ci_uno_cards\mg_uno_numcards_green_9.png' 'ci_uno_cards\mg_uno_numcards_green_blank.png' 'ci_uno_cards\mg_uno_numcards_red_0.png' 'ci_uno_cards\mg_uno_numcards_red_1.png' 'ci_uno_cards\mg_uno_numcards_red_2.png' 'ci_uno_cards\mg_uno_numcards_red_3.png' 'ci_uno_cards\mg_uno_numcards_red_4.png' 'ci_uno_cards\mg_uno_numcards_red_5.png' 'ci_uno_cards\mg_uno_numcards_red_6.png' 'ci_uno_cards\mg_uno_numcards_red_7.png' 'ci_uno_cards\mg_uno_numcards_red_8.png' 'ci_uno_cards\mg_uno_numcards_red_9.png' 'ci_uno_cards\mg_uno_numcards_red_blank.png' 'ci_uno_cards\mg_uno_numcards_yellow_0.png' 'ci_uno_cards\mg_uno_numcards_yellow_1.png' 'ci_uno_cards\mg_uno_numcards_yellow_2.png' 'ci_uno_cards\mg_uno_numcards_yellow_3.png' 'ci_uno_cards\mg_uno_numcards_yellow_4.png' 'ci_uno_cards\mg_uno_numcards_yellow_5.png' 'ci_uno_cards\mg_uno_numcards_yellow_6.png' 'ci_uno_cards\mg_uno_numcards_yellow_7.png' 'ci_uno_cards\mg_uno_numcards_yellow_8.png' 'ci_uno_cards\mg_uno_numcards_yellow_9.png' 'ci_uno_cards\mg_uno_numcards_yellow_blank.png' mg_uno_game_cards.egg"
+}
+<Texture> mg_uno_numcards_yellow_blank {
+  "phase_4/maps/mg_uno_numcards_yellow_blank.png"
+}
+<Texture> mg_uno_numcards_yellow_9 {
+  "phase_4/maps/mg_uno_numcards_yellow_9.png"
+}
+<Texture> mg_uno_numcards_yellow_8 {
+  "phase_4/maps/mg_uno_numcards_yellow_8.png"
+}
+<Texture> mg_uno_numcards_yellow_7 {
+  "phase_4/maps/mg_uno_numcards_yellow_7.png"
+}
+<Texture> mg_uno_numcards_yellow_6 {
+  "phase_4/maps/mg_uno_numcards_yellow_6.png"
+}
+<Texture> mg_uno_numcards_yellow_5 {
+  "phase_4/maps/mg_uno_numcards_yellow_5.png"
+}
+<Texture> mg_uno_numcards_yellow_4 {
+  "phase_4/maps/mg_uno_numcards_yellow_4.png"
+}
+<Texture> mg_uno_numcards_yellow_3 {
+  "phase_4/maps/mg_uno_numcards_yellow_3.png"
+}
+<Texture> mg_uno_numcards_yellow_2 {
+  "phase_4/maps/mg_uno_numcards_yellow_2.png"
+}
+<Texture> mg_uno_numcards_yellow_1 {
+  "phase_4/maps/mg_uno_numcards_yellow_1.png"
+}
+<Texture> mg_uno_numcards_yellow_0 {
+  "phase_4/maps/mg_uno_numcards_yellow_0.png"
+}
+<Texture> mg_uno_numcards_red_blank {
+  "phase_4/maps/mg_uno_numcards_red_blank.png"
+}
+<Texture> mg_uno_numcards_red_9 {
+  "phase_4/maps/mg_uno_numcards_red_9.png"
+}
+<Texture> mg_uno_numcards_red_8 {
+  "phase_4/maps/mg_uno_numcards_red_8.png"
+}
+<Texture> mg_uno_numcards_red_7 {
+  "phase_4/maps/mg_uno_numcards_red_7.png"
+}
+<Texture> mg_uno_numcards_red_6 {
+  "phase_4/maps/mg_uno_numcards_red_6.png"
+}
+<Texture> mg_uno_numcards_red_5 {
+  "phase_4/maps/mg_uno_numcards_red_5.png"
+}
+<Texture> mg_uno_numcards_red_4 {
+  "phase_4/maps/mg_uno_numcards_red_4.png"
+}
+<Texture> mg_uno_numcards_red_3 {
+  "phase_4/maps/mg_uno_numcards_red_3.png"
+}
+<Texture> mg_uno_numcards_red_2 {
+  "phase_4/maps/mg_uno_numcards_red_2.png"
+}
+<Texture> mg_uno_numcards_red_1 {
+  "phase_4/maps/mg_uno_numcards_red_1.png"
+}
+<Texture> mg_uno_numcards_red_0 {
+  "phase_4/maps/mg_uno_numcards_red_0.png"
+}
+<Texture> mg_uno_numcards_green_blank {
+  "phase_4/maps/mg_uno_numcards_green_blank.png"
+}
+<Texture> mg_uno_numcards_green_9 {
+  "phase_4/maps/mg_uno_numcards_green_9.png"
+}
+<Texture> mg_uno_numcards_green_8 {
+  "phase_4/maps/mg_uno_numcards_green_8.png"
+}
+<Texture> mg_uno_numcards_green_7 {
+  "phase_4/maps/mg_uno_numcards_green_7.png"
+}
+<Texture> mg_uno_numcards_green_6 {
+  "phase_4/maps/mg_uno_numcards_green_6.png"
+}
+<Texture> mg_uno_numcards_green_5 {
+  "phase_4/maps/mg_uno_numcards_green_5.png"
+}
+<Texture> mg_uno_numcards_green_4 {
+  "phase_4/maps/mg_uno_numcards_green_4.png"
+}
+<Texture> mg_uno_numcards_green_3 {
+  "phase_4/maps/mg_uno_numcards_green_3.png"
+}
+<Texture> mg_uno_numcards_green_2 {
+  "phase_4/maps/mg_uno_numcards_green_2.png"
+}
+<Texture> mg_uno_numcards_green_1 {
+  "phase_4/maps/mg_uno_numcards_green_1.png"
+}
+<Texture> mg_uno_numcards_green_0 {
+  "phase_4/maps/mg_uno_numcards_green_0.png"
+}
+<Texture> mg_uno_numcards_blue_blank {
+  "phase_4/maps/mg_uno_numcards_blue_blank.png"
+}
+<Texture> mg_uno_numcards_blue_9 {
+  "phase_4/maps/mg_uno_numcards_blue_9.png"
+}
+<Texture> mg_uno_numcards_blue_8 {
+  "phase_4/maps/mg_uno_numcards_blue_8.png"
+}
+<Texture> mg_uno_numcards_blue_7 {
+  "phase_4/maps/mg_uno_numcards_blue_7.png"
+}
+<Texture> mg_uno_numcards_blue_6 {
+  "phase_4/maps/mg_uno_numcards_blue_6.png"
+}
+<Texture> mg_uno_numcards_blue_5 {
+  "phase_4/maps/mg_uno_numcards_blue_5.png"
+}
+<Texture> mg_uno_numcards_blue_4 {
+  "phase_4/maps/mg_uno_numcards_blue_4.png"
+}
+<Texture> mg_uno_numcards_blue_3 {
+  "phase_4/maps/mg_uno_numcards_blue_3.png"
+}
+<Texture> mg_uno_numcards_blue_2 {
+  "phase_4/maps/mg_uno_numcards_blue_2.png"
+}
+<Texture> mg_uno_numcards_blue_1 {
+  "phase_4/maps/mg_uno_numcards_blue_1.png"
+}
+<Texture> mg_uno_numcards_blue_0 {
+  "phase_4/maps/mg_uno_numcards_blue_0.png"
+}
+<Texture> mg_uno_actioncards_yellow_skip {
+  "phase_4/maps/mg_uno_actioncards_yellow_skip.png"
+}
+<Texture> mg_uno_actioncards_yellow_reverse {
+  "phase_4/maps/mg_uno_actioncards_yellow_reverse.png"
+}
+<Texture> mg_uno_actioncards_yellow_drawtwo {
+  "phase_4/maps/mg_uno_actioncards_yellow_drawtwo.png"
+}
+<Texture> mg_uno_actioncards_wild_drawfour {
+  "phase_4/maps/mg_uno_actioncards_wild_drawfour.png"
+}
+<Texture> mg_uno_actioncards_wild {
+  "phase_4/maps/mg_uno_actioncards_wild.png"
+}
+<Texture> mg_uno_actioncards_red_skip {
+  "phase_4/maps/mg_uno_actioncards_red_skip.png"
+}
+<Texture> mg_uno_actioncards_red_reverse {
+  "phase_4/maps/mg_uno_actioncards_red_reverse.png"
+}
+<Texture> mg_uno_actioncards_red_drawtwo {
+  "phase_4/maps/mg_uno_actioncards_red_drawtwo.png"
+}
+<Texture> mg_uno_actioncards_green_skip {
+  "phase_4/maps/mg_uno_actioncards_green_skip.png"
+}
+<Texture> mg_uno_actioncards_green_reverse {
+  "phase_4/maps/mg_uno_actioncards_green_reverse.png"
+}
+<Texture> mg_uno_actioncards_green_drawtwo {
+  "phase_4/maps/mg_uno_actioncards_green_drawtwo.png"
+}
+<Texture> mg_uno_actioncards_blue_skip {
+  "phase_4/maps/mg_uno_actioncards_blue_skip.png"
+}
+<Texture> mg_uno_actioncards_blue_reverse {
+  "phase_4/maps/mg_uno_actioncards_blue_reverse.png"
+}
+<Texture> mg_uno_actioncards_blue_drawtwo {
+  "phase_4/maps/mg_uno_actioncards_blue_drawtwo.png"
+}
+<Group> {
+  <Switch> { 1 }
+  <Scalar> fps { 2 }
+  <VertexPool> vpool {
+    <Vertex> 0 {
+      -0.5 0.5 0
+      <UV> { 0 1 }
+    }
+    <Vertex> 1 {
+      -0.5 -0.5 0
+      <UV> { 0 0 }
+    }
+    <Vertex> 2 {
+      0.5 -0.5 0
+      <UV> { 1 0 }
+    }
+    <Vertex> 3 {
+      0.5 0.5 0
+      <UV> { 1 1 }
+    }
+  }
+  <Group> mg_uno_actioncards_blue_drawtwo {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_blue_drawtwo }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_blue_reverse {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_blue_reverse }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_blue_skip {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_blue_skip }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_green_drawtwo {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_green_drawtwo }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_green_reverse {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_green_reverse }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_green_skip {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_green_skip }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_red_drawtwo {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_red_drawtwo }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_red_reverse {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_red_reverse }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_red_skip {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_red_skip }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_wild {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_wild }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_wild_drawfour {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_wild_drawfour }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_yellow_drawtwo {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_yellow_drawtwo }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_yellow_reverse {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_yellow_reverse }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_actioncards_yellow_skip {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_actioncards_yellow_skip }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_blue_0 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_blue_0 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_blue_1 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_blue_1 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_blue_2 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_blue_2 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_blue_3 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_blue_3 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_blue_4 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_blue_4 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_blue_5 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_blue_5 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_blue_6 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_blue_6 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_blue_7 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_blue_7 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_blue_8 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_blue_8 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_blue_9 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_blue_9 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_blue_blank {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_blue_blank }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_green_0 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_green_0 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_green_1 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_green_1 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_green_2 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_green_2 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_green_3 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_green_3 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_green_4 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_green_4 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_green_5 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_green_5 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_green_6 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_green_6 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_green_7 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_green_7 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_green_8 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_green_8 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_green_9 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_green_9 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_green_blank {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_green_blank }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_red_0 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_red_0 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_red_1 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_red_1 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_red_2 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_red_2 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_red_3 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_red_3 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_red_4 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_red_4 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_red_5 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_red_5 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_red_6 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_red_6 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_red_7 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_red_7 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_red_8 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_red_8 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_red_9 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_red_9 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_red_blank {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_red_blank }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_yellow_0 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_yellow_0 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_yellow_1 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_yellow_1 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_yellow_2 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_yellow_2 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_yellow_3 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_yellow_3 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_yellow_4 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_yellow_4 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_yellow_5 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_yellow_5 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_yellow_6 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_yellow_6 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_yellow_7 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_yellow_7 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_yellow_8 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_yellow_8 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_yellow_9 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_yellow_9 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> mg_uno_numcards_yellow_blank {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { mg_uno_numcards_yellow_blank }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+}

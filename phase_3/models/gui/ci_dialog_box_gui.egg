@@ -1,0 +1,82 @@
+<CoordinateSystem> { Z-up } 
+<Material> Material.001 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Texture> Texture {
+  "phase_3/maps/ci_dialog_panel.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+  <Group> ci_dialog_box_gui {
+    <Transform> {
+      <Matrix4> {
+        1.0 0.0 0.0 0.0 
+        0.0 1.0 0.0 0.0 
+        0.0 0.0 1.0 0.0 
+        0.019999999552965164 0.0 0.0 1.0 
+      }
+    }
+    
+    <VertexPool> ci_dialog_box_gui {
+    
+      <Vertex> 0 {-0.557177 0.000000 0.554307
+        <UV>  {
+          0.000000 0.000000 
+        }
+      }
+      <Vertex> 1 {0.554984 0.000000 0.554307
+        <UV>  {
+          1.000000 0.000000 
+        }
+      }
+      <Vertex> 2 {-0.557177 0.000000 -0.631772
+        <UV>  {
+          0.000000 1.000000 
+        }
+      }
+      <Vertex> 3 {-0.557177 0.000000 -0.631772
+        <UV>  {
+          0.000000 1.000000 
+        }
+      }
+      <Vertex> 4 {0.554984 0.000000 0.554307
+        <UV>  {
+          1.000000 0.000000 
+        }
+      }
+      <Vertex> 5 {0.554984 0.000000 -0.631772
+        <UV>  {
+          1.000000 1.000000 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { Material.001 }
+      <Normal> {0.000000 1.000000 0.000000}
+      <VertexRef> { 0 1 2 <Ref> { ci_dialog_box_gui }} 
+    }
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { Material.001 }
+      <Normal> {0.000000 1.000000 0.000000}
+      <VertexRef> { 3 4 5 <Ref> { ci_dialog_box_gui }} 
+    }
+  }

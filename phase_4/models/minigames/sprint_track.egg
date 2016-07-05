@@ -1,0 +1,717 @@
+<CoordinateSystem> { Z-up } 
+<Material> Material.008 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.009 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.001 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.002 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.003 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.004 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.005 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.006 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.007 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Texture> Texture.005 {
+  "phase_3.5/maps/wall_fence_wood.jpg"
+  <Scalar> alpha-file { "phase_3.5/maps/wall_fence_wood_a.rgb" }
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Scalar> alpha { dual }
+}
+
+<Texture> Texture.004 {
+  "phase_3.5/maps/wall_fence_wood.jpg"
+  <Scalar> alpha-file { "phase_3.5/maps/wall_fence_wood_a.rgb" }
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Scalar> alpha { dual }
+}
+
+<Texture> Texture.007 {
+  "phase_6/maps/BG_mountain_a.jpg"
+  <Scalar> alpha-file { "phase_6/maps/BG_mountain_a_a.rgb" }
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Scalar> alpha { dual }
+}
+
+<Texture> Texture.006 {
+  "phase_6/maps/BG_mountain_a.jpg"
+  <Scalar> alpha-file { "phase_6/maps/BG_mountain_a_a.rgb" }
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Scalar> alpha { dual }
+}
+
+<Texture> Texture.001 {
+  "phase_3.5/maps/grassTT.jpg"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.003 {
+  "phase_3.5/maps/wall_fence_wood.jpg"
+  <Scalar> alpha-file { "phase_3.5/maps/wall_fence_wood_a.rgb" }
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Scalar> alpha { dual }
+}
+
+<Texture> Texture.002 {
+  "phase_3.5/maps/wall_fence_wood.jpg"
+  <Scalar> alpha-file { "phase_3.5/maps/wall_fence_wood_a.rgb" }
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Scalar> alpha { dual }
+}
+
+<Texture> Texture {
+  "phase_4/maps/race_track.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.009 {
+  "phase_6/maps/BG_mountain_a.jpg"
+  <Scalar> alpha-file { "phase_6/maps/BG_mountain_a_a.rgb" }
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Scalar> alpha { dual }
+}
+
+<Texture> Texture.008 {
+  "phase_6/maps/BG_mountain_a.jpg"
+  <Scalar> alpha-file { "phase_6/maps/BG_mountain_a_a.rgb" }
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Scalar> alpha { dual }
+}
+
+  <Group> Plane.004 {
+    <Transform> {
+      <Matrix4> {
+        -0.000023 0.000000 -36.561989 0.000000 
+        -0.000426 -332.710022 0.000000 0.000000 
+        -8.690321 0.000011 0.000006 0.000000 
+        183.520233 -0.007734 36.043499 1.000000 
+      }
+    }
+    
+    <VertexPool> Plane.004 {
+    
+      <Vertex> 0 {
+        183.5206756591797 332.7023010253906 72.60548400878906
+        
+        <UV>  {
+          -1.257612 0.999929
+        }
+      }
+      <Vertex> 1 {
+        183.5206298828125 332.7023010253906 -0.5184898376464844
+        
+        <UV>  {
+          -1.257611 0.000071
+        }
+      }
+      <Vertex> 2 {
+        183.51979064941406 -332.7177429199219 -0.5184898376464844
+        
+        <UV>  {
+          1.757682 0.000071
+        }
+      }
+      <Vertex> 3 {
+        183.51983642578125 -332.7177429199219 72.6054916381836
+        
+        <UV>  {
+          1.757682 0.999929
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.009 }
+      <MRef> { Material.009 }
+      <Normal> {-1.000000 0.000001 -0.000001}
+      <VertexRef> { 0 1 2 3 <Ref> { Plane.004 }}
+    }
+  }
+  <Group> Plane.007 {
+    <Transform> {
+      <Matrix4> {
+        -0.000023 0.000000 -36.561989 0.000000 
+        0.000000 332.710022 0.000000 0.000000 
+        8.690321 0.000000 -0.000006 0.000000 
+        -185.330307 -0.007734 36.043499 1.000000 
+      }
+    }
+    
+    <VertexPool> Plane.007 {
+    
+      <Vertex> 0 {
+        -185.3302764892578 -332.7177429199219 72.60548400878906
+        
+        <UV>  {
+          -1.257612 0.999929
+        }
+      }
+      <Vertex> 1 {
+        -185.33033752441406 -332.7177429199219 -0.5184898376464844
+        
+        <UV>  {
+          -1.257611 0.000071
+        }
+      }
+      <Vertex> 2 {
+        -185.33033752441406 332.7023010253906 -0.5184898376464844
+        
+        <UV>  {
+          1.757682 0.000071
+        }
+      }
+      <Vertex> 3 {
+        -185.3302764892578 332.7023010253906 72.60548400878906
+        
+        <UV>  {
+          1.757682 0.999929
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.007 }
+      <MRef> { Material.007 }
+      <Normal> {1.000000 0.000000 0.000001}
+      <VertexRef> { 0 1 2 3 <Ref> { Plane.007 }}
+    }
+  }
+  <Group> Plane.006 {
+    <Transform> {
+      <Matrix4> {
+        -0.000023 0.000000 -36.561989 0.000000 
+        -185.596832 -0.000119 0.000119 0.000000 
+        -0.000006 8.690000 0.000000 0.000000 
+        0.256263 -332.146454 36.043499 1.000000 
+      }
+    }
+    
+    <VertexPool> Plane.006 {
+    
+      <Vertex> 0 {
+        185.85311889648438 -332.1463317871094 72.6053695678711
+        
+        <UV>  {
+          -0.521526 0.999929
+        }
+      }
+      <Vertex> 1 {
+        185.8530731201172 -332.1463317871094 -0.518608570098877
+        
+        <UV>  {
+          -0.521526 0.000071
+        }
+      }
+      <Vertex> 2 {
+        -185.34059143066406 -332.1465759277344 -0.5183711051940918
+        
+        <UV>  {
+          1.021596 0.000071
+        }
+      }
+      <Vertex> 3 {
+        -185.34054565429688 -332.1465759277344 72.60560607910156
+        
+        <UV>  {
+          1.021596 0.999929
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.006 }
+      <MRef> { Material.006 }
+      <Normal> {-0.000001 1.000000 -0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { Plane.006 }}
+    }
+  }
+  <Group> Plane.005 {
+    <Transform> {
+      <Matrix4> {
+        -0.000023 -0.000000 -36.561989 0.000000 
+        185.596832 -0.000119 -0.000119 0.000000 
+        -0.000004 -5.825487 0.000000 0.000000 
+        0.256263 332.231110 36.043499 1.000000 
+      }
+    }
+    
+    <VertexPool> Plane.005 {
+    
+      <Vertex> 0 {
+        -185.34054565429688 332.2312316894531 72.60560607910156
+        
+        <UV>  {
+          -0.498033 0.999929
+        }
+      }
+      <Vertex> 1 {
+        -185.34059143066406 332.2312316894531 -0.5183711051940918
+        
+        <UV>  {
+          -0.498033 0.000071
+        }
+      }
+      <Vertex> 2 {
+        185.8530731201172 332.2309875488281 -0.518608570098877
+        
+        <UV>  {
+          0.998103 0.000071
+        }
+      }
+      <Vertex> 3 {
+        185.85311889648438 332.2309875488281 72.6053695678711
+        
+        <UV>  {
+          0.998103 0.999929
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.008 }
+      <MRef> { Material.008 }
+      <Normal> {-0.000001 -1.000000 -0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { Plane.005 }}
+    }
+  }
+  <Group> Plane.001 {
+    <Transform> {
+      <Matrix4> {
+        -0.000003 0.000000 -4.025239 0.000000 
+        -0.000294 -229.892761 0.000000 0.000000 
+        -4.025239 0.000005 0.000003 0.000000 
+        85.076721 0.000000 4.025000 1.000000 
+      }
+    }
+    
+    <VertexPool> Plane.001 {
+    
+      <Vertex> 0 {
+        85.07701873779297 229.89276123046875 8.050238609313965
+        
+        <UV>  {
+          -8.330989 0.999929
+        }
+      }
+      <Vertex> 1 {
+        85.07701110839844 229.89276123046875 -0.00023841876827646047
+        
+        <UV>  {
+          -8.330986 0.000071
+        }
+      }
+      <Vertex> 2 {
+        85.07642364501953 -229.89276123046875 -0.00023841838992666453
+        
+        <UV>  {
+          8.831059 0.000071
+        }
+      }
+      <Vertex> 3 {
+        85.07643127441406 -229.89276123046875 8.050238609313965
+        
+        <UV>  {
+          8.831059 0.999929
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.004 }
+      <MRef> { Material.004 }
+      <Normal> {-1.000000 0.000001 -0.000001}
+      <VertexRef> { 0 1 2 3 <Ref> { Plane.001 }}
+    }
+  }
+  <Group> Plane.002 {
+    <Transform> {
+      <Matrix4> {
+        -0.000003 -0.000000 -4.025239 0.000000 
+        85.965935 -0.000055 -0.000055 0.000000 
+        -0.000003 -4.025239 0.000000 0.000000 
+        0.000000 229.567184 4.025000 1.000000 
+      }
+    }
+    
+    <VertexPool> Plane.002 {
+    
+      <Vertex> 0 {
+        -85.96593475341797 229.56724548339844 8.050293922424316
+        
+        <UV>  {
+          -2.739823 0.999929
+        }
+      }
+      <Vertex> 1 {
+        -85.96593475341797 229.56724548339844 -0.00018342120165470988
+        
+        <UV>  {
+          -2.739822 0.000071
+        }
+      }
+      <Vertex> 2 {
+        85.96593475341797 229.56712341308594 -0.00029341597110033035
+        
+        <UV>  {
+          3.239893 0.000071
+        }
+      }
+      <Vertex> 3 {
+        85.96593475341797 229.56712341308594 8.050183296203613
+        
+        <UV>  {
+          3.239893 0.999929
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.005 }
+      <MRef> { Material.005 }
+      <Normal> {-0.000001 -1.000000 -0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { Plane.002 }}
+    }
+  }
+  <Group> Plane.003 {
+    <Transform> {
+      <Matrix4> {
+        -0.000003 0.000000 -4.025239 0.000000 
+        -85.965935 -0.000055 0.000055 0.000000 
+        -0.000003 4.025239 0.000000 0.000000 
+        0.000000 -229.498016 4.025000 1.000000 
+      }
+    }
+    
+    <VertexPool> Plane.003 {
+    
+      <Vertex> 0 {
+        85.96593475341797 -229.49795532226562 8.050183296203613
+        
+        <UV>  {
+          -2.739823 0.999929
+        }
+      }
+      <Vertex> 1 {
+        85.96593475341797 -229.49795532226562 -0.00029341597110033035
+        
+        <UV>  {
+          -2.739822 0.000071
+        }
+      }
+      <Vertex> 2 {
+        -85.96593475341797 -229.49807739257812 -0.00018342120165470988
+        
+        <UV>  {
+          3.239893 0.000071
+        }
+      }
+      <Vertex> 3 {
+        -85.96593475341797 -229.49807739257812 8.050293922424316
+        
+        <UV>  {
+          3.239893 0.999929
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.002 }
+      <MRef> { Material }
+      <Normal> {-0.000001 1.000000 -0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { Plane.003 }}
+    }
+  }
+  <Group> Plane {
+    <Transform> {
+      <Matrix4> {
+        -0.000003 0.000000 -4.025239 0.000000 
+        0.000000 229.892761 0.000000 0.000000 
+        4.025239 0.000000 -0.000003 0.000000 
+        -85.961182 0.000000 4.025000 1.000000 
+      }
+    }
+    
+    <VertexPool> Plane {
+    
+      <Vertex> 0 {
+        -85.961181640625 -229.89276123046875 8.050238609313965
+        
+        <UV>  {
+          -8.330989 0.999929
+        }
+      }
+      <Vertex> 1 {
+        -85.961181640625 -229.89276123046875 -0.0002384185791015625
+        
+        <UV>  {
+          -8.330986 0.000071
+        }
+      }
+      <Vertex> 2 {
+        -85.961181640625 229.89276123046875 -0.0002384185791015625
+        
+        <UV>  {
+          8.831059 0.000071
+        }
+      }
+      <Vertex> 3 {
+        -85.961181640625 229.89276123046875 8.050238609313965
+        
+        <UV>  {
+          8.831059 0.999929
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.003 }
+      <MRef> { Material.003 }
+      <Normal> {1.000000 0.000000 0.000001}
+      <VertexRef> { 0 1 2 3 <Ref> { Plane }}
+    }
+  }
+  <Group> track {
+    <Transform> {
+      <Matrix4> {
+        39.465897 0.000000 0.000000 0.000000 
+        0.000000 138.539993 0.000000 0.000000 
+        0.000000 0.000000 67.732994 0.000000 
+        0.000000 0.000000 0.000000 1.000000 
+      }
+    }
+    
+    <VertexPool> track {
+    
+      <Vertex> 0 {
+        -26.978363037109375 -209.67559814453125 0.0
+        
+        <UV>  {
+          0.000100 0.000100
+        }
+      }
+      <Vertex> 1 {
+        26.978363037109375 -209.67559814453125 0.0
+        
+        <UV>  {
+          0.999900 0.000100
+        }
+      }
+      <Vertex> 2 {
+        26.978363037109375 209.67559814453125 0.0
+        
+        <UV>  {
+          0.999900 0.999900
+        }
+      }
+      <Vertex> 3 {
+        -26.978363037109375 209.67559814453125 0.0
+        
+        <UV>  {
+          0.000100 0.999900
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { Material.001 }
+      <Normal> {0.000000 0.000000 1.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { track }}
+    }
+  }
+  <Group> ground {
+    <Transform> {
+      <Matrix4> {
+        245.146927 0.000000 0.000000 0.000000 
+        0.000000 384.580841 0.000000 0.000000 
+        0.000000 0.000000 245.146927 0.000000 
+        0.000000 0.000000 -0.500000 1.000000 
+      }
+    }
+    
+    <VertexPool> ground {
+    
+      <Vertex> 0 {
+        -245.1469268798828 -384.5808410644531 -0.5
+        
+        <UV>  {
+          -25.345097 -25.142082
+        }
+      }
+      <Vertex> 1 {
+        245.1469268798828 -384.5808410644531 -0.5
+        
+        <UV>  {
+          26.345097 -25.142059
+        }
+      }
+      <Vertex> 2 {
+        245.1469268798828 384.5808410644531 -0.5
+        
+        <UV>  {
+          26.345097 26.139856
+        }
+      }
+      <Vertex> 3 {
+        -245.1469268798828 384.5808410644531 -0.5
+        
+        <UV>  {
+          -25.345097 26.139856
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.001 }
+      <MRef> { Material.002 }
+      <Normal> {0.000000 0.000000 1.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { ground }}
+    }
+  }

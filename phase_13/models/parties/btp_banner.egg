@@ -1,0 +1,66 @@
+<CoordinateSystem> { Z-up } 
+<Material> Material.001 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Texture> Texture {
+  "phase_13/maps/btp_banner_arched.tif"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+  <Group> the_banner {
+    <Transform> {
+      <Matrix4> {
+        1.0 0.0 0.0 0.0 
+        0.0 1.0 0.0 0.0 
+        0.0 0.0 1.0 0.0 
+        0.0 0.0 0.0 1.0 
+      }
+    }
+    
+    <VertexPool> the_banner {
+    
+      <Vertex> 0 {-0.000000 -9.703013 2.703013
+        <UV>  {
+          0.000001 1.000000 
+        }
+      }
+      <Vertex> 1 {0.000000 -9.703013 -2.703013
+        <UV>  {
+          0.000000 0.000000 
+        }
+      }
+      <Vertex> 2 {0.000000 9.703013 -2.703013
+        <UV>  {
+          0.999999 0.000000 
+        }
+      }
+      <Vertex> 3 {-0.000000 9.703013 2.703013
+        <UV>  {
+          1.000000 1.000000 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { Material.001 }
+      <Normal> {1.000000 0.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { the_banner }} 
+    }
+  }

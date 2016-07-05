@@ -1,0 +1,793 @@
+// Filename: toon.dc
+// Created by: DuckyDuck1553 (17June14)
+
+from lib.coginvasion.avatar import DistributedAvatar/AI
+from lib.coginvasion.toon import DistributedToon/AI/UD
+from lib.coginvasion.toon import DistributedNPCToon/AI
+from lib.coginvasion.toon import DistributedHQNPCToon/AI
+from lib.coginvasion.toon import DistributedTailorNPCToon/AI
+from lib.coginvasion.toon import DistributedClerkNPCToon/AI
+from lib.coginvasion.npc import DistributedChar
+from lib.coginvasion.npc import DistributedDisneyChar/AI
+from lib.coginvasion.shop import DistributedBattleShop/AI
+from lib.coginvasion.shop import DistributedGagShop/AI
+from lib.coginvasion.shop.DistributedShop/AI import DistributedShop/AI
+from lib.coginvasion.distributed import DistributedRoot/AI
+from lib.coginvasion.distributed import Account/AI/UD
+from lib.coginvasion.distributed import DistributedDistrict/AI/UD
+from lib.coginvasion.minigame import DistributedMinigameStation/AI
+from lib.coginvasion.minigame import DistributedGroupStation/AI
+from lib.coginvasion.minigame import DistributedMinigame/AI
+from lib.coginvasion.minigame import DistributedRaceGame/AI
+from lib.coginvasion.minigame import DistributedUnoGame/AI
+from lib.coginvasion.minigame import DistributedGunGame/AI
+from lib.coginvasion.minigame import DistributedGunGameFlag/AI
+from lib.coginvasion.minigame import DistributedGunGameCapturePoint/AI
+from lib.coginvasion.minigame import DistributedToonFPSGame/AI
+from lib.coginvasion.minigame import DistributedFactorySneakGame/AI
+from lib.coginvasion.minigame import DistributedCameraShyGame/AI
+from lib.coginvasion.minigame import DistributedEagleGame/AI
+from lib.coginvasion.minigame import DistributedToonCannon/AI
+from lib.coginvasion.minigame import DistributedEagleSuit/AI
+from lib.coginvasion.minigame import DistributedDeliveryGame/AI
+from lib.coginvasion.minigame import DistributedDeliveryTruck/AI
+from lib.coginvasion.minigame import DistributedDeliveryGameSuit/AI
+from lib.coginvasion.minigame import DistributedDodgeballGame/AI
+from lib.coginvasion.uber import ClientServicesManager/UD
+from lib.coginvasion.uber import LauncherLoginManager/UD
+from lib.coginvasion.uber import DistrictNameManager/AI/UD
+from lib.coginvasion.uber import NameServicesManager/UD
+from lib.coginvasion.cog import DistributedSuit/AI
+from lib.coginvasion.suit import DistributedSuitManager/AI
+from lib.coginvasion.suit import DistributedDroppableCollectableObject/AI
+from lib.coginvasion.suit import DistributedDroppableCollectableJellybeans/AI
+from lib.coginvasion.suit import DistributedDroppableCollectableJellybeanJar/AI
+from lib.coginvasion.suit import DistributedDroppableCollectableJellybean/AI
+from lib.coginvasion.suit import DistributedDroppableCollectableBackpack/AI
+from lib.coginvasion.suit import DistributedCogBattle/AI
+from lib.coginvasion.suit import DistributedCogStation/AI
+from lib.coginvasion.hood import DistributedTreasure/AI
+from lib.coginvasion.hood import DistributedTTCTreasure/AI
+from lib.coginvasion.hood import DistributedTBTreasure/AI
+from lib.coginvasion.hood import DistributedDDTreasure/AI
+from lib.coginvasion.hood import DistributedMLTreasure/AI
+from lib.coginvasion.hood import DistributedDLTreasure/AI
+from lib.coginvasion.hood import DistributedDGTreasure/AI
+from lib.coginvasion.hood import DistributedToonInterior/AI
+from lib.coginvasion.hood import DistributedCinemaInterior/AI
+from lib.coginvasion.hood import DistributedToonHQInterior/AI
+from lib.coginvasion.hood import DistributedTailorInterior/AI
+from lib.coginvasion.hood import DistributedGagShopInterior/AI
+from lib.coginvasion.hood import DistributedBoat/AI
+from lib.coginvasion.hood import DistributedDoor/AI
+from lib.coginvasion.battle import DistributedPieTurretManager/AI
+from lib.coginvasion.battle import DistributedPieTurret/AI
+from lib.coginvasion.battle import DistributedBattleTrolley/AI
+from lib.coginvasion.battle import DistributedRestockBarrel/AI
+from lib.coginvasion.battle import DistributedGagBarrel/AI
+from lib.coginvasion.friends import FriendsManager/UD
+from lib.coginvasion.cogtropolis import DistributedCityCart/AI
+from lib.coginvasion.tutorial import DistributedTutorial/AI
+from lib.coginvasion.tutorial import DistributedTutorialSuit/AI
+from lib.coginvasion.holiday import HolidayManager/UD
+from lib.coginvasion.holiday import DistributedWinterCoachActivity/AI
+from lib.coginvasion.hood import DistributedBuilding/AI
+from lib.coginvasion.cogoffice import DistributedElevator/AI
+from lib.coginvasion.cogoffice import DistributedCogOfficeElevator/AI
+from lib.coginvasion.cogoffice import DistributedCogOfficeBattle/AI
+from lib.coginvasion.cogoffice import DistributedCogOfficeSuit/AI
+from lib.coginvasion.cogoffice import DistributedTakeOverSuit/AI
+
+struct AvChoice {
+  uint32 avId;
+  string dnaStrand;
+  string name;
+  int8 slot;
+};
+
+struct Point3 {
+  int16 / 10;
+  int16 / 10;
+  int16 / 10;
+};
+
+struct Point2 {
+  int16 / 10;
+  int16 / 10;
+};
+
+dclass Account {
+  uint32 AVATAR_IDS[] required db;
+  string ACCOUNT_ID required db;
+  int8 BANNED required db;
+};
+
+dclass DistributedRoot : DistributedObject {
+  setParentingRules(string, string) broadcast ram;
+};
+
+dclass DistributedDistrict : DistributedObject {
+  setParentingRules(string, string) broadcast ram;
+  setDistrictName(string) required broadcast ram;
+  setAvailable(int8 available) broadcast ram required;
+  systemMessage(string) broadcast;
+  systemMessageCommand(int8, string) clsend airecv;
+  setPopulation(uint16) required broadcast ram;
+  joining() clsend airecv;
+  setPopRecord(uint16) required broadcast ram;
+};
+
+dclass DistrictNameManager : DistributedObject {
+  requestDistrictName() clsend;
+  claimDistrictName(string);
+  noAvailableNames();
+  shuttingDown(string) clsend;
+};
+
+dclass NameServicesManager : DistributedObject {
+  requestName(string name, uint32 avId) clsend;
+  requestNameData() clsend;
+  nameDataRequest(string[], uint32[], uint32[], string[], uint8[]);
+};
+
+dclass LauncherLoginManager : DistributedObject {
+  requestLogin(string username, string password) clsend;
+  loginAccepted(string token);
+  loginRejected();
+};
+
+dclass ClientServicesManager : DistributedObject {
+  requestLogin(string token, string username) clsend;
+  loginAccepted();
+  requestAvatars() clsend;
+  setAvatars(AvChoice[]);
+  requestNewAvatar(string dnaStrand, int8 slot, string name, int8 skipTutorial) clsend;
+  toonCreated(uint32 avId);
+  toonDeleted();
+  requestDeleteAvatar(uint32 avId) clsend;
+  requestSetAvatar(uint32 avId) clsend;
+  setAvatarResponse();
+};
+
+dclass DistributedAvatar : DistributedSmoothNode {
+  setName(string) required broadcast ownrecv db;
+  setMaxHealth(int16 = 15) required broadcast ownrecv db;
+  setHealth(int16 = 15) required broadcast ownrecv db;
+  setChat(string) broadcast ownsend airecv;
+  announceHealth(int8, int16) broadcast;
+  setPlace(uint32) required broadcast ram;
+  setHood(string) required broadcast ram;
+};
+
+dclass DistributedToon : DistributedAvatar {
+  // The account id this toon is associated with.
+  uint32 ACCOUNT required db;
+
+  setDNAStrand(string) required broadcast ownrecv db;
+  setAnimState(uint8, int16) broadcast ram ownsend airecv;
+  setMoney(int32 = 0) required broadcast ownrecv db;
+
+  // We'll do an array of zoneIds for now.
+  setHoodsDiscovered(uint32[]) required ownsend ownrecv db;
+  setTeleportAccess(uint32[]) required ownrecv db;
+
+  setLastHood(uint32) required ownsend ownrecv db;
+  setDefaultShard(uint32) required ownrecv db;
+  setBackpackAmmo(uint8[], uint8[]) required broadcast airecv ownrecv db;
+  setGagAmmo(uint8 gagId, uint8 ammo) broadcast airecv ownrecv;
+  setLoadout(uint8 gagIds [] = [2, 0, 1, 3]) required broadcast airecv ownrecv db;
+  requestSetLoadout(uint8[]) ownsend airecv;
+  setQuests(uint8[], uint8[], uint8[]) required broadcast ownrecv db;
+  setQuestHistory(uint8[]) required broadcast ownrecv db;
+  setTier(int8) required broadcast ownrecv db;
+  setFriendsList(uint32[] = []) required ownrecv db airecv;
+  updateBackpackAmmo() ownrecv;
+  lookAtObject(float64, float64, float64, int8 = 1) broadcast ownsend;
+  handleSuitAttack(uint8 attack_id, uint32 suit_id) broadcast ownsend;
+  toonHitByPie(uint32, uint8 gag_id) ownsend airecv;
+  toonUp(uint8 hp, uint8 announce, uint8 sound) clsend airecv;
+  setAdminToken(int8) required broadcast db ownrecv; // Is this me?
+  announceHealthAndPlaySound(int8, int16) broadcast;
+  requestEject(uint32, int8 = 0) ownsend airecv;
+  setGhost(int8) required broadcast ram ownsend airecv;
+  setPUInventory(int8[] = [0, 0]) required broadcast ownrecv db;
+  setEquippedPU(int8) required broadcast ownrecv db;
+  requestEquipPU(int8) ownsend airecv;
+  usedPU(int8) ownsend airecv;
+  requestAddFriend(uint32) ownsend airecv;
+  setTutorialCompleted(int8) required broadcast ownrecv db;
+  createTutorial() ownsend airecv;
+  tutorialCreated(uint32) ownrecv;
+  goThroughTunnel(uint32, int8) ownsend broadcast;
+
+  // Gags
+  gagStart(uint8 gagId) broadcast ownsend airecv;
+  gagThrow(uint8 gagId) broadcast ownsend;
+  gagBuild(uint8 gagId) broadcast ownsend;
+  gagRelease(uint8 gag_id) broadcast ownsend airecv;
+  usedGag(uint8 gag_id) ownsend airecv;
+  trapActivate(uint8 gagId, uint32 avId, uint8 entityId, uint32 suitId) broadcast ownsend;
+  setDropLoc(uint8 gagId, int16/10, int16/10, int16/10) clsend broadcast;
+  setSplatPos(uint8 gagId, int16/10, int16/10, int16/10) ownsend broadcast;
+  gagCollision(uint8 gagId) broadcast clsend;
+  unEquip() broadcast ram ownsend;
+  equip(uint8 gag_id) broadcast ram ownsend;
+  gagActivate(uint8 gagId) ownsend broadcast;
+  setTarget(uint8 gagId, uint32 target) clsend broadcast;
+  setGagPos(uint8 gagId, float64, float64, float64) ownsend broadcast;
+  setThrowPower(uint8 gagId, uint16 power) ownsend broadcast;
+
+};
+
+dclass DistributedTreasure : DistributedObject {
+  setPosition(int16/10, int16/10, int16/10) required broadcast ram;
+  requestGrab() airecv clsend;
+  setGrab(uint32) broadcast ram;
+  setReject() broadcast;
+};
+
+dclass DistributedTTCTreasure : DistributedTreasure {};
+
+dclass DistributedTBTreasure : DistributedTreasure {};
+
+dclass DistributedMLTreasure : DistributedTreasure {};
+
+dclass DistributedDGTreasure : DistributedTreasure {};
+
+dclass DistributedDLTreasure : DistributedTreasure {};
+
+dclass DistributedDDTreasure : DistributedTreasure {};
+
+dclass DistributedBoat : DistributedObject {
+  setState(string, int16) required broadcast ram;
+  requestCurrentStateAndTimestamp() clsend airecv;
+  currentStateAndTimestamp(string, int16);
+};
+
+dclass DistributedDoor : DistributedObject {
+  setSuitTakingOver(int8) required broadcast ram;
+  setDoorIndex(int8) required broadcast ram;
+  setBlock(uint8) required broadcast ram;
+  setToZone(uint32) required broadcast ram;
+  setDoorType(int8) required broadcast ram;
+  setLeftDoorState(string, int16) broadcast ram;
+  setRightDoorState(string, int16) broadcast ram;
+  requestEnter() clsend airecv;
+  requestExit() clsend airecv;
+  enterDoor(uint32, int16) broadcast;
+  exitDoor(uint32, int16) broadcast;
+};
+
+dclass DistributedToonInterior : DistributedObject {
+  setBlock(uint8) required broadcast ram;
+};
+
+dclass DistributedCinemaInterior : DistributedToonInterior {
+  setCinemaIndex(int8) required broadcast ram;
+  setState(string, int16) broadcast ram;
+  requestStateAndTimestamp() clsend airecv;
+};
+
+dclass DistributedToonHQInterior : DistributedToonInterior {
+
+};
+
+dclass DistributedTailorInterior : DistributedToonInterior {};
+
+dclass DistributedGagShopInterior : DistributedToonInterior {};
+
+dclass DistributedNPCToon : DistributedToon {
+  setNpcId(uint16) required broadcast ram;
+  setOriginIndex(int8) required broadcast ram;
+  requestEnter() clsend airecv;
+  enterAccepted();
+  rejectEnter();
+  requestExit() clsend airecv;
+  exitAccepted();
+  lookAtAvatar(uint32) broadcast;
+  setChat(string) broadcast clsend;
+  oneChatThenExit();
+};
+
+dclass DistributedTailorNPCToon : DistributedNPCToon {};
+
+dclass DistributedHQNPCToon : DistributedNPCToon {
+  makePickableQuests(uint8[]);
+  pickedQuest(uint8) clsend airecv;
+};
+
+dclass DistributedClerkNPCToon : DistributedNPCToon {
+  setChat(string) broadcast ownsend airecv;
+  confirmPurchase(uint8 gagIds [], uint8 [], int32) clsend airecv;
+};
+
+dclass DistributedChar : DistributedSmoothNode {
+  setChar(string charType, int8 clerk=0) required broadcast ram;
+  setName(string name) required broadcast ram;
+  setChat(string chat) broadcast;
+  setAnimState(string anim) broadcast ram;
+};
+
+dclass DistributedSuit : DistributedAvatar {
+  setLevel(uint8 level) required broadcast ram;
+  setSuit(uint8 planId, uint8 variantId) required broadcast ram;
+  setName(string name) required broadcast ram;
+  setAnimState(uint8 anim, int8 loop, int16 timestamp) broadcast ram;
+  doAttack(int8 attackName, uint32, int16) broadcast;
+  hitByGag(uint8 gagId) clsend airecv;
+  toonHitByWeapon(int8, uint32) clsend airecv;
+  turretHitByWeapon(int8, uint32) clsend airecv;
+  handleWeaponTouch() clsend broadcast;
+  interruptAttack() broadcast;
+  disableMovement() clsend broadcast;
+  enableMovement() clsend broadcast;
+  startMoveInterval(int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, uint8 duration) broadcast ram;
+  startProjInterval(int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, uint8 / 10, uint8 / 10, int16 timestamp) broadcast ram;
+  startPosInterval(int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, uint8 / 10, string blendType, int16 timestamp) broadcast ram;
+  stopMoveInterval(int8 turnAround = 0) broadcast ram;
+
+  // This field is for setting the position of a Cog for a toon that
+  // comes in while the Cog is standing still.
+  setLatePos(int16 / 10, int16 / 10) required ram;
+
+  setSuitState(int8, int8, int8, int16) broadcast ram;
+  setWalkPath(Point3[], int16) broadcast;
+
+  // Tell the clients who we are targeting.
+  setChaseTarget(uint32) broadcast;
+};
+
+dclass DistributedTutorial : DistributedObject {
+  makeSuit(int8) clsend airecv;
+  suitNoHealth(int8);
+  suitExploded(int8);
+  pickedUpJellybean();
+  finishedTutorial() clsend airecv;
+};
+
+dclass DistributedTutorialSuit : DistributedSuit {
+
+};
+
+dclass DistributedGroupStation : DistributedObject {
+  setLocationPoint(int8 location_point) required broadcast ram;
+  setTimerTime(int8 time) broadcast;
+  requestAbort(int8 slot) clsend airecv;
+  abort();
+  slotOpen(int8 slot);
+  requestEnter() clsend airecv;
+  fullStation();
+  leaving() clsend airecv;
+};
+
+dclass DistributedMinigameStation : DistributedGroupStation {
+  setStation(string game) required broadcast ram;
+  headOff(uint32 zone, int8 laffMeter);
+};
+
+dclass DistributedCogStation : DistributedGroupStation {
+  headOff(uint32, int8);
+};
+
+dclass DistributedCogBattle : DistributedObject {
+  setHoodIndex(int8) required broadcast ram;
+  setTotalCogs(uint8) required broadcast ram;
+  setCogsRemaining(uint8) required broadcast ram;
+  arrived() clsend airecv;
+  victory() broadcast;
+  iLeft() clsend airecv;
+};
+
+dclass DistributedBattleTrolley : DistributedObject {
+  requestBoard() clsend airecv;
+  requestHopOff() clsend airecv;
+  rejectBoard();
+  fillSlot(int8, uint32) broadcast;
+  emptySlot(int8, uint32) broadcast;
+  setState(string, int16) required broadcast ram;
+  setHoodIndex(int8) required broadcast ram;
+  headOff(uint32);
+};
+
+dclass DistributedRestockBarrel : DistributedNode {
+  requestGrab() airecv clsend;
+  setGrab(uint32) broadcast ram;
+  setLabel(uint8) broadcast ram;
+  setReject() broadcast;
+};
+
+dclass DistributedGagBarrel : DistributedRestockBarrel {};
+
+dclass DistributedMinigame : DistributedObject {
+  ready() clsend airecv;
+  allPlayersReady() broadcast;
+  gameOver(int8 winner=0, uint32[] = [], uint8 = 0) broadcast;
+  setTimerTime(uint16 time) broadcast;
+  leaving() clsend airecv;
+  abort() broadcast;
+  generateHeadPanel(string gender, string head, string headtype,
+       float64 [], uint32 doId, string name) broadcast;
+  updateHeadPanelValue(uint32 doId, int8 direction) broadcast;
+  finalScores(uint32[], int8[]) broadcast;
+  myFinalScore(int8) clsend airecv;
+};
+
+dclass DistributedRaceGame : DistributedMinigame {
+  setToonLane(int8 lane);
+  requestToonLane() clsend airecv;
+};
+
+dclass DistributedUnoGame : DistributedMinigame {
+  requestNewCard() clsend airecv;
+  takeNewCard(string cardId);
+  setPlayByPlay(string pbp) broadcast;
+  wasDealed() clsend airecv;
+  setPlayerTurn(uint32 doId) broadcast;
+  placeCard(uint32 doId, string cardId) broadcast;
+  requestPlaceCard(string cardId) clsend airecv;
+  requestNewCardColor();
+  takeNewCardColor(string origId, string cardId) clsend airecv;
+  setNewCardColor(string cardId) broadcast;
+  callUno() clsend airecv;
+  noCards() clsend airecv;
+};
+
+dclass DistributedToonFPSGame : DistributedMinigame {
+  setupRemoteAvatar(uint32) broadcast;
+  gunShot(uint32, int16) broadcast clsend;
+  jumpingAvatar(uint32) broadcast clsend;
+  avatarHitByBullet(uint32, int8) broadcast clsend airecv;
+  damage(int8, uint32);
+  deadAvatar(uint32, int16) broadcast clsend;
+  respawnAvatar(uint32) broadcast clsend;
+};
+
+dclass TeamMinigame {
+  // Tell the ai what team we've chosen.
+  choseTeam(int8) clsend airecv;
+
+  // Tell the client that the team they chose is full.
+  teamFull();
+
+  // Tell the client that they've been accepted into the team they chose.
+  acceptedIntoTeam();
+
+  // Tell the clients to update their gui for a certain team.
+  incrementTeamPlayers(int8) broadcast;
+
+  // Tell the clients to set the team of this player.
+  setTeamOfPlayer(uint32, int8) broadcast;
+};
+
+dclass DistributedGunGame : DistributedToonFPSGame, TeamMinigame {
+  // Tell the clients to start voting for the game mode.
+  startGameModeVote() broadcast;
+
+  // Tell the ai which game mode we voted for.
+  myGameModeVote(int8) clsend airecv;
+
+  // Tell the clients to update their gui to show how many votes a game mode has.
+  incrementGameModeVote(int8) broadcast;
+
+  // Tell the clients that the vote is over and what game mode was decided.
+  gameModeDecided(int8, int8) broadcast;
+
+  // Tell the other clients which gun we chose.
+  gunChoice(string, uint32) clsend broadcast;
+
+  // Tell the ai that we've chosen our team and gun,
+  // and are ready to actually start playing.
+  readyToStart() clsend airecv;
+
+  setGameMode(int8) broadcast ram;
+  setLevelName(string) broadcast ram;
+
+  // Updates are sent directly to the avatar that
+  // is receiving more points.
+  setKOTHPoints(uint8 points);
+
+  // Update to tell the clients who the new king is.
+  setKOTHKing(uint32 avId) broadcast;
+
+  // Tell the ai that our health got to 0.
+  dead(uint32) clsend airecv;
+
+  incrementKills();
+  timeUp() broadcast;
+  incrementTeamScore(int8) broadcast;
+  teamWon(int8) broadcast;
+};
+
+dclass DistributedGunGameFlag : DistributedNode {
+  setTeam(int8) required broadcast ram;
+  placeAtMainPoint() broadcast;
+  requestPickup() clsend airecv;
+  pickupFlag(uint32) broadcast;
+  dropFlag(int16 / 10, int16 / 10, int16 / 10) clsend airecv broadcast;
+  requestDropOff() clsend airecv;
+  dropOffFlag(uint32) broadcast;
+  flagReturned() broadcast;
+};
+
+dclass DistributedGunGameCapturePoint : DistributedNode {
+  setCaptured(uint8 teamId) broadcast ram;
+  requestEnter() clsend airecv;
+  requestExit() clsend airecv;
+  startListening() broadcast;
+  startCircleAnim(uint8 direction, int16 timestamp) broadcast;
+  handleContesters(uint8 contesters) broadcast;
+  updateStatus(uint8 status, uint32 avId) broadcast;
+};
+
+dclass DistributedFactorySneakGame : DistributedToonFPSGame {
+
+};
+
+dclass DistributedCameraShyGame : DistributedMinigame {
+  createRemoteAvatar(uint32) broadcast;
+  remoteAvatarTakePicture(uint32) broadcast clsend;
+  tookPictureOfToon(uint32) clsend airecv;
+  announceGameOver() broadcast;
+  showWinner(uint32) broadcast;
+  tookPictureOfMe(uint32);
+  generateOtherPlayerGui() broadcast;
+  updateOtherPlayerHead(uint32, uint32, int8) broadcast;
+  setLevel(string) broadcast required ram;
+  setSpawnPoint(int8);
+};
+
+dclass DistributedEagleGame : DistributedMinigame {
+  startRound(int8) broadcast;
+  hitEagle(uint32) clsend airecv;
+  enterCannon(uint32);
+  missedEagle() clsend airecv;
+  roundOver() broadcast;
+  allRoundsEnded() broadcast;
+};
+
+dclass DistributedEagleSuit : DistributedSuit {
+  setFlySpeed(int8 / 10) required broadcast ram;
+  setSuitState(int8, int8, int8, int16) required broadcast ram;
+  fallAndExplode() broadcast;
+};
+
+dclass DistributedToonCannon : DistributedNode {
+  setBarrelOrientation(float64, float64) clsend broadcast;
+  shoot() clsend broadcast;
+};
+
+dclass DistributedDeliveryGame : DistributedMinigame {
+  giveBarrelToPlayer(uint32, uint32) broadcast;
+  giveBarrelToSuit(uint32) broadcast;
+  dropOffBarrel(uint32) broadcast;
+  setBarrelsDelivered(uint8) required ram broadcast;
+  setBarrelsStolen(uint8) required ram broadcast;
+  setBarrelsRemaining(uint8) required ram broadcast;
+  requestDropOffBarrel(uint32) clsend airecv;
+  allBarrelsGone() broadcast;
+};
+
+dclass DistributedDeliveryTruck : DistributedNode {
+  setNumBarrels(int8) required broadcast ram;
+  requestBarrel() clsend airecv;
+};
+
+dclass DistributedDeliveryGameSuit : DistributedSuit {
+
+};
+
+dclass DistributedDodgeballGame : DistributedToonFPSGame, TeamMinigame {
+  chooseUrTeam() broadcast;
+  readyToStart() clsend airecv;
+  acceptedIntoTeam(int8);
+  snowballPickup(int8 snowballIndex, uint32 pickerUpperAvId) clsend broadcast;
+  throw(int8 snowballIndex, int16 p) clsend broadcast;
+  snowballHitPlayer(uint32 damagedPlayer, int8 snowballIndex) clsend broadcast;
+  playerCaughtSnowball(int8 snowballIndex, uint32 catcherId) clsend broadcast;
+};
+
+dclass DistributedShop : DistributedNode {
+  requestEnter() clsend airecv;
+  enterAccepted();
+  requestExit() clsend airecv;
+  exitAccepted();
+  requestTurretCount() clsend airecv;
+  updateTurretCount(uint8 turrets);
+  setClerkChat(int8) broadcast;
+  confirmPurchase(uint32, int32) clsend airecv;
+  requestHealth(uint8 health) clsend airecv;
+};
+
+dclass DistributedGagShop : DistributedShop {
+  confirmPurchase(uint8 gagIds [], uint8 [], int32) clsend airecv;
+};
+
+dclass DistributedBattleShop : DistributedShop {
+  confirmPurchase(int8[], int32) clsend airecv;
+};
+
+dclass DistributedWinterCoachActivity : DistributedNode {
+  requestEnter() clsend airecv;
+  enterAccepted();
+  requestExit() clsend airecv;
+  exitAccepted();
+  greetAvatar(string avatarName) broadcast;
+}
+
+dclass DistributedSuitManager : DistributedObject {
+  requestSuitInfo() clsend airecv;
+  newSuit() broadcast;
+  noSuits() broadcast;
+  systemMessage(string) broadcast;
+  bossSpawned() broadcast;
+  invasionSpawned() broadcast;
+  invasionInProgress() broadcast;
+  tournamentInProgress() broadcast;
+  tournamentSpawned() broadcast;
+  suitAdminCommand(int8, string) clsend airecv;
+  spawner(int8) required ram broadcast;
+
+  tournamentRoundEnded() broadcast;
+  newTournamentRound() broadcast;
+  normalRoundsEnded() broadcast;
+};
+
+dclass DistributedDroppableCollectableObject : DistributedNode {
+  collectedObject() clsend airecv;
+};
+
+dclass DistributedDroppableCollectableJellybeans : DistributedDroppableCollectableObject {
+
+};
+
+dclass DistributedDroppableCollectableJellybean : DistributedDroppableCollectableJellybeans {
+  requestGrab() airecv clsend;
+  handlePickup(uint32) broadcast ram;
+};
+
+dclass DistributedDroppableCollectableJellybeanJar : DistributedDroppableCollectableJellybeans {
+
+};
+
+dclass DistributedDroppableCollectableBackpack : DistributedDroppableCollectableObject {
+  setBP(int8[]) required broadcast ram;
+};
+
+dclass DistributedPieTurretManager : DistributedObject {
+  requestPlace(float64[]) clsend airecv;
+  turretPlaced(uint32);
+  yourTurretIsDead();
+};
+
+dclass DistributedPieTurret : DistributedAvatar {
+  setOwner(uint32) required broadcast ram;
+  scan(int16, int8) broadcast ram;
+  setGag(uint8 upgradeId) broadcast ram clsend;
+  shoot(uint32) broadcast;
+  makeSplat(uint8 entId, float64[]) broadcast clsend;
+  die() broadcast;
+};
+
+dclass FriendsManager : DistributedObject {
+  requestAvatarInfo(uint32) clsend;
+  askAvatarToBeFriends(uint32) clsend;
+  iAcceptedFriendRequest(uint32) clsend;
+  acceptedFriendRequest();
+  rejectedFriendRequest();
+
+  avatarInfo(string name, string dna, uint8 maxHP, uint8 hp,
+             uint32 zoneId, uint32 shardId, int8 isOnline,
+			 int8 adminToken);
+
+  friendRequest(uint32, string, string);
+  cancelFriendRequest(uint32) clsend;
+  requestAvatarStatus(uint32) clsend;
+  someoneWantsYourStatus(uint32);
+  myAvatarStatus(uint32, int8) clsend;
+  avatarStatus(uint32, int8);
+  iCancelledFriendRequest(uint32) clsend;
+  iRejectedFriendRequest(uint32) clsend;
+  toonOnline(uint32, string);
+  toonOffline(uint32, string);
+  iRemovedFriend(uint32) clsend;
+  friendLeftYourList(uint32);
+  iWantToTeleportToAvatar(uint32) clsend;
+  avatarWantsYourLocation(uint32);
+  myAvatarLocation(uint32, uint32, uint32) clsend;
+  avatarLocation(uint32, uint32, uint32);
+  teleportNotify(string);
+  requestFriendsList() clsend;
+
+  friendsList(uint32 avIds[], string names[], int8 onlineFlags[], int8 adminTokens[]);
+
+  sendWhisper(uint32 target, string message) clsend;
+
+  whisper(uint32 sender, string message, string senderName);
+};
+
+dclass HolidayManager : DistributedObject {
+  setHoliday(uint8 holidayIndex);
+  requestHoliday() clsend;
+}
+
+dclass DistributedCityCart : DistributedNode {
+  setPathIndex(int8) required broadcast ram;
+  setIvalTDisplace(uint8) required broadcast ram;
+  setState(string, int16) required broadcast ram;
+  hitByCar() clsend airecv;
+};
+
+dclass DistributedBuilding : DistributedObject {
+  setBlock(uint16, uint32) required broadcast ram;
+  setSuitData(string, int8, int8) required broadcast ram;
+  setVictorList(uint32[]) broadcast ram required;
+  setState(string, int16) broadcast ram required;
+  setVictorReady() clsend airecv;
+};
+
+dclass DistributedElevator : DistributedObject {
+  setBldgDoId(uint32) required broadcast ram;
+  setToZoneId(uint32) required broadcast ram;
+  setElevatorType(int8) required broadcast ram;
+  setState(string, int16) broadcast ram;
+  setToonsInElevator(uint32[]) broadcast;
+  requestEnter() clsend airecv;
+  enterRejected();
+  requestExit() clsend airecv;
+  fillSlot(int8, uint32) broadcast;
+  emptySlot(int8, uint32) broadcast;
+  requestStateAndTimestamp() clsend airecv;
+  stateAndTimestamp(string, int16);
+};
+
+dclass DistributedCogOfficeElevator : DistributedElevator {
+  setIndex(int8) required broadcast ram;
+  putToonsInElevator() broadcast;
+};
+
+dclass DistributedCogOfficeBattle : DistributedObject {
+  setAvatars(uint32[]) required broadcast ram;
+  setDept(string) required broadcast ram;
+  setState(string, int16) broadcast ram;
+  setNumFloors(int8) required broadcast ram;
+  setBldgDoId(uint32) required broadcast ram;
+  setExteriorZoneId(uint32) required broadcast ram;
+  readyToStart() clsend airecv;
+  loadFloor(int8, string) broadcast;
+  readyForNextFloor() clsend airecv;
+  iAmDead() clsend airecv;
+  doFaceoff(uint32, int8, int16) broadcast;
+
+  // Sent when a player runs over the collision mesh of a certain floor section
+  // Used for activating cogs that are in certain places of the room
+  enterSection(int8) clsend airecv;
+
+  // Sent by the AI to all the clients to open up the locked doors to the restock room
+  openRestockDoors() broadcast;
+
+  // Sent by the player when they finish loading a floor
+  loadedFloor() clsend airecv;
+};
+
+dclass DistributedCogOfficeSuit : DistributedSuit {
+  setBattleDoId(uint32) required broadcast ram;
+  setState(string, int8[], int16) required broadcast ram;
+};
+
+dclass DistributedTakeOverSuit : DistributedSuit {
+  setDoorDoId(uint32) required broadcast ram;
+  setState(string, int16) required broadcast ram;
+  interruptTakeOver() broadcast;
+  requestStateAndTimestamp() clsend airecv;
+  stateAndTimestamp(string, int16);
+};
+
+dclass DistributedDisneyChar : DistributedAvatar {
+  setCharId(int8) required broadcast ram;
+  doNeutral(string) broadcast;
+  doWalking(string, string, int16) broadcast;
+  talk2Toon(int8, int8, uint32) broadcast;
+  avatarEnter() clsend airecv;
+  avatarExit() clsend airecv;
+  requestStateData() clsend airecv;
+};

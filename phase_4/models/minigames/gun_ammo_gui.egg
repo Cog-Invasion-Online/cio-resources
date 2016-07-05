@@ -1,0 +1,931 @@
+<CoordinateSystem> { Z-up } 
+<Material> Material.001 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.007 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.006 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.010 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.009 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.008 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.002 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.003 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.011 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.012 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.013 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.014 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.015 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.005 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> Material.004 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Texture> Texture.011 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.010 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.013 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.012 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.002 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.014 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.007 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.001 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.004 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.008 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.009 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.005 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture {
+  "phase_4/maps/ammo_bg.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.006 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+<Texture> Texture.003 {
+  "phase_4/maps/ammo_bar.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+  <Group> bar_14 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        2.2997398376464844 0.12002968788146973 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_14 {
+    
+      <Vertex> 0 {2.411709 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {2.411709 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {2.187771 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {2.187771 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.010 }
+      <MRef> { Material.011 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_14 }} 
+    }
+  }
+  <Group> bar_13 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        1.9443024396896362 0.12002968788146973 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_13 {
+    
+      <Vertex> 0 {2.056271 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {2.056271 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {1.832334 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {1.832334 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.011 }
+      <MRef> { Material.012 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_13 }} 
+    }
+  }
+  <Group> bar_12 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        1.555810570716858 0.12002968788146973 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_12 {
+    
+      <Vertex> 0 {1.667779 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {1.667779 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {1.443842 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {1.443842 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.012 }
+      <MRef> { Material.013 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_12 }} 
+    }
+  }
+  <Group> bar_11 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        1.2088136672973633 0.12002968788146973 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_11 {
+    
+      <Vertex> 0 {1.320782 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {1.320783 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {1.096845 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {1.096845 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.013 }
+      <MRef> { Material.014 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_11 }} 
+    }
+  }
+  <Group> bar_10 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        0.8428459167480469 0.1200297474861145 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_10 {
+    
+      <Vertex> 0 {0.954815 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {0.954815 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {0.730877 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {0.730877 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.014 }
+      <MRef> { Material.015 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_10 }} 
+    }
+  }
+  <Group> bar_9 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        0.48725607991218567 0.12002977728843689 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_9 {
+    
+      <Vertex> 0 {0.599225 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {0.599225 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {0.375287 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {0.375287 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.002 }
+      <MRef> { Material.003 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_9 }} 
+    }
+  }
+  <Group> bar_8 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        0.14142322540283203 0.12002980709075928 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_8 {
+    
+      <Vertex> 0 {0.253392 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {0.253392 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {0.029454 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {0.029454 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.003 }
+      <MRef> { Material.004 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_8 }} 
+    }
+  }
+  <Group> bar_7 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        -0.20524170994758606 0.12002983689308167 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_7 {
+    
+      <Vertex> 0 {-0.093273 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {-0.093273 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {-0.317210 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {-0.317211 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.004 }
+      <MRef> { Material.005 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_7 }} 
+    }
+  }
+  <Group> bar_6 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        -0.5420404672622681 0.12002986669540405 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_6 {
+    
+      <Vertex> 0 {-0.430072 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {-0.430072 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {-0.654009 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {-0.654009 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.005 }
+      <MRef> { Material.006 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_6 }} 
+    }
+  }
+  <Group> bar_5 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        -0.8887048959732056 0.12002986669540405 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_5 {
+    
+      <Vertex> 0 {-0.776736 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {-0.776736 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {-1.000674 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {-1.000674 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.006 }
+      <MRef> { Material.007 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_5 }} 
+    }
+  }
+  <Group> bar_4 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        -1.2264705896377563 0.12002992630004883 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_4 {
+    
+      <Vertex> 0 {-1.114502 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {-1.114502 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {-1.338439 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {-1.338439 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.007 }
+      <MRef> { Material.008 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_4 }} 
+    }
+  }
+  <Group> bar_3 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        -1.5577510595321655 0.12002992630004883 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_3 {
+    
+      <Vertex> 0 {-1.445782 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {-1.445782 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {-1.669720 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {-1.669720 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.008 }
+      <MRef> { Material.009 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_3 }} 
+    }
+  }
+  <Group> bar_2 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        -1.8892375230789185 0.12002992630004883 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_2 {
+    
+      <Vertex> 0 {-1.777269 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {-1.777269 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {-2.001206 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {-2.001206 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.009 }
+      <MRef> { Material.010 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_2 }} 
+    }
+  }
+  <Group> bar_1 {
+    <Transform> {
+      <Matrix4> {
+        3.500242229392825e-08 0.0 0.4636211395263672 0.0 
+        -0.11196880042552948 8.453409527930944e-09 8.453409527930944e-09 0.0 
+        -3.500242229392825e-08 -0.4636211395263672 2.6426093877442245e-15 0.0 
+        -2.213696002960205 0.12002992630004883 -6.666667104582302e-06 1.0 
+      }
+    }
+    
+    <VertexPool> bar_1 {
+    
+      <Vertex> 0 {-2.101727 0.120030 -0.463628
+      <UV>  {
+        0.0030584826599806547 1.0
+      }
+      }
+      <Vertex> 1 {-2.101727 0.120030 0.463614
+      <UV>  {
+        0.0 0.0030584826599806547
+      }
+      }
+      <Vertex> 2 {-2.325665 0.120030 0.463614
+      <UV>  {
+        0.9969415068626404 0.0
+      }
+      }
+      <Vertex> 3 {-2.325665 0.120030 -0.463628
+      <UV>  {
+        1.0 0.9969415068626404
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture.001 }
+      <MRef> { Material.002 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bar_1 }} 
+    }
+  }
+  <Group> background {
+    <Transform> {
+      <Matrix4> {
+        3.774895063202166e-08 0.0 0.5 0.0 
+        -2.4432497024536133 1.8446021954332537e-07 1.8446021954332537e-07 0.0 
+        -3.774895063202166e-08 -0.5 2.8499664413638662e-15 0.0 
+        0.042951762676239014 0.12012981623411179 -6.666661647614092e-06 1.0 
+      }
+    }
+    
+    <VertexPool> background {
+    
+      <Vertex> 0 {2.486202 0.120130 -0.500007
+      <UV>  {
+        0.00010009919060394168 9.998001041822135e-05
+      }
+      }
+      <Vertex> 1 {2.486202 0.120130 0.499993
+      <UV>  {
+        0.9999000430107117 0.00010003960051108152
+      }
+      }
+      <Vertex> 2 {-2.400298 0.120130 0.499994
+      <UV>  {
+        0.9999000430107117 0.9999000430107117
+      }
+      }
+      <Vertex> 3 {-2.400298 0.120130 -0.500006
+      <UV>  {
+        9.998001041822135e-05 0.9999000430107117
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { Material.001 }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { background }} 
+    }
+  }

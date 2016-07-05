@@ -1,0 +1,63 @@
+<CoordinateSystem> { Z-up } 
+<Material> Material.001 {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Texture> Texture {
+  "phase_4/maps/bullet.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+  <Group> bullet {
+    <Transform> {
+      <Matrix4> {
+        1.8098832432755785e-09 0.0 -0.023972630500793457 0.0 
+        0.0 0.3514725863933563 0.0 0.0 
+        1.0 0.0 7.549790126404332e-08 0.0 
+        0.0 0.0 0.0 1.0 
+      }
+    }
+    
+    <VertexPool> bullet {
+    
+      <Vertex> 0 {-0.000000 -0.351473 0.023973
+      <UV>  {
+        0.00010009919060394168 9.998001041822135e-05
+      }
+      }
+      <Vertex> 1 {0.000000 -0.351473 -0.023973
+      <UV>  {
+        0.9999000430107117 0.00010003960051108152
+      }
+      }
+      <Vertex> 2 {0.000000 0.351473 -0.023973
+      <UV>  {
+        0.9999000430107117 0.9999000430107117
+      }
+      }
+      <Vertex> 3 {-0.000000 0.351473 0.023973
+      <UV>  {
+        9.998001041822135e-05 0.9999000430107117
+      }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { Material.001 }
+      <Normal> {1.000000 0.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { bullet }} 
+    }
+  }
