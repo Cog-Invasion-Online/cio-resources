@@ -457,6 +457,10 @@ dclass TeamMinigame {
 
   // Tell the clients to set the team of this player.
   setTeamOfPlayer(uint32, int8) broadcast;
+
+  incrementTeamScore(int8 team) broadcast;
+
+  teamWon(int8) broadcast;
 };
 
 dclass DistributedGunGame : DistributedToonFPSGame, TeamMinigame {
@@ -494,8 +498,6 @@ dclass DistributedGunGame : DistributedToonFPSGame, TeamMinigame {
 
   incrementKills();
   timeUp() broadcast;
-  incrementTeamScore(int8) broadcast;
-  teamWon(int8) broadcast;
 };
 
 dclass DistributedGunGameFlag : DistributedNode {
@@ -582,8 +584,10 @@ dclass DistributedDodgeballGame : DistributedToonFPSGame, TeamMinigame {
   acceptedIntoTeam(int8);
   snowballPickup(int8 snowballIndex, uint32 pickerUpperAvId) clsend broadcast;
   throw(int8 snowballIndex, int16 p) clsend broadcast;
-  snowballHitPlayer(uint32 damagedPlayer, int8 snowballIndex) clsend broadcast;
+  snowballHitPlayer(uint32 damagedPlayer, int8 throwerTeam, int8 snowballIndex) clsend broadcast;
   playerCaughtSnowball(int8 snowballIndex, uint32 catcherId) clsend broadcast;
+  enemyFrozeMe(int8 myTeam, int8 enemyTeam) clsend airecv;
+  teamMateUnfrozeMe(int8 myTeam) clsend airecv;
 };
 
 dclass DistributedShop : DistributedNode {
