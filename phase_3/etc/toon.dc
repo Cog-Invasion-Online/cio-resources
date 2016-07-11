@@ -585,6 +585,8 @@ dclass DistributedDodgeballGame : DistributedToonFPSGame, TeamMinigame {
   snowballPickup(int8 snowballIndex, uint32 pickerUpperAvId) clsend broadcast;
   throw(int8 snowballIndex, int16 p) clsend broadcast;
   snowballHitPlayer(uint32 damagedPlayer, int8 throwerTeam, int8 snowballIndex) clsend broadcast;
+  snowballHitWall(int8 snowballIndex) clsend broadcast;
+  snowballHitGround(int8 snowballIndex) clsend broadcast;
   playerCaughtSnowball(int8 snowballIndex, uint32 catcherId) clsend broadcast;
   enemyFrozeMe(int8 myTeam, int8 enemyTeam) clsend airecv;
   teamMateUnfrozeMe(int8 myTeam) clsend airecv;
