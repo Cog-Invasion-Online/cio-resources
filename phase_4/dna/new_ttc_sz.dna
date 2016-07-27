@@ -10,7 +10,7 @@ group "toontownCentral" [
   prop "prop_gazebo_DNARoot" [
    code [ "prop_gazebo" ]
    pos [ -0.81142 -0.40536 0 ]
-   nhpr [ 350.921 0 0 ]
+   nhpr [ -9.07901 0 -0 ]
   ]
   prop "prop_green_tree_large_ul_DNARoot" [
    code [ "old_tree_large_ur" ]
@@ -852,35 +852,6 @@ group "toontownCentral" [
      ]
     ]
    ]
-   flat_building "sz0:random_9_DNARoot" [
-    pos [ -64.8 78.68 6.9 ]
-    nhpr [ 33.68 0 0 ]
-    width [ 15 ]
-    wall [
-     height [ 10 ]
-     code [ "wall_md_blank_ul" ]
-     color [ 0.9 0.56 0.34 1 ]
-     windows [
-      code [ "window_sm_curved_ul" ]
-      color [ 1 0.87 0.38 1 ]
-      count [ 2 ]
-     ]
-    ]
-    wall [
-     height [ 10 ]
-     code [ "wall_md_blank_dl" ]
-     color [ 0.9 0.56 0.34 1 ]
-     windows [
-      code [ "window_sm_curved_ul" ]
-      color [ 1 0.87 0.38 1 ]
-      count [ 2 ]
-     ]
-     cornice [
-      code [ "cornice_marble_ur" ]
-      color [ 1 1 0.52 1 ]
-     ]
-    ]
-   ]
    flat_building "sz0:random_13_DNARoot" [
     pos [ -81.5599 -69.0799 6.9 ]
     nhpr [ 122.47 0 -0 ]
@@ -1102,7 +1073,7 @@ group "toontownCentral" [
      ]
     ]
    ]
-   landmark_building "sz21:mercantile_DNARoot" [
+   landmark_building "sz21:toon_landmark_mercantile_DNARoot" [
     code [ "toon_landmark_TT_A1" ]
     building_type [ "clotheshop" ]
     title [ "Clothing Mercantile" ]
@@ -1328,8 +1299,37 @@ group "toontownCentral" [
     code [ "toon_landmark_hqTT" ]
     building_type [ "hq" ]
     title [ "" ]
-    pos [ -65.1079 71.0179 6.9 ]
-    nhpr [ -139.99 0 0 ]
+    pos [ -65.1079 71.0179 6.88 ]
+    nhpr [ 220.01 0 -0 ]
+   ]
+   flat_building "sz0:random_9_DNARoot" [
+    pos [ -64.8 78.68 6.9 ]
+    nhpr [ 33.68 0 -0 ]
+    width [ 15 ]
+    wall [
+     height [ 10 ]
+     code [ "wall_md_blank_ul" ]
+     color [ 0.9 0.56 0.34 1 ]
+     windows [
+      code [ "window_sm_curved_ul" ]
+      color [ 1 0.87 0.38 1 ]
+      count [ 1 ]
+     ]
+    ]
+    wall [
+     height [ 10 ]
+     code [ "wall_md_blank_dl" ]
+     color [ 0.9 0.56 0.34 1 ]
+     windows [
+      code [ "window_sm_curved_ul" ]
+      color [ 1 0.87 0.38 1 ]
+      count [ 1 ]
+     ]
+     cornice [
+      code [ "cornice_marble_ur" ]
+      color [ 1 1 0.52 1 ]
+     ]
+    ]
    ]
   ]
  ]
