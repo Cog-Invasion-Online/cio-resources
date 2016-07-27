@@ -1301,6 +1301,18 @@ group "toontownCentral" [
     title [ "" ]
     pos [ -65.1079 71.0179 6.88 ]
     nhpr [ 220.01 0 -0 ]
+    prop "animated_prop_HQPeriscopeAnimatedProp_DNARoot" [
+     code [ "animated_prop_HQPeriscopeAnimatedProp" ]
+     pos [ 7.17 -7.67 19.07 ]
+     nhpr [ 110 0 0 ]
+     scale [ 4 4 4 ]
+    ]
+    prop "animated_prop_HQTelescopeAnimatedProp_DNARoot" [
+     code [ "animated_prop_HQTelescopeAnimatedProp" ]
+     pos [ 7.003 0 13.191 ]
+     nhpr [ 168 81 0 ]
+     scale [ 4 4 4 ]
+    ]
    ]
    flat_building "sz0:random_9_DNARoot" [
     pos [ -64.8 78.68 6.9 ]
