@@ -412,7 +412,7 @@ dclass DistributedMinigame : DistributedObject {
   finalScores(uint32[], int8[]) broadcast;
   myFinalScore(int8) clsend airecv;
   setRound(int8) broadcast;
-  roundOver() broadcast;
+  roundOver(int8 timeRanOut = 0) broadcast;
 };
 
 dclass DistributedRaceGame : DistributedMinigame {
