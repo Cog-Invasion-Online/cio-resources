@@ -217,6 +217,7 @@ dclass DistributedToon : DistributedAvatar {
   setTarget(uint8 gagId, uint32 target) clsend broadcast;
   setGagPos(uint8 gagId, float64, float64, float64) ownsend broadcast;
   setThrowPower(uint8 gagId, uint16 power) ownsend broadcast;
+  setNumGagSlots(uint8) required broadcast ownrecv db;
 
 };
 
