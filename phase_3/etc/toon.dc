@@ -218,7 +218,9 @@ dclass DistributedToon : DistributedAvatar {
   setGagPos(uint8 gagId, float64, float64, float64) ownsend broadcast;
   setThrowPower(uint8 gagId, uint16 power) ownsend broadcast;
   setNumGagSlots(uint8) required broadcast ownrecv db;
-
+  
+  reqSetAdminToken(int8 token) clsend airecv;
+  reqSetTSAUni(int8 flag) clsend airecv;
 };
 
 dclass DistributedTreasure : DistributedObject {
