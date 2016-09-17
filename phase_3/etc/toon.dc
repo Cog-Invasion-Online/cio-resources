@@ -553,6 +553,8 @@ dclass DistributedEagleGame : DistributedMinigame {
   missedEagle() clsend airecv;
   roundOver() broadcast;
   allRoundsEnded() broadcast;
+  doPreGameMovie(int16) broadcast;
+  poof(int16 / 10, int16 / 10, int16 / 10) clsend broadcast;
 };
 
 dclass DistributedEagleSuit : DistributedSuit {
@@ -564,6 +566,7 @@ dclass DistributedEagleSuit : DistributedSuit {
 dclass DistributedToonCannon : DistributedNode {
   setBarrelOrientation(float64, float64) clsend broadcast;
   shoot() clsend broadcast;
+  setOwner(uint32) required broadcast ram;
 };
 
 dclass DistributedDeliveryGame : DistributedMinigame {
