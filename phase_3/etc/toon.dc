@@ -385,13 +385,16 @@ dclass DistributedCogBattle : DistributedObject {
 };
 
 dclass DistributedBattleTrolley : DistributedObject {
+  setToZone(uint32) required broadcast ram;
+  setIndex(int8) required broadcast ram;
   requestBoard() clsend airecv;
   requestHopOff() clsend airecv;
   rejectBoard();
   fillSlot(int8, uint32) broadcast;
   emptySlot(int8, uint32) broadcast;
   setState(string, int16) required broadcast ram;
-  setHoodIndex(int8) required broadcast ram;
+  arrivedInTrolley(int8) clsend airecv;
+  putAvatarInTrolley(uint32, int8) broadcast;
   headOff(uint32);
 };
 

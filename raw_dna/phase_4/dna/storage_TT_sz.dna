@@ -12,7 +12,7 @@ place_model "phase_4/models/neighborhoods/toontown_central_beta" [
         ]
 
 place_model "phase_4/models/modules/trolley_station_TT" [
-	store_node [ "prop" "prop_trolley_station" ]
+	store_node [ "prop" "prop_trolley_station_TT" "prop_trolley_station" ]
 	]
 
 place_model "phase_4/models/modules/safe_zone_tunnel_TT" [
