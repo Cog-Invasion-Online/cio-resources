@@ -779,7 +779,9 @@ dclass DistributedCogOfficeBattle : DistributedBattleZone {
   loadFloor(int8, string) broadcast;
   readyForNextFloor() clsend airecv;
   iAmDead() clsend airecv;
-  doFaceoff(uint32, int8, int16) broadcast;
+  doFaceoff(int8, int16) broadcast;
+
+  setTauntSuitId(uint32) required broadcast ram;
 
   // Sent when a player runs over the collision mesh of a certain floor section
   // Used for activating cogs that are in certain places of the room
@@ -795,6 +797,7 @@ dclass DistributedCogOfficeBattle : DistributedBattleZone {
 dclass DistributedCogOfficeSuit : DistributedSuit {
   setBattleDoId(uint32) required broadcast ram;
   setState(string, int8[], int16) required broadcast ram;
+  setHangoutIndex(int8) required broadcast ram;
 };
 
 dclass DistributedTakeOverSuit : DistributedSuit {
