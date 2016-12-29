@@ -293,6 +293,7 @@ dclass DistributedNPCToon : DistributedToon {
   lookAtAvatar(uint32) broadcast;
   setChat(string) broadcast clsend;
   oneChatThenExit();
+  setChatPageIndex(int8) broadcast clsend;
 };
 
 dclass DistributedTailorNPCToon : DistributedNPCToon {};
@@ -300,6 +301,7 @@ dclass DistributedTailorNPCToon : DistributedNPCToon {};
 dclass DistributedHQNPCToon : DistributedNPCToon {
   makePickableQuests(uint8[]);
   pickedQuest(uint8) clsend airecv;
+  ranOutOfTime() clsend airecv;
 };
 
 dclass DistributedClerkNPCToon : DistributedNPCToon {
