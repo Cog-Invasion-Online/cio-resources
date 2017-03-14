@@ -36,6 +36,8 @@ from src.coginvasion.minigame import DistributedDodgeballGame/AI
 from src.coginvasion.uber import ClientServicesManager/UD
 from src.coginvasion.uber import LauncherLoginManager/UD
 from src.coginvasion.uber import DistrictNameManager/AI/UD
+from src.coginvasion.holiday import HolidayManager/AI/UD
+from src.coginvasion.holiday import DistributedWinterCoachActivity/AI
 from src.coginvasion.uber import NameServicesManager/UD
 from src.coginvasion.cog import DistributedSuit/AI
 from src.coginvasion.suit import DistributedSuitManager/AI
@@ -70,8 +72,6 @@ from src.coginvasion.friends import FriendsManager/UD
 from src.coginvasion.cogtropolis import DistributedCityCart/AI
 from src.coginvasion.tutorial import DistributedTutorial/AI
 from src.coginvasion.tutorial import DistributedTutorialSuit/AI
-from src.coginvasion.holiday import HolidayManager/UD
-from src.coginvasion.holiday import DistributedWinterCoachActivity/AI
 from src.coginvasion.hood import DistributedBuilding/AI
 from src.coginvasion.cogoffice import DistributedElevator/AI
 from src.coginvasion.cogoffice import DistributedCogOfficeElevator/AI
@@ -730,6 +730,7 @@ dclass FriendsManager : DistributedObject {
 dclass HolidayManager : DistributedObject {
   setHoliday(uint8 holidayIndex);
   requestHoliday() clsend;
+  srvRequestHoliday() clsend;
 }
 
 dclass DistributedCityCart : DistributedNode {
