@@ -52,14 +52,6 @@
   <Scalar> wrap { REPEAT }
 }
 
-<Texture> ground2_tex {
-  "./phase_4/models/neighborhoods/tex/beta_ttc_ground.jpg"
-  <Scalar> envtype { MODULATE }
-  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
-  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
-  <Scalar> wrap { REPEAT }
-}
-
 <Texture> ground_tex {
   "./phase_6/maps/golf_hub_grass.jpg"
   <Scalar> envtype { MODULATE }
@@ -68,6 +60,56 @@
   <Scalar> wrap { REPEAT }
 }
 
+<Texture> ground2_tex {
+  "./phase_4/models/neighborhoods/tex/beta_ttc_ground.jpg"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+  <Group> cam_path {
+    <Transform> {
+      <Matrix4> {
+        7.549790126404332e-08 1.0 0.0 0.0 
+        -1.0 7.549790126404332e-08 0.0 0.0 
+        0.0 0.0 1.0 0.0 
+        14.388090133666992 -32.54671859741211 4.472676753997803 1.0 
+      }
+    }
+    <VertexPool> cam_path {
+      <Vertex> 0 {
+        14.388090 -34.546719 4.472677 1.000000
+      }
+      <Vertex> 1 {
+        14.388090 -16.984501 4.472677 1.000000
+      }
+      <Vertex> 2 {
+        14.388090 -32.546719 4.472677 1.000000
+      }
+      <Vertex> 3 {
+        14.388090 -3.956762 4.472677 1.000000
+      }
+      <Vertex> 4 {
+        14.388090 23.133179 4.472677 1.000000
+      }
+      <Vertex> 5 {
+        26.807894 28.841076 4.472677 1.000000
+      }
+      <Vertex> 6 {
+        7.425569 50.279163 4.472677 1.000000
+      }
+    }
+    <NURBSCurve> {
+      <Scalar> subdiv { 72 }
+      <Order> { 4 }
+      <Knots> { 0.00 0.00 0.00 0.00 0.25 0.50 0.75 1.00 1.00 1.00 1.00 }
+      <VertexRef> {
+        0 1 2 3 4 5 6
+        <Ref> { cam_path } 
+      }
+    }
+  }
   <Group> platform_path {
     <Transform> {
       <Matrix4> {
