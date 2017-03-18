@@ -155,7 +155,7 @@ dclass DistributedAvatar : DistributedSmoothNode {
   setMaxHealth(int16 = 15) required broadcast ownrecv db;
   setHealth(int16 = 15) required broadcast ownrecv db;
   setChat(string) broadcast ownsend airecv;
-  announceHealth(int8, int16) broadcast;
+  announceHealth(int8, int16, int8) broadcast;
   setPlace(uint32) required broadcast ram;
   setHood(string) required broadcast ram;
 };
