@@ -78,6 +78,7 @@ from src.coginvasion.cogoffice import DistributedCogOfficeElevator/AI
 from src.coginvasion.cogoffice import DistributedCogOfficeBattle/AI
 from src.coginvasion.cogoffice import DistributedCogOfficeSuit/AI
 from src.coginvasion.cogoffice import DistributedTakeOverSuit/AI
+from src.coginvasion.quests import DistributedInspectionSite/AI
 
 struct AvChoice {
   uint32 avId;
@@ -174,7 +175,7 @@ dclass DistributedToon : DistributedAvatar {
 
   setLastHood(uint32) required ownsend ownrecv db;
   setDefaultShard(uint32) required ownrecv db;
-  setBackpackAmmo(uint8[], uint8[]) required broadcast airecv ownrecv db;
+  setBackpackAmmo(blob) required broadcast airecv ownrecv db;
   setGagAmmo(uint8 gagId, uint8 ammo) broadcast airecv ownrecv;
   setLoadout(uint8 gagIds [] = [2, 0, 1, 3]) required broadcast airecv ownrecv db;
   requestSetLoadout(uint8[]) ownsend airecv;
@@ -820,3 +821,7 @@ dclass DistributedDisneyChar : DistributedAvatar {
   avatarExit() clsend airecv;
   requestStateData() clsend airecv;
 };
+
+dclass DistributedInspectionSite : DistributedNode {
+  setSiteId(uint8) required broadcast ram;
+}
