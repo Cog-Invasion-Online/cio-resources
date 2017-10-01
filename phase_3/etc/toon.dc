@@ -79,6 +79,7 @@ from src.coginvasion.cogoffice import DistributedCogOfficeBattle/AI
 from src.coginvasion.cogoffice import DistributedCogOfficeSuit/AI
 from src.coginvasion.cogoffice import DistributedTakeOverSuit/AI
 from src.coginvasion.quests import DistributedInspectionSite/AI
+from src.coginvasion.uber import UniqueInterestNotifier/AI/UD
 
 struct AvChoice {
   uint32 avId;
@@ -829,3 +830,11 @@ dclass DistributedDisneyChar : DistributedAvatar {
 dclass DistributedInspectionSite : DistributedNode {
   setSiteId(uint8) required broadcast ram;
 }
+
+dclass UniqueInterestNotifier : DistributedObject {
+  addChannelInterest(uint32, uint32) broadcast ram;
+  removeChannelInterest(uint32, uint32) broadcast ram;
+  acknowledgeInterestIn(uint32) clsend;
+  sendMessageToListeners(uint32, uint8, string);
+  message(uint32, uint8, string);
+};
