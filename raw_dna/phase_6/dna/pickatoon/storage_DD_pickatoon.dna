@@ -1,0 +1,58 @@
+
+
+hood_model "phase_6/models/modules/DD_doors_practical" [
+// hood_model "phase_6/models/modules/DD_doors" [
+	store_node [ "door_double" "door_double_wood_ur"  ]
+	store_node [ "door_double" "door_double_wood_ul"  ]
+	]
+
+hood_model "phase_6/models/props/dockpilings" [
+	store_node [ "prop" "prop_2ftdockpiling" ]
+	store_node [ "prop" "prop_3ftdockpiling" ]
+	store_node [ "prop" "prop_4ftdockpiling" ]
+	]
+
+store_font [ "font" "TT_Comedy" "phase_3/models/fonts/Comedy" ]
+
+
+hood_model "phase_6/models/props/signs_DD" [
+	store_node [ "sign" "DD_sign1" ]
+	store_node [ "sign" "DD_sign2" ]
+	store_node [ "sign" "DD_sign3" ]
+	]
+
+store_font [ "font" "DD_Portago"
+             "phase_3/models/fonts/Portago" ]
+
+hood_model "phase_6/models/props/streetlight_DD" [
+	store_node [ "holiday_prop" "streetlight_DD_left" ]
+	store_node [ "holiday_prop" "streetlight_DD_right" ]
+	]
+
+hood_model "phase_5/models/props/crate" [
+	store_node [ "prop" "prop_crate" "crate" ]
+	]
+
+hood_model "phase_6/models/props/DD_flats" [
+	store_node [ "prop" "prop_lifesaver" "g3" ]
+	store_node [ "prop" "prop_nets" "g4"]
+	store_node [ "prop" "prop_ship_wheel" "g5" ]
+	]
+
+hood_model "phase_5/models/props/chimneys" [
+	store_node [ "prop" "prop_chimney" ]
+	store_node [ "prop" "prop_stovepipe" ]
+	store_node [ "prop" "prop_smokestack" ]
+	]
+
+place_model "phase_6/models/modules/safe_zone_tunnel_DD" [
+	store_node [ "prop" "prop_safe_zone_tunnel" ]
+        ]
+
+place_model "phase_6/models/neighborhoods/donalds_dock" [
+ 	store_node [ "prop" "donalds_dock" ]
+	]
+
+place_model "phase_6/models/modules/gagShop_DD" [
+	store_node [ "toon_landmark" "toon_landmark_DD_gag_shop" "" ]
+        ]

@@ -1,0 +1,459 @@
+group "toontownCentral" [
+ visgroup "2000:safe_zone" [
+  vis [   "2000:safe_zone"   ]
+  prop "toontown_central_beta_DNARoot" [
+   code [ "toontown_central_beta" ]
+   pos [ 7.62939e-006 -3.05176e-005 0 ]
+   nhpr [ -0 0 -0 ]
+  ]
+  node "buildings" [
+   pos [ 0 0 1.2 ]
+   nhpr [ 28.7676 0 0 ]
+   scale [ 1 1 1 ]
+   prop "prop_trolley_station_TT_DNARoot" [
+    code [ "prop_trolley_station_TT" ]
+    pos [ 96.1698 -41.7599 6.82 ]
+    nhpr [ 240 0 0 ]
+    sign [
+     color [ 1 0.88 0.56 1 ]
+     baseline [
+      code [ "mickey" ]
+      color [ 0.992157 0.968627 0.00784314 1 ]
+      pos [ 0.5 0 1.33 ]
+      scale [ 1.6 1 1.6 ]
+      kern [ -0.09181 ]
+      width [ 10.9993 ]
+      height [ 10.9993 ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "O" ]
+      ]
+     ]
+     baseline [
+      code [ "mickey" ]
+      color [ 1 0 0 1 ]
+      pos [ 0.29 0 -1 ]
+      scale [ 1.7 1 1.7 ]
+      text [
+       letters [ "M" ]
+      ]
+      text [
+       letters [ "I" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "I" ]
+      ]
+      text [
+       letters [ "G" ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "M" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+     ]
+    ]
+   ]
+   prop "linktunnel_tt_2226_DNARoot" [
+    code [ "prop_safe_zone_tunnel" ]
+    pos [ 45.1 -202.39 -0.17 ]
+    nhpr [ 30.26 0 -0 ]
+    sign [
+     code [ "tunnel_sign_orange" ]
+     scale [ 1.5 1 1.5 ]
+     baseline [
+      code [ "mickey" ]
+      color [ 0 0.501961 0 1 ]
+      pos [ 0 0 -0.84 ]
+      nhpr [ 0 0 2 ]
+      scale [ 1.7 1 1.7 ]
+      width [ 33.3333 ]
+      height [ 33.3333 ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "O" ]
+      ]
+      text [
+       letters [ "O" ]
+      ]
+      text [
+       letters [ "P" ]
+      ]
+      text [
+       letters [ "Y" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+     ]
+     baseline [
+      code [ "mickey" ]
+      color [ 0 0.501961 0 1 ]
+      pos [ 0 0 -2 ]
+      nhpr [ 0 0 2 ]
+      scale [ 0.9 1 0.9 ]
+      width [ 50 ]
+      height [ 50 ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "O" ]
+      ]
+      text [
+       letters [ "O" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "O" ]
+      ]
+      text [
+       letters [ "W" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "C" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "R" ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "L" ]
+      ]
+     ]
+     baseline [
+      pos [ 0 0 1.77 ]
+      scale [ 2.5 1 2.5 ]
+      graphic [
+       code [ "mickeySZ" ]
+      ]
+     ]
+    ]
+   ]
+   prop "linktunnel_tt_2132_DNARoot" [
+    code [ "prop_safe_zone_tunnel" ]
+    pos [ 196.78 -62.82 -0.17 ]
+    nhpr [ 90 0 -0 ]
+    sign [
+     code [ "tunnel_sign_orange" ]
+     scale [ 1.5 1 1.5 ]
+     baseline [
+      code [ "mickey" ]
+      color [ 0 0.501961 0 1 ]
+      pos [ 0 0 -0.76 ]
+      scale [ 1.7 1 1.7 ]
+      width [ 33.3333 ]
+      height [ 33.3333 ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ "I" ]
+      ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "Y" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "R" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "T" ]
+      ]
+     ]
+     baseline [
+      code [ "mickey" ]
+      color [ 0 0.501961 0 1 ]
+      pos [ -0.08 0 -1.98 ]
+      scale [ 0.9 1 0.9 ]
+      width [ 44.0567 ]
+      height [ 44.0567 ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "O" ]
+      ]
+      text [
+       letters [ "O" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "O" ]
+      ]
+      text [
+       letters [ "W" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "C" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "R" ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "L" ]
+      ]
+     ]
+     baseline [
+      pos [ 0 0 1.75 ]
+      scale [ 2.5 1 2.5 ]
+      graphic [
+       code [ "mickeySZ" ]
+      ]
+     ]
+    ]
+   ]
+   flat_building "sz0:random_DNARoot" [
+    pos [ 97.1997 36.3899 6.9 ]
+    nhpr [ 285.95 0 0 ]
+    width [ 20 ]
+    wall [
+     height [ 10 ]
+     code [ "wall_md_dental_ur" ]
+     color [ 0.99 0.89 0.49 1 ]
+     windows [
+      code [ "window_md_curved_ur" ]
+      color [ 0.93 0.83 0.33 1 ]
+      count [ 1 ]
+     ]
+    ]
+    wall [
+     height [ 10 ]
+     code [ "wall_lg_brick_ur" ]
+     color [ 1 0.4 0.25 1 ]
+     windows [
+      code [ "window_porthole_ul" ]
+      color [ 0.31 0.63 0.37 1 ]
+      count [ 2 ]
+     ]
+    ]
+   ]
+   flat_building "sz0:random_3_DNARoot" [
+    pos [ 102.24 -22.72 6.82 ]
+    nhpr [ -107.5 0 -0 ]
+    width [ 20 ]
+    wall [
+     height [ 10 ]
+     code [ "wall_md_pillars_ur" ]
+     color [ 0.97 0.651 0.33 1 ]
+     windows [
+      code [ "window_porthole_ur" ]
+      color [ 0.31 0.63 0.37 1 ]
+      count [ 1 ]
+     ]
+    ]
+    wall [
+     height [ 10 ]
+     code [ "wall_md_dental_ur" ]
+     color [ 0.91 0.63 0.44 1 ]
+     windows [
+      code [ "window_sm_curved_ur" ]
+      color [ 1 0.87 0.38 1 ]
+      count [ 1 ]
+     ]
+    ]
+   ]
+   flat_building "sz0:random_4_DNARoot" [
+    pos [ 81.28 -67.79 6.82 ]
+    nhpr [ 225 0 -0 ]
+    width [ 20 ]
+    wall [
+     height [ 10 ]
+     code [ "wall_md_dental_ur" ]
+     color [ 0.99 0.89 0.49 1 ]
+     windows [
+      code [ "window_sm_shuttered_ul" ]
+      color [ 1 0.92 0.59 1 ]
+      count [ 2 ]
+     ]
+    ]
+    wall [
+     height [ 10 ]
+     code [ "wall_md_dental_ur" ]
+     color [ 0.99 0.89 0.49 1 ]
+     windows [
+      code [ "window_md_curved_ul" ]
+      color [ 0.93 0.83 0.33 1 ]
+      count [ 2 ]
+     ]
+    ]
+   ]
+   flat_building "sz0:random_16_DNARoot" [
+    pos [ 120.55 -63.01 8.5 ]
+    nhpr [ 240 0 0 ]
+    width [ 20 ]
+    wall [
+     height [ 10 ]
+     code [ "wall_md_pillars_ur" ]
+     color [ 1 1 0.59 1 ]
+    ]
+    wall [
+     height [ 10 ]
+     code [ "wall_md_pillars_ur" ]
+     color [ 1 1 0.59 1 ]
+     windows [
+      code [ "window_sm_pointed_ul" ]
+      color [ 0.31 0.63 0.37 1 ]
+      count [ 2 ]
+     ]
+    ]
+   ]
+   flat_building "sz0:random_17_DNARoot" [
+    pos [ 130.38 -45.83 8.5 ]
+    nhpr [ 240 0 0 ]
+    width [ 20 ]
+    wall [
+     height [ 10 ]
+     code [ "wall_md_pillars_ur" ]
+     color [ 0.97 0.651 0.33 1 ]
+    ]
+    wall [
+     height [ 10 ]
+     code [ "wall_md_pillars_ur" ]
+     color [ 0.97 0.651 0.33 1 ]
+     windows [
+      code [ "window_porthole_ul" ]
+      color [ 0.31 0.63 0.37 1 ]
+      count [ 2 ]
+     ]
+    ]
+   ]
+   flat_building "sz0:random_18_DNARoot" [
+    pos [ 110.73 -80.02 8.5 ]
+    nhpr [ 240 0 0 ]
+    width [ 20 ]
+    wall [
+     height [ 20 ]
+     code [ "wall_md_pillars_ur" ]
+     color [ 0.97 0.651 0.2 1 ]
+     cornice [
+      code [ "cornice_brick_ur" ]
+      color [ 0.31 0.63 0.37 1 ]
+     ]
+    ]
+   ]
+   prop "prop_green_tree_small_DNARoot" [
+    code [ "old_tree_small_brickbox" ]
+    pos [ 88.9929 -30.9785 6.86 ]
+    nhpr [ -15 0 0 ]
+   ]
+   prop "prop_green_tree_small_2_DNARoot" [
+    code [ "old_tree_small_brickbox" ]
+    pos [ 62.9853 -68.2131 6.86 ]
+    nhpr [ -46.89 3.33505e-009 -0.100011 ]
+   ]
+   prop "neighborhood_sign_DG_DNARoot" [
+    code [ "neighborhood_sign_DG" ]
+    pos [ 99.74 11.784 6.85 ]
+    nhpr [ 270 0 0 ]
+    scale [ 1.5 1.5 1.5 ]
+   ]
+   prop "neighborhood_sign_DG_DNARoot" [
+    code [ "neighborhood_sign_DG" ]
+    pos [ 99.5845 -18.5632 6.85 ]
+    nhpr [ 90 0 0 ]
+    scale [ 1.5 1.5 1.5 ]
+   ]
+   prop "neighborhood_sign_MM_DNARoot" [
+    code [ "neighborhood_sign_MM" ]
+    pos [ 61.4313 -80.9406 6.85 ]
+    nhpr [ -150 0 0 ]
+    scale [ 1.5 1.5 1.5 ]
+   ]
+  ]
+ ]
+]

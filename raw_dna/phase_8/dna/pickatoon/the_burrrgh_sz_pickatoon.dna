@@ -1,0 +1,12 @@
+group "theBurrrgh" [
+ visgroup "3000:safe_zone" [
+  vis [   "3000:safe_zone"   ]
+  group "props" [
+   prop "the_burrrgh" [
+    code [ "the_burrrgh" ]
+    pos [ -50 -20 0 ]
+    nhpr [ 90 0 -0 ]
+   ]
+  ]
+ ]
+]

@@ -1,0 +1,76 @@
+hood_model "phase_6/models/props/streetlight_MM" [
+	store_node [ "holiday_prop" "prop_MM_flute_lamp" "MM_flute_lamp" ]
+	store_node [ "holiday_prop" "prop_MM_trumpets_lamp" "MM_trumpets_lamp" ]
+	]
+
+hood_model "phase_6/models/modules/MM_windows" [
+	store_node [ "window" "window_MM_sm_curved_ur" "window_sm_curved_ur" ]
+	store_node [ "window" "window_MM_sm_curved_ul" "window_sm_curved_ul" ]
+
+	store_node [ "window" "window_MM_sm_round_ur" "window_sm_round_ur" ]
+	store_node [ "window" "window_MM_sm_round_ul" "window_sm_round_ul" ]
+	]
+
+
+store_font [ "font" "MM_Musicals"
+             "phase_3/models/fonts/Musicals" ]
+
+hood_model "phase_5/models/props/awnings_round" [
+	store_node [ "prop" "prop_awning_large_pinkblue" ]
+	store_node [ "prop" "prop_awning_large_purple"   ]
+	store_node [ "prop" "prop_awning_small_pinkblue" ]
+	store_node [ "prop" "prop_awning_small_purple"   ]
+	]
+
+hood_model "phase_5/models/props/awnings_square" [
+	store_node [ "prop" "prop_keyboard_small" ]
+	store_node [ "prop" "prop_keyboard_large" ]
+	]
+
+hood_model "phase_6/models/props/minnie_planter" [
+	store_node [ "prop" "prop_minnie_planter" "" ]
+	]
+
+hood_model "phase_6/models/props/MM_flats" [
+	store_node [ "prop" "prop_drums_flat" "drums" ]
+	store_node [ "prop" "prop_cello_flat" "cello" ]
+	store_node [ "prop" "prop_trumpet_flat" "trumpet" ]
+	]
+
+
+hood_model "phase_6/models/props/trees_MM" [
+	store_node [ "holiday_prop" "prop_tree_small_ur_MM" "prop_tree_small_ur" ]
+	store_node [ "holiday_prop" "prop_tree_small_ul_MM" "prop_tree_small_ul" ]
+	]
+
+
+hood_model "phase_5/models/props/chimneys" [
+	store_node [ "prop" "prop_chimney" ]
+	store_node [ "prop" "prop_stovepipe" ]
+	store_node [ "prop" "prop_smokestack" ]
+	]
+
+hood_model "phase_5/models/props/roof_access" [
+	store_node [ "prop" "prop_roof_access" "" ]
+	]
+    
+place_model "phase_6/models/neighborhoods/minnies_melody_land_ext" [
+ 	store_node [ "prop" "minnies_melody_land_ext" "" ]
+	]
+	
+place_model "phase_6/models/neighborhoods/minnies_melody_land" [
+ 	store_node [ "prop" "minnies_melody_land" ]
+	]
+
+place_model "phase_6/models/modules/safe_zone_tunnel_MM" [
+	store_node [ "prop" "prop_safe_zone_tunnel" ]
+        ]
+
+place_model "phase_6/models/modules/trolley_station_MM" [
+	store_node [ "prop" "prop_trolley_station_MM" "" ]
+	]
+
+place_model "phase_6/models/modules/gagShop_MM" [
+	store_node [ "toon_landmark" "toon_landmark_MM_gag_shop" "" ]
+        ]
+

@@ -1,0 +1,3 @@
+place_model "phase_8/models/neighborhoods/the_burrrgh" [
+ 	store_node [ "prop" "the_burrrgh" ]
+	]

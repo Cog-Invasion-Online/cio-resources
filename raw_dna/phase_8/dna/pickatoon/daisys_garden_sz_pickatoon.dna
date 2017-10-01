@@ -1,0 +1,278 @@
+group "daisysGarden" [
+ visgroup "5000:safe_zone" [
+  vis [   "5000:safe_zone"   ]
+  group "props" [
+   prop "daisys_garden_DNARoot" [
+    code [ "daisys_garden" ]
+    pos [ -0.16 0.130005 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "prop_daisy_park_table_DNARoot" [
+    code [ "prop_daisy_park_table" ]
+    pos [ 19.57 14.03 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "prop_tree_large_ur_DNARoot" [
+    code [ "prop_tree_large_ur" ]
+    pos [ 26.67 40.1 0.06 ]
+    nhpr [ 165 0 0 ]
+   ]
+   prop "prop_tree_small_ur_DNARoot" [
+    code [ "prop_tree_small_ur" ]
+    pos [ -16.6 32.51 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "prop_daisy_park_table_DNARoot" [
+    code [ "prop_daisy_park_table" ]
+    pos [ -19.8 14.98 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "prop_tree_DG_ul_DNARoot" [
+    code [ "prop_tree_DG_ul" ]
+    pos [ -31.98 71.25 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "prop_tree_DG_ul_DNARoot" [
+    code [ "prop_tree_DG_ul" ]
+    pos [ 33.6 73.82 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "prop_daisys_fountain_DNARoot" [
+    code [ "prop_daisys_fountain" ]
+    pos [ -0.39 50.94 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "prop_daisys_flowerbox_yellow_DNARoot" [
+    code [ "prop_daisys_flowerbox_yellow" ]
+    pos [ 55.1738 12.9627 0 ]
+    nhpr [ -167 0 0 ]
+   ]
+   prop "prop_daisys_flowerbox_pink_DNARoot" [
+    code [ "prop_daisys_flowerbox_pink" ]
+    pos [ 75.19 23.04 0 ]
+    nhpr [ 45 0 0 ]
+   ]
+   prop "prop_daisys_flowerbox_yellow_DNARoot" [
+    code [ "prop_daisys_flowerbox_yellow" ]
+    pos [ 51.34 11.94 0 ]
+    nhpr [ 16 0 0 ]
+   ]
+   prop "prop_daisys_flowerbox_pink_DNARoot" [
+    code [ "prop_daisys_flowerbox_pink" ]
+    pos [ 72.51 20.35 0 ]
+    nhpr [ 45 0 0 ]
+   ]
+   prop "prop_daisys_flowerbox_pink_DNARoot" [
+    code [ "prop_daisys_flowerbox_pink" ]
+    pos [ -31.37 9.33 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "prop_daisys_flowerbox_pink_DNARoot" [
+    code [ "prop_daisys_flowerbox_pink" ]
+    pos [ -35.18 9.32 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "prop_daisys_flowerbox_pink_DNARoot" [
+    code [ "prop_daisys_flowerbox_yellow" ]
+    pos [ 34.4 9.41 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "prop_daisys_flowerbox_pink_DNARoot" [
+    code [ "prop_daisys_flowerbox_yellow" ]
+    pos [ 30.44 9.42 0 ]
+    nhpr [ -175 0 0 ]
+   ]
+  ]
+  node "buildings" [
+   prop "linktunnel_dg_5301_DNARoot" [
+    code [ "prop_safe_zone_tunnel" ]
+    pos [ -60.12 -94.82 -6.63 ]
+    nhpr [ 0 0 0 ]
+    sign [
+     code [ "tunnel_sign_green" ]
+     pos [ 0 0 0.53 ]
+     scale [ 1.39066 1 1.61989 ]
+     baseline [
+      code [ "mickey" ]
+      color [ 1 1 0 1 ]
+      pos [ -0.17 0 -0.62297 ]
+      scale [ 1.87057 1 1.51598 ]
+      width [ 34.4253 ]
+      height [ 34.4253 ]
+      flags [ "d" ]
+      text [
+       letters [ "O" ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "K" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "R" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "T" ]
+      ]
+     ]
+     baseline [
+      code [ "mickey" ]
+      color [ 1 1 0 1 ]
+      pos [ 0 0 -1.73655 ]
+      scale [ 0.95104 1 0.902303 ]
+      width [ 35.468 ]
+      height [ 35.468 ]
+      flags [ "d" ]
+      text [
+       letters [ "D" ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "I" ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ "Y" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "G" ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "R" ]
+      ]
+      text [
+       letters [ "D" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+     ]
+     baseline [
+      pos [ 0 0 1.706 ]
+      scale [ 2.34951 1 1.88988 ]
+      graphic [
+       code [ "daisySZ" ]
+      ]
+     ]
+    ]
+   ]
+  ]
+  node "fishing_pond_1" [
+   prop "npc_fisherman_origin_0" [
+    code [ "DCS" ]
+    pos [ 67.1 10.9 0 ]
+    nhpr [ 21 0 0 ]
+   ]
+   prop "fishing_spot_DNARoot" [
+    code [ "fishing_spot" ]
+    pos [ 40.6141 39.7708 0.322857 ]
+    nhpr [ -60 0 0 ]
+   ]
+  ]
+  landmark_building "tb2:toon_landmark_hqDG_DNARoot" [
+   code [ "toon_landmark_hqDG" ]
+   building_type [ "hq" ]
+   title [ "Toon HQ" ]
+   pos [ -45.9641 39.1958 0 ]
+   nhpr [ -45 0 0 ]
+  ]
+  landmark_building "tb5:toon_landmark_DG_pet_shop_DNARoot" [
+   code [ "toon_landmark_DG_pet_shop" ]
+   building_type [ "petshop" ]
+   title [ "" ]
+   pos [ 43.9925 6.83166 0.18034 ]
+   nhpr [ -171 0 0 ]
+   door [
+    code [ "door_double_curved_ur" ]
+    color [ 0.73 0.55 0.86 1 ]
+   ]
+   prop "animated_prop_PetShopFishAnimatedProp_DNARoot" [
+    code [ "animated_prop_PetShopFishAnimatedProp" ]
+    pos [ 0 0 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   sign [
+    color [ 0.501961 1 0.501961 1 ]
+    baseline [
+     code [ "mickey" ]
+     color [ 0.501961 1 0.501961 1 ]
+     pos [ 0 0 0.154303 ]
+     scale [ 1.53398 1 2.71448 ]
+     width [ 16.2951 ]
+     height [ 16.2951 ]
+     text [
+      letters [ "P" ]
+     ]
+     text [
+      letters [ "e" ]
+     ]
+     text [
+      letters [ "t" ]
+     ]
+     text [
+      letters [ " " ]
+     ]
+     text [
+      letters [ "S" ]
+     ]
+     text [
+      letters [ "h" ]
+     ]
+     text [
+      letters [ "o" ]
+     ]
+     text [
+      letters [ "p" ]
+     ]
+    ]
+   ]
+  ]
+  prop "neighborhood_sign_sellBotHQ_DNARoot" [
+   code [ "neighborhood_sign_sellBotHQ" ]
+   pos [ -12.0904 1.48476 0 ]
+   nhpr [ 0 0 0 ]
+  ]
+  prop "neighborhood_sign_sellBotHQ_DNARoot" [
+   code [ "neighborhood_sign_sellBotHQ" ]
+   pos [ 11.7463 1.19921 0 ]
+   nhpr [ 180 0 0 ]
+  ]
+  prop "daisys_garden_ext_DNARoot" [
+   code [ "daisys_garden_ext" ]
+   pos [ -49.7454 233.211 9.99 ]
+   nhpr [ -150 0 -0 ]
+  ]
+ ]
+]

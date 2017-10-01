@@ -8,7 +8,7 @@ place_model "phase_6/models/modules/safe_zone_tunnel_DD" [
         ]
 
 place_model "phase_6/models/modules/trolley_station_DD" [
-	store_node [ "prop" "prop_trolley_station_DD" "prop_trolley_station" ]
+	store_node [ "prop" "prop_trolley_station_DD" "" ]
 	]
 
 place_model "phase_6/models/neighborhoods/donalds_dock" [
