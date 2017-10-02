@@ -86,6 +86,7 @@ struct AvChoice {
   string dnaStrand;
   string name;
   int8 slot;
+  uint32 lastHood;
 };
 
 struct Point3 {
