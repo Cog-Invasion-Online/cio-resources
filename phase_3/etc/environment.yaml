@@ -1,0 +1,25 @@
+want-reflections: true
+shaders:
+  default-sky-type: 1
+  default-outdoor-ambient-color: [172, 196, 202]
+  default-indoor-ambient-color: [252, 239, 209]
+  default-sun-color: [252, 239, 209]
+  default-sun-position: [-150, 50, 500]
+  default-fog-color: [204, 204, 255]
+  default-fog-density: 0.001
+  default-interior-light-color: [179, 179, 179]
+  dd:
+   sky-type: 2
+   fog-density: 0.0035
+  br:
+   sky-type: 2
+  mm:
+   sky-type: 3
+   outdoor-ambient-color: [110, 180, 204]
+   sun-color: [255, 109, 86]
+   sun-position: [-750, 100, 500]
+   fog-color: [255, 109, 86]
+  dl:
+   sky-type: 4
+   outdoor-ambient-color: [82, 132, 190]
+   sun-color: [224, 213, 208]
