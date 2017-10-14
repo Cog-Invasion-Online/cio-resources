@@ -10,7 +10,6 @@ shaders:
   default-interior-light-color: [179, 179, 179]
   dd:
    sky-type: 2
-   fog-density: 0.0035
   br:
    sky-type: 2
   mm:

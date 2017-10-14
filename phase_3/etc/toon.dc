@@ -40,14 +40,11 @@ from src.coginvasion.holiday import HolidayManager/AI/UD
 from src.coginvasion.holiday import DistributedWinterCoachActivity/AI
 from src.coginvasion.uber import NameServicesManager/UD
 from src.coginvasion.cog import DistributedSuit/AI
-from src.coginvasion.suit import DistributedSuitManager/AI
-from src.coginvasion.suit import DistributedDroppableCollectableObject/AI
-from src.coginvasion.suit import DistributedDroppableCollectableJellybeans/AI
-from src.coginvasion.suit import DistributedDroppableCollectableJellybeanJar/AI
-from src.coginvasion.suit import DistributedDroppableCollectableJellybean/AI
-from src.coginvasion.suit import DistributedDroppableCollectableBackpack/AI
-from src.coginvasion.suit import DistributedCogBattle/AI
-from src.coginvasion.suit import DistributedCogStation/AI
+from src.coginvasion.cog import DistributedDroppableCollectableObject/AI
+from src.coginvasion.cog import DistributedDroppableCollectableJellybeans/AI
+from src.coginvasion.cog import DistributedDroppableCollectableJellybeanJar/AI
+from src.coginvasion.cog import DistributedDroppableCollectableJellybean/AI
+from src.coginvasion.cog import DistributedDroppableCollectableBackpack/AI
 from src.coginvasion.hood.playground import DistributedTreasure/AI
 from src.coginvasion.hood.playground import DistributedTTCTreasure/AI
 from src.coginvasion.hood.playground import DistributedTBTreasure/AI
@@ -376,19 +373,6 @@ dclass DistributedMinigameStation : DistributedGroupStation {
   headOff(uint32 zone, int8 laffMeter);
 };
 
-dclass DistributedCogStation : DistributedGroupStation {
-  headOff(uint32, int8);
-};
-
-dclass DistributedCogBattle : DistributedObject {
-  setHoodIndex(int8) required broadcast ram;
-  setTotalCogs(uint8) required broadcast ram;
-  setCogsRemaining(uint8) required broadcast ram;
-  arrived() clsend airecv;
-  victory() broadcast;
-  iLeft() clsend airecv;
-};
-
 dclass DistributedBattleTrolley : DistributedObject {
   setToZone(uint32) required broadcast ram;
   setIndex(int8) required broadcast ram;
@@ -642,24 +626,6 @@ dclass DistributedWinterCoachActivity : DistributedNode {
   exitAccepted();
   greetAvatar(string avatarName) broadcast;
 }
-
-dclass DistributedSuitManager : DistributedObject {
-  requestSuitInfo() clsend airecv;
-  newSuit() broadcast;
-  noSuits() broadcast;
-  systemMessage(string) broadcast;
-  bossSpawned() broadcast;
-  invasionSpawned() broadcast;
-  invasionInProgress() broadcast;
-  tournamentInProgress() broadcast;
-  tournamentSpawned() broadcast;
-  suitAdminCommand(int8, string) clsend airecv;
-  spawner(int8) required ram broadcast;
-
-  tournamentRoundEnded() broadcast;
-  newTournamentRound() broadcast;
-  normalRoundsEnded() broadcast;
-};
 
 dclass DistributedDroppableCollectableObject : DistributedNode {
   collectedObject() clsend airecv;
