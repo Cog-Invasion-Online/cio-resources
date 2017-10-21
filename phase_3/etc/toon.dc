@@ -177,6 +177,7 @@ dclass DistributedToon : DistributedAvatar {
   setBackpackAmmo(blob) required broadcast airecv ownrecv db;
   setGagAmmo(uint8 gagId, uint8 ammo) broadcast airecv ownrecv;
   setLoadout(uint8 gagIds [] = [2, 0, 1, 3]) required broadcast airecv ownrecv db;
+  setTrackExperience(blob) required broadcast airecv ownrecv db;
   requestSetLoadout(uint8[]) ownsend airecv;
   setQuests(uint8[], uint8[], uint8[]) required broadcast ownrecv db;
   setQuestHistory(uint8[]) required broadcast ownrecv db;
@@ -345,7 +346,15 @@ dclass DistributedSuit : DistributedAvatar {
   setChaseTarget(uint32) broadcast;
 };
 
-dclass DistributedTutorial : DistributedObject {
+dclass DistributedBattleZone : DistributedObject {
+  setAvatars(uint32[]) required broadcast ram;
+  setToonData(blob[]) broadcast;
+  startRewardSeq(int16 timestamp) broadcast;
+  acknowledgeAvatarReady() clsend airecv;
+  rewardSequenceComplete(int16 timestamp) broadcast;
+};
+
+dclass DistributedTutorial : DistributedBattleZone {
   makeSuit(int8) clsend airecv;
   suitNoHealth(int8);
   suitExploded(int8);
@@ -739,10 +748,6 @@ dclass DistributedElevator : DistributedObject {
 dclass DistributedCogOfficeElevator : DistributedElevator {
   setIndex(int8) required broadcast ram;
   putToonsInElevator() broadcast;
-};
-
-dclass DistributedBattleZone : DistributedObject {
-  setAvatars(uint32[]) required broadcast ram;
 };
 
 dclass DistributedCogOfficeBattle : DistributedBattleZone {
