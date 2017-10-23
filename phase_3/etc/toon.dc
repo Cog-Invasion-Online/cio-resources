@@ -56,6 +56,7 @@ from src.coginvasion.hood.playground import DistributedTailorInterior/AI
 from src.coginvasion.hood.playground import DistributedGagShopInterior/AI
 from src.coginvasion.hood.playground import DistributedBoat/AI
 from src.coginvasion.hood.street import DistributedCinemaInterior/AI
+from src.coginvasion.hood.street import DistributedKnockKnockDoor/AI
 from src.coginvasion.hood import DistributedToonInterior/AI
 from src.coginvasion.hood import DistributedToonHQInterior/AI
 from src.coginvasion.hood import DistributedDoor/AI
@@ -273,6 +274,16 @@ dclass DistributedCinemaInterior : DistributedToonInterior {
   setCinemaIndex(int8) required broadcast ram;
   setState(string, int16) broadcast ram;
   requestStateAndTimestamp() clsend airecv;
+};
+
+dclass DistributedKnockKnockDoor : DistributedObject {
+  setData(uint32 zoneId, uint8 blockNumber) required broadcast ram;
+  requestJoke() clsend airecv;
+  avatarDitched() clsend airecv;
+  iHeardPunchline() clsend airecv;
+  avatarEntertained(uint32 avId) broadcast;
+  playJoke(uint32 avId, int16 timestamp) broadcast ram;
+  stopJoke() broadcast ram;
 };
 
 dclass DistributedToonHQInterior : DistributedToonInterior {
