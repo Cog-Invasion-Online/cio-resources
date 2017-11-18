@@ -180,7 +180,7 @@ dclass DistributedToon : DistributedAvatar {
   setLoadout(uint8 gagIds [] = [2, 0, 1, 3]) required broadcast airecv ownrecv db;
   setTrackExperience(blob) required broadcast airecv ownrecv db;
   requestSetLoadout(uint8[]) ownsend airecv;
-  setQuests(uint8[], uint8[], uint8[]) required broadcast ownrecv db;
+  setQuests(string) required broadcast ownrecv db;
   setQuestHistory(uint8[]) required broadcast ownrecv db;
   setTier(int8) required broadcast ownrecv db;
   setFriendsList(uint32[] = []) required ownrecv db airecv;
@@ -284,6 +284,11 @@ dclass DistributedKnockKnockDoor : DistributedObject {
   avatarEntertained(uint32 avId) broadcast;
   playJoke(uint32 avId, int16 timestamp) broadcast ram;
   stopJoke() broadcast ram;
+};
+
+dclass DistributedInspectionSite : DistributedNode {
+  setSiteId(uint16 siteId) required broadcast ram;
+  setZoneId(uint32 zoneId) required broadcast ram;
 };
 
 dclass DistributedToonHQInterior : DistributedToonInterior {
@@ -809,10 +814,6 @@ dclass DistributedDisneyChar : DistributedAvatar {
   avatarExit() clsend airecv;
   requestStateData() clsend airecv;
 };
-
-dclass DistributedInspectionSite : DistributedNode {
-  setSiteId(uint8) required broadcast ram;
-}
 
 dclass UniqueInterestNotifier : DistributedObject {
   addChannelInterest(uint32, uint32) broadcast ram;
