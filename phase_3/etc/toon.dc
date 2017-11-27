@@ -77,6 +77,7 @@ from src.coginvasion.cogoffice import DistributedCogOfficeBattle/AI
 from src.coginvasion.cogoffice import DistributedCogOfficeSuit/AI
 from src.coginvasion.cogoffice import DistributedTakeOverSuit/AI
 from src.coginvasion.quests import DistributedInspectionSite/AI
+from src.coginvasion.quests import DistributedDigSite/AI
 from src.coginvasion.uber import UniqueInterestNotifier/AI/UD
 
 struct AvChoice {
@@ -290,6 +291,8 @@ dclass DistributedInspectionSite : DistributedNode {
   setSiteId(uint16 siteId) required broadcast ram;
   setZoneId(uint32 zoneId) required broadcast ram;
 };
+
+dclass DistributedDigSite : DistributedInspectionSite {};
 
 dclass DistributedToonHQInterior : DistributedToonInterior {
 
