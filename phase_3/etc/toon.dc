@@ -55,6 +55,7 @@ from src.coginvasion.hood.playground import DistributedDGTreasure/AI
 from src.coginvasion.hood.playground import DistributedTailorInterior/AI
 from src.coginvasion.hood.playground import DistributedGagShopInterior/AI
 from src.coginvasion.hood.playground import DistributedBoat/AI
+from src.coginvasion.hood.playground import DistributedButterfly/AI
 from src.coginvasion.hood.street import DistributedCinemaInterior/AI
 from src.coginvasion.hood.street import DistributedKnockKnockDoor/AI
 from src.coginvasion.hood import DistributedToonInterior/AI
@@ -824,4 +825,10 @@ dclass UniqueInterestNotifier : DistributedObject {
   acknowledgeInterestIn(uint32) clsend;
   sendMessageToListeners(uint32, uint8, string);
   message(uint32, uint8, string);
+};
+
+dclass DistributedButterfly : DistributedNode {
+  setWingType(int8) required broadcast ram;
+  setHood(uint32) required broadcast ram;
+  setState(int8, int8, int8, int16) required broadcast ram;
 };
