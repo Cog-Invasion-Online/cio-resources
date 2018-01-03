@@ -227,6 +227,8 @@ dclass DistributedToon : DistributedAvatar {
   reqSetAdminToken(int8 token) clsend airecv;
   reqSetTSAUni(int8 flag) clsend airecv;
   reqSetWorldAccess(int8 andTP) clsend airecv;
+  reqUnlockAllGags() clsend ownsend airecv;
+  reqAllGagSlots() clsend ownsend airecv;
 };
 
 dclass DistributedTreasure : DistributedObject {
@@ -364,6 +366,8 @@ dclass DistributedSuit : DistributedAvatar {
 
   // Tell the clients who we are targeting.
   setChaseTarget(uint32) broadcast;
+
+  doStunEffect() broadcast;
 };
 
 dclass DistributedBattleZone : DistributedObject {
