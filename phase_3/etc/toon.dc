@@ -703,7 +703,7 @@ dclass FriendsManager : DistributedObject {
   acceptedFriendRequest();
   rejectedFriendRequest();
 
-  avatarInfo(string name, string dna, uint8 maxHP, uint8 hp,
+  avatarInfo(string name, string dna, int16 maxHP, int16 hp,
              uint32 zoneId, uint32 shardId, int8 isOnline,
 			 int8 adminToken);
 
