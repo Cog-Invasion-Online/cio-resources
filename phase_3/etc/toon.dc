@@ -55,6 +55,7 @@ from src.coginvasion.hood.playground import DistributedDGTreasure/AI
 from src.coginvasion.hood.playground import DistributedTailorInterior/AI
 from src.coginvasion.hood.playground import DistributedGagShopInterior/AI
 from src.coginvasion.hood.playground import DistributedBoat/AI
+from src.coginvasion.hood.playground import DistributedBRPond/AI
 from src.coginvasion.hood.playground import DistributedButterfly/AI
 from src.coginvasion.hood.street import DistributedCinemaInterior/AI
 from src.coginvasion.hood.street import DistributedKnockKnockDoor/AI
@@ -254,6 +255,12 @@ dclass DistributedBoat : DistributedObject {
   setState(string, int16) required broadcast ram;
   requestCurrentStateAndTimestamp() clsend airecv;
   currentStateAndTimestamp(string, int16);
+};
+
+dclass DistributedBRPond : DistributedObject {
+  requestAvatarStates() clsend airecv;
+  requestState(uint8 stateId) clsend airecv;
+  processStateRequest(uint32 avId, uint8 stateId, uint8 lastStateId, int16 timestamp) broadcast ram;
 };
 
 dclass DistributedDoor : DistributedObject {
