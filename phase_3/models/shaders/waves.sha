@@ -1,0 +1,38 @@
+//Cg
+//
+//Cg profile arbvp1 arbfp1
+
+/**
+ * COG INVASION ONLINE
+ * Copyright (c) CIO Team. All rights reserved.
+ *
+ * @file waves.sha
+ * @author Brian Lach
+ * @date March 02, 2018
+ */
+
+void vshader(float4 vtx_position : POSITION,
+             float2 vtx_texcoord0 : TEXCOORD0,
+             out float4 l_position : POSITION,
+             out float2 l_texcoord0 : TEXCOORD0,
+             uniform float4 texpad_src,
+             uniform float4x4 mat_modelproj)
+{
+  l_position = mul(mat_modelproj, vtx_position);
+  l_texcoord0 = vtx_position.xz * texpad_src.xy + texpad_src.xy;
+}
+
+void fshader(float2 l_texcoord0 : TEXCOORD0,
+             out float4 o_color : COLOR,
+             uniform float k_time,
+             uniform sampler2D k_src : TEXUNIT0)
+{
+  float x = l_texcoord0.x * 25.0 + k_time;
+  float y = l_texcoord0.y * 25.0 + k_time;
+  
+  float2 new_texcoord = float2(l_texcoord0);
+  new_texcoord.y += cos(x + y) * 0.007 * cos(y);
+  new_texcoord.x += sin(x - y) * 0.007 * sin(y);
+  
+  o_color = tex2D(k_src, new_texcoord);
+}

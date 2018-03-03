@@ -1,0 +1,46 @@
+//Cg
+//
+//Cg profile arbvp1 arbfp1
+
+/**
+ * COG INVASION ONLINE
+ * Copyright (c) CIO Team. All rights reserved.
+ *
+ * @file dof.sha
+ * @author Brian Lach
+ * @date March 02, 2018
+ */
+
+void vshader(float4 vtx_position : POSITION, 
+             float2 vtx_texcoord0 : TEXCOORD0,
+             out float4 l_position : POSITION,
+      	     out float2 l_texcoord0 : TEXCOORD0,
+			 uniform float4 texpad_src,
+             uniform float4x4 mat_modelproj)
+{
+  l_position = mul(mat_modelproj, vtx_position);
+  l_texcoord0 = vtx_position.xz * texpad_src.xy + texpad_src.xy;
+}
+
+void fshader(float2 l_texcoord0 : TEXCOORD0,
+             out float4 o_color : COLOR,
+			 uniform float4 k_param1,
+             uniform sampler2D k_src : TEXUNIT0,
+			 uniform sampler2D k_dtex : TEXUNIT1,
+             uniform sampler2D k_blurtex : TEXUNIT2)
+{
+  float distance = k_param1.x;
+  float range = k_param1.y;
+  float near = k_param1.z;
+  float far = k_param1.w;
+
+  float4 normal_scene = tex2D(k_src, l_texcoord0);
+  float4 blur_scene = tex2D(k_blurtex, l_texcoord0);
+  
+  float depth = tex2D(k_dtex, l_texcoord0).r;
+  
+  float scene_z = (-near * far) / (depth - far);
+  float blur_factor = 1 - saturate(abs(scene_z - distance) / range);
+  
+  o_color = lerp(blur_scene, normal_scene, blur_factor);
+}
