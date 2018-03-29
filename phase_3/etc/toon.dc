@@ -68,6 +68,7 @@ from src.coginvasion.battle import DistributedPieTurret/AI
 from src.coginvasion.battle import DistributedBattleTrolley/AI
 from src.coginvasion.battle import DistributedRestockBarrel/AI
 from src.coginvasion.battle import DistributedGagBarrel/AI
+from src.coginvasion.battle import DistributedHPBarrel/AI
 from src.coginvasion.friends import FriendsManager/UD
 from src.coginvasion.cogtropolis import DistributedCityCart/AI
 from src.coginvasion.tutorial import DistributedTutorial/AI
@@ -383,6 +384,7 @@ dclass DistributedBattleZone : DistributedObject {
   startRewardSeq(int16 timestamp) broadcast;
   acknowledgeAvatarReady() clsend airecv;
   rewardSequenceComplete(int16 timestamp) broadcast;
+  clearAvatarDebris(uint32 avId) broadcast;
 };
 
 dclass DistributedTutorial : DistributedBattleZone {
@@ -430,11 +432,13 @@ dclass DistributedBattleTrolley : DistributedObject {
 dclass DistributedRestockBarrel : DistributedNode {
   requestGrab() airecv clsend;
   setGrab(uint32) broadcast ram;
-  setLabel(uint8) broadcast ram;
+  setLabel(uint16) broadcast ram;
   setReject() broadcast;
 };
 
 dclass DistributedGagBarrel : DistributedRestockBarrel {};
+
+dclass DistributedHPBarrel : DistributedRestockBarrel {};
 
 dclass DistributedMinigame : DistributedObject {
   ready() clsend airecv;
