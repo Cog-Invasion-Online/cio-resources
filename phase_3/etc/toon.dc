@@ -179,10 +179,10 @@ dclass DistributedToon : DistributedAvatar {
 
   setLastHood(uint32) required ownsend ownrecv db;
   setDefaultShard(uint32) required ownrecv db;
+  setTrackExperience(blob) required broadcast airecv ownrecv db;
   setBackpackAmmo(blob) required broadcast airecv ownrecv db;
   setGagAmmo(uint8 gagId, uint8 ammo) broadcast airecv ownrecv;
   setLoadout(uint8 gagIds [] = [2, 0, 1, 3]) required broadcast airecv ownrecv db;
-  setTrackExperience(blob) required broadcast airecv ownrecv db;
   requestSetLoadout(uint8[]) ownsend airecv;
   setQuests(string) required broadcast ownrecv db;
   setQuestHistory(uint8[]) required broadcast ownrecv db;
