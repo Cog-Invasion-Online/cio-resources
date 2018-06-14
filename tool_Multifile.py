@@ -12,7 +12,7 @@ parser.add_argument("--filename", default = "phase_3.mf", help = "The file to be
 parser.add_argument("--mtype", default = "compile", help = "Compile or decompile.")
 args = parser.parse_args()
 
-multify = '..\\..\\Panda3D-CI\\bin\\multify.exe'
+multify = '..\\..\\cio-panda3d\\built_x64\\bin\\multify.exe'
 
 def do(mtype, filename):
     cmd = os.path.join(multify)
