@@ -33,7 +33,7 @@ do_egg2bam = True
 do_trans = True
 do_optchar = True
 fix_eggfile = True
-fix_textures = True
+fix_textures = False
 fix_revampbam = True
 
 import os
@@ -50,13 +50,11 @@ def get_revamp_egg(path):
     path = "revamp\\egg\\" + path
     path = path.replace(".bam", ".egg")
     path = path.replace("non_revamp\\", "")
-    #print path
     return path
 
 def get_revamp_bam(path):
     path = "revamp\\bam\\" + path
     path = path.replace("non_revamp\\", "")
-    #print path
     return path
 
 def is_character(node):
@@ -67,6 +65,11 @@ def is_animation(node):
 
 def get_character(node):
     return node.find("**/+Character")
+    
+def egg_extract_bin_name(line):
+    line = line.split("<Scalar> bin { ")[1]
+    line = line.split(" }")[0]
+    return line
 
 phases = [3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13]
 #phases = [3.5]
@@ -126,24 +129,9 @@ for mdl in orig_models:
     os.system("copy {0} {1}".format(mdl, get_revamp_bam(mdl)))
 
     joint2geometry = {}
-    #wall_colls = []
-    #flr_colls = []
-    #floor_bins = []
-    #shadow_bins = []
+    floor_bins = []
+    shadow_bins = []
     
-    #decal_shadow_bins = []
-    #decal_floor_bins = []
-
-    #is_changed = False
-    #for np in node.findAllMatches("**"):
-    #    if (len(np.getName()) == 0 or np.getName().isspace()):
-    #        np.setName(get_random_name())
-    #        print "Found node with no name, giving it {0}".format(np.getName())
-    #        is_changed = True
-
-    #if (is_changed):
-    #    node.writeBamFile(get_revamp_bam(mdl))
-
     if (is_character(node)):
         char = get_character(node)
 
@@ -162,46 +150,29 @@ for mdl in orig_models:
                     print "child of {0}: {1}".format(child.getName(), joint_child.getName())
                     joint2geometry[child.getName()].append(joint_child.getName())
                     is_changed = True
-            #elif (child.node().getType() == CollisionNode.getClassType()):
-            #    if (child.node().getCollideMask() == flr_bitmask):
-            #        flr_colls.append(child.getName())
-            #        print "Found a floor collision:", child.getName()
-            #    elif (child.node().getCollideMask() == wall_bitmask):
-            #        wall_colls.append(child.getName())
-            #        print "Found a wall collision:", child.getName()
         
         # Avoid unnecessarily writing to disk if we haven't made any changes.
         # Optimization to speed up the process.
         if (is_changed):
             node.writeBamFile(get_revamp_bam(mdl))
             
-    #else:
-    #    
-    #    for child in node.findAllMatches("**/+GeomNode"):
-    #        if (child.node().getNumGeoms() == 0):
-    #            continue
-    #        gs = child.node().getGeomState(0)
-    #        if (gs.hasAttrib(CullBinAttrib.getClassType())):
-    #            cba = gs.getAttrib(CullBinAttrib.getClassType())
-    #            if (child.hasEffect(DecalEffect.getClassType())):
-    #                parent = child.getParent()
-    #                if (cba.getBinName() == 'ground'):
-    #                    print "Found decal floor bin"
-    #                    print "Parent:", parent.getName()
-    #                    decal_floor_bins.append(parent.getName())
-    #                elif (cba.getBinName() == 'shadow'):
-    #                    print "Found decal shadow bin"
-    #                    print "Parent:", parent.getName()
-    #                    decal_shadow_bins.append(parent.getName())
-    #            else:
-    #                if (cba.getBinName() == 'ground'):
-    #                    print "Found regular floor bin"
-    #                    print "Node:", child.getName()
-    #                    floor_bins.append(child.getName())
-    #                elif (cba.getBinName() == 'shadow'):
-    #                    print "Found regular shadow bin"
-    #                    print "Node:", child.getName()
-    #                    shadow_bins.append(child.getName())
+    else:
+        npc = node.findAllMatches("**")
+        for i in xrange(npc.getNumPaths()):
+            child = npc[i]
+            if (child.node().isOfType(GeomNode.getClassType())):
+                if (child.node().getNumGeoms() == 0):
+                    continue
+                    
+                gs = child.node().getGeomState(0)
+                if (gs.hasAttrib(CullBinAttrib.getClassType())):
+                    cba = gs.getAttrib(CullBinAttrib.getClassType())
+                    if (cba.getBinName() == 'ground'):
+                        floor_bins.append(i)
+                        print "Found ground at index {0} ({1})".format(i, child.getName())
+                    elif (cba.getBinName() == 'shadow'):
+                        shadow_bins.append(i)
+                        print "Found shadow at index {0} ({1})".format(i, child.getName())
 
     if (do_bam2egg):
         os.system("{0} -o {1} {2}".format(bam2egg, get_revamp_egg(mdl), get_revamp_bam(mdl)))
@@ -239,9 +210,11 @@ for mdl in orig_models:
 
     if (fix_eggfile):
         revampfile = open(get_revamp_egg(mdl), 'r+')
-        newfile = ""
+        newfile = []
 
         is_changed = False
+        
+        prev_line = ""
 
         for line in revampfile.readlines():
             # There are certain occurances in the generated egg files that need to be changed.
@@ -251,14 +224,33 @@ for mdl in orig_models:
             newline = newline.replace("rgb_alpha", "rgba")
             # Irritating thing that bam2egg does.
             newline = newline.replace(".egg", "")
+            
+            #if "<Scalar> bin" in newline:
+            #    binname = egg_extract_bin_name(newline)
+            #    print binname
+            #    if binname == 'ground':
+            #        print "Found ground in egg file"
+            #        prev_line = prev_line.replace("<Scalar> draw-order { 0 }", "<Scalar> draw-order { 18 }")
+            #    elif binname == 'shadow':
+            #        print "Found shadow in egg file"
+            #        prev_line = prev_line.replace("<Scalar> draw-order { 0 }", "<Scalar> draw-order { 19 }")
+            #    newfile.insert(len(newfile) - 2, prev_line)
+            if "<Scalar> alpha-file" in newline:
+                print "Found a alpha-file in here, inserting alpha dual"
+                nextline = "  <Scalar> alpha { dual }\n"
+                newfile.append(nextline)
+            
             if (newline != line):
                 is_changed = True
-            newfile += newline
+            newfile.append(newline)
+            
+            prev_line = line
 
         if (is_changed):
             revampfile.seek(0)
             revampfile.truncate()
-            revampfile.write(newfile)
+            for line in newfile:
+                revampfile.write(line)
             revampfile.flush()
 
         revampfile.close()
@@ -266,77 +258,51 @@ for mdl in orig_models:
     if (do_egg2bam):
         os.system("{0} -o {1} -ps keep {2}".format(egg2bam, get_revamp_bam(mdl), get_revamp_egg(mdl)))
 
-    if (fix_revampbam and is_character(node)):
+    if (fix_revampbam):
         revamp = loader.loadModel(get_revamp_bam(mdl))
         is_changed = False
+        
+        if (is_character(revamp)):
 
-        for tex in revamp.findAllTextures():
-            if (tex.getFormat() == Texture.F_luminance):
-                tex.setFormat(Texture.F_rgb)
-                is_changed = True
+            char = get_character(revamp)
 
-        char = get_character(revamp)
+            for child in char.getChildren():
+                if (joint2geometry.has_key(child.getName())):
+                    for geom in joint2geometry[child.getName()]:
+                        print "{0}: wrtReparentTo : {1}".format(geom, child.getName())
+                        geomnp = revamp.find("**/" + geom)
+                        if (not geomnp.isEmpty()):
+                            geomnp.wrtReparentTo(child)
+                            is_changed = True
+        else:
+            npc = revamp.findAllMatches("**")
+            for i in xrange(npc.getNumPaths()):
+                child = npc[i]
 
-        for child in char.getChildren():
-            if (joint2geometry.has_key(child.getName())):
-                for geom in joint2geometry[child.getName()]:
-                    print "{0}: wrtReparentTo : {1}".format(geom, child.getName())
-                    geomnp = revamp.find("**/" + geom)
-                    if (not geomnp.isEmpty()):
-                        geomnp.wrtReparentTo(child)
+                if (i in floor_bins):
+                    child.setTransparency(TransparencyAttrib.M_dual, 1)
+                    if (not child.node().isOfType(GeomNode.getClassType())):
+                        print "ERROR: Node at index {0} marked for ground bin, but it's not a GeomNode ({1})".format(i, child.getName())
+                        continue
+                    for j in xrange(child.node().getNumGeoms()):
+                        gs = child.node().getGeomState(j)
+                        gs.setAttrib(CullBinAttrib.make('ground', 18))
+                        gs.setAttrib(TransparencyAttrib.make(TransparencyAttrib.M_dual))
+                        print "Applying ground to index {0} ({1})".format(i, child.getName())
                         is_changed = True
-        
-        
-        #for flr_coll in flr_colls:
-        #    cnp = revamp.find("**/" + flr_coll)
-        #    if (not cnp.isEmpty()):
-        #        cnp.node().setCollideMask(flr_bitmask)
-        #        cnp.hide()
-        #        print "Applied floor bitmask to:", flr_coll
-        #        is_changed = True
-            
-        #for wall_coll in wall_colls:
-        #    cnp = revamp.find("**/" + wall_coll)
-        #    if (not cnp.isEmpty()):
-        #        cnp.node().setCollideMask(wall_bitmask)
-        #        cnp.hide()
-        #        print "Applied wall bitmask to:", wall_coll
-        #        is_changed = True
-            
-        
-        #for flr in floor_bins:
-        #    np = revamp.find("**/" + flr)
-        #    if (not np.isEmpty() and np.node().getType() == GeomNode.getClassType()):
-        #        print "Applying ground bin to non-decal node"
-        #        for i in xrange(np.node().getNumGeoms()):
-        #            gs = np.node().getGeomState(i)
-        #            gs.setAttrib(CullBinAttrib.make('ground', 18))
-                    
-        #for decal_flr in decal_floor_bins:
-        #    parent = revamp.find("**/" + decal_flr)
-        #    child = parent.find("+GeomNode")
-        #    if (not child.isEmpty() and child.hasEffect(DecalEffect.getClassType())):
-        #        print "Applying ground bin to decal node"
-        #        for i in xrange(child.node().getNumGeoms()):
-        #            gs = child.node().getGeomState(i)
-        #            gs.setAttrib(CullBinAttrib.make('ground', 18))
-                    
-        #for sh in shadow_bins:
-        #    np = revamp.find("**/" + sh)
-        #    if (not np.isEmpty() and np.node().getType() == GeomNode.getClassType()):
-        #        print "Applying shadow bin to non-decal node"
-        #        for i in xrange(np.node().getNumGeoms()):
-        #            gs = np.node().getGeomState(i)
-        #            gs.setAttrib(CullBinAttrib.make('shadow', 19))
-                    
-        #for decal_sh in decal_shadow_bins:
-        #    parent = revamp.find("**/" + decal_sh)
-        #    child = parent.find("+GeomNode")
-        #    if (not child.isEmpty() and child.hasEffect(DecalEffect.getClassType())):
-        #        print "Applying shadow bin to decal node"
-        #        for i in xrange(child.node().getNumGeoms()):
-        #            gs = child.node().getGeomState(i)
-        #            gs.setAttrib(CullBinAttrib.make('shadow', 19))
+                        
+                if (i in shadow_bins):
+                    child.setTransparency(TransparencyAttrib.M_dual, 1)
+                    if (not child.node().isOfType(GeomNode.getClassType())):
+                        print "ERROR: Node at index {0} marked for shadow bin, but it's not a GeomNode ({1})".format(i, child.getName())
+                        continue
+                    for j in xrange(child.node().getNumGeoms()):
+                        gs = child.node().getGeomState(j)
+                        gs.setAttrib(CullBinAttrib.make('shadow', 19))
+                        gs.setAttrib(TransparencyAttrib.make(TransparencyAttrib.M_dual))
+                        print "Applying shadow to index {0} ({1})".format(i, child.getName())
+                        is_changed = True
+                        
                         
         
         if (is_changed):

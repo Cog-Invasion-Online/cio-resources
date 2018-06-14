@@ -1,5 +1,5 @@
 @echo off
 
-..\..\Panda3D-CI\python\ppython -B revamp_models.py
+..\..\cio-panda3d\built_x64\python\ppython -B revamp_models.py
 
 pause
