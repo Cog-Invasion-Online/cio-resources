@@ -31,7 +31,7 @@ void fshader(float2 l_texcoord0 : TEXCOORD0,
   float y = l_texcoord0.y * 25.0 + k_time;
   
   float2 new_texcoord = float2(l_texcoord0);
-  new_texcoord.y += cos(x + y) * 0.007 * cos(y);
+  new_texcoord.y += cos(x + y) * 0.004 * cos(y);
   new_texcoord.x += sin(x - y) * 0.007 * sin(y);
   
   o_color = tex2D(k_src, new_texcoord);

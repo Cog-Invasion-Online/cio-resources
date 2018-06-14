@@ -1,0 +1,33 @@
+<Comment> {
+  "egg-texture-cards lens-reflex2.png reflex2.egg"
+}
+<Texture> lens-reflex2 {
+  phase_3/maps/lens-reflex2.png
+}
+<Group> {
+  <VertexPool> vpool {
+    <Vertex> 0 {
+      -0.5 0.5 0
+      <UV> { 0 1 }
+    }
+    <Vertex> 1 {
+      -0.5 -0.5 0
+      <UV> { 0 0 }
+    }
+    <Vertex> 2 {
+      0.5 -0.5 0
+      <UV> { 1 0 }
+    }
+    <Vertex> 3 {
+      0.5 0.5 0
+      <UV> { 1 1 }
+    }
+  }
+  <Group> reflex2 {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { lens-reflex2 }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+}

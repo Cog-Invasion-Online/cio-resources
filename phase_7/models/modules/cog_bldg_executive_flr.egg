@@ -7520,6 +7520,7 @@
         }
         <Group> short_floor_coll {
           <Collide> { Polyset descend }
+          <Scalar> collide-mask { 0x00000002 }
           <Transform> {
             <Matrix4> {
               1.0 0.0 0.0 0.0 
@@ -19429,6 +19430,7 @@
         
         <Group> long_floor_coll_part2 {
           <Collide> { Polyset descend }
+          <Scalar> collide-mask { 0x2 }
           <Transform> {
             <Matrix4> {
               1.0 0.0 0.0 0.0 
@@ -20406,6 +20408,7 @@
         }
         <Group> long_floor_coll_part1 {
           <Collide> { Polyset descend }
+          <Scalar> collide-mask { 0x2 }
           <Transform> {
             <Matrix4> {
               1.0 0.0 0.0 0.0 
