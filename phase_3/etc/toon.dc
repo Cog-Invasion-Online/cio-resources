@@ -2,7 +2,8 @@
 // Created by: DuckyDuck1553 (17June14)
 
 from src.coginvasion.avatar import DistributedAvatar/AI
-from src.coginvasion.toon import DistributedToon/AI/UD
+from src.coginvasion.toon import DistributedToon/AI
+from src.coginvasion.toon import DistributedPlayerToon/AI/UD
 from src.coginvasion.toon import DistributedNPCToon/AI
 from src.coginvasion.toon import DistributedHQNPCToon/AI
 from src.coginvasion.toon import DistributedTailorNPCToon/AI
@@ -166,11 +167,16 @@ dclass DistributedAvatar : DistributedSmoothNode {
 };
 
 dclass DistributedToon : DistributedAvatar {
+  setDNAStrand(string) required broadcast ownrecv db;
+  setAnimState(uint8, int16) broadcast ram ownsend airecv;
+  lookAtObject(int16 / 10, int16 / 10, int16 / 10, int8 = 1) broadcast ownsend;
+  updateHeadPitch(int16 / 10) broadcast ownsend;
+};
+
+dclass DistributedPlayerToon : DistributedToon {
   // The account id this toon is associated with.
   uint32 ACCOUNT required db;
 
-  setDNAStrand(string) required broadcast ownrecv db;
-  setAnimState(uint8, int16) broadcast ram ownsend airecv;
   setMoney(int32 = 0) required broadcast ownrecv db;
 
   // We'll do an array of zoneIds for now.
