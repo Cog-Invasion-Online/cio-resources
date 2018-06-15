@@ -1,6 +1,6 @@
 
 self.reset()
-self.setPos(0.000, 0.000, 0.000)
+self.setPos(0.000, 3, 0.000)
 self.setHpr(0.000, 0.000, 0.000)
 self.setScale(1.000, 1.000, 1.000)
 p0 = Particles.Particles('particles-1')
@@ -40,7 +40,7 @@ p0.renderer.setInitialYScale(3.0000)
 p0.renderer.setFinalYScale(2.0000)
 p0.renderer.setInitialZScale(0.2500)
 p0.renderer.setFinalZScale(0.5000)
-p0.renderer.getColorInterpolationManager().addLinear(0.0,1.0,Vec4(0.75, 0.75, 1.0, 0.8),Vec4(0.75, 0.75, 1.0, 0.0),True)
+p0.renderer.getColorInterpolationManager().addLinear(0.0,1.0,Vec4(0.75, 0.75, 1.0, 0.8),Vec4(1, 1, 1.0, 0.0),True)
 # Emitter parameters
 p0.emitter.setEmissionType(BaseParticleEmitter.ETEXPLICIT)
 p0.emitter.setAmplitude(100.0000) #50.0000
@@ -54,7 +54,7 @@ p0.emitter.setEndpoint2(Point3(0.0000, 0.0000, 0.0000))
 self.addParticles(p0)
 f0 = ForceGroup.ForceGroup('idk')
 # Force parameters
-force0 = LinearJitterForce(10.0000, 0)
+force0 = LinearJitterForce(40.0000, 0)
 force0.setVectorMasks(1, 1, 1)
 force0.setActive(1)
 f0.addForce(force0)
