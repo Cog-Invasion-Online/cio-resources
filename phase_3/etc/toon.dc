@@ -35,7 +35,6 @@ from src.coginvasion.minigame import DistributedDeliveryTruck/AI
 from src.coginvasion.minigame import DistributedDeliveryGameSuit/AI
 from src.coginvasion.minigame import DistributedDodgeballGame/AI
 from src.coginvasion.uber import ClientServicesManager/UD
-from src.coginvasion.uber import LauncherLoginManager/UD
 from src.coginvasion.uber import DistrictNameManager/AI/UD
 from src.coginvasion.holiday import HolidayManager/AI/UD
 from src.coginvasion.holiday import DistributedWinterCoachActivity/AI
@@ -80,8 +79,8 @@ from src.coginvasion.cogoffice import DistributedCogOfficeElevator/AI
 from src.coginvasion.cogoffice import DistributedCogOfficeBattle/AI
 from src.coginvasion.cogoffice import DistributedCogOfficeSuit/AI
 from src.coginvasion.cogoffice import DistributedTakeOverSuit/AI
-from src.coginvasion.quests import DistributedInspectionSite/AI
-from src.coginvasion.quests import DistributedDigSite/AI
+from src.coginvasion.quest import DistributedInspectionSite/AI
+from src.coginvasion.quest import DistributedDigSite/AI
 from src.coginvasion.uber import UniqueInterestNotifier/AI/UD
 
 struct AvChoice {
@@ -135,12 +134,6 @@ dclass NameServicesManager : DistributedObject {
   requestName(string name, uint32 avId) clsend;
   requestNameData() clsend;
   nameDataRequest(string[], uint32[], uint32[], string[], uint8[]);
-};
-
-dclass LauncherLoginManager : DistributedObject {
-  requestLogin(string username, string password) clsend;
-  loginAccepted(string token);
-  loginRejected();
 };
 
 dclass ClientServicesManager : DistributedObject {
