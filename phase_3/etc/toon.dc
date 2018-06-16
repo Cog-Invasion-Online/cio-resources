@@ -190,9 +190,6 @@ dclass DistributedPlayerToon : DistributedToon {
   setTier(int8) required broadcast ownrecv db;
   setFriendsList(uint32[] = []) required ownrecv db airecv;
   updateBackpackAmmo() ownrecv;
-  lookAtObject(int16 / 10, int16 / 10, int16 / 10, int8 = 1) broadcast ownsend;
-  updateHeadPitch(int16 / 10) broadcast ownsend;
-  handleSuitAttack(uint8 attack_id, uint32 suit_id) broadcast ownsend;
   toonHitByPie(uint32, uint8 gag_id) ownsend airecv;
   toonUp(uint8 hp, uint8 announce, uint8 sound) clsend airecv;
   setAdminToken(int8) required broadcast db ownrecv; // Is this me?
