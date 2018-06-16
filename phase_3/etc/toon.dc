@@ -82,6 +82,8 @@ from src.coginvasion.cogoffice import DistributedTakeOverSuit/AI
 from src.coginvasion.quest import DistributedInspectionSite/AI
 from src.coginvasion.quest import DistributedDigSite/AI
 from src.coginvasion.uber import UniqueInterestNotifier/AI/UD
+from src.coginvasion.phys import DistributedPhysicsEntity/AI
+from src.coginvasion.phys import DistributedTNT/AI/OV
 
 struct AvChoice {
   uint32 avId;
@@ -231,6 +233,8 @@ dclass DistributedPlayerToon : DistributedToon {
   reqSetWorldAccess(int8 andTP) clsend airecv;
   reqUnlockAllGags() clsend ownsend airecv;
   reqAllGagSlots() clsend ownsend airecv;
+  
+  createObjectForMe(uint16 dclassNum) ownsend airecv;
 };
 
 dclass DistributedTreasure : DistributedObject {
@@ -848,4 +852,11 @@ dclass DistributedButterfly : DistributedNode {
   setWingType(int8) required broadcast ram;
   setHood(uint32) required broadcast ram;
   setState(int8, int8, int8, int16) required broadcast ram;
+};
+
+dclass DistributedPhysicsEntity : DistributedSmoothNode {
+};
+
+dclass DistributedTNT : DistributedPhysicsEntity {
+  explode() ownsend broadcast;
 };
