@@ -855,5 +855,5 @@ dclass DistributedPhysicsEntity : DistributedSmoothNode {
 };
 
 dclass DistributedTNT : DistributedPhysicsEntity {
-  explode() ownsend broadcast;
+  explode() ownsend airecv broadcast;
 };
