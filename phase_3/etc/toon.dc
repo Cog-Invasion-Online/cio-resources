@@ -377,6 +377,7 @@ dclass DistributedSuit : DistributedAvatar {
   setChaseTarget(uint32) broadcast;
 
   doStunEffect() broadcast;
+  doGagEffect(uint16 flags) broadcast;
 };
 
 dclass DistributedBattleZone : DistributedObject {
