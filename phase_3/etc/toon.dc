@@ -165,7 +165,8 @@ dclass DistributedToon : DistributedAvatar {
   setDNAStrand(string) required broadcast ownrecv db;
   setAnimState(uint8, int16) broadcast ram ownsend airecv;
   lookAtObject(int16 / 10, int16 / 10, int16 / 10, int8 = 1) broadcast ownsend;
-  updateHeadPitch(int16 / 10) broadcast ownsend;
+  setLookMode(uint8 mode) required broadcast ram ownsend airecv;
+  setLookPitch(int8 pitch) required broadcast ram ownsend airecv;
 };
 
 dclass DistributedPlayerToon : DistributedToon {
