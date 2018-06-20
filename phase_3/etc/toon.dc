@@ -123,6 +123,9 @@ dclass DistributedDistrict : DistributedObject {
   setPopulation(uint16) required broadcast ram;
   joining() clsend airecv;
   setPopRecord(uint16) required broadcast ram;
+
+  ping() clsend airecv;
+  pingResp();
 };
 
 dclass DistrictNameManager : DistributedObject {
