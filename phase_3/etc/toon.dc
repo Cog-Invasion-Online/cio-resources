@@ -207,6 +207,7 @@ dclass DistributedPlayerToon : DistributedToon {
   goThroughTunnel(uint32, int8) ownsend broadcast;
 
   // Gags
+  setCurrentGag(int8 gagId = -1) required broadcast ram ownsend airecv;
   gagStart(uint8 gagId) broadcast ownsend airecv;
   gagThrow(uint8 gagId) broadcast ownsend;
   gagBuild(uint8 gagId) broadcast ownsend;
@@ -216,8 +217,6 @@ dclass DistributedPlayerToon : DistributedToon {
   setDropLoc(uint8 gagId, int16/10, int16/10, int16/10) clsend broadcast;
   setSplatPos(uint8 gagId, int16/10, int16/10, int16/10) ownsend broadcast;
   gagCollision(uint8 gagId) broadcast clsend;
-  unEquip() broadcast ram ownsend;
-  equip(uint8 gag_id) broadcast ram ownsend;
   gagActivate(uint8 gagId) ownsend broadcast;
   setTarget(uint8 gagId, uint32 target) clsend broadcast;
   setGagPos(uint8 gagId, float64, float64, float64) ownsend broadcast;
