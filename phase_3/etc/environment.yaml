@@ -3,7 +3,7 @@ shaders:
   default-sky-type: 1
   default-outdoor-ambient-color: [200, 202, 230, 240]
   default-indoor-ambient-color: [255, 255, 255, 190]
-  default-sun-color: [216, 207, 194, 400]
+  default-sun-color: [216, 207, 194, 350]
   default-sun-angle: [145, -80, 0]
   default-fog-color: [200, 202, 230, 240]
   default-fog-density: 0.001
@@ -14,10 +14,10 @@ shaders:
    sky-type: 2
   mm:
    sky-type: 3
-   outdoor-ambient-color: [110, 180, 204, 175]
-   sun-color: [255, 109, 86, 500]
-   sun-angle: [93, -30, 0]
-   fog-color: [255, 109, 86, 500]
+   outdoor-ambient-color: [255, 207, 194, 175]
+   sun-color: [255, 173, 153, 255]
+   sun-angle: [93, -45, 0]
+   fog-color: [255, 207, 194, 175]
   dl:
    sky-type: 4
    outdoor-ambient-color: [82, 132, 190, 100]
