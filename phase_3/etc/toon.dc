@@ -358,7 +358,7 @@ dclass DistributedSuit : DistributedAvatar {
   setAnimState(uint8 anim, int8 loop, int16 timestamp) broadcast ram;
   doAttack(int8 attackName, uint32, int16) broadcast;
   hitByGag(uint8 gagId, uint16 distance = 10) clsend airecv;
-  toonHitByWeapon(int8, uint32) clsend airecv;
+  toonHitByWeapon(int8, uint32, uint8 distance = 10) clsend airecv;
   turretHitByWeapon(int8, uint32) clsend airecv;
   handleWeaponTouch() clsend broadcast;
   interruptAttack() broadcast;
