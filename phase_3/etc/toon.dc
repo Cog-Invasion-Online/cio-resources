@@ -381,6 +381,8 @@ dclass DistributedSuit : DistributedAvatar {
 
   doStunEffect() broadcast;
   doGagEffect(uint16 flags) broadcast;
+
+  stun(uint8 animB4Stun) broadcast;
 };
 
 dclass DistributedBattleZone : DistributedObject {
