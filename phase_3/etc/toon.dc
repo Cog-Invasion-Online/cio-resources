@@ -225,7 +225,6 @@ dclass DistributedPlayerToon : DistributedToon {
   setTarget(uint8 gagId, uint32 target) clsend broadcast;
   setGagPos(uint8 gagId, float64, float64, float64) ownsend broadcast;
   setThrowPower(uint8 gagId, uint16 power) ownsend broadcast;
-  setNumGagSlots(uint8 num = 2) required broadcast ownrecv db;
   
   // Admin requests for toon
   requestEject(uint32, int8 = 0) ownsend airecv;
