@@ -1,0 +1,36 @@
+//Cg
+//
+//Cg profile arbvp1 arbfp1
+
+void vshader(float4 vtx_position : POSITION,
+             float2 vtx_texcoord0 : TEXCOORD0,
+             out float4 l_position : POSITION,
+             out float2 l_texcoord0 : TEXCOORD0,
+             out float2 l_texcoord1 : TEXCOORD1,
+             uniform float4 texpad_src,
+             uniform float4x4 mat_modelproj,
+             uniform float dudv_tile)
+{
+    l_position = mul(mat_modelproj, vtx_position);
+    l_texcoord0 = vtx_position.xz * texpad_src.xy + texpad_src.xy;
+    l_texcoord1 = float2(vtx_position.x / 2.0 + 0.5, vtx_position.z / 2.0 + 0.5) * dudv_tile;
+}
+
+void fshader(float2 l_texcoord0 : TEXCOORD0,
+             float2 l_texcoord1 : TEXCOORD1,
+             out float4 o_color : COLOR,
+			 uniform sampler2D k_src : TEXUNIT0,
+			 uniform sampler2D k_dudv : TEXUNIT1,
+			 uniform float dudv_strength,
+			 uniform float move_factor)
+{
+	float2 distort = (tex2D(k_dudv, float2(l_texcoord1.x + move_factor, l_texcoord1.y + move_factor)).rg * 2.0 - 1.0) * dudv_strength;
+	float2 distort2 = (tex2D(k_dudv, float2(-l_texcoord1.x + move_factor, -l_texcoord1.y + move_factor)).rg * 2.0 - 1.0) * dudv_strength;
+	l_texcoord0 += (distort + distort2);
+    
+    l_texcoord0.x = clamp(l_texcoord0.x, 0, 1);
+    l_texcoord0.y = clamp(l_texcoord0.y, 0, 1);
+    
+	o_color = tex2D(k_src, l_texcoord0);
+	o_color.rgb = lerp(o_color.rgb, float3(0.0, 0.3, 0.7), 0.2);
+}
