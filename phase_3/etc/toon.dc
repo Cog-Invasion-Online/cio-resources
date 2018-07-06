@@ -162,6 +162,7 @@ dclass DistributedAvatar : DistributedSmoothNode {
   announceHealth(int8, int16, int8) broadcast;
   setPlace(uint32) required broadcast ram;
   setHood(string) required broadcast ram;
+  splash(int16/10, int16/10, int16/10) broadcast ownsend;
 };
 
 dclass DistributedToon : DistributedAvatar {
