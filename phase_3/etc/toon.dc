@@ -152,6 +152,7 @@ dclass ClientServicesManager : DistributedObject {
   requestDeleteAvatar(uint32 avId) clsend;
   requestSetAvatar(uint32 avId) clsend;
   setAvatarResponse();
+  networkMessage(string message);
 };
 
 dclass DistributedAvatar : DistributedSmoothNode {
