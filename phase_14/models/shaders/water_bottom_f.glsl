@@ -20,6 +20,8 @@ uniform sampler2D dudv;
 uniform float dudv_strength;
 uniform float move_factor;
 
+out vec4 frag_color;
+
 vec2 calc_distort( vec2 distort_coord )
 {
         return ( texture( dudv, distort_coord ).rg * 2.0 - 1.0 ) * dudv_strength;
@@ -38,6 +40,6 @@ void main()
         vec4 distorted_coords = texcoord0 + vec4(total_distort.x, total_distort.y, 0, 0);
         vec4 refr_col = textureProj( refr, distorted_coords );
         
-        gl_FragColor = refr_col;
-        gl_FragColor.rgb = mix( gl_FragColor.rgb, vec3( 0.0, 0.3, 0.7 ), 0.2 );
+        frag_color = refr_col;
+        frag_color.rgb = mix( frag_color.rgb, vec3( 0.0, 0.3, 0.7 ), 0.2 );
 }

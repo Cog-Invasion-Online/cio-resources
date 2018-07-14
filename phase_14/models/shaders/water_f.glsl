@@ -30,6 +30,8 @@ uniform float far;
 uniform vec3 lightdir;
 uniform vec3 lightcol;
 
+out vec4 frag_color;
+
 float calc_dist( float depth )
 {
         return 2.0 * near * far / ( far + near - ( 2.0 * depth - 1.0 ) * ( far - near ) );
@@ -75,7 +77,7 @@ void main()
         // Fresnel effect
         float refr_factor = clamp( dot( eye_vec, vec3( 0, 0, 1 ) ), 0.3, 1.0 );
         
-        gl_FragColor = mix( refl_col, refr_col, clamp( refr_factor / depth_factor, 0, 1 ) );
-        gl_FragColor.rgb = mix( gl_FragColor.rgb, vec3( 0.0, 0.3, 0.7 ), 0.2 );
-        gl_FragColor.rgb += spec_highlight;
+        frag_color = mix( refl_col, refr_col, clamp( refr_factor / depth_factor, 0, 1 ) );
+        frag_color.rgb = mix( frag_color.rgb, vec3( 0.0, 0.3, 0.7 ), 0.2 );
+        frag_color.rgb += spec_highlight;
 }
