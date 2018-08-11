@@ -29,7 +29,10 @@ uniform float near;
 uniform float far;
 uniform vec3 lightdir;
 uniform vec3 lightcol;
-
+uniform vec4 fog_color;
+uniform vec4 water_tint;
+uniform float fog_density;
+uniform float reflect_factor;
 out vec4 frag_color;
 
 float calc_dist( float depth )
@@ -42,10 +45,17 @@ vec2 calc_distort( vec2 distort_coord )
         return ( texture( dudv, distort_coord ).rg * 2.0 - 1.0 ) * dudv_strength;
 }
 
+float calc_fog_factor( float distance, float density )
+{
+	return 1.0 - clamp( exp( -density * distance ), 0.0, 1.0 );
+}
+
 void main()
 {
         float depth = textureProj( refr_depth, texcoord0 ).r;
         float floor_dist = calc_dist( depth );
+
+		float fog_amt = calc_fog_factor( floor_dist, fog_density );
         
         depth = gl_FragCoord.z / gl_FragCoord.w;
         float water_dist = calc_dist( depth );
@@ -61,15 +71,16 @@ void main()
         
         vec2 total_distort = ( distort1 + distort2 ) * depth_factor;
         
-        vec4 distorted_coords = texcoord0 + vec4(total_distort.x, total_distort.y, 0, 0);
+        vec4 distorted_coords = texcoord0 + vec4( total_distort.x, total_distort.y, 0, 0 );
         vec4 refl_col = textureProj( refl, distorted_coords );
         vec4 refr_col = textureProj( refr, distorted_coords );
+		refr_col = mix( refr_col, fog_color, fog_amt );
         
         vec4 norm_col = texture( normal_map, texcoord1 + total_distort );
         vec3 normal = vec3( norm_col.r * 2.0 - 1.0, norm_col.b, norm_col.g * 2.0 - 1.0 );
         normal = normalize( normal );
         
-        vec3 refl_light = reflect( normalize( lightdir ), normal );
+        vec3 refl_light = reflect( normalize( -lightdir ), normal );
         float spec = max( dot( refl_light, eye_vec ), 0.0 );
         spec = pow( spec, shine_damper );
         vec3 spec_highlight = lightcol * spec * reflectivity;
@@ -77,7 +88,7 @@ void main()
         // Fresnel effect
         float refr_factor = clamp( dot( eye_vec, vec3( 0, 0, 1 ) ), 0.3, 1.0 );
         
-        frag_color = mix( refl_col, refr_col, clamp( refr_factor / depth_factor, 0, 1 ) );
-        frag_color.rgb = mix( frag_color.rgb, vec3( 0.0, 0.3, 0.7 ), 0.2 );
+        frag_color = mix( refl_col, refr_col, clamp( (refr_factor / depth_factor) * reflect_factor, 0, 1 ) );
+        frag_color.rgb = mix( frag_color.rgb, water_tint.rgb, water_tint.a );
         frag_color.rgb += spec_highlight;
 }

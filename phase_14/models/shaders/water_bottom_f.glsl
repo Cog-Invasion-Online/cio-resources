@@ -19,6 +19,7 @@ uniform sampler2D dudv;
 
 uniform float dudv_strength;
 uniform float move_factor;
+uniform vec4 water_tint;
 
 out vec4 frag_color;
 
@@ -41,5 +42,5 @@ void main()
         vec4 refr_col = textureProj( refr, distorted_coords );
         
         frag_color = refr_col;
-        frag_color.rgb = mix( frag_color.rgb, vec3( 0.0, 0.3, 0.7 ), 0.2 );
+        frag_color.rgb = mix( frag_color.rgb, water_tint.rgb, water_tint.a );
 }
