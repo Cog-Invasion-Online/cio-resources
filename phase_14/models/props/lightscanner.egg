@@ -1,0 +1,28 @@
+<CoordinateSystem> { Z-up } 
+  <Group> lightscanner {
+    <Transform> {
+      <Matrix4> {
+        1.0 0.0 0.0 0.0 
+        0.0 1.0 0.0 0.0 
+        0.0 0.0 1.0 0.0 
+        0.0 0.0 0.0 1.0 
+      }
+    }
+    
+    <VertexPool> lightscanner {
+    
+      <Vertex> 0 {-0.076806 0.000000 0.000000
+      }
+      <Vertex> 1 {0.076806 0.000000 0.000000
+      }
+      <Vertex> 2 {5.688460 8.000290 0.000000
+      }
+      <Vertex> 3 {-5.688460 8.000290 0.000000
+      }}
+    
+    
+    <Polygon> {
+      <Normal> {0.000000 0.000000 1.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { lightscanner }} 
+    }
+  }

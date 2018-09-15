@@ -1,0 +1,664 @@
+//
+// worldspawn
+//
+
+@SolidClass = worldspawn : "World entity"
+[
+	message(string) : "Map Description / Title"
+	skytype(choices) : "Toontown Sky Type" : 1 =
+    [
+        0 : "None"
+        1 : "Midday"
+        2 : "Cloudy"
+        3 : "Evening"
+        4 : "Night"
+        5 : "Cog"
+    ]
+	MaxRange(string) : "Max viewable distance" : "4096"
+	startdark(choices) : "Level Fade In" : 0 =
+	[	
+		0 : "No"
+		1 : "Yes"
+	]
+	gametitle(choices) : "Display game title" : 0 = 
+	[	
+		0 : "No"
+		1 : "Yes"
+	]
+	newunit(choices) : "New Level Unit" : 0 = 
+	[
+		0 : "No, keep current"
+		1 : "Yes, clear previous levels"
+	]
+]
+
+//
+// BaseClasses
+//
+
+@BaseClass = ZHLT
+[
+	zhlt_lightflags(choices) : "ZHLT Lightflags" : 0 =
+	[
+		0 : "Default"
+		1 : "Embedded Fix"
+		2 : "Opaque (blocks light)"
+		3 : "Opaque + Embedded fix"
+		6 : "Opaque + Concave Fix"
+	]
+	light_origin(string) : "Light Origin Target"
+]
+
+@BaseClass = ZHLT_point
+[
+	_fade(string) : "ZHLT Fade" : "1.0"
+	_falloff(choices) : "ZHLT Falloff" : 0 =
+	[
+		0 : "Default"
+		1 : "Inverse Linear"
+		2 : "Inverse Square"
+	]
+]
+
+@BaseClass = LightSource
+[
+    propsources(target_destination) : "Prop Sources" : "" : "Which props `cast` the light."
+]
+
+@BaseClass = Appearflags
+[
+	spawnflags(Flags) =
+	[
+		2048 : "Not in Deathmatch" : 0
+	]
+]
+
+@BaseClass = Angles
+[
+	angles(string) : "Pitch Yaw Roll (Y Z X)" : "0 0 0"
+]
+
+@BaseClass size(0 0 0, 32 32 32) color(80 0 200) base(Appearflags) = Ammo []
+
+@BaseClass = Targetname 
+[ 
+	targetname(target_source) : "Name"
+]
+@BaseClass = Target 
+[ 
+	target(target_destination) : "Target" 
+]
+@BaseClass = Global 
+[ 
+	globalname(string) : "Global Entity Name" 
+]
+
+@BaseClass base(Target) = Targetx 
+[
+	delay(string) : "Delay before trigger" : "0"
+	killtarget(target_destination) : "KillTarget"
+]
+
+@BaseClass = RenderFxChoices
+[
+	renderfx(choices) :"Render FX" : 0 =
+	[
+		0: "Normal"
+		1: "Slow Pulse"
+		2: "Fast Pulse"
+		3: "Slow Wide Pulse"
+		4: "Fast Wide Pulse"
+		9: "Slow Strobe"
+		10: "Fast Strobe"
+		11: "Faster Strobe"
+		12: "Slow Flicker"
+		13: "Fast Flicker"
+		5: "Slow Fade Away"
+		6: "Fast Fade Away"
+		7: "Slow Become Solid"
+		8: "Fast Become Solid"
+		14: "Constant Glow"
+		15: "Distort"
+		16: "Hologram (Distort + fade)"
+	]
+]
+
+@BaseClass base(RenderFxChoices) = RenderFields 
+[
+	rendermode(choices) : "Render Mode" : 0 =
+	[
+		0: "Normal"
+		1: "Color"
+		2: "Texture"
+		3: "Glow"
+		4: "Solid"
+		5: "Additive"
+	]
+	renderamt(integer) : "FX Amount (1 - 255)"
+	rendercolor(color255) : "FX Color (R G B)" : "0 0 0"
+]
+
+@BaseClass base(Appearflags, Angles) size(-16 -16 -36, 16 16 36) color(0 255 0) = PlayerClass []
+
+@BaseClass = Light 
+[
+	_light(color255) : "Brightness" : "255 255 128 200"
+      style(Choices) : "Appearance" : 0 =
+	[
+		0 : "Normal"
+		10: "Fluorescent flicker"
+		2 : "Slow, strong pulse"
+		11: "Slow pulse, noblack"
+		5 : "Gentle pulse"
+		1 : "Flicker A"
+		6 : "Flicker B"
+		3 : "Candle A"
+		7 : "Candle B"
+		8 : "Candle C"
+		4 : "Fast strobe"
+		9 : "Slow strobe"
+	]
+	pattern(string) : "Custom Appearance"
+]
+
+@BaseClass base(Appearflags, Targetname, RenderFields, Global, Angles) = Door
+[
+    movedir(string) : "Movement Direction" : "1 0 0" : "A vector relative to the world (left/right, forward/back, up/down). Keep values from 0.0-1.0 unless you want the door to move further than it's bounding box."
+	speed(integer) : "Speed" : 100
+	movesnd(sound) : "Move Sound" : ""
+	stopsnd(sound) : "Stop Sound" : ""
+    locked_sound(sound) : "Locked Sound" : ""
+	unlocked_sound(sound) : "Unlocked Sound" : ""
+	wait(string) : "Delay Before Close" : "4.0" : "In seconds, -1 to remain open."
+    loop_movesnd(choices) : "Loop Move Sound" : 1 =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
+    
+    spawnflags(flags) =
+	[
+		1   : "Starts Open" : 0
+        2   : "Starts Locked" : 0
+		4   : "Use Opens" : 0
+		8   : "Touch Opens" : 0
+	]
+    
+	//health(integer) : "Health" : 0 : "How much health the door should have. This would make the door have to be damaged to open."
+    
+    input Close(void) : "Closes the door"
+    input Open(void) : "Opens the door"
+    input Lock(void) : "Locks the door"
+    input Unlock(void) : "unlocks the door"
+    
+    output OnCloseStart(void) : "Fired when the door begins closing"
+    output OnCloseFinish(void) : "Fired when the door finishes closing"
+    output OnOpenStart(void) : ""
+    output OnOpenFinish(void) : ""
+    output OnLockStart(void): ""
+    output OnLockFinish(void):""
+    output OnUnlockStart(void):""
+    output OnUnlockFinish(void):""
+]
+
+@BaseClass = EnableDisable
+[
+	StartDisabled(choices) : "Start Disabled" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input Enable(void) : "Enable this entity."
+	input Disable(void) : "Disable this entity."
+]
+
+@BaseClass base(Target, Targetname, EnableDisable) = Trigger
+[    
+    output OnEnter(void) : "Fired when the player enters the volume of the trigger"
+    output OnExit(void) : "Fired when the player exits the volume of the trigger"
+]
+
+@SolidClass base(Trigger) = trigger_once : "One-Time Trigger"
+[
+]
+
+@SolidClass base(Trigger) = trigger_multiple : "Multi-time trigger"
+[
+    delay(string) : "Delay before re-entrance" : "0"
+]
+
+//
+// Entities
+//
+
+@PointClass iconsprite("sprites/speaker.spr") base(Targetname) = ambient_generic : "Universal Ambient"
+[
+	message(sound) : "WAV Name"
+	health(integer) : "Volume (10 = loudest)" : 10
+	preset(choices) :"Dynamic Presets" : 0 =
+	[
+		0: "None"
+		1: "Huge Machine"
+		2: "Big Machine"
+		3: "Machine"
+		4: "Slow Fade in"  
+		5: "Fade in"
+		6: "Quick Fade in"
+		7: "Slow Pulse"
+		8: "Pulse"
+		9: "Quick pulse"
+		10: "Slow Oscillator"
+		11: "Oscillator"
+		12: "Quick Oscillator"
+		13: "Grunge pitch"
+		14: "Very low pitch"
+		15: "Low pitch"
+		16: "High pitch"
+		17: "Very high pitch"
+		18: "Screaming pitch"
+		19: "Oscillate spinup/down"
+		20: "Pulse spinup/down"
+		21: "Random pitch"
+		22: "Random pitch fast"
+		23: "Incremental Spinup"
+		24: "Alien"
+		25: "Bizzare"
+		26: "Planet X"
+		27: "Haunted"
+	]
+	volstart(integer) : "Start Volume" : 0
+	fadein(integer) : "Fade in time (0-100)" : 0
+	fadeout(integer) : "Fade out time (0-100)" : 0
+	pitch(integer) : "Pitch (> 100 = higher)" : 100
+	pitchstart(integer) : "Start Pitch" : 100
+	spinup(integer) : "Spin up time (0-100)" : 0
+	spindown(integer) : "Spin down time (0-100)" : 0
+	lfotype(integer) : "LFO type 0)off 1)sqr 2)tri 3)rnd" : 0
+	lforate(integer) : "LFO rate (0-1000)" : 0
+	lfomodpitch(integer) : "LFO mod pitch (0-100)" : 0
+	lfomodvol(integer) : "LFO mod vol (0-100)" : 0
+	cspinup(integer) : "Incremental spinup count" : 0
+	spawnflags(flags) =
+	[
+		1 : "Play Everywhere" : 0
+		2 : "Small Radius" : 0
+		4 : "Medium Radius" : 1
+		8 : "Large Radius" : 0
+		16 : "Start Silent":0
+		32 : "Not Toggled":0
+	]
+]
+
+@SolidClass base(Global,Targetname, Target, RenderFields, Angles, ZHLT) = func_button : "Button" 
+[
+	speed(integer) : "Speed" : 5
+	health(integer) : "Health (shootable if > 0)"
+	lip(integer) : "Lip"
+	master(string) : "Master" 
+	sounds(choices) : "Sounds" : 0 = 
+	[
+		0: "None"
+		1: "Big zap & Warmup"
+		2: "Access Denied"
+		3: "Access Granted"
+		4: "Quick Combolock"
+		5: "Power Deadbolt 1"
+		6: "Power Deadbolt 2"
+		7: "Plunger"
+		8: "Small zap"
+		9: "Keycard Sound"
+		10: "Buzz"
+		11: "Buzz Off"
+		14: "Lightswitch"
+	]
+	wait(integer) : "delay before reset (-1 stay)" : 3
+	delay(string) : "Delay before trigger" : "0"
+	spawnflags(flags) =
+	[
+		1: "Don't move" : 0
+		32: "Toggle" : 0
+		64: "Sparks" : 0
+		256:"Touch Activates": 0
+	]
+	locked_sound(choices) : "Locked Sound" : 0 = 
+	[
+		0: "None"
+		2: "Access Denied"
+		8: "Small zap"
+		10: "Buzz"
+		11: "Buzz Off"
+		12: "Latch Locked"
+	]
+	unlocked_sound(choices) : "Unlocked Sound" : 0 = 
+	[
+		0: "None"
+		1: "Big zap & Warmup"
+		3: "Access Granted"
+		4: "Quick Combolock"
+		5: "Power Deadbolt 1"
+		6: "Power Deadbolt 2"
+		7: "Plunger"
+		8: "Small zap"
+		9: "Keycard Sound"
+		10: "Buzz"
+		13: "Latch Unlocked"
+		14: "Lightswitch"
+	]
+	locked_sentence(choices) : "Locked Sentence" : 0 = 
+	[
+		0: "None"
+		1: "Gen. Access Denied"
+		2: "Security Lockout"
+		3: "Blast Door"
+		4: "Fire Door"
+		5: "Chemical Door"
+		6: "Radiation Door"
+		7: "Gen. Containment"
+		8: "Maintenance Door"
+		9: "Broken Shut Door"
+	]
+	unlocked_sentence(choices) : "Unlocked Sentence" : 0 = 
+	[
+		0: "None"
+		1: "Gen. Access Granted"
+		2: "Security Disengaged"
+		3: "Blast Door"
+		4: "Fire Door"
+		5: "Chemical Door"
+		6: "Radiation Door"
+		7: "Gen. Containment"
+		8: "Maintenance area"
+	]
+	_minlight(string) : "Minimum light level"
+    
+    output OnPress(void) : ""
+]
+
+@SolidClass base(Door, ZHLT) = func_door : "Basic door" []
+
+@SolidClass base(Door, ZHLT) = func_door_rotating : "Rotating door" 
+[
+	spawnflags(flags) =
+	[
+		2 : "Reverse Dir" : 0
+		16: "One-way" : 0
+		64: "X Axis" : 0
+		128: "Y Axis" : 0
+	]
+	distance(integer) : "Distance (deg)" : 90
+]
+
+@SolidClass base(Appearflags, RenderFields, ZHLT) = func_friction : "Surface with a change in friction" 
+[
+	modifier(integer) : "Percentage of standard (0 - 100)" : 15
+]
+
+@SolidClass base(Targetname, RenderFields, ZHLT) = func_illusionary : "Fake Wall/Light" 
+[
+
+	skin(choices) : "Contents" : -1 =
+	[
+		-1: "Empty"
+		-7: "Volumetric Light"
+	]
+	_minlight(string) : "Minimum light level"
+]
+
+@SolidClass base(Targetname) = func_ladder : "Ladder" []
+
+@SolidClass base(Targetname, Appearflags, RenderFields, Global, ZHLT) = func_wall : "Wall" 
+[
+	_minlight(string) : "Minimum light level"
+]
+
+@SolidClass base(func_wall) = func_detail : "Detail" []
+
+@SolidClass base(func_wall) = func_wall_toggle : "Toggleable geometry" 
+[
+	spawnflags(flags) =
+	[
+		1 : "Starts Invisible" : 0
+	]
+]
+
+@SolidClass base(Door, ZHLT) = func_water : "Liquid" 
+[
+	spawnflags(flags) =
+	[
+		1 : "Starts Open" : 0
+		256:"Use Only" : 0
+	]
+	skin(choices) : "Contents" : -3 =
+	[
+		-3: "Water"
+		-4: "Slime"
+		-5: "Lava"
+	]
+	WaveHeight(string) : "Wave Height" : "3.2"
+]
+
+//
+// info entities
+//
+
+@PointClass decal() base(Targetname, Appearflags) = infodecal : "Decal"
+[
+	texture(decal)
+]
+
+@PointClass base(Targetname) = info_null : "info_null (spotlight target)" []
+
+@PointClass studio("phase_7/models/props/cog_statue_a.bam") base(PlayerClass) = info_player_start : "Player 1 start" []
+
+@PointClass iconsprite("sprites/info_cutscene.spr") base(Targetname) = info_cutscene : "Cutscene"
+[
+    cutsceneId(string) : "Cutscene ID" : ""
+    
+    input DoCutscene(void) : "Executes the cutscene"
+    
+    output OnBegin(void) : "Fired when the cutscene begins"
+    output OnFinish(void) : "Fired when the cutscene ends"
+]
+
+//
+// lights
+//
+
+@PointClass iconsprite("sprites/lightbulb.spr") base(Target, Targetname, Light, ZHLT_point, LightSource) = light : "Invisible lightsource"
+[
+	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+]
+
+@PointClass iconsprite("sprites/lightbulb.spr") base(Targetname, Target, Angles, ZHLT_point, LightSource) = light_spot : "Spotlight" 
+[
+	_cone(integer) : "Inner (bright) angle" : 30
+	_cone2(integer) : "Outer (fading) angle" : 45
+	pitch(integer) : "Pitch" : -90
+	_light(color255) : "Brightness" : "255 255 128 200"
+	_sky(Choices) : "Is Sky" : 0 = 
+	[ 
+		0 : "No"
+		1 : "Yes"
+	]
+	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+      style(Choices) : "Appearance" : 0 =
+	[
+		0 : "Normal"
+		10: "Fluorescent flicker"
+		2 : "Slow, strong pulse"
+		11: "Slow pulse, noblack"
+		5 : "Gentle pulse"
+		1 : "Flicker A"
+		6 : "Flicker B"
+		3 : "Candle A"
+		7 : "Candle B"
+		8 : "Candle C"
+		4 : "Fast strobe"
+		9 : "Slow strobe"
+	]
+	pattern(string) : "Custom Appearance"
+]
+
+@PointClass base(Targetname, Angles, ZHLT_point) iconsprite("sprites/light_env.spr") = light_environment : "Environment" 
+[
+	pitch(integer) : "Pitch" : 0
+	_light(color255) : "Sun Brightness" : "255 255 128 200"
+    _diffuse_light2(color255) : "Sun Diffuse" : "255 255 255 200"
+    _diffuse_light(color255) : "Ambient Brightness" : "255 255 255 200"
+    _spread(string) : "Sun Spread Angle" : "0.5"
+]
+
+//
+// Triggers
+//
+
+
+@PointClass size(-16, -16, -16, 16, 16, 16) = env_fog : "Fog"
+[
+    fogcolor(color255) : "Fog color" : "255 255 255 255"
+    fogdensity(string) : "Fog density" : "0.001"
+]
+
+@PointClass base(Angles, Targetname) size(-16, -16, 0, 16 16 32) = prop_static : "Static prop"
+[
+    modelpath(studio) : "Prop Model" : "models/smiley.egg.pz"
+    twosided(choices) : "Two-Sided" : 0 =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
+    scale(string) : "Scale of prop" : "1.0 1.0 1.0"
+    physics(choices) : "Physics type" : 0 =
+    [
+        0 : "Auto"
+        1 : "Embedded"
+        2 : "None"
+    ]
+    shadows(choices) : "Cast Shadows" : 0 = 
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
+]
+
+//
+// Toon
+//
+@PointClass base(Targetname, Angles) size(-20, -20, 0, 20, 20, 60) = npc_toon : "NPC Toon"
+[
+    npc(choices) : "Which NPC" : 0 =
+    [
+        0 : "Random"
+        1 : "Flippy"
+        2 : "Alec Tinn"
+        3 : "Professor Prepostera"
+        4 : "Doctor Dimm"
+        5 : "Doctor Surlee"
+        6 : "HQ Harry"
+    ]
+]
+
+@PointClass base(Targetname, Angles) size(-100, -100, 0, 100, 100, 200) = item_sillymeter : "Silly Meter"
+[
+    phase(choices) : "Start Phase" : 0 =
+    [
+        0 : "Phase 1 (begin)"
+        1 : "Phase 2"
+        2 : "Phase 3"
+        3 : "Phase 4 (crazy)"
+        4 : "Phase 5 (dead)"
+    ]
+]
+
+@PointClass studio("phase_9/models/char/Cog_Goonie-zero.bam") base(Targetname, Angles) = npc_goon : "Goon Enemy"
+[
+    hat(choices) : "Hat Type" : 0 =
+    [
+        0 : "Security"
+        1 : "Construction"
+        2 : "Nothing"
+    ]
+	spawnflags(flags) =
+	[
+		1 : "Starts Asleep" : 0
+	]
+]
+
+@SolidClass base(Targetname) = func_physics : "Physics Brush"
+[
+    mass(string) : "Mass of physics object" : "1.0"
+]
+
+@PointClass base(Targetname, Angles) size(-20, -20, 0, 20, 20, 40) = item_laffbarrel : "Laff Barrel"
+[
+]
+
+@PointClass studio("phase_3.5/models/char/suitA-mod.bam") base(Targetname, Angles) = npc_suit : "Cog"
+[
+    spawnflags(flags) = 
+    [
+        1 : "Random Suit Plan (based on neighborhood)" : 0
+        2 : "Chair Suit" : 0
+        4 : "Guard Suit" : 0
+    ]
+    suitPlan(choices) : "Suit Plan" : 0 =
+    [
+        0 : "Flunky"
+        1 : "Pencil Pusher"
+        2 : "Yesman"
+        3 : "Micromanager"
+        4 : "Downsizer"
+        5 : "Head Hunter"
+        6 : "Corporate Raider"
+        7 : "The Big Cheese"
+        8 : "Bottom Feeder"
+        9 : "Bloodsucker"
+        10 : "Double Talker"
+        11 : "Ambulance Chaser"
+        12 : "Back Stabber"
+        13 : "Spin Doctor"
+        14 : "Legal Eagle"
+        15 : "Big Wig"
+        16 : "Short Change"
+        17 : "Penny Pincher"
+        18 : "Tightwad"
+        19 : "Bean Counter"
+        20 : "Number Cruncher"
+        21 : "Money Bags"
+        22 : "Loan Shark"
+        23 : "Robber Baron"
+        24 : "Cold Caller"
+        25 : "Telemarketer"
+        26 : "Name Dropper"
+        27 : "Glad Hander"
+        28 : "Mover Shaker"
+        29 : "Two Face"
+        30 : "The Mingler"
+        31 : "Mr. Hollywood"
+        32 : "Vice President"
+        33 : "Lucy Crossbill"
+    ]
+    level(integer) : "Level of Suit" : 1
+    
+    input Activate(void) : "Starts the AI brain of the suit"
+    input Deactivate(void) : "Stops the AI brain of the suit"
+    input Kill(void) : "Kills the suit"
+]
+
+@BaseClass = Keyframes
+[
+	nextKeyframe(target_destination) : "Next keyframe in this sequence" : ""
+]
+
+@PointClass base(Targetname, Keyframes) = rope_begin : "Beginning point in a rope/cable"
+[
+	resolution(integer) : "How smooth this rope (and all connecting node ropes) should be." : 3
+	thickness(integer) : "How thicc is this rope" : 1
+	color(color255) : "Color of rope" : "0 0 0 255"
+]
+
+@PointClass base(Targetname, Keyframes) = rope_keyframe : "Node in a rope"
+[
+]

@@ -15,6 +15,8 @@ in vec4 texcoord0;
 in vec2 texcoord1;
 in vec3 eye_vec;
 
+uniform float osg_FrameTime;
+
 uniform sampler2D refl;
 uniform sampler2D refr;
 uniform sampler2D refr_depth;
@@ -24,7 +26,7 @@ uniform sampler2D normal_map;
 uniform float reflectivity;
 uniform float shine_damper;
 uniform float dudv_strength;
-uniform float move_factor;
+uniform vec2 move_factor;
 uniform float near;
 uniform float far;
 uniform vec3 lightdir;
@@ -60,9 +62,12 @@ void main()
         depth = gl_FragCoord.z / gl_FragCoord.w;
         float water_dist = calc_dist( depth );
         float water_depth = floor_dist - water_dist;
+
+		float movx = move_factor.x * osg_FrameTime;
+		float movy = move_factor.y * osg_FrameTime;
         
-        vec2 distort_coord1 = vec2( -texcoord1.x + move_factor, texcoord1.y + move_factor );
-        vec2 distort_coord2 = vec2( texcoord1.x + move_factor, -texcoord1.y + move_factor );
+        vec2 distort_coord1 = vec2( -texcoord1.x + movx, texcoord1.y + movy );
+        vec2 distort_coord2 = vec2( texcoord1.x + movx, -texcoord1.y + movy );
         
         vec2 distort1 = calc_distort( distort_coord1 );
         vec2 distort2 = calc_distort( distort_coord2 );

@@ -1,0 +1,63 @@
+<CoordinateSystem> { Z-up } 
+<Material> laser_mat {
+  <Scalar> diffr { 0 }
+  <Scalar> diffg { 0 }
+  <Scalar> diffb { 0 }
+  <Scalar> ambr { 0 }
+  <Scalar> ambg { 0 }
+  <Scalar> ambb { 0 }
+  <Scalar> emitr { 0.800000 }
+  <Scalar> emitg { 0.800000 }
+  <Scalar> emitb { 0.800000 }
+}
+
+<Texture> laser_tex {
+  "phase_14/maps/laser.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
+  <Group> laser {
+    <Transform> {
+      <Matrix4> {
+        1.0 0.0 0.0 0.0 
+        0.0 1.0 0.0 0.0 
+        0.0 0.0 1.0 0.0 
+        0.0 0.0 0.0 1.0 
+      }
+    }
+    
+    <VertexPool> laser {
+    
+      <Vertex> 0 {-0.083751 0.000000 0.000000
+        <UV>  {
+          1.000000 1.000000 
+        }
+      }
+      <Vertex> 1 {0.083751 0.000000 0.000000
+        <UV>  {
+          0.000001 1.000000 
+        }
+      }
+      <Vertex> 2 {0.083751 -0.000000 -1.000000
+        <UV>  {
+          0.000000 0.000000 
+        }
+      }
+      <Vertex> 3 {-0.083751 -0.000000 -1.000000
+        <UV>  {
+          0.999999 0.000000 
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { laser_tex }
+      <MRef> { laser_mat }
+      <Normal> {0.000000 1.000000 -0.000000}
+      <RGBA> {0.800000 0.800000 0.800000 1}
+      <VertexRef> { 0 1 2 3 <Ref> { laser }} 
+    }
+  }

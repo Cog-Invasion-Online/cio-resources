@@ -1,0 +1,11 @@
+phase_9/maps/WoodPlanks1.jpg woodfloor
+phase_9/maps/rustyWallStomperRm.jpg metalfloor
+phase_9/maps/factory_crate.png woodfloor
+phase_9/maps/CrossBeamTopLight.jpg metalgrate
+phase_9/maps/FloorGrate.jpg metalgrate
+phase_11/maps/LB_Marble3.jpg tile
+phase_7/maps/LB_WoodPanel2.jpg woodfloor
+phase_3.5/maps/grassTT.jpg grass
+phase_4/maps/beta_ttc_ground.jpg grass
+phase_3.5/maps/cobblestone_brown.jpg concrete
+phase_3.5/maps/sidewalkbrown.jpg concrete

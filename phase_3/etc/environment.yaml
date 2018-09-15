@@ -1,7 +1,7 @@
 want-reflections: true
 shaders:
   default-sky-type: 1
-  default-outdoor-ambient-color: [200, 202, 230, 240]
+  default-outdoor-ambient-color: [200, 202, 230, 175]
   default-indoor-ambient-color: [255, 255, 255, 190]
   default-sun-color: [216, 207, 194, 350]
   default-sun-angle: [145, -80, 0]

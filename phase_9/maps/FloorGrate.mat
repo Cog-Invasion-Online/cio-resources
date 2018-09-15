@@ -1,0 +1,5 @@
+material
+{
+    "$surfaceprop"          "metalgrate"
+    "$envmap_shininess"     ".08"
+}

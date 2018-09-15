@@ -45,10 +45,10 @@ void main()
 {
         // First start with constant ambient term.
         // Vertex color was combined with ambient term in the vertex shader.
-        frag_color = ambient_term;
+        frag_color = vec4(0, 0, 0, 0);
         
         // Now factor in local light sources.
-        vec3 totallight = vec3(0, 0, 0);
+        vec3 totallight = ambient_term.rgb;
         for (int i = 0; i < num_locallights[0]; i++)
         {
                 if (locallight_type[i] == LIGHTTYPE_POINT)

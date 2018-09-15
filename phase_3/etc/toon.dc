@@ -84,6 +84,12 @@ from src.coginvasion.quest import DistributedDigSite/AI
 from src.coginvasion.uber import UniqueInterestNotifier/AI/UD
 from src.coginvasion.phys import DistributedPhysicsEntity/AI
 from src.coginvasion.phys import DistributedTNT/AI/OV
+from src.coginvasion.szboss.sewer import DistributedSewer/AI
+from src.coginvasion.szboss.DistributedTrigger/AI import DistributedTriggerOnce/AI
+from src.coginvasion.szboss.DistributedTrigger/AI import DistributedTriggerMultiple/AI
+from src.coginvasion.szboss import DistributedFuncDoor/AI
+from src.coginvasion.szboss import DistributedGoon/AI
+from src.coginvasion.szboss import DistributedSZBossSuit/AI
 
 struct AvChoice {
   uint32 avId;
@@ -159,11 +165,13 @@ dclass DistributedAvatar : DistributedSmoothNode {
   setName(string) required broadcast ownrecv db;
   setMaxHealth(int16 = 15) required broadcast ownrecv db;
   setHealth(int16 = 15) required broadcast ownrecv db;
+  setMoveBits(uint8 = 0) required broadcast ownsend airecv ram;
   setChat(string) broadcast ownsend airecv;
   announceHealth(int8, int16, int8) broadcast;
   setPlace(uint32) required broadcast ram;
   setHood(string) required broadcast ram;
   splash(int16/10, int16/10, int16/10) broadcast ownsend;
+  takeDamage(uint16) ownsend airecv;
 };
 
 dclass DistributedToon : DistributedAvatar {
@@ -236,6 +244,8 @@ dclass DistributedPlayerToon : DistributedToon {
   reqAllGagSlots() clsend ownsend airecv;
   
   createObjectForMe(uint16 dclassNum) ownsend airecv;
+  reqMakeSewer() ownsend airecv;
+  sewerHeadOff(uint32) ownrecv;
 };
 
 dclass DistributedTreasure : DistributedObject {
@@ -863,4 +873,50 @@ dclass DistributedPhysicsEntity : DistributedSmoothNode {
 
 dclass DistributedTNT : DistributedPhysicsEntity {
   explode() ownsend airecv broadcast;
+};
+
+dclass DistributedEntity {
+  // Index of this entity in the BSP file
+  setEntnum(uint16) required broadcast ram;
+};
+
+dclass DistributedFuncDoor : DistributedEntity {
+  // opened, opening, closed, closing
+  setDoorState(int8) required broadcast ram;
+  requestOpen() clsend airecv;
+};
+
+dclass DistributedTriggerOnce : DistributedEntity {
+  onPlayerEnter() clsend airecv;
+  onPlayerExit() clsend airecv;
+};
+
+dclass DistributedTriggerMultiple : DistributedTriggerOnce {
+};
+
+dclass DistributedSewer : DistributedBattleZone {
+  loadMap(string) broadcast;
+  ready() clsend airecv;
+  mapLoaded() clsend airecv;
+  startLevel() broadcast;
+};
+
+dclass DistributedGoon : DistributedAvatar, DistributedEntity {
+  doDetectStuff() broadcast;
+  doUndetectGlow() broadcast;
+  shoot(uint32) broadcast;
+  watchTarget(uint32) broadcast;
+  stopWatchingTarget() broadcast;
+  wakeup() broadcast;
+  doIdle() broadcast;
+  doAsleep() broadcast;
+  stopIdle() broadcast;
+  doScan() broadcast;
+  doMoveTrack(Point3[], uint8, int16 / 10, uint8) broadcast;
+  clearMoveTrack() broadcast;
+  hitByGag(uint8 gagId, uint16 distance = 10) clsend airecv;
+  doRagdollMode() broadcast;
+};
+
+dclass DistributedSZBossSuit : DistributedSuit, DistributedEntity {
 };
