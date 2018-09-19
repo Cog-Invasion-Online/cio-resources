@@ -455,6 +455,7 @@
 @PointClass iconsprite("sprites/info_cutscene.spr") base(Targetname) = info_cutscene : "Cutscene"
 [
     cutsceneId(string) : "Cutscene ID" : ""
+	length(string) : "Length of cutscene" : "10.0"
     
     input DoCutscene(void) : "Executes the cutscene"
     
@@ -584,6 +585,11 @@
 	[
 		1 : "Starts Asleep" : 0
 	]
+    
+    input Patrol(void) : "Starts the goon patrolling"
+    input Wakeup(void) : "Wakes the goon up, then starts patrolling"
+    
+    output OnDie(void) : "Thrown when the goon dies"
 ]
 
 @SolidClass base(Targetname) = func_physics : "Physics Brush"

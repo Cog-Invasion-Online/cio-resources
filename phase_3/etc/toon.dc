@@ -90,6 +90,7 @@ from src.coginvasion.szboss.DistributedTrigger/AI import DistributedTriggerMulti
 from src.coginvasion.szboss import DistributedFuncDoor/AI
 from src.coginvasion.szboss import DistributedGoon/AI
 from src.coginvasion.szboss import DistributedSZBossSuit/AI
+from src.coginvasion.szboss import DistributedCutscene/AI
 
 struct AvChoice {
   uint32 avId;
@@ -875,9 +876,12 @@ dclass DistributedTNT : DistributedPhysicsEntity {
   explode() ownsend airecv broadcast;
 };
 
-dclass DistributedEntity {
+dclass IDistributedEntity {
   // Index of this entity in the BSP file
   setEntnum(uint16) required broadcast ram;
+};
+
+dclass DistributedEntity : DistributedObject, IDistributedEntity {
 };
 
 dclass DistributedFuncDoor : DistributedEntity {
@@ -901,7 +905,7 @@ dclass DistributedSewer : DistributedBattleZone {
   startLevel() broadcast;
 };
 
-dclass DistributedGoon : DistributedAvatar, DistributedEntity {
+dclass DistributedGoon : DistributedAvatar, IDistributedEntity {
   doDetectStuff() broadcast;
   doUndetectGlow() broadcast;
   shoot(uint32) broadcast;
@@ -918,5 +922,10 @@ dclass DistributedGoon : DistributedAvatar, DistributedEntity {
   doRagdollMode() broadcast;
 };
 
-dclass DistributedSZBossSuit : DistributedSuit, DistributedEntity {
+dclass DistributedSZBossSuit : DistributedSuit, IDistributedEntity {
+};
+
+dclass DistributedCutscene : DistributedEntity {
+  doCutscene(string id) broadcast;
+  endCutscene() broadcast;
 };
