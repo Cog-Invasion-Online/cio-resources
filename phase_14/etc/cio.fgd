@@ -80,6 +80,11 @@
 
 @BaseClass size(0 0 0, 32 32 32) color(80 0 200) base(Appearflags) = Ammo []
 
+@BaseClass = SpawnIO
+[
+    output OnSpawn(void) : "Fired as soon as this entity spawns into the world"
+]
+
 @BaseClass = Targetname 
 [ 
 	targetname(target_source) : "Name"
@@ -452,6 +457,11 @@
 
 @PointClass studio("phase_7/models/props/cog_statue_a.bam") base(PlayerClass) = info_player_start : "Player 1 start" []
 
+@PointClass studio("phase_7/models/props/cog_statue_c.bam") base(PlayerClass, Targetname) = info_player_relocate : "Player relocation point"
+[
+    input Relocate(void) : "Teleports the player to the position and angles of the entity"
+]
+
 @PointClass iconsprite("sprites/info_cutscene.spr") base(Targetname) = info_cutscene : "Cutscene"
 [
     cutsceneId(string) : "Cutscene ID" : ""
@@ -461,6 +471,14 @@
     
     output OnBegin(void) : "Fired when the cutscene begins"
     output OnFinish(void) : "Fired when the cutscene ends"
+]
+
+@PointClass iconsprite("sprites/info_bgm.spr") base(Targetname, SpawnIO) = info_bgm : "Background Music Manager"
+[
+    input PlayMusic(void) : "Plays a specified song, params: [song;volume;looping]"
+    input StopMusic(void) : "Stops the current song"
+    output OnSongFinish(void) : "Fired when the song ends"
+    output OnSongStart(void) : "Fired when the song starts"
 ]
 
 //

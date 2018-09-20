@@ -13,6 +13,7 @@
 
 in vec4 texcoord0;
 in vec2 texcoord1;
+//in vec2 texcoord2;
 in vec3 eye_vec;
 
 uniform float osg_FrameTime;
@@ -22,6 +23,7 @@ uniform sampler2D refr;
 uniform sampler2D refr_depth;
 uniform sampler2D dudv;
 uniform sampler2D normal_map;
+uniform sampler2D env_map;
 
 uniform float reflectivity;
 uniform float shine_damper;
@@ -96,4 +98,6 @@ void main()
         frag_color = mix( refl_col, refr_col, clamp( (refr_factor / depth_factor) * reflect_factor, 0, 1 ) );
         frag_color.rgb = mix( frag_color.rgb, water_tint.rgb, water_tint.a );
         frag_color.rgb += spec_highlight;
+        //frag_color.rgb += texture2D(env_map, texcoord2).rgb * refr_factor;
+        frag_color.rgb = clamp(frag_color.rgb, 0.0, 1.0);
 }
