@@ -210,7 +210,7 @@ dclass DistributedPlayerToon : DistributedToon {
   updateBackpackAmmo() ownrecv;
   toonHitByPie(uint32, uint8 gag_id) ownsend airecv;
   toonUp(uint8 hp, uint8 announce, uint8 sound) clsend airecv;
-  setAdminToken(int8) required broadcast db ownrecv; // Is this me?
+  setAccessLevel(uint16) required broadcast db ownrecv; // Is this me?
   announceHealthAndPlaySound(int8, int16) broadcast;
   setGhost(int8) required broadcast ram ownsend airecv;
   setPUInventory(int8[] = [0, 0]) required broadcast ownrecv db;
@@ -241,7 +241,7 @@ dclass DistributedPlayerToon : DistributedToon {
   
   // Admin requests for toon
   requestEject(uint32, int8 = 0) ownsend airecv;
-  reqSetAdminToken(int8 token) clsend airecv;
+  reqSetAccessLevel(uint16 accessLevel) clsend airecv;
   reqSetTSAUni(int8 flag) clsend airecv;
   reqSetWorldAccess(int8 andTP) clsend airecv;
   reqUnlockAllGags() clsend ownsend airecv;
