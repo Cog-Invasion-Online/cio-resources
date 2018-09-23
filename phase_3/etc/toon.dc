@@ -91,6 +91,9 @@ from src.coginvasion.szboss import DistributedFuncDoor/AI
 from src.coginvasion.szboss import DistributedGoon/AI
 from src.coginvasion.szboss import DistributedSZBossSuit/AI
 from src.coginvasion.szboss import DistributedCutscene/AI
+from src.coginvasion.szboss import DistributedIndicatorLight/AI
+from src.coginvasion.szboss import DistributedButton/AI
+from src.coginvasion.szboss import DistributedGenerator/AI
 
 struct AvChoice {
   uint32 avId;
@@ -928,4 +931,18 @@ dclass DistributedSZBossSuit : DistributedSuit, IDistributedEntity {
 dclass DistributedCutscene : DistributedEntity {
   doCutscene(string id) broadcast;
   endCutscene() broadcast;
+};
+
+dclass DistributedIndicatorLight : DistributedEntity {
+  setLightColor(int16 / 10, int16 / 10, int16 / 10) required broadcast ram;
+  setLightState(uint8) required broadcast ram;
+};
+
+dclass DistributedButton : DistributedEntity {
+  setState(uint8) required broadcast ram;
+  requestPress() clsend airecv;
+};
+
+dclass DistributedGenerator : DistributedEntity {
+  setState(uint8) required broadcast ram;
 };
