@@ -608,10 +608,6 @@
     mass(string) : "Mass of physics object" : "1.0"
 ]
 
-@PointClass base(Targetname, Angles) size(-20, -20, 0, 20, 20, 40) = item_laffbarrel : "Laff Barrel"
-[
-]
-
 @PointClass studio("phase_3.5/models/char/suitA-mod.bam") base(Targetname, Angles) = npc_suit : "Cog"
 [
     spawnflags(flags) = 
@@ -669,6 +665,15 @@
 	nextKeyframe(target_destination) : "Next keyframe in this sequence" : ""
 ]
 
+@BaseClass = EnableDisable
+[
+    input Enable(void) : "enabled the entity"
+    input Disable(void) : "disables the entity"
+    
+    output OnEnable(void) : "Fired when entity is enabled"
+    output OnDisable(void) : "Fired when entity is disabled"
+]
+
 @PointClass base(Targetname, Keyframes) = rope_begin : "Beginning point in a rope/cable"
 [
 	resolution(integer) : "How smooth this rope (and all connecting node ropes) should be." : 3
@@ -687,4 +692,15 @@
     
     output OnPowerOn(void) : "Fired when the generator powers on completely"
     output OnPowerOff(void) : "Fired when the generator powers off completely"
+]
+
+@PointClass base(Targetname, Angles, EnableDisable) size(-20, -20, 0, 20, 20, 40) studio("phase_5/models/cogdominium/tt_m_ara_cbr_barrel.bam") = item_gagbarrel : "Gag restock barrel"
+[
+    track(integer) : "Gag Track (-1 random)" : -1
+    gag(integer) : "Gag (-1 random)" : -1
+]
+
+@PointClass base(Targetname, Angles, EnableDisable) size(-20, -20, 0, 20, 20, 40) studio("phase_5/models/cogdominium/tt_m_ara_cbr_laughBarrel.bam") = item_laffbarrel : "Laff Barrel"
+[
+    healamt(integer) : "Heal amount" : 10
 ]
