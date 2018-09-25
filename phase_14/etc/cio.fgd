@@ -459,6 +459,21 @@
     input TurnOff(void) : "Turns the light off"
 ]
 
+@PointClass iconsprite("sprites/logic_counter.spr") base(Targetname, SpawnIO) = logic_counter : "Counter"
+[
+    startVal(integer) : "Initial value" : 0
+    maxVal(integer) : "Max value" : 1
+    minVal(integer) : "Min value" : 0
+    
+    input CountUp(void) : "Increase counter by one"
+    input CountDown(void) : "Decrease counter by one"
+    
+    output OnHitMax(void) : "Fired when the counter has reached its goal"
+    output OnLoseMax(void) : "Fired when the counter was at max but now dropped"
+    output OnLoseMin(void) : "Fired when the counter was at min but now increased"
+    output OnHitMin(void) : "Fired when the count was at full but then dropped"
+]
+
 //
 // lights
 //
