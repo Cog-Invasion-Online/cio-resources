@@ -94,6 +94,7 @@ from src.coginvasion.szboss import DistributedCutscene/AI
 from src.coginvasion.szboss import DistributedIndicatorLight/AI
 from src.coginvasion.szboss import DistributedButton/AI
 from src.coginvasion.szboss import DistributedGenerator/AI
+from src.coginvasion.szboss import DistributedFuncRotating/AI
 
 struct AvChoice {
   uint32 avId;
@@ -944,5 +945,9 @@ dclass DistributedButton : DistributedEntity {
 };
 
 dclass DistributedGenerator : DistributedEntity {
+  setState(uint8) required broadcast ram;
+};
+
+dclass DistributedFuncRotating : DistributedEntity {
   setState(uint8) required broadcast ram;
 };
