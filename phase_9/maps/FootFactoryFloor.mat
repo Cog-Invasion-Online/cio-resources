@@ -1,4 +1,5 @@
 material
 {
     "$surfaceprop"          "concrete"
+    "$normalmap"            "phase_9/maps/FootFactoryFloor_bump.jpg"
 }

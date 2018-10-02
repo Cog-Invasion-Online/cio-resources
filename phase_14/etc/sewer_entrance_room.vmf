@@ -28171,9 +28171,9 @@ entity
 entity
 {
     "id" "913"
-    "classname" "trigger_generic"
-    "delay" "0"
-    "target" "door2generator_bot;door2generator_top"
+    "classname" "trigger_once"
+    "StartDisabled" "0"
+    "target" ""
     "targetname" "trigger_opengeneratordoors"
     "spawnflags" "2"
     editor
@@ -31183,8 +31183,8 @@ cameras
     "activecamera" "0"
     camera
     {
-        "position" "[641.36650000 -864.11410000 211.52590000]"
-        "look" "[644.05660000 -841.95860000 202.68400000]"
+        "position" "[642.45390000 -911.40770000 160.79140000]"
+        "look" "[642.73380000 -887.41000000 161.34710000]"
     }
 }
 cordon

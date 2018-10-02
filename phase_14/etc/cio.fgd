@@ -615,6 +615,7 @@
         1 : "Random Suit Plan (based on neighborhood)" : 0
         2 : "Chair Suit" : 0
         4 : "Guard Suit" : 0
+        8 : "Starts Active": 1
     ]
     suitPlan(choices) : "Suit Plan" : 0 =
     [
@@ -652,6 +653,15 @@
         31 : "Mr. Hollywood"
         32 : "Vice President"
         33 : "Lucy Crossbill"
+    ]
+    variant(choices) : "Variant" : 0 =
+    [
+        0 : "Normal"
+        1 : "Skeleton"
+        2 : "Waiter"
+        3 : "Minigame"
+        4 : "Zombie"
+        5 : "Corroded"
     ]
     level(integer) : "Level of Suit" : 1
     

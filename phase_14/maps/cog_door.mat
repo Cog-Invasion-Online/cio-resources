@@ -2,4 +2,5 @@ material
 {
     "$surfaceprop"          "metalfloor"
     "$envmap_shininess"     ".08"
+    "$normalmap"            "phase_14/maps/cog_door_bump.png"
 }

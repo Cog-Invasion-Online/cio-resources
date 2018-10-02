@@ -2,4 +2,5 @@ material
 {
     "$surfaceprop"          "metalgrate"
     "$envmap_shininess"     ".08"
+    "$normalmap"            "phase_9/maps/FloorGrate_bump.jpg"
 }

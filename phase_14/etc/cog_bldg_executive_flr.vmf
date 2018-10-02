@@ -21495,13 +21495,31 @@ entity
         "parentid" "1"
     }
 }
+entity
+{
+    "id" "429"
+    "classname" "npc_suit"
+    "angles" "0 0 0"
+    "level" "8"
+    "suitPlan" "29"
+    "targetname" "test_suit"
+    "spawnflags" "0"
+    "origin" "1231.41982631 774.24033544 0.00000000"
+    editor
+    {
+        "color" "0 255 0"
+        "visgroupshown" "1"
+        "visgroupautoshown" "1"
+        "parentid" "1"
+    }
+}
 cameras
 {
     "activecamera" "0"
     camera
     {
-        "position" "[1284.20500000 585.13450000 80.90612000]"
-        "look" "[1284.03900000 591.10330000 80.36061000]"
+        "position" "[1092.50400000 546.16060000 134.82860000]"
+        "look" "[1097.15800000 549.37860000 132.84540000]"
     }
 }
 cordon

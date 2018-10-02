@@ -1,0 +1,6 @@
+material
+{
+    "$surfaceprop"          "metalfloor"
+    "$envmap_shininess"     ".08"
+    "$normalmap"            "phase_14/maps/ladder_bump.png"
+}
