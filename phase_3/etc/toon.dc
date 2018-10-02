@@ -819,7 +819,6 @@ dclass DistributedCogOfficeBattle : DistributedBattleZone {
   readyToStart() clsend airecv;
   loadFloor(int8, string) broadcast;
   readyForNextFloor() clsend airecv;
-  iAmDead() clsend airecv;
   doFaceoff(int8, int16) broadcast;
 
   setTauntSuitId(uint32) required broadcast ram;
