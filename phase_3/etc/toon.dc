@@ -8,7 +8,6 @@ from src.coginvasion.toon import DistributedNPCToon/AI
 from src.coginvasion.toon import DistributedHQNPCToon/AI
 from src.coginvasion.toon import DistributedTailorNPCToon/AI
 from src.coginvasion.toon import DistributedClerkNPCToon/AI
-from src.coginvasion.npc import DistributedChar
 from src.coginvasion.npc import DistributedDisneyChar/AI
 from src.coginvasion.shop import DistributedBattleShop/AI
 from src.coginvasion.shop import DistributedGagShop/AI
@@ -358,13 +357,6 @@ dclass DistributedHQNPCToon : DistributedNPCToon {
 dclass DistributedClerkNPCToon : DistributedNPCToon {
   setChat(string) broadcast ownsend airecv;
   confirmPurchase(uint8 gagIds [], uint8 [], int32) clsend airecv;
-};
-
-dclass DistributedChar : DistributedSmoothNode {
-  setChar(string charType, int8 clerk=0) required broadcast ram;
-  setName(string name) required broadcast ram;
-  setChat(string chat) broadcast;
-  setAnimState(string anim) broadcast ram;
 };
 
 dclass DistributedSuit : DistributedAvatar {
