@@ -797,11 +797,6 @@ dclass DistributedElevator : DistributedObject {
   stateAndTimestamp(string, int16);
 };
 
-dclass DistributedCogOfficeElevator : DistributedElevator {
-  setIndex(int8) required broadcast ram;
-  putToonsInElevator() broadcast;
-};
-
 dclass DistributedCogOfficeBattle : DistributedBattleZone {
   setDept(string) required broadcast ram;
   setState(string, int16) broadcast ram;
@@ -828,8 +823,12 @@ dclass DistributedCogOfficeBattle : DistributedBattleZone {
 
 dclass DistributedCogOfficeSuit : DistributedSuit {
   setBattleDoId(uint32) required broadcast ram;
-  setState(string, int8[], int16) required broadcast ram;
-  setHangoutIndex(int8) required broadcast ram;
+
+  setState(string, int16) required broadcast ram;
+
+  setHangoutPoint(uint8, Point3, int16 % 360 / 10) required broadcast ram;
+  setGuardPoint(Point3, int16 % 360 / 10) required broadcast ram;
+  setChairPoint(Point3, int16 % 360 / 10) required broadcast ram;
 };
 
 dclass DistributedTakeOverSuit : DistributedSuit {
@@ -941,4 +940,9 @@ dclass DistributedGenerator : DistributedEntity {
 
 dclass DistributedFuncRotating : DistributedEntity {
   setState(uint8) required broadcast ram;
+};
+
+dclass DistributedCogOfficeElevator : DistributedElevator, IDistributedEntity {
+  setIndex(int8) required broadcast ram;
+  putToonsInElevator() broadcast;
 };

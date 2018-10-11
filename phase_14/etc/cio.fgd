@@ -714,3 +714,37 @@
 [
     healamt(integer) : "Heal amount" : 10
 ]
+
+@PointClass base(Targetname, Angles) studio("phase_4/models/modules/elevator.bam") = cogoffice_elevator : "Cog Office Elevator"
+[
+    index(integer) : "Elevator index" : 0
+    type(choices) : "Elevator type" : 0 =
+    [
+        0 : "Building"
+        1 : "Cogdominium"
+    ]
+]
+
+@PointClass base(Targetname, Angles) = cogoffice_suitspawn : "Office Cog Spawn point"
+[
+    spawnflags(flags) =
+    [
+        1 : "Force boss" : 0
+        2 : "Spawn immediately" : 1
+        4 : "Don't ignore": 0
+		8 : "No hangout": 0
+    ]
+
+	section(integer) : "Room section" : 0
+    
+    input Spawn(void) : "Spawns a cog at this point"
+    output OnSpawn(void) : "Fired when a cog is spawned"
+]
+
+@PointClass base(Targetname, Angles) = cogoffice_hangoutpoint : "Office Cog Hangout point"
+[
+]
+
+@PointClass base(Targetname, Angles) = cogoffice_faceoff_point : "Office Toon Faceoff point"
+[
+]

@@ -3,6 +3,7 @@
 "spawnflags" "0"
 "mapversion" "220"
 "wad" ""
+"message" "Executive Floor"
 <solid>
 ( 576.00003400 512.00000000 272.00000000 ) ( 576.00003400 512.00000000 16.00000000 ) ( 576.00003400 528.00000000 16.00000000 ) phase_14/maps/smoothwall_4.jpg [ 0.00000000 1.00000000 0.00000000 44.0000000000000 ] [ 0.00000000 0.00000000 -1.00000000 0.0000000000000 ] 0.000 1.000 1.000 16.000 4 { 576.00003400 512.00000000 272.00000000 } { 576.00003400 512.00000000 16.00000000 } { 576.00003400 528.00000000 16.00000000 } { 576.00003400 528.00000000 272.00000000 }
 ( 640.00003400 528.00000000 272.00000000 ) ( 640.00003400 528.00000000 16.00000000 ) ( 640.00003400 512.00000000 16.00000000 ) phase_14/maps/smoothwall_4.jpg [ 0.00000000 -1.00000000 0.00000000 84.0000000000000 ] [ 0.00000000 0.00000000 -1.00000000 0.0000000000000 ] 0.000 1.000 1.000 16.000 4 { 640.00003400 528.00000000 272.00000000 } { 640.00003400 528.00000000 16.00000000 } { 640.00003400 512.00000000 16.00000000 } { 640.00003400 512.00000000 272.00000000 }
@@ -1189,11 +1190,6 @@
 "origin" "420.00000000 -355.00013000 160.00000000"
 </entity>
 <entity>
-"classname" "info_player_start"
-"angles" "0 270 0"
-"origin" "23.000 728.000 0.000"
-</entity>
-<entity>
 "classname" "prop_static"
 "angles" "-15 45 -15"
 "targetname" ""
@@ -2104,14 +2100,11 @@
 "origin" "541.000 493.000 0.000"
 </entity>
 <entity>
-"classname" "prop_static"
+"classname" "cogoffice_elevator"
+"spawnflags" "8"
 "angles" "0 90 0"
 "targetname" ""
-"modelpath" "phase_4/models/modules/elevator.bam"
-"twosided" "0"
-"scale" "1.0 1.0 1.0"
-"physics" "0"
-"shadows" "0"
+"index" "0"
 "origin" "32.000 840.000 0.000"
 </entity>
 <entity>
@@ -4023,44 +4016,36 @@
 </solid>
 </entity>
 <entity>
-"classname" "npc_suit"
-"spawnflags" "8"
+"classname" "cogoffice_suitspawn"
+"spawnflags" "2"
+"angles" "0 32 0"
+"section" "0"
+"targetname" ""
+"origin" "-423.99998443 314.99999550 0.00000000"
+</entity>
+<entity>
+"classname" "cogoffice_suitspawn"
+"spawnflags" "2"
+"angles" "0 131 0"
+"targetname" ""
+"section" "0"
+"origin" "244.00001557307105887183707468 222.00004549632140178285734469 0.00000000000000000000000054"
+</entity>
+<entity>
+"classname" "cogoffice_suitspawn"
+"spawnflags" "2"
+"angles" "0 131 0"
+"section" "0"
+"targetname" ""
+"origin" "498.00001557 -82.99995450 0.00000000"
+</entity>
+<entity>
+"classname" "cogoffice_suitspawn"
+"spawnflags" "15"
 "angles" "0 90 0"
 "targetname" ""
-"suitPlan" "31"
-"variant" "0"
-"level" "12"
-"origin" "24.950549422695853333355800824 24.71791489583158387931617677 0.00000000000000000000000121"
-</entity>
-<entity>
-"classname" "npc_suit"
-"spawnflags" "8"
-"angles" "0 38 0"
-"level" "9"
-"suitPlan" "28"
-"targetname" ""
-"variant" "0"
-"origin" "-321.99999998 258.99999490 0.00000000"
-</entity>
-<entity>
-"classname" "npc_suit"
-"spawnflags" "8"
-"angles" "0 131 0"
-"level" "11"
-"suitPlan" "30"
-"targetname" ""
-"variant" "0"
-"origin" "466.00000002 65.99999490 0.00000000"
-</entity>
-<entity>
-"classname" "npc_suit"
-"spawnflags" "8"
-"angles" "0 0 0"
-"level" "8"
-"suitPlan" "27"
-"targetname" ""
-"variant" "0"
-"origin" "529.00000002 -410.99999510 0.00000000"
+"section" "0"
+"origin" "24.00001733463875693753818422 22.00002710382919029093574912 0.00000000000000000000000061"
 </entity>
 <entity>
 "classname" "light"
@@ -4181,4 +4166,36 @@
 "target" ""
 "targetname" ""
 "origin" "32.00002000 689.99993900 160.00000000"
+</entity>
+<entity>
+"classname" "cogoffice_faceoff_point"
+"angles" "0 270 0"
+"targetname" ""
+"origin" "138.99999801723723406309985043 657.99999999999889627986062567 -0.00000000000000000000000103"
+</entity>
+<entity>
+"classname" "cogoffice_faceoff_point"
+"angles" "0 270 0"
+"targetname" ""
+"origin" "67.99999802 658.00000000000110372 0.00000000"
+</entity>
+<entity>
+"classname" "cogoffice_faceoff_point"
+"angles" "0 270 0"
+"targetname" ""
+"origin" "-0.00000198 659.00000000 0.00000000"
+</entity>
+<entity>
+"classname" "cogoffice_faceoff_point"
+"angles" "0 270 0"
+"targetname" ""
+"origin" "-69.00000198 658.00000000 0.00000000"
+</entity>
+<entity>
+"classname" "cogoffice_elevator"
+"spawnflags" "8"
+"angles" "0 180 0"
+"index" "1"
+"targetname" ""
+"origin" "-465.00000000 -434.000040750941833500000000 0.00000000"
 </entity>
