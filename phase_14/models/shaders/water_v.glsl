@@ -19,6 +19,8 @@ uniform mat4 p3d_ViewMatrixInverse;
 uniform mat4 tpose_view_to_model;
 
 in vec4 p3d_Vertex;
+in vec4 p3d_Tangent;
+in vec4 p3d_Binormal;
 in vec3 p3d_Normal;
 
 // These go to our pixel shader:
@@ -26,6 +28,10 @@ out vec4 texcoord0; // projected texture coordinates for the refraction and refl
 out vec2 texcoord1; // corrected texture coordinates for sampling the dudv map to distort texcoord0
 //out vec2 texcoord2; // envmap coords
 out vec3 eye_vec; // direction of camera to vertex
+out vec3 eye_normal;
+out vec3 world_normal;
+out vec3 l_binormal;
+out vec3 l_tangent;
 
 // These are inputs from the game:
 uniform float dudv_tile; // controls scaling of dudv map
@@ -42,12 +48,11 @@ void main()
         
         texcoord1 = vec2( p3d_Vertex.x / 2.0 + 0.5, p3d_Vertex.y / 2.0 + 0.5 ) * dudv_tile;
         
-        vec4 eye_normal;
-        eye_normal.xyz = normalize(mat3(tpose_view_to_model) * p3d_Normal);
-        eye_normal.w = 0.0;
+
+        eye_normal = normalize(mat3(tpose_view_to_model) * p3d_Normal);
         
-        //vec3 world_normal = (p3d_ModelMatrix * vec4( p3d_Normal, 0.0 )).xyz;
-        //world_normal = normalize(world_normal);
+        world_normal = (p3d_ModelMatrix * vec4( p3d_Normal, 0.0 )).xyz;
+        world_normal = normalize(world_normal);
         
         //vec3 eye_pos = vec3(p3d_ModelViewMatrix * p3d_Vertex);
         //vec3 eye_vec = normalize(eye_pos);
@@ -57,5 +62,12 @@ void main()
         //texcoord2.x = (r.x / m) + 0.5;
         //texcoord2.y = (r.y / m) + 0.5;
         
-        eye_vec = normalize( mspos_view.xyz - p3d_Vertex.xyz );
+        vec3 eyedir = mspos_view.xyz - p3d_Vertex.xyz;
+        eye_vec.x = dot(p3d_Tangent.xyz, eyedir);
+        eye_vec.y = dot(p3d_Binormal.xyz, eyedir);
+        eye_vec.z = dot(p3d_Normal, eyedir);
+        eye_vec = normalize( eye_vec );
+        
+        l_tangent = normalize(mat3(p3d_ModelMatrix) * p3d_Tangent.xyz);
+        l_binormal = normalize(mat3(p3d_ModelMatrix) * -p3d_Binormal.xyz);
 }
