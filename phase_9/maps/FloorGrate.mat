@@ -1,4 +1,4 @@
-material
+LightmappedGeneric
 {
     "$surfaceprop"          "metalgrate"
     "$envmap_shininess"     ".08"
