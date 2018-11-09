@@ -10,33 +10,37 @@
  
 #pragma once
 
-void GetFogLinear(inout vec4 result, vec4 fogColor, vec4 hPos, vec4 fogData)
+vec3 GetFogLinear(vec4 result, vec4 fogColor, vec4 hPos, vec4 fogData)
 {
-	mix(fogColor.rgb, result.rgb, clamp((fogData.z - hPos.z) * fogData.w, 0, 1));
+	return mix(fogColor.rgb, result.rgb, clamp((fogData.z - hPos.z) * fogData.w, 0, 1));
 }
 
-void GetFogExp(inout vec4 result, vec4 fogColor, vec4 hPos, vec4 fogData)
+vec3 GetFogExp(vec4 result, vec4 fogColor, vec4 hPos, vec4 fogData)
 {
-	mix(fogColor.rgb, result.rgb, clamp(exp2(fogData.x * hPos.z * -1.442695), 0, 1));
+	return mix(fogColor.rgb, result.rgb, clamp(exp2(fogData.x * hPos.z * -1.442695), 0, 1));
 }
 
-void GetFogExpSqr(inout vec4 result, vec4 fogColor, vec4 hPos, vec4 fogData)
+vec3 GetFogExpSqr(vec4 result, vec4 fogColor, vec4 hPos, vec4 fogData)
 {
-	mix(fogColor.rgb, result.rgb, clamp(exp2(fogData.x * fogData.x * hPos.z * hPos.z * -1.442695), 0, 1));
+	return mix(fogColor.rgb, result.rgb, clamp(exp2(fogData.x * fogData.x * hPos.z * hPos.z * -1.442695), 0, 1));
 }
 
-void GetFog(int fogType, inout vec4 result, vec4 fogColor, vec4 hPos, vec4 fogData)
+vec3 GetFog(int fogType, vec4 result, vec4 fogColor, vec4 hPos, float density, float start, float end, float scale)
 {
+    vec4 fogData = vec4(density, start, end, scale);
+
     if (fogType == 0)
     {
-        GetFogLinear(result, fogColor, hPos, fogData);
+        return GetFogLinear(result, fogColor, hPos, fogData);
     }
     else if (fogType == 1)
     {
-        GetFogExp(result, fogColor, hPos, fogData);
+        return GetFogExp(result, fogColor, hPos, fogData);
     }
     else if (fogType == 2)
     {
-        GetFogExpSqr(result, fogColor, hPos, fogData);
+        return GetFogExpSqr(result, fogColor, hPos, fogData);
     }
+
+	return result.rgb;
 }

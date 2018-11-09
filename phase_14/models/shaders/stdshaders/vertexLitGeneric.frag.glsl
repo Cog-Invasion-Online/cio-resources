@@ -15,8 +15,14 @@
 
 #ifdef FOG
 in vec4 l_hPos;
-uniform vec4 attr_fog;
-uniform vec4 attr_fogcolor;
+uniform struct
+{
+	vec4 color;
+	float density;
+	float start;
+	float end;
+	float scale;
+} p3d_Fog;
 #endif
 
 #ifdef NEED_WORLD_POSITION
@@ -91,32 +97,32 @@ uniform vec4 p3d_ClipPlane[NUM_CLIP_PLANES];
 
 uniform struct
 {
-    #ifdef MAT_AMBIENT
-    vec4 ambient;
-    #endif
+#ifdef MAT_AMBIENT
+	vec4 ambient;
+#endif
     
-    #ifdef MAT_EMISSION
+#ifdef MAT_EMISSION
     vec4 emission;
-    #endif
+#endif
     
-    //#ifdef MAT_DIFFUSE
+//#ifdef MAT_DIFFUSE
     vec4 diffuse;
-    //#endif
+//#endif
     
-    #ifdef MAT_SPECULAR
-    vec4 specular;
+#ifdef MAT_SPECULAR
+    vec3 specular;
     float shininess;
-    #endif
+#endif
     
-    #ifdef MAT_RIM
+#ifdef MAT_RIM
     vec4 rimColor;
     float rimWidth;
-    #endif
+#endif
     
-    #ifdef MAT_LIGHTWARP
+#ifdef MAT_LIGHTWARP
     sampler2D lightwarp;
-    #endif
-    
+#endif
+   
 } p3d_Material;
 
 #endif
@@ -161,7 +167,7 @@ out vec4 o_color;
 void main()
 {
 	// Clipping first!
-	#if NUM_CLIP_PLANES > 0
+#if NUM_CLIP_PLANES > 0
 	for (int i = 0; i < NUM_CLIP_PLANES; i++)
 	{
 		if (ClipPlaneTest(l_worldPosition, p3d_ClipPlane[i])) 
@@ -169,98 +175,98 @@ void main()
 			discard;
 		}
 	}
-	#endif
+#endif
 
 	vec4 result = vec4(0.0);
-	#if defined(HAVE_AUX_NORMAL) || defined(HAVE_AUX_GLOW)
+#if defined(HAVE_AUX_NORMAL) || defined(HAVE_AUX_GLOW)
 	o_aux = vec4(0.0);
-	#endif
+#endif
 
 	vec3 parallaxOffset = vec3(0.0);
 
-	#ifdef HEIGHTMAP
+#ifdef HEIGHTMAP
 	parallaxOffset = l_eyeVec.xyz * (texture2D(heightSampler, l_texcoord.xy).rgb * 2.0 - 1.0) * PARALLAX_MAPPING_SCALE;
 	// Additional samples
 	for (int i = 0; i < PARALLAX_MAPPING_SAMPLES; i++)
 	{
 		parallaxOffset += l_eyeVec.xyz * (parallaxOffset + (texture2D(heightSampler, l_texcoord.xy).rgb * 2.0 - 1.0)) * (0.5 * PARALLAX_MAPPING_SCALE);
 	}
-	#endif
+#endif
 
-	#ifdef NEED_EYE_NORMAL
+#ifdef NEED_EYE_NORMAL
 	vec4 finalEyeNormal = l_eyeNormal;
-	#else
+#else
 	vec4 finalEyeNormal = vec4(0.0);
-	#endif
+#endif
 
-	#ifdef NORMALMAP
+#ifdef NORMALMAP
 	GetBumpedNormal(finalEyeNormal, normalSampler, l_texcoord,
 			        l_tangent, l_binormal);
-	#endif
+#endif
 
-	#ifdef NEED_EYE_NORMAL
+#ifdef NEED_EYE_NORMAL
 	finalEyeNormal.xyz = normalize(finalEyeNormal.xyz);
-	#endif
+#endif
 
-	#ifdef HAVE_AUX_NORMAL
+#ifdef HAVE_AUX_NORMAL
 	o_aux.rgb = (finalEyeNormal.xyz * 0.5) + vec3(0.5, 0.5, 0.5);
-	#endif
+#endif
 
-	#ifdef LIGHTING
+#ifdef LIGHTING
 
 	vec4 totalDiffuse = vec4(0.0);
 
-	#ifdef HAVE_SPECULAR
+#ifdef HAVE_SPECULAR
 	vec4 totalSpecular = vec4(0.0);
-	#ifdef MAT_SPECULAR
+#ifdef MAT_SPECULAR
 	float shininess = p3d_Material.shininess;
-	#else
+#else
 	float shininess = 50.0;
-	#endif
-	#endif
+#endif
+#endif
 
-	#ifdef HAVE_SEPARATE_AMBIENT
+#ifdef HAVE_SEPARATE_AMBIENT
 	vec4 totalAmbient = vec4(0.0);
-	#ifdef BSP_LIGHTING
+#ifdef BSP_LIGHTING
     totalAmbient.rgb += AmbientCubeLight(l_worldNormal.xyz, ambientCube);
-    #else
+#else
     totalAmbient += p3d_LightModel.ambient;
-    #endif
-	#else // HAVE_SEPARATE_AMBIENT
-	#ifdef BSP_LIGHTING
+#endif
+#else // HAVE_SEPARATE_AMBIENT
+#ifdef BSP_LIGHTING
     totalDiffuse.rgb += AmbientCubeLight(l_worldNormal.xyz, ambientCube);
-    #else
+#else
     totalDiffuse += p3d_LightModel.ambient;
-    #endif
-	#endif
+#endif
+#endif
 
-	#ifdef MAT_RIM
+#ifdef MAT_RIM
 	vec4 totalRim = vec4(0.0);
 	RimTerm(totalRim, l_eyePosition, finalEyeNormal, p3d_Material.rimColor, p3d_Material.rimWidth);
-	#endif
+#endif
     
     float ldist, lattenv, langle, lshad, lintensity;
 	vec4 lcolor, lspec, lpoint, latten, ldir, leye;
 	vec3 lvec, lhalf;
 
 	// Now factor in local light sources
-	#ifdef BSP_LIGHTING
+#ifdef BSP_LIGHTING
 	for (int i = 0; i < lightCount[0]; i++)
-	#else
+#else
 	for (int i = 0; i < NUM_LIGHTS; i++)
-	#endif
+#endif
 	{
-		#ifdef BSP_LIGHTING
+#ifdef BSP_LIGHTING
 		lpoint = l_lightData[i][0];
 		ldir = l_lightData[i][1];
 		latten = l_lightData[i][2];
 		lcolor = l_lightData[i][3];
-		#else
+#else
 		lcolor = p3d_LightSource[i].diffuse;
 		ldir = p3d_LightSource[i].position;
 		lpoint = p3d_LightSource[i].position;
 		latten = vec4(p3d_LightSource[i].attenuation, 0.0);
-		#endif
+#endif
         
         lattenv = 0.0;
         lvec = vec3(0);
@@ -271,198 +277,195 @@ void main()
 			totalDiffuse.rgb += GetPointLight(lpoint, latten, lcolor, lattenv, lvec,
                                           l_eyePosition, finalEyeNormal,
 
-			#ifdef MAT_HALFLAMBERT
+#ifdef MAT_HALFLAMBERT
 				true,
-			#else
+#else
 				false,
-			#endif
+#endif
 
-			#ifdef MAT_LIGHTWARP
+#ifdef MAT_LIGHTWARP
 				true, p3d_Material.lightwarp
-			#else
+#else
 				false, albedoSampler
-			#endif
+#endif
 
 			);
 
-			#ifdef HAVE_SPECULAR
+#ifdef HAVE_SPECULAR
 			totalSpecular.rgb += GetSpecular(lattenv, finalEyeNormal, l_eyePosition,
                         p3d_Material.specular, shininess, lvec);
-			#endif
+#endif
 
 		}
         else if (lightTypes[i] == LIGHTTYPE_DIRECTIONAL)
         {
             totalDiffuse.rgb += GetDirectionalLight(ldir, lcolor, finalEyeNormal, lvec,
-            #ifdef MAT_HALFLAMBERT
+#ifdef MAT_HALFLAMBERT
                 true,
-            #else
+#else
                 false,
-            #endif
+#endif
                 
-            #ifdef MAT_LIGHTWARP
+#ifdef MAT_LIGHTWARP
                 true, p3d_Material.lightwarp
-            #else
+#else
                 false, albedoSampler
-            #endif
+#endif
                 
-            #ifdef HAS_SHADOW_SUNLIGHT
+#ifdef HAS_SHADOW_SUNLIGHT
                 , true, pssmSplitSampler, l_pssmCoords
-            #endif
+#endif
             );
             
-            #ifdef HAVE_SPECULAR
+#ifdef HAVE_SPECULAR
             totalSpecular.rgb += GetSpecular(1.0, finalEyeNormal, l_eyePosition,
                 p3d_Material.specular, shininess, lvec);
-            #endif
+#endif
         }
         else if (lightTypes[i] == LIGHTTYPE_SPOT)
         {
             totalDiffuse.rgb += GetSpotlight(lpoint, latten, lcolor, lattenv, lvec, ldir,
                                             l_eyePosition, finalEyeNormal,
-            #ifdef MAT_HALFLAMBERT
+#ifdef MAT_HALFLAMBERT
                 true,
-            #else
+#else
                 false,
-            #endif
+#endif
             
-            #ifdef MAT_LIGHTWARP
+#ifdef MAT_LIGHTWARP
                 true, p3d_Material.lightwarp
-            #else
+#else
                 false, albedoSampler
-            #endif
+#endif
             
             );
             
-            #ifdef HAVE_SPECULAR
+#ifdef HAVE_SPECULAR
 			totalSpecular.rgb += GetSpecular(lattenv, finalEyeNormal, l_eyePosition,
                         p3d_Material.specular, shininess, lvec);
-			#endif
+#endif
         }
 	}
 
-	#ifdef GLOWMAP
+#ifdef GLOWMAP
 	vec4 glow = texture2D(glowSampler, l_texcoord.xy - parallaxOffset.xy);
-	#endif
+#endif
 
 	// Begin view-space light summation.
-	#ifdef MAT_EMISSION
-	#ifdef GLOWMAP
+#ifdef MAT_EMISSION
+#ifdef GLOWMAP
 	result = p3d_Material.emission * clamp(2 * (glow.a - 0.5), 0, 1);
-	#else
+#else
 	result = p3d_Material.emission;
-	#endif
-	#else // MAT_EMISSION
-	#ifdef GLOWMAP
+#endif
+#else // MAT_EMISSION
+#ifdef GLOWMAP
 	result = vec4(clamp(2 * (glow.a - 0.5), 0, 1));
-	#else
+#else
 	result = vec4(0.0);
-	#endif
-	#endif
+#endif
+#endif
 
-	#ifdef HAVE_SEPARATE_AMBIENT
+#ifdef HAVE_SEPARATE_AMBIENT
 	result += totalAmbient;
-	#endif
+#endif
 
-	#ifdef MAT_DIFFUSE
+#ifdef MAT_DIFFUSE
 	result += totalDiffuse * p3d_Material.diffuse;
-	#else
+#else
 	result += totalDiffuse;
-	#endif
+#endif
 
-	#ifdef MAT_RIM
+#ifdef MAT_RIM
 	result += totalRim;
-	#endif
+#endif
 
-	#ifdef COLOR_VERTEX
+#ifdef COLOR_VERTEX
 	result *= l_color;
-	#elif defined(COLOR_FLAT)
+#elif defined(COLOR_FLAT)
 	result *= p3d_Color;
-	#endif
+#endif
 
-	#ifndef HDR
+#ifndef HDR
 	result = clamp(result, 0, 1);
-	#endif
+#endif
 
-	#ifdef CALC_PRIMARY_ALPHA
-	#ifdef COLOR_VERTEX
+#ifdef CALC_PRIMARY_ALPHA
+#ifdef COLOR_VERTEX
 	result.a = l_color.a;
-	#elif defined(COLOR_FLAT)
+#elif defined(COLOR_FLAT)
 	result.a = p3d_Color.a;
-	#else
+#else
 	result.a = 1.0;
-	#endif
-	#endif
+#endif
+#endif
 
-	#else // LIGHTING
+#else // LIGHTING
 
-	#ifdef COLOR_VERTEX
+#ifdef COLOR_VERTEX
 	result = l_color;
-	#elif defined(COLOR_FLAT)
+#elif defined(COLOR_FLAT)
 	result = p3d_Color;
-	#else
+#else
 	result = vec4(1);
-	#endif
+#endif
 
-	#endif // LIGHTING
+#endif // LIGHTING
 
 	result *= p3d_ColorScale;
 
-	#ifdef ALBEDO
+#ifdef ALBEDO
 	result *= SampleAlbedo(l_texcoord, parallaxOffset, albedoSampler);
-	#endif
+#endif
 
-	#ifdef SPHEREMAP
+#ifdef SPHEREMAP
 	result += SampleSphereMap(l_eyeVec, finalEyeNormal,
 							  p3d_ViewMatrixInverse, parallaxOffset,
 							  sphereSampler);
-	#endif
+#endif
 
-	#ifdef CUBEMAP
+#ifdef CUBEMAP
 	result += SampleCubeMap(l_eyeVec, finalEyeNormal, parallaxOffset, cubeSampler);
-	#endif
+#endif
 
-	#ifdef ALPHA_TEST
+#ifdef ALPHA_TEST
 	if (AlphaTest(result.a, ALPHA_TEST_REF))
 	{
 		discard;
 	}
-	#endif
+#endif
 
-	#ifdef HAVE_GLOW
-	#ifdef GLOWMAP
+#ifdef HAVE_GLOW
+#ifdef GLOWMAP
 	result.a = glow.a;
-	#else
+#else
 	result.a = 0.5;
-	#endif
-	#endif
+#endif
+#endif
 
-	#ifdef HAVE_AUX_GLOW
-	#ifdef GLOWMAP
+#ifdef HAVE_AUX_GLOW
+#ifdef GLOWMAP
 	o_aux.a = glow.a;
-	#else
+#else
 	o_aux.a = 0.5;
-	#endif
-	#endif
+#endif
+#endif
 
-	#ifdef HAVE_SPECULAR
-	#ifdef MAT_SPECULAR
+#ifdef HAVE_SPECULAR
+#ifdef MAT_SPECULAR
 	totalSpecular *= p3d_Material.specular;
-	#endif
-	#ifdef GLOSSMAP
+#endif
+#ifdef GLOSSMAP
 	totalSpecular *= texture2D(glossSampler, l_texcoord.xy - parallaxOffset.xy).a;
-	#endif
+#endif
 	result.rgb += totalSpecular.rgb;
-	#endif
+#endif
 
-	#if 0
-
+#ifdef FOG
 	// Apply fog.
-	#ifdef FOG
-	GetFog(FOG, result, attr_fogcolor, l_hPos, attr_fog);
-	#endif
-
-	#endif
+	result.rgb = GetFog(FOG, result, p3d_Fog.color, l_hPos, p3d_Fog.density,
+						p3d_Fog.start, p3d_Fog.end, p3d_Fog.scale);
+#endif
 
 	o_color = result * 1.0000001;
 }

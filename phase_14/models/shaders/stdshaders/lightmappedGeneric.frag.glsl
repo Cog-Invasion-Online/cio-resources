@@ -23,10 +23,10 @@
 
 #define NUM_BUMP_VECTS 3
 
-mat3 g_localBumpBasis = mat3(
-    OO_SQRT_2_OVER_3, 0.0f, OO_SQRT_3,
-    -OO_SQRT_6, OO_SQRT_2, OO_SQRT_3,
-    -OO_SQRT_6, -OO_SQRT_2, OO_SQRT_3
+vec3 g_localBumpBasis[3] = vec3[](
+    vec3(OO_SQRT_2_OVER_3, 0.0f, OO_SQRT_3),
+    vec3(-OO_SQRT_6, OO_SQRT_2, OO_SQRT_3),
+    vec3(-OO_SQRT_6, -OO_SQRT_2, OO_SQRT_3)
 );
 //====================================================
 
@@ -44,13 +44,19 @@ in vec4 l_texcoordLightmap;
 #if defined(FLAT_LIGHTMAP)
 uniform sampler2D lightmapSampler;
 #elif defined(BUMPED_LIGHTMAP)
-uniform sampler2DArray lightmapArraySampler;
+uniform sampler2D lightmap0Sampler;
+uniform sampler2D lightmap1Sampler;
+uniform sampler2D lightmap2Sampler;
 #endif
 
 #ifdef SPHEREMAP
+uniform struct
+{
+	float shininess;
+} p3d_Material;
+
 uniform sampler2D sphereSampler;
 uniform mat4 p3d_ViewMatrixInverse;
-uniform vec2 envmapShininess;
 in vec3 l_eyeVec;
 in vec4 l_eyeNormal;
 #endif
@@ -66,16 +72,16 @@ in vec4 l_binormal;
 in vec3 l_normal;
 #endif
 
-out vec4 output;
+out vec4 outputColor;
 
 void main()
 {
     // start completely white, in case there is no base texture
     // again, why wouldn't there be one
-    output = vec4(1.0);
+    outputColor = vec4(1.0);
     
 #ifdef BASETEXTURE
-    output = texture2D(baseTextureSampler, l_texcoordBaseTexture.xy);
+    outputColor = texture2D(baseTextureSampler, l_texcoordBaseTexture.xy);
 #endif
 
 #ifdef SPHEREMAP
@@ -87,41 +93,41 @@ void main()
 
 #ifdef SPHEREMAP
     bumpedEyeNormal = normalize(bumpedEyeNormal);
-    //output.rgb += SampleSphereMap(l_eyeVec, bumpedEyeNormal, p3d_ViewMatrixInverse,
-    //                              vec3(0), sphereSampler).rgb * envmapShininess.x;
+    outputColor.rgb += SampleSphereMap(l_eyeVec, bumpedEyeNormal, p3d_ViewMatrixInverse,
+                                  vec3(0), sphereSampler).rgb * p3d_Material.shininess;
 #endif
   
 #if defined(NORMALMAP) && defined(BUMPED_LIGHTMAP)
     // the normal for bumped lightmaps is in model space, not eye space
-    vec4 msNormal = vec4(texture2D(normalSampler, l_texcoordNormalMap.xy).rgb * 2.0 - 1.0, 1.0);
+    vec3 msNormal = texture2D(normalSampler, l_texcoordNormalMap.xy).rgb * 2.0 - 1.0;
     msNormal = normalize(msNormal);
 #elif defined(BUMPED_LIGHTMAP)
     // hmm, there is a bumped lightmap but no normal map.
-    vec4 msNormal = vec4(l_normal, 1.0);
+    vec3 msNormal = l_normal;
 #endif
     
 #if defined(FLAT_LIGHTMAP)
     
-    //output.rgb *= texture2D(lightmapSampler, l_texcoordLightmap.xy).rgb;
+    outputColor.rgb *= texture2D(lightmapSampler, l_texcoordLightmap.xy).rgb;
     
 #elif defined(BUMPED_LIGHTMAP)
    
     vec3 dp = vec3(0);
-    dp.x = clamp(dot(msNormal.xyz, g_localBumpBasis[0]), 0, 1);
-    dp.y = clamp(dot(msNormal.xyz, g_localBumpBasis[1]), 0, 1);
-    dp.z = clamp(dot(msNormal.xyz, g_localBumpBasis[2]), 0, 1);
+    dp.x = clamp(dot(msNormal, g_localBumpBasis[0]), 0, 1);
+    dp.y = clamp(dot(msNormal, g_localBumpBasis[1]), 0, 1);
+    dp.z = clamp(dot(msNormal, g_localBumpBasis[2]), 0, 1);
     dp *= dp;
     
-    vec3 lmColor0 = texture(lightmapArraySampler, vec3(l_texcoordLightmap.xy, 0)).rgb;
-    vec3 lmColor1 = texture(lightmapArraySampler, vec3(l_texcoordLightmap.xy, 1)).rgb;
-    vec3 lmColor2 = texture(lightmapArraySampler, vec3(l_texcoordLightmap.xy, 2)).rgb;
+    vec3 lmColor0 = texture(lightmap0Sampler, l_texcoordLightmap.xy).rgb;
+    vec3 lmColor1 = texture(lightmap1Sampler, l_texcoordLightmap.xy).rgb;
+    vec3 lmColor2 = texture(lightmap2Sampler, l_texcoordLightmap.xy).rgb;
     
     float sum = dot(dp, vec3(1.0));
     
     vec3 finalLightmap = dp.x*lmColor0 + dp.y*lmColor1 + dp.z*lmColor2;
     finalLightmap *= 1.0 / sum;
     
-    //output.rgb *= finalLightmap;
+    outputColor.rgb *= finalLightmap;
     
 #endif
 }

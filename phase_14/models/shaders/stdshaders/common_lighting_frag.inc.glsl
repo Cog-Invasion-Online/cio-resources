@@ -122,15 +122,15 @@ void RimTerm(inout vec4 totalRim, vec4 eyePos, vec4 eyeNormal, vec4 rimColor, fl
 }
 
 vec3 GetSpecular(float lattenv, vec4 eyeNormal,
-				 vec4 eyePos, vec4 specularColor, float shininess, vec3 lightVec)
+				 vec4 eyePos, vec3 specularColor, float shininess, vec3 lightVec)
 {
 	vec3 lhalf = normalize(lightVec - normalize(eyePos.xyz));
 
-	vec4 lspec = specularColor;
+	vec3 lspec = specularColor;
 	lspec *= lattenv;
 	lspec *= pow(clamp(dot(eyeNormal.xyz, lhalf), 0, 1), shininess);
 
-	return lspec.rgb;
+	return lspec;
 }
 
 void GetBumpedNormal(inout vec4 finalEyeNormal, sampler2D normalSampler, vec4 texcoord,
