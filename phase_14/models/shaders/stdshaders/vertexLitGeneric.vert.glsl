@@ -14,7 +14,7 @@ uniform mat4 p3d_ModelViewProjectionMatrix;
 in vec4 p3d_Vertex;
 out vec4 l_position;
 
-#if defined(NORMALMAP) || defined(HEIGHTMAP) || defined(SPHEREMAP)
+#if defined(NORMALMAP) || defined(HEIGHTMAP)
 in vec4 TANGENTNAME;
 in vec4 BINORMALNAME;
 #endif
@@ -59,7 +59,7 @@ out vec4 l_eyeNormal;
 in vec3 p3d_Normal;
 #endif
 
-#if defined(HEIGHTMAP) || defined(SPHEREMAP)
+#if defined(HEIGHTMAP)
 uniform vec4 mspos_view;
 out vec3 l_eyeVec;
 #endif
@@ -78,7 +78,8 @@ uniform mat4 p3d_ViewMatrix;
 uniform mat4 lightData[NUM_LIGHTS];
 // transform world-space position and direction
 // into view space for the fragment shader
-out mat4 l_lightData[NUM_LIGHTS];
+out vec4 l_lightPos[NUM_LIGHTS];
+out vec4 l_lightDir[NUM_LIGHTS];
 
 #endif
 
@@ -178,16 +179,14 @@ void main()
 	#if defined(LIGHTING) && defined(BSP_LIGHTING)
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
-		l_lightData[i] = lightData[i];
-
 		// Transform world-space position and direction into view space
 		// for the fragment shader
-		l_lightData[i][0] = p3d_ViewMatrix * l_lightData[i][0];
-		l_lightData[i][1] = normalize(p3d_ViewMatrix * l_lightData[i][1]);
+		l_lightPos[i] = p3d_ViewMatrix * lightData[i][0];
+		l_lightDir[i] = normalize(p3d_ViewMatrix * lightData[i][1]);
 	}
 	#endif
 
-	#if defined(HEIGHTMAP) || defined(SPHEREMAP) || defined(CUBEMAP)
+	#if defined(HEIGHTMAP) || defined(CUBEMAP)
 	vec3 eyeDir = mspos_view.xyz - finalVertex.xyz;
 	l_eyeVec.x = dot(p3d_Tangent.xyz, eyeDir);
 	l_eyeVec.y = dot(p3d_Binormal.xyz, eyeDir);

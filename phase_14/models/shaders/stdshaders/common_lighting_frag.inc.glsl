@@ -147,13 +147,22 @@ void GetBumpedNormal(inout vec4 finalEyeNormal, sampler2D normalSampler, vec4 te
 	finalEyeNormal.xyz += binormal.xyz * tsnormal.y;
 }
 
-vec2 GetSphereMapTexCoords(vec3 reflVec)
+vec3 CalcReflectionVectorNormalized(vec3 normal, vec3 eyeVector)
 {
-    vec3 tmp = vec3(reflVec.x, reflVec.y, reflVec.z + 1.0);
+	return 2.0 * (dot(normal, eyeVector) / dot(normal, normal)) * normal - eyeVector;
+}
+
+vec2 GetSphereMapTexCoords(vec3 reflVec, mat4 invViewMatrix)
+{
+	// transform reflection vector into view space
+	vec3 r = vec3(invViewMatrix * vec4(reflVec, 0.0));
+
+    vec3 tmp = vec3(r.x, r.y, r.z + 1.0);
     float ooLen = dot(tmp, tmp);
     ooLen = 1.0 / sqrt(ooLen);
     
-    tmp.xy = ooLen * tmp.xy + 1.0;
+    tmp.x = ooLen * tmp.x + 1.0;
+	tmp.y = ooLen * tmp.y + 1.0;
     
     return tmp.xy * 0.5;
 }
@@ -161,12 +170,8 @@ vec2 GetSphereMapTexCoords(vec3 reflVec)
 vec4 SampleSphereMap(vec3 eyeVec, vec4 eyeNormal, mat4 invViewMatrix,
 				   vec3 parallaxOffset, sampler2D sphereSampler)
 {
-	vec3 r = reflect(eyeVec, eyeNormal.xyz);
-    //r = vec3(invViewMatrix * vec4(r, 0.0));
-    vec2 coords = GetSphereMapTexCoords(r) - parallaxOffset.xy;
-
-	//float m = 2.0 * sqrt(pow(r.x, 2.0) + pow(r.y, 2.0) + pow(r.z + 1.0, 2.0));
-    //vec2 coords = (r.xy + 0.5 / m) - parallaxOffset.xy;
+	vec3 r = CalcReflectionVectorNormalized(eyeNormal.xyz, eyeVec);
+    vec2 coords = GetSphereMapTexCoords(r, invViewMatrix) - parallaxOffset.xy;
     
 	return texture2D(sphereSampler, coords);
 }

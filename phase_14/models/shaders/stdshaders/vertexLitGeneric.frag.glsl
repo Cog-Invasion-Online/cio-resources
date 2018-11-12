@@ -73,7 +73,7 @@ in vec4 l_tangent;
 in vec4 l_binormal;
 #endif
 
-#if defined(HEIGHTMAP) || defined(SPHEREMAP)
+#if defined(HEIGHTMAP)
 in vec3 l_eyeVec;
 #endif
 
@@ -133,7 +133,9 @@ uniform int lightTypes[NUM_LIGHTS];
 
 #ifdef BSP_LIGHTING
 uniform int lightCount[1];
-in mat4 l_lightData[NUM_LIGHTS];
+uniform mat4 lightData[NUM_LIGHTS];
+in vec4 l_lightPos[NUM_LIGHTS];
+in vec4 l_lightDir[NUM_LIGHTS];
 #ifdef AMBIENT_CUBE
 uniform vec3 ambientCube[6];
 #endif
@@ -257,10 +259,10 @@ void main()
 #endif
 	{
 #ifdef BSP_LIGHTING
-		lpoint = l_lightData[i][0];
-		ldir = l_lightData[i][1];
-		latten = l_lightData[i][2];
-		lcolor = l_lightData[i][3];
+		lpoint = l_lightPos[i];
+		ldir = l_lightDir[i];
+		latten = lightData[i][2];
+		lcolor = lightData[i][3];
 #else
 		lcolor = p3d_LightSource[i].diffuse;
 		ldir = p3d_LightSource[i].position;
@@ -419,7 +421,7 @@ void main()
 #endif
 
 #ifdef SPHEREMAP
-	result += SampleSphereMap(l_eyeVec, finalEyeNormal,
+	result += SampleSphereMap(l_eyePosition.xyz, finalEyeNormal,
 							  p3d_ViewMatrixInverse, parallaxOffset,
 							  sphereSampler);
 #endif

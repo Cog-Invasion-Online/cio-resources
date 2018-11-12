@@ -46,6 +46,7 @@ in vec4 mspos_view;
 out vec3 l_eyeVec;
 uniform mat4 tpose_view_to_model;
 out vec4 l_eyeNormal;
+uniform mat4 p3d_ModelViewMatrix;
 #endif
 
 uniform mat4 p3d_ModelViewProjectionMatrix;
@@ -80,7 +81,7 @@ void main()
 #endif
     
 #ifdef SPHEREMAP
-    l_eyeVec = mspos_view.xyz - p3d_Vertex.xyz;
+    l_eyeVec = (p3d_ModelViewMatrix * p3d_Vertex).xyz;
     l_eyeNormal.xyz = normalize(mat3(tpose_view_to_model) * p3d_Normal);
     l_eyeNormal.w = 0.0;
 #endif

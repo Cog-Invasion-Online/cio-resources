@@ -533,6 +533,13 @@
     fogdensity(string) : "Fog density" : "0.001"
 ]
 
+@PointClass iconsprite("sprites/light_glow.spr") = env_lightglow : "Light glow"
+[
+	_light(color255) : "Light glow color" : "255 255 128 200"
+	width(string) : "Glow width" : "1.0"
+	height(string) : "Glow height" : "1.0"
+]
+
 @PointClass base(Angles, Targetname) size(-16, -16, 0, 16 16 32) = prop_static : "Static prop"
 [
     modelpath(studio) : "Prop Model" : "models/smiley.egg.pz"
