@@ -67,21 +67,21 @@ out vec3 l_eyeVec;
 in vec4 texcoord;
 out vec4 l_texcoord;
 
-#if defined(LIGHTING) && defined(BSP_LIGHTING)
+//#if defined(LIGHTING) && defined(BSP_LIGHTING)
 
-uniform mat4 p3d_ViewMatrix;
+//uniform mat4 p3d_ViewMatrix;
 
 // row 1: position
 // row 2: direction
 // row 3: attenuation
 // row 4: color
-uniform mat4 lightData[NUM_LIGHTS];
+//uniform mat4 lightData[NUM_LIGHTS];
 // transform world-space position and direction
 // into view space for the fragment shader
-out vec4 l_lightPos[NUM_LIGHTS];
-out vec4 l_lightDir[NUM_LIGHTS];
+//out vec4 l_lightPos[NUM_LIGHTS];
+//out vec4 l_lightDir[NUM_LIGHTS];
 
-#endif
+//#endif
 
 #ifdef HAS_SHADOW_SUNLIGHT
 uniform mat4 pssmMVPs[PSSM_SPLITS];
@@ -176,15 +176,15 @@ void main()
 	
 	// We define BSP light information in world-space,
     // but shader lighting calculations are done in eye-space.
-	#if defined(LIGHTING) && defined(BSP_LIGHTING)
-	for (int i = 0; i < NUM_LIGHTS; i++)
-	{
+	//#if defined(LIGHTING) && defined(BSP_LIGHTING)
+	//for (int i = 0; i < NUM_LIGHTS; i++)
+	//{
 		// Transform world-space position and direction into view space
 		// for the fragment shader
-		l_lightPos[i] = p3d_ViewMatrix * lightData[i][0];
-		l_lightDir[i] = normalize(p3d_ViewMatrix * lightData[i][1]);
-	}
-	#endif
+	//	l_lightPos[i] = p3d_ViewMatrix * lightData[i][0];
+	//	l_lightDir[i] = normalize(p3d_ViewMatrix * lightData[i][1]);
+	//}
+	//#endif
 
 	#if defined(HEIGHTMAP) || defined(CUBEMAP)
 	vec3 eyeDir = mspos_view.xyz - finalVertex.xyz;

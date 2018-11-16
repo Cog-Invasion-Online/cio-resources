@@ -134,8 +134,8 @@ uniform int lightTypes[NUM_LIGHTS];
 #ifdef BSP_LIGHTING
 uniform int lightCount[1];
 uniform mat4 lightData[NUM_LIGHTS];
-in vec4 l_lightPos[NUM_LIGHTS];
-in vec4 l_lightDir[NUM_LIGHTS];
+//in vec4 l_lightPos[NUM_LIGHTS];
+//in vec4 l_lightDir[NUM_LIGHTS];
 #ifdef AMBIENT_CUBE
 uniform vec3 ambientCube[6];
 #endif
@@ -259,8 +259,10 @@ void main()
 #endif
 	{
 #ifdef BSP_LIGHTING
-		lpoint = l_lightPos[i];
-		ldir = l_lightDir[i];
+		//lpoint = l_lightPos[i];
+		//ldir = l_lightDir[i];
+		lpoint = lightData[i][0];
+		ldir = lightData[i][1];
 		latten = lightData[i][2];
 		lcolor = lightData[i][3];
 #else

@@ -419,9 +419,9 @@
 
 @PointClass base(Targetname) = info_null : "info_null (spotlight target)" []
 
-@PointClass studio("phase_7/models/props/cog_statue_a.bam") base(PlayerClass) = info_player_start : "Player 1 start" []
+@PointClass studio("phase_14/models/misc/toon_ref.bam") base(PlayerClass) = info_player_start : "Player 1 start" []
 
-@PointClass studio("phase_7/models/props/cog_statue_c.bam") base(PlayerClass, Targetname) = info_player_relocate : "Player relocation point"
+@PointClass studio("phase_14/models/misc/toon_ref.bam") base(PlayerClass, Targetname) = info_player_relocate : "Player relocation point"
 [
     input Relocate(void) : "Teleports the player to the position and angles of the entity"
 ]
@@ -533,6 +533,21 @@
     fogdensity(string) : "Fog density" : "0.001"
 ]
 
+@PointClass size(-16, -16, -16, 16, 16, 16) = env_particlesystem : "Particle System"
+[
+    file(string) : "PTF File" : ""
+    scale(string) : "Size" : "1.0"
+    
+    spawnflags(flags) =
+    [
+        1 : "Starts Enabled" : 0
+        2 : "World Velocities" : 1
+    ]
+    
+    input Start(void) : "Starts the particle system"
+    input Stop(void) : "Stops the particle system"
+]
+
 @PointClass iconsprite("sprites/light_glow.spr") = env_lightglow : "Light glow"
 [
 	_light(color255) : "Light glow color" : "255 255 128 200"
@@ -543,23 +558,22 @@
 @PointClass base(Angles, Targetname) size(-16, -16, 0, 16 16 32) = prop_static : "Static prop"
 [
     modelpath(studio) : "Prop Model" : "models/smiley.egg.pz"
-    twosided(choices) : "Two-Sided" : 0 =
-    [
-        0 : "No"
-        1 : "Yes"
-    ]
     scale(string) : "Scale of prop" : "1.0 1.0 1.0"
-    physics(choices) : "Physics type" : 0 =
-    [
-        0 : "Auto"
-        1 : "Embedded"
-        2 : "None"
-    ]
-    shadows(choices) : "Cast Shadows" : 0 = 
-    [
-        0 : "No"
-        1 : "Yes"
-    ]
+
+	spawnflags(flags) = 
+	[
+		1	:	"No Lighting"			: 0
+		2	:	"Baked Lighting"		: 1
+		4	:	"Dynamic Lighting"		: 0
+
+		8	:	"Hard Flatten"			: 1
+		16	:	"Leaf Group Flatten"	: 1
+
+		32	:	"Real-Time Shadows"		: 0
+		64	:	"Lightmap Shadows"		: 0
+
+		128	:	"Double-Sided"			: 0
+	]
 ]
 
 //
