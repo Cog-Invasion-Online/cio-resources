@@ -1,4 +1,4 @@
-material
+LightmappedGeneric
 {
     "$surfaceprop"          "tile"
     "$envmap_shininess"     ".3"

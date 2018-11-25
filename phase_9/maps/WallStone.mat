@@ -1,4 +1,5 @@
-material
+LightmappedGeneric
 {
     "$surfaceprop"      "concrete"
+	"$normalmap"		"phase_9/maps/WallStone_bump.jpg"
 }
