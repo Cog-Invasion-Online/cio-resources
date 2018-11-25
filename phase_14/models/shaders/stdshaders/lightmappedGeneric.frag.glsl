@@ -31,6 +31,11 @@ vec3 g_localBumpBasis[3] = vec3[](
 //====================================================
 
 #pragma include "phase_14/models/shaders/stdshaders/common_lighting_frag.inc.glsl"
+
+vec3 LightmapSample(sampler2D lightmapSampler, vec2 coords)
+{
+    return texture2D(lightmapSampler, coords).rgb;
+}
  
 #ifdef BASETEXTURE
 uniform sampler2D baseTextureSampler;
@@ -108,7 +113,7 @@ void main()
     
 #if defined(FLAT_LIGHTMAP)
     
-    outputColor.rgb *= texture2D(lightmapSampler, l_texcoordLightmap.xy).rgb;
+    outputColor.rgb *= LightmapSample(lightmapSampler, l_texcoordLightmap.xy);
     
 #elif defined(BUMPED_LIGHTMAP)
    
@@ -118,14 +123,18 @@ void main()
     dp.z = clamp(dot(msNormal, g_localBumpBasis[2]), 0, 1);
     dp *= dp;
     
-    vec3 lmColor0 = texture(lightmap0Sampler, l_texcoordLightmap.xy).rgb;
-    vec3 lmColor1 = texture(lightmap1Sampler, l_texcoordLightmap.xy).rgb;
-    vec3 lmColor2 = texture(lightmap2Sampler, l_texcoordLightmap.xy).rgb;
+    vec3 lmColor0 = LightmapSample(lightmap0Sampler, l_texcoordLightmap.xy);
+    vec3 lmColor1 = LightmapSample(lightmap1Sampler, l_texcoordLightmap.xy);
+    vec3 lmColor2 = LightmapSample(lightmap2Sampler, l_texcoordLightmap.xy);
     
     float sum = dot(dp, vec3(1.0));
     
     vec3 finalLightmap = dp.x*lmColor0 + dp.y*lmColor1 + dp.z*lmColor2;
     finalLightmap *= 1.0 / sum;
+    
+#ifndef HDR
+    finalLightmap = clamp(finalLightmap, 0.0, 1.0);
+#endif
     
     outputColor.rgb *= finalLightmap;
     

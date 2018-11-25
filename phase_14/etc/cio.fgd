@@ -147,7 +147,7 @@
 
 @BaseClass = Light 
 [
-	_light(color255) : "Brightness" : "255 255 128 200"
+	_light(color255) : "Brightness" : "255 255 255 200"
       style(Choices) : "Appearance" : 0 =
 	[
 		0 : "Normal"
@@ -163,7 +163,13 @@
 		4 : "Fast strobe"
 		9 : "Slow strobe"
 	]
-	pattern(string) : "Custom Appearance"
+	pattern(string) : "Custom Appearance" : "" : "Set a custom pattern of light brightness for this light. Pattern format is a string of characters, where 'a' is total darkness, 'z' fully bright. i.e. 'aaggnnttzz' would be a steppy fade in from dark to light."
+	_constant_attn(string)	: "Constant" : "0"
+	_linear_attn(string)	: "Linear" : "0"
+	_quadratic_attn(string)	: "Quadratic" : "1"
+	_fifty_percent_distance(string) : "50 percent falloff distance" : "0": "Distance at which brightness should fall off to 50%. If set, overrides linear constant and quadratic paramaters."
+	_zero_percent_distance(string) : "0 percent falloff distance" : "0": "Distance at which brightness should fall off to negligible (1/256)%. Must set _fifty_percent_distance to use."
+	_hardfalloff(integer) : "hard falloff" : 0 : "If set, causes lights to fall to exactly zero beyond the zero percent distance. May cause unrealistic lightijng if not used carefully."
 ]
 
 @BaseClass = Moveable
@@ -173,7 +179,7 @@
     lip(integer) : "Lip" : 0
 ]
 
-@BaseClass base(Appearflags, Targetname, RenderFields, Global, Angles, Moveable) = Door
+@BaseClass base(Appearflags, Targetname, RenderFields, Global, Angles, Moveable, SpawnIO) = Door
 [
 	movesnd(sound) : "Move Sound" : ""
 	stopsnd(sound) : "Stop Sound" : ""
@@ -483,43 +489,27 @@
 	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
 ]
 
-@PointClass iconsprite("sprites/lightbulb.spr") base(Targetname, Target, Angles, ZHLT_point, LightSource) = light_spot : "Spotlight" 
+@PointClass iconsprite("sprites/lightbulb.spr") base(Targetname, Target, Light, Angles, ZHLT_point, LightSource) = light_spot : "Spotlight" 
 [
-	_cone(integer) : "Inner (bright) angle" : 30
-	_cone2(integer) : "Outer (fading) angle" : 45
+	_inner_cone(integer) : "Inner (bright) angle" : 30
+	_cone(integer) : "Outer (fading) angle" : 45
+	_exponent(integer) : "Focus" : 1
+	_distance(integer) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
 	pitch(integer) : "Pitch" : -90
-	_light(color255) : "Brightness" : "255 255 128 200"
-	_sky(Choices) : "Is Sky" : 0 = 
-	[ 
-		0 : "No"
-		1 : "Yes"
-	]
 	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
-      style(Choices) : "Appearance" : 0 =
-	[
-		0 : "Normal"
-		10: "Fluorescent flicker"
-		2 : "Slow, strong pulse"
-		11: "Slow pulse, noblack"
-		5 : "Gentle pulse"
-		1 : "Flicker A"
-		6 : "Flicker B"
-		3 : "Candle A"
-		7 : "Candle B"
-		8 : "Candle C"
-		4 : "Fast strobe"
-		9 : "Slow strobe"
-	]
-	pattern(string) : "Custom Appearance"
 ]
 
 @PointClass base(Targetname, Angles, ZHLT_point) iconsprite("sprites/light_env.spr") = light_environment : "Environment" 
 [
-	pitch(integer) : "Pitch" : 0
-	_light(color255) : "Sun Brightness" : "255 255 128 200"
-    _diffuse_light2(color255) : "Sun Diffuse" : "255 255 255 200"
-    _diffuse_light(color255) : "Ambient Brightness" : "255 255 255 200"
-    _spread(string) : "Sun Spread Angle" : "0.5"
+	pitch(integer) : "Pitch" : 0 : "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
+	_light(color255) : "Brightness" : "255 255 255 200"
+	_ambient(color255) : "Ambient" : "255 255 255 20"
+	//_lightHDR(color255) : "BrightnessHDR" : "-1 -1 -1 1"
+	//_lightscaleHDR(float) : "BrightnessScaleHDR" : "1" : "Amount to scale the light by when compiling for HDR."
+	//_ambientHDR(color255) : "AmbientHDR" : "-1 -1 -1 1"
+	//_AmbientScaleHDR(float) : "AmbientScaleHDR" : "1" : "Amount to scale the ambient light by when compiling for hdr."
+	pitch(integer) : "Pitch" : 0 : "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
+	SunSpreadAngle(float) : "SunSpreadAngle" : 0 : "The angular extent of the sun for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
 ]
 
 //

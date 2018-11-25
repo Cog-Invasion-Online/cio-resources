@@ -121,16 +121,44 @@ void RimTerm(inout vec4 totalRim, vec4 eyePos, vec4 eyeNormal, vec4 rimColor, fl
 	totalRim += vec4(rIntensity * rimColor);
 }
 
-vec3 GetSpecular(float lattenv, vec4 eyeNormal,
-				 vec4 eyePos, vec3 specularColor, float shininess, vec3 lightVec)
+float Fresnel(vec3 vNormal, vec3 vEyeDir)
 {
+    float fresnel = 1 - clamp(dot(vNormal, vEyeDir), 0, 1);
+    return fresnel * fresnel;
+}
+
+float Fresnel4(vec3 vNormal, vec3 vEyeDir)
+{
+    float fresnel = 1 - clamp(dot(vNormal, vEyeDir), 0, 1);
+    fresnel = fresnel * fresnel;
+    return fresnel * fresnel;
+}
+
+void GetSpecular(float lattenv, vec4 eyeNormal,
+				 vec4 eyePos, vec3 specularColor, float shininess, vec3 lightVec,
+                 
+                 inout vec3 olspec, bool doRim, float rimWidth, vec4 rimExponent, inout vec3 orim)
+{
+    vec3 rim = vec3(0);
+    
 	vec3 lhalf = normalize(lightVec - normalize(eyePos.xyz));
+    float LdotR = max(dot(eyeNormal.xyz, lhalf), 0);
 
-	vec3 lspec = specularColor;
-	lspec *= lattenv;
-	lspec *= pow(clamp(dot(eyeNormal.xyz, lhalf), 0, 1), shininess);
-
-	return lspec;
+    if (shininess > 0.0)
+    {
+        vec3 lspec = specularColor;
+        lspec *= lattenv;
+        lspec *= pow(LdotR, shininess);
+        olspec += lspec;
+    }
+    
+	if (doRim)
+    {
+        rim = rimExponent.xyz;
+        rim *= pow(max(0.0, rimWidth - LdotR), rimExponent.w);
+        rim *= lattenv;
+        orim += rim;
+    }
 }
 
 void GetBumpedNormal(inout vec4 finalEyeNormal, sampler2D normalSampler, vec4 texcoord,

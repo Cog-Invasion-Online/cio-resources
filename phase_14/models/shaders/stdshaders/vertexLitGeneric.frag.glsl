@@ -166,6 +166,30 @@ uniform vec4 p3d_ColorScale;
 
 out vec4 o_color;
 
+void DoGetSpecAndRim(float lattenv, vec4 finalEyeNormal, vec4 l_eyePosition,
+                     float shininess, vec3 lvec, inout vec3 spec, inout vec3 rim)
+{
+    
+#if defined(HAVE_SPECULAR) || defined(MAT_RIM)
+    GetSpecular(lattenv, finalEyeNormal, l_eyePosition,
+    
+#ifdef HAVE_SPECULAR
+                p3d_Material.specular,
+#else
+                vec3(1.0),
+#endif
+                shininess, lvec, spec,
+
+#ifdef MAT_RIM
+                true, p3d_Material.rimWidth, p3d_Material.rimColor,
+#else
+                false, 0.0, vec4(0.0),
+#endif
+                rim);
+         
+#endif
+}
+
 void main()
 {
 	// Clipping first!
@@ -214,18 +238,21 @@ void main()
 	o_aux.rgb = (finalEyeNormal.xyz * 0.5) + vec3(0.5, 0.5, 0.5);
 #endif
 
+    vec4 totalSpecular = vec4(0.0);
+    vec4 totalRim = vec4(0.0);
+
 #ifdef LIGHTING
 
 	vec4 totalDiffuse = vec4(0.0);
 
-#ifdef HAVE_SPECULAR
-	vec4 totalSpecular = vec4(0.0);
+//#ifdef HAVE_SPECULAR
+	
 #ifdef MAT_SPECULAR
 	float shininess = p3d_Material.shininess;
 #else
 	float shininess = 50.0;
 #endif
-#endif
+//#endif
 
 #ifdef HAVE_SEPARATE_AMBIENT
 	vec4 totalAmbient = vec4(0.0);
@@ -242,10 +269,10 @@ void main()
 #endif
 #endif
 
-#ifdef MAT_RIM
-	vec4 totalRim = vec4(0.0);
-	RimTerm(totalRim, l_eyePosition, finalEyeNormal, p3d_Material.rimColor, p3d_Material.rimWidth);
-#endif
+//#ifdef MAT_RIM
+//	vec4 totalRim = vec4(0.0);
+//	RimTerm(totalRim, l_eyePosition, finalEyeNormal, p3d_Material.rimColor, p3d_Material.rimWidth);
+//#endif
     
     float ldist, lattenv, langle, lshad, lintensity;
 	vec4 lcolor, lspec, lpoint, latten, ldir, leye;
@@ -295,10 +322,7 @@ void main()
 
 			);
 
-#ifdef HAVE_SPECULAR
-			totalSpecular.rgb += GetSpecular(lattenv, finalEyeNormal, l_eyePosition,
-                        p3d_Material.specular, shininess, lvec);
-#endif
+            DoGetSpecAndRim(lattenv, finalEyeNormal, l_eyePosition, shininess, lvec, totalSpecular.rgb, totalRim.rgb);
 
 		}
         else if (lightTypes[i] == LIGHTTYPE_DIRECTIONAL)
@@ -321,10 +345,7 @@ void main()
 #endif
             );
             
-#ifdef HAVE_SPECULAR
-            totalSpecular.rgb += GetSpecular(1.0, finalEyeNormal, l_eyePosition,
-                p3d_Material.specular, shininess, lvec);
-#endif
+            DoGetSpecAndRim(1.0, finalEyeNormal, l_eyePosition, shininess, -lvec, totalSpecular.rgb, totalRim.rgb);
         }
         else if (lightTypes[i] == LIGHTTYPE_SPOT)
         {
@@ -344,10 +365,7 @@ void main()
             
             );
             
-#ifdef HAVE_SPECULAR
-			totalSpecular.rgb += GetSpecular(lattenv, finalEyeNormal, l_eyePosition,
-                        p3d_Material.specular, shininess, lvec);
-#endif
+            DoGetSpecAndRim(lattenv, finalEyeNormal, l_eyePosition, shininess, lvec, totalSpecular.rgb, totalRim.rgb);
         }
 	}
 
@@ -380,9 +398,9 @@ void main()
 	result += totalDiffuse;
 #endif
 
-#ifdef MAT_RIM
-	result += totalRim;
-#endif
+//#ifdef MAT_RIM
+	//result += totalRim;
+//#endif
 
 #ifdef COLOR_VERTEX
 	result *= l_color;
@@ -455,15 +473,15 @@ void main()
 #endif
 #endif
 
-#ifdef HAVE_SPECULAR
+//#ifdef HAVE_SPECULAR
 #ifdef MAT_SPECULAR
-	totalSpecular *= p3d_Material.specular;
+	totalSpecular.rgb *= p3d_Material.specular;
 #endif
 #ifdef GLOSSMAP
 	totalSpecular *= texture2D(glossSampler, l_texcoord.xy - parallaxOffset.xy).a;
 #endif
-	result.rgb += totalSpecular.rgb;
-#endif
+	result.rgb += max(totalSpecular.rgb, totalRim.rgb);
+//#endif
 
 #ifdef FOG
 	// Apply fog.
