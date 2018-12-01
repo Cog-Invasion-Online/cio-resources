@@ -32,9 +32,9 @@ vec3 g_localBumpBasis[3] = vec3[](
 
 #pragma include "phase_14/models/shaders/stdshaders/common_lighting_frag.inc.glsl"
 
-vec3 LightmapSample(sampler2D lightmapSampler, vec2 coords)
+vec3 LightmapSample(sampler2DArray lightmapSampler, vec2 coords, int page)
 {
-    return texture2D(lightmapSampler, coords).rgb;
+    return texture(lightmapSampler, vec3(coords.x, coords.y, page)).rgb;
 }
  
 #ifdef BASETEXTURE
@@ -44,14 +44,7 @@ in vec4 l_texcoordBaseTexture;
 
 #if defined(FLAT_LIGHTMAP) || defined(BUMPED_LIGHTMAP)
 in vec4 l_texcoordLightmap;
-#endif
-
-#if defined(FLAT_LIGHTMAP)
-uniform sampler2D lightmapSampler;
-#elif defined(BUMPED_LIGHTMAP)
-uniform sampler2D lightmap0Sampler;
-uniform sampler2D lightmap1Sampler;
-uniform sampler2D lightmap2Sampler;
+uniform sampler2DArray lightmapSampler;
 #endif
 
 #ifdef SPHEREMAP
@@ -113,7 +106,7 @@ void main()
     
 #if defined(FLAT_LIGHTMAP)
     
-    outputColor.rgb *= LightmapSample(lightmapSampler, l_texcoordLightmap.xy);
+    outputColor.rgb *= LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 0);
     
 #elif defined(BUMPED_LIGHTMAP)
    
@@ -123,9 +116,9 @@ void main()
     dp.z = clamp(dot(msNormal, g_localBumpBasis[2]), 0, 1);
     dp *= dp;
     
-    vec3 lmColor0 = LightmapSample(lightmap0Sampler, l_texcoordLightmap.xy);
-    vec3 lmColor1 = LightmapSample(lightmap1Sampler, l_texcoordLightmap.xy);
-    vec3 lmColor2 = LightmapSample(lightmap2Sampler, l_texcoordLightmap.xy);
+    vec3 lmColor0 = LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 1);
+    vec3 lmColor1 = LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 2);
+    vec3 lmColor2 = LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 3);
     
     float sum = dot(dp, vec3(1.0));
     

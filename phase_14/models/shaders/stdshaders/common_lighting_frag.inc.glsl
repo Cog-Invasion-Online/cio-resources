@@ -45,26 +45,84 @@ vec3 GetDiffuseTerm(vec3 eyeSpaceLightVec, vec3 eyeSpaceNormal, bool halfLambert
 	return vResult;
 }
 
-vec3 GetPointLight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, inout vec3 lvec, 
+float GetFalloff(vec4 falloff, vec4 falloff2, float dist)
+{
+    float falloffevaldist = min(dist * 16.0, falloff2.z);
+    
+    float lattenv = falloffevaldist * falloffevaldist;
+    lattenv *= falloff.z;                   // quadratic
+    lattenv += falloff.y * falloffevaldist; // linear
+    lattenv += falloff.x;                   // constant
+    lattenv = 1.0 / lattenv;
+    
+    return lattenv;
+}
+
+bool HasHardFalloff(vec4 falloff2)
+{
+    return (falloff2.y > falloff2.x);
+}
+
+bool CheckHardFalloff(vec4 falloff2, float dist, float dot)
+{
+    if (dist * 16.0 > falloff2.y)
+    {
+        return false;
+    }
+    
+    return true;
+}
+
+void ApplyHardFalloff(inout float falloff, vec4 falloff2, float dist, float dot)
+{
+    float t = falloff2.y - falloff2.x;
+    t /= (dist * 16.0) - falloff2.x;
+    
+    t = clamp(t, 0, 1);
+    t -= 1.0;
+    
+    float mult = t * t * t *( t * ( t* 6.0 - 15.0 ) + 10.0 );
+    
+    falloff *= mult;
+}
+
+vec3 GetPointLight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, inout vec3 lvec,
+                   vec4 falloff2, vec4 falloff3,
 				   vec4 eyePos, vec4 eyeNormal, bool halfLambert, bool lightwarp,
 				   sampler2D lightwarpSampler)
 {
-	
-	lvec = lpoint.xyz - eyePos.xyz;
+    vec3 vResult = vec3(0);
+    vec3 ratio;
+    
+    lvec = lpoint.xyz - eyePos.xyz;
 	float ldist = length(lvec);
 	lvec = normalize(lvec);
 	
-	vec3 vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler);
-
-	lattenv = ldist * latten.x;
-	vec3 ratio = vResult / lattenv;
-
-	vResult *= lcolor.rgb * ratio;
+	vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler);
+    
+#ifdef BSP_LIGHTING
+    bool hasHardFalloff = HasHardFalloff(falloff2);
+    if (hasHardFalloff && !CheckHardFalloff(falloff2, ldist, vResult.x))
+    {
+        return vec3(0);
+    }
+    lattenv = GetFalloff(latten, falloff2, ldist);
+    //if (hasHardFalloff)
+    //{
+    //    ApplyHardFalloff(lattenv, falloff2, ldist, vResult.x);
+    //}
+#else
+    lattenv = 1.0 / (latten.x + latten.y*ldist + latten.z*ldist*ldist);
+#endif
+    
+    ratio = vec3(lattenv, lattenv, lattenv);
 	
+    vResult *= lcolor.rgb * ratio;
 	return vResult;
 }
 
 vec3 GetSpotlight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, inout vec3 lvec, vec4 ldir,
+                  vec4 falloff2, vec4 falloff3,
                   vec4 eyePos, vec4 eyeNormal, bool halfLambert, bool lightwarp,
                   sampler2D lightwarpSampler)
 {
@@ -73,19 +131,53 @@ vec3 GetSpotlight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, in
     lvec = normalize(lvec);
     vec3 vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler); 
     
-    float dot2 = clamp(dot(lvec, normalize(-ldir.xyz)), 0, 1);
-    if (dot2 <= latten.z)
+#ifdef BSP_LIGHTING
+    
+    bool hasHardFalloff = HasHardFalloff(falloff2);
+    if (hasHardFalloff && !CheckHardFalloff(falloff2, ldist, vResult.x))
     {
-        // outside light cone
         return vec3(0);
     }
-    float denominator = ldist * latten.x;
-    lattenv = vResult.x * dot2 / denominator;
-    if (dot2 <= latten.y)
+
+    float dot2 = clamp(dot(lvec, normalize(-ldir.xyz)), 0, 1);
+    if (dot2 <= falloff2.w)
     {
-        lattenv *= (dot2 - latten.z) / (latten.y - latten.z);
+        // outside entire cone
+        return vec3(0);
     }
-    return lcolor.rgb * lattenv;
+    
+    lattenv = GetFalloff(latten, falloff2, ldist);
+    lattenv *= dot2;
+    
+    float mult = 1.0;
+    
+    if (dot2 <= latten.w)
+    {
+        mult *= (dot2 - falloff2.w) / (latten.w - falloff2.w);
+        mult = clamp(mult, 0, 1);
+    }
+    
+    float exp = falloff3.x;
+    if (exp != 0.0 && exp != 1.0)
+    {
+        mult = pow(mult, exp);
+    }
+    
+    lattenv *= mult;
+    
+    //if (hasHardFalloff)
+    //{
+    //    ApplyHardFalloff(lattenv, falloff2, ldist, vResult.x);
+    //}
+    
+#else
+    float langle = clamp(dot(ldir.xyz, lvec), 0, 1);
+    lattenv = 1/(latten.x + latten.y*ldist + latten.z*ldist*ldist);
+    lattenv *= pow(langle, latten.w);
+    if (langle < ldir.w) return vec3(0);
+#endif
+
+    return (vResult * lcolor.rgb) * lattenv;
 }
 
 vec3 GetDirectionalLight(vec4 ldir, vec4 lcolor, vec4 eyeNormal, inout vec3 lvec, bool halfLambert,
@@ -148,10 +240,10 @@ void GetSpecular(float lattenv, vec4 eyeNormal,
     {
         vec3 lspec = specularColor;
         lspec *= lattenv;
-        lspec *= pow(LdotR, shininess);
+        lspec *= pow(clamp(LdotR, 0, 1), shininess);
         olspec += lspec;
     }
-    
+#if 0
 	if (doRim)
     {
         rim = rimExponent.xyz;
@@ -159,6 +251,7 @@ void GetSpecular(float lattenv, vec4 eyeNormal,
         rim *= lattenv;
         orim += rim;
     }
+#endif
 }
 
 void GetBumpedNormal(inout vec4 finalEyeNormal, sampler2D normalSampler, vec4 texcoord,

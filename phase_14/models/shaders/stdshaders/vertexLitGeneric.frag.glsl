@@ -1,4 +1,6 @@
-#version 150
+#version 330
+
+#extension GL_ARB_explicit_attrib_location : enable
 
 /**
  * COG INVASION ONLINE
@@ -78,7 +80,7 @@ in vec3 l_eyeVec;
 #endif
 
 #if defined(HAVE_AUX_NORMAL) || defined(HAVE_AUX_GLOW)
-out vec4 o_aux;
+layout(location = 1) out vec4 o_aux;
 #endif
 
 #ifdef NEED_COLOR
@@ -134,6 +136,7 @@ uniform int lightTypes[NUM_LIGHTS];
 #ifdef BSP_LIGHTING
 uniform int lightCount[1];
 uniform mat4 lightData[NUM_LIGHTS];
+uniform mat4 lightData2[NUM_LIGHTS];
 //in vec4 l_lightPos[NUM_LIGHTS];
 //in vec4 l_lightDir[NUM_LIGHTS];
 #ifdef AMBIENT_CUBE
@@ -146,6 +149,8 @@ uniform struct
     vec4 diffuse;
     vec4 position;
     vec3 attenuation;
+    
+    vec3 spotDirection;
 } p3d_LightSource[NUM_LIGHTS];
 
 uniform struct
@@ -164,7 +169,7 @@ in vec4 l_pssmCoords[PSSM_SPLITS];
 
 uniform vec4 p3d_ColorScale;
 
-out vec4 o_color;
+layout(location = 0) out vec4 o_color;
 
 void DoGetSpecAndRim(float lattenv, vec4 finalEyeNormal, vec4 l_eyePosition,
                      float shininess, vec3 lvec, inout vec3 spec, inout vec3 rim)
@@ -275,7 +280,7 @@ void main()
 //#endif
     
     float ldist, lattenv, langle, lshad, lintensity;
-	vec4 lcolor, lspec, lpoint, latten, ldir, leye;
+	vec4 lcolor, lspec, lpoint, latten, ldir, leye, lfalloff2, lfalloff3;
 	vec3 lvec, lhalf;
 
 	// Now factor in local light sources
@@ -292,11 +297,15 @@ void main()
 		ldir = lightData[i][1];
 		latten = lightData[i][2];
 		lcolor = lightData[i][3];
+		lfalloff2 = lightData2[i][0];
+		lfalloff3 = lightData2[i][1];
 #else
 		lcolor = p3d_LightSource[i].diffuse;
 		ldir = p3d_LightSource[i].position;
 		lpoint = p3d_LightSource[i].position;
 		latten = vec4(p3d_LightSource[i].attenuation, 0.0);
+        lfalloff2 = vec4(0);
+        lfalloff3 = vec4(0);
 #endif
         
         lattenv = 0.0;
@@ -305,7 +314,7 @@ void main()
 		if (lightTypes[i] == LIGHTTYPE_POINT)
 		{
             
-			totalDiffuse.rgb += GetPointLight(lpoint, latten, lcolor, lattenv, lvec,
+			totalDiffuse.rgb += GetPointLight(lpoint, latten, lcolor, lattenv, lvec, lfalloff2, lfalloff3,
                                           l_eyePosition, finalEyeNormal,
 
 #ifdef MAT_HALFLAMBERT
@@ -349,7 +358,10 @@ void main()
         }
         else if (lightTypes[i] == LIGHTTYPE_SPOT)
         {
-            totalDiffuse.rgb += GetSpotlight(lpoint, latten, lcolor, lattenv, lvec, ldir,
+#ifndef BSP_LIGHTING
+            ldir = vec4(p3d_LightSource[i].spotDirection, 0);
+#endif
+            totalDiffuse.rgb += GetSpotlight(lpoint, latten, lcolor, lattenv, lvec, ldir, lfalloff2, lfalloff3,
                                             l_eyePosition, finalEyeNormal,
 #ifdef MAT_HALFLAMBERT
                 true,
