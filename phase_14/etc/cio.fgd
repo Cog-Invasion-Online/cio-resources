@@ -486,7 +486,7 @@
 
 @PointClass iconsprite("sprites/lightbulb.spr") base(Target, Targetname, Light, ZHLT_point, LightSource) = light : "Invisible lightsource"
 [
-	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+	spawnflags(flags) = [ 1 : "Initially dark" : 0 ]
 ]
 
 @PointClass iconsprite("sprites/lightbulb.spr") base(Targetname, Target, Light, Angles, ZHLT_point, LightSource) = light_spot : "Spotlight" 
@@ -496,7 +496,7 @@
 	_exponent(integer) : "Focus" : 1
 	_distance(integer) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
 	pitch(integer) : "Pitch" : -90
-	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+	spawnflags(flags) = [ 1 : "Initially dark" : 0 ]
 ]
 
 @PointClass base(Targetname, Angles, ZHLT_point) iconsprite("sprites/light_env.spr") = light_environment : "Environment" 
@@ -509,7 +509,7 @@
 	//_ambientHDR(color255) : "AmbientHDR" : "-1 -1 -1 1"
 	//_AmbientScaleHDR(float) : "AmbientScaleHDR" : "1" : "Amount to scale the ambient light by when compiling for hdr."
 	pitch(integer) : "Pitch" : 0 : "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
-	SunSpreadAngle(float) : "SunSpreadAngle" : 0 : "The angular extent of the sun for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
+	SunSpreadAngle(string) : "SunSpreadAngle" : 0 : "The angular extent of the sun for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
 ]
 
 //
@@ -717,13 +717,23 @@
 
 @PointClass base(Targetname, Angles, EnableDisable) size(-20, -20, 0, 20, 20, 40) studio("phase_5/models/cogdominium/tt_m_ara_cbr_barrel.bam") = item_gagbarrel : "Gag restock barrel"
 [
-    track(integer) : "Gag Track (-1 random)" : -1
-    gag(integer) : "Gag (-1 random)" : -1
+    track(choices) : "Gag Track" : -1 =
+    [
+        -1 : "Random"
+        0  : "Toon-Up"
+        1  : "Trap"
+        2  : "Lure"
+        3  : "Sound"
+        4  : "Throw"
+        5  : "Squirt"
+        6  : "Drop"
+    ]
+    gag(integer) : "Gag (-1 all)" : -1 : "Specific gag index in this track to restock. -1 is all."
 ]
 
 @PointClass base(Targetname, Angles, EnableDisable) size(-20, -20, 0, 20, 20, 40) studio("phase_5/models/cogdominium/tt_m_ara_cbr_laughBarrel.bam") = item_laffbarrel : "Laff Barrel"
 [
-    healamt(integer) : "Heal amount" : 10
+    healamt(integer) : "Heal amount" : 10 : "How much this laff barrel heals. -1 means to use the heal amount for the neighborhood"
 ]
 
 @PointClass base(Targetname, Angles) studio("phase_4/models/modules/elevator.bam") = cogoffice_elevator : "Cog Office Elevator"
@@ -734,6 +744,8 @@
         0 : "Building"
         1 : "Cogdominium"
     ]
+    
+    input SpawnCogs(void) : "Spawns cogs from this elevator"
 ]
 
 @PointClass base(Targetname, Angles) = cogoffice_suitspawn : "Office Cog Spawn point"
@@ -758,4 +770,38 @@
 
 @PointClass base(Targetname, Angles) = cogoffice_faceoff_point : "Office Toon Faceoff point"
 [
+]
+
+@SolidClass base(Trigger) = trigger_cogoffice_group : "Activates a cog group when touched"
+[
+    group(integer) : "Group number" : 0
+]
+
+@PointClass base(Targetname, Angles) = info_cogoffice_floor : "Cog Office Floor"
+[
+    input ActivateCogGroup(void) : "Activates the nonchair cogs in the indicated group"
+    input ActivateChairsInGroup(void) : "Activates the char cogs in the indicated group"
+    output OnFloorBegin(void) : "Fired when the floor begins"
+    output OnFloorEnd(void) : "Fired when all cogs in the floor died"
+    output OnCogGroupDead(void): "Fired when an entire cog group has died"
+]
+
+@PointClass iconsprite("sprites/info_timer.spr") base(Targetname, SpawnIO) = info_timer : "A timer"
+[
+    delay(string) : "Delay of timer"
+    loop(choices) : "loop the timer" : 0 =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
+    
+    output OnTimeout(void) : "Fired when the timer runs to completion"
+    output OnStart(void) : "Fired when the timer begins timing"
+    output OnStop(void) : "Fired when the timer stops timing"
+    
+    input Reset(void) : "Resets the timer back to 0"
+    input Start(void) : "Starts the timer"
+    input Stop(void) : "Stops the timer"
+    input SetDelay(void) : "Sets the delay on the timer"
+    input SetLoop(void) : "Sets if the timer should loop"
 ]
