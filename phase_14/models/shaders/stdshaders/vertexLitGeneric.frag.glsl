@@ -463,7 +463,7 @@ void main()
 #endif
 
 #ifdef ALPHA_TEST
-	if (AlphaTest(result.a, ALPHA_TEST_REF))
+	if (AlphaTest(ALPHA_TEST, result.a, ALPHA_TEST_REF))
 	{
 		discard;
 	}
