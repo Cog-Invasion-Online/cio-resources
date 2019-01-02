@@ -120,6 +120,11 @@ dclass Account {
   int8 BANNED required db;
 };
 
+dclass IDistributedEntity {
+  // Index of this entity in the BSP file
+  setEntnum(uint16) required broadcast ram;
+};
+
 dclass DistributedRoot : DistributedObject {
   setParentingRules(string, string) broadcast ram;
 };
@@ -444,7 +449,7 @@ dclass DistributedBattleTrolley : DistributedObject {
   headOff(uint32);
 };
 
-dclass DistributedRestockBarrel : DistributedNode {
+dclass DistributedRestockBarrel : DistributedNode, IDistributedEntity {
   requestGrab() airecv clsend;
   setGrab(uint32) broadcast ram;
   setLabel(uint16) broadcast ram;
@@ -868,11 +873,6 @@ dclass DistributedPhysicsEntity : DistributedSmoothNode {
 
 dclass DistributedTNT : DistributedPhysicsEntity {
   explode() ownsend airecv broadcast;
-};
-
-dclass IDistributedEntity {
-  // Index of this entity in the BSP file
-  setEntnum(uint16) required broadcast ram;
 };
 
 dclass DistributedEntity : DistributedObject, IDistributedEntity {
