@@ -1,6 +1,6 @@
-LightmappedGeneric
+VertexLitGeneric
 {
-    "$surfaceprop"          "metalgrate"
-    "$envmap_shininess"     ".2"
-    "$normalmap"            "phase_9/maps/FloorGrate_bump.jpg"
+	"$basetexture"			"phase_9/maps/FloorGrate.jpg"
+	"$basetexture_alpha"	"phase_9/maps/FloorGrate_a.rgb"
+	"$translucent"			"1"
 }

@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_13/maps/tugDecor_diffuse.jpg"
+	"$basetexture_alpha"	"phase_13/maps/tugDecor_diffuse_a.rgb"
+	"$translucent"			"1"
+}

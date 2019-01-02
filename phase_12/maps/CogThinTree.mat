@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_12/maps/CogThinTree.jpg"
+	"$basetexture_alpha"	"phase_12/maps/CogThinTree_a.rgb"
+	"$translucent"			"1"
+}

@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_6/maps/minnies_melody_land_safezone_palette_4amla_2.jpg"
+	"$basetexture_alpha"	"phase_6/maps/minnies_melody_land_safezone_palette_4amla_2_a.rgb"
+	"$translucent"			"1"
+}

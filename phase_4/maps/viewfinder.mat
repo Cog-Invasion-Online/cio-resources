@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_4/maps/viewfinder.jpg"
+	"$basetexture_alpha"	"phase_4/maps/viewfinder_a.rgb"
+	"$translucent"			"1"
+}

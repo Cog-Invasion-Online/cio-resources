@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_4/maps/old_ttc_fence_post.jpg"
+	"$phong"			"1"
+	"$phongexponent"	"0.25"
+	"$phongtint"		"0.0 0.0 0.0"
+}

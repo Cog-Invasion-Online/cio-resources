@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_3/maps/minnie_eyelash.jpg"
+	"$basetexture_alpha"	"phase_3/maps/minnie_eyelash_a.rgb"
+	"$translucent"			"1"
+}

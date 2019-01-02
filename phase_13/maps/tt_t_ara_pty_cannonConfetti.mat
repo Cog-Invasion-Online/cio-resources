@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_13/maps/tt_t_ara_pty_cannonConfetti.jpg"
+	"$basetexture_alpha"	"phase_13/maps/tt_t_ara_pty_cannonConfetti_a.rgb"
+	"$translucent"			"1"
+}

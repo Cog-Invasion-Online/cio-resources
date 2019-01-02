@@ -45,26 +45,84 @@ vec3 GetDiffuseTerm(vec3 eyeSpaceLightVec, vec3 eyeSpaceNormal, bool halfLambert
 	return vResult;
 }
 
-vec3 GetPointLight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, inout vec3 lvec, 
+float GetFalloff(vec4 falloff, vec4 falloff2, float dist)
+{
+    float falloffevaldist = min(dist * 16.0, falloff2.z);
+    
+    float lattenv = falloffevaldist * falloffevaldist;
+    lattenv *= falloff.z;                   // quadratic
+    lattenv += falloff.y * falloffevaldist; // linear
+    lattenv += falloff.x;                   // constant
+    lattenv = 1.0 / lattenv;
+    
+    return lattenv;
+}
+
+bool HasHardFalloff(vec4 falloff2)
+{
+    return (falloff2.y > falloff2.x);
+}
+
+bool CheckHardFalloff(vec4 falloff2, float dist, float dot)
+{
+    if (dist * 16.0 > falloff2.y)
+    {
+        return false;
+    }
+    
+    return true;
+}
+
+void ApplyHardFalloff(inout float falloff, vec4 falloff2, float dist, float dot)
+{
+    float t = falloff2.y - falloff2.x;
+    t /= (dist * 16.0) - falloff2.x;
+    
+    t = clamp(t, 0, 1);
+    t -= 1.0;
+    
+    float mult = t * t * t *( t * ( t* 6.0 - 15.0 ) + 10.0 );
+    
+    falloff *= mult;
+}
+
+vec3 GetPointLight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, inout vec3 lvec,
+                   vec4 falloff2, vec4 falloff3,
 				   vec4 eyePos, vec4 eyeNormal, bool halfLambert, bool lightwarp,
 				   sampler2D lightwarpSampler)
 {
-	
-	lvec = lpoint.xyz - eyePos.xyz;
+    vec3 vResult = vec3(0);
+    vec3 ratio;
+    
+    lvec = lpoint.xyz - eyePos.xyz;
 	float ldist = length(lvec);
 	lvec = normalize(lvec);
 	
-	vec3 vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler);
-
-	lattenv = ldist * latten.x;
-	vec3 ratio = vResult / lattenv;
-
-	vResult *= lcolor.rgb * ratio;
+	vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler);
+    
+#ifdef BSP_LIGHTING
+    bool hasHardFalloff = HasHardFalloff(falloff2);
+    if (hasHardFalloff && !CheckHardFalloff(falloff2, ldist, vResult.x))
+    {
+        return vec3(0);
+    }
+    lattenv = GetFalloff(latten, falloff2, ldist);
+    //if (hasHardFalloff)
+    //{
+    //    ApplyHardFalloff(lattenv, falloff2, ldist, vResult.x);
+    //}
+#else
+    lattenv = 1.0 / (latten.x + latten.y*ldist + latten.z*ldist*ldist);
+#endif
+    
+    ratio = vec3(lattenv, lattenv, lattenv);
 	
+    vResult *= lcolor.rgb * ratio;
 	return vResult;
 }
 
 vec3 GetSpotlight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, inout vec3 lvec, vec4 ldir,
+                  vec4 falloff2, vec4 falloff3,
                   vec4 eyePos, vec4 eyeNormal, bool halfLambert, bool lightwarp,
                   sampler2D lightwarpSampler)
 {
@@ -73,19 +131,53 @@ vec3 GetSpotlight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, in
     lvec = normalize(lvec);
     vec3 vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler); 
     
-    float dot2 = clamp(dot(lvec, normalize(-ldir.xyz)), 0, 1);
-    if (dot2 <= latten.z)
+#ifdef BSP_LIGHTING
+    
+    bool hasHardFalloff = HasHardFalloff(falloff2);
+    if (hasHardFalloff && !CheckHardFalloff(falloff2, ldist, vResult.x))
     {
-        // outside light cone
         return vec3(0);
     }
-    float denominator = ldist * latten.x;
-    lattenv = vResult.x * dot2 / denominator;
-    if (dot2 <= latten.y)
+
+    float dot2 = clamp(dot(lvec, normalize(-ldir.xyz)), 0, 1);
+    if (dot2 <= falloff2.w)
     {
-        lattenv *= (dot2 - latten.z) / (latten.y - latten.z);
+        // outside entire cone
+        return vec3(0);
     }
-    return lcolor.rgb * lattenv;
+    
+    lattenv = GetFalloff(latten, falloff2, ldist);
+    lattenv *= dot2;
+    
+    float mult = 1.0;
+    
+    if (dot2 <= latten.w)
+    {
+        mult *= (dot2 - falloff2.w) / (latten.w - falloff2.w);
+        mult = clamp(mult, 0, 1);
+    }
+    
+    float exp = falloff3.x;
+    if (exp != 0.0 && exp != 1.0)
+    {
+        mult = pow(mult, exp);
+    }
+    
+    lattenv *= mult;
+    
+    //if (hasHardFalloff)
+    //{
+    //    ApplyHardFalloff(lattenv, falloff2, ldist, vResult.x);
+    //}
+    
+#else
+    float langle = clamp(dot(ldir.xyz, lvec), 0, 1);
+    lattenv = 1/(latten.x + latten.y*ldist + latten.z*ldist*ldist);
+    lattenv *= pow(langle, latten.w);
+    if (langle < ldir.w) return vec3(0);
+#endif
+
+    return (vResult * lcolor.rgb) * lattenv;
 }
 
 vec3 GetDirectionalLight(vec4 ldir, vec4 lcolor, vec4 eyeNormal, inout vec3 lvec, bool halfLambert,
@@ -113,51 +205,59 @@ vec3 GetDirectionalLight(vec4 ldir, vec4 lcolor, vec4 eyeNormal, inout vec3 lvec
 	return vResult;
 }
 
-void RimTerm(inout vec4 totalRim, vec4 eyePos, vec4 eyeNormal, vec4 rimColor, float rimWidth)
-{
-	vec3 rimEyePos = normalize(-eyePos.xyz);
-	float rIntensity = rimWidth - max(dot(rimEyePos, eyeNormal.xyz), 0.0);
-	rIntensity = max(0.0, rIntensity);
-	totalRim += vec4(rIntensity * rimColor);
-}
-
 float Fresnel(vec3 vNormal, vec3 vEyeDir)
 {
-    float fresnel = 1 - clamp(dot(vNormal, vEyeDir), 0, 1);
+    float fresnel = 1 - clamp(dot(vNormal, normalize(vEyeDir)), 0, 1);
     return fresnel * fresnel;
 }
 
 float Fresnel4(vec3 vNormal, vec3 vEyeDir)
 {
-    float fresnel = 1 - clamp(dot(vNormal, vEyeDir), 0, 1);
+    float fresnel = 1 - clamp(dot(vNormal, normalize(vEyeDir)), 0, 1);
     fresnel = fresnel * fresnel;
     return fresnel * fresnel;
 }
 
-void GetSpecular(float lattenv, vec4 eyeNormal,
-				 vec4 eyePos, vec3 specularColor, float shininess, vec3 lightVec,
-                 
-                 inout vec3 olspec, bool doRim, float rimWidth, vec4 rimExponent, inout vec3 orim)
+void RimTerm(inout vec3 totalRim, vec3 eyePos, vec4 eyeNormal, vec4 rimExponent, float rimWidth, float lattenv, vec4 worldNormal)
+{
+	vec3 rimEyePos = normalize(-eyePos.xyz);
+	float rIntensity = pow(rimWidth - max(dot(rimEyePos, eyeNormal.xyz), 0.0), 0.7);
+	rIntensity = max(0.0, rIntensity);
+    rIntensity = smoothstep(0.6, 1.0, rIntensity);
+	totalRim += vec3(rIntensity * rimExponent.xyz * Fresnel(eyeNormal.xyz, eyePos.xyz));
+}
+
+void RimTerm2(inout vec3 totalRim, vec3 eyeNormal, vec3 eyeVec, vec3 lightVec, vec4 rimColor, float rimWidth)
+{
+    float rim = 1.0 - rimWidth;
+    float diff = rimWidth - clamp(dot(eyeNormal, -lightVec), 0, 1);
+    diff = step(rim, diff) * diff;
+    diff = smoothstep(0.7, 1.0, diff);
+    diff *= Fresnel(eyeNormal, eyeVec);
+    totalRim += step(rim, diff) * (diff - rim) / rim;
+}
+
+void GetSpecular(float lattenv, vec4 eyeNormal, vec4 eyePos,
+				 vec3 specularTint, vec3 lightColor, float shininess, float boost, vec3 lightVec, vec3 eyeVec,
+                 inout vec3 olspec)
 {
     vec3 rim = vec3(0);
     
 	vec3 lhalf = normalize(lightVec - normalize(eyePos.xyz));
-    float LdotR = max(dot(eyeNormal.xyz, lhalf), 0);
+    float LdotR = clamp(dot(eyeNormal.xyz, lhalf), 0, 1);
+
+	//olspec += vec3(1.0);
 
     if (shininess > 0.0)
     {
-        vec3 lspec = specularColor;
-        lspec *= lattenv;
+        vec3 lspec = specularTint * lightColor;
         lspec *= pow(LdotR, shininess);
+        lspec *= boost;
+        // mask with N.L
+        lspec *= dot(lightVec, eyeNormal.xyz);
+        lspec *= lattenv;
+        lspec *= Fresnel(eyeNormal.xyz, eyeVec);
         olspec += lspec;
-    }
-    
-	if (doRim)
-    {
-        rim = rimExponent.xyz;
-        rim *= pow(max(0.0, rimWidth - LdotR), rimExponent.w);
-        rim *= lattenv;
-        orim += rim;
     }
 }
 
@@ -175,6 +275,11 @@ void GetBumpedNormal(inout vec4 finalEyeNormal, sampler2D normalSampler, vec4 te
 	finalEyeNormal.xyz += binormal.xyz * tsnormal.y;
 }
 
+vec3 CalcReflectionVectorUnnormalized(vec3 normal, vec3 eyeVector)
+{
+	return (2.0*(dot( normal, eyeVector ))*normal) - (dot( normal, normal )*eyeVector);
+}
+
 vec3 CalcReflectionVectorNormalized(vec3 normal, vec3 eyeVector)
 {
 	return 2.0 * (dot(normal, eyeVector) / dot(normal, normal)) * normal - eyeVector;
@@ -189,8 +294,7 @@ vec2 GetSphereMapTexCoords(vec3 reflVec, mat4 invViewMatrix)
     float ooLen = dot(tmp, tmp);
     ooLen = 1.0 / sqrt(ooLen);
     
-    tmp.x = ooLen * tmp.x + 1.0;
-	tmp.y = ooLen * tmp.y + 1.0;
+    tmp.xy = ooLen * tmp.xy + 1.0;
     
     return tmp.xy * 0.5;
 }
@@ -198,15 +302,17 @@ vec2 GetSphereMapTexCoords(vec3 reflVec, mat4 invViewMatrix)
 vec4 SampleSphereMap(vec3 eyeVec, vec4 eyeNormal, mat4 invViewMatrix,
 				   vec3 parallaxOffset, sampler2D sphereSampler)
 {
-	vec3 r = CalcReflectionVectorNormalized(eyeNormal.xyz, eyeVec);
-    vec2 coords = GetSphereMapTexCoords(r, invViewMatrix) - parallaxOffset.xy;
+	vec3 r = normalize(reflect(-eyeNormal.xyz, eyeVec));//CalcReflectionVectorNormalized(eyeNormal.xyz, eyeVec);
+	vec2 coords = GetSphereMapTexCoords(r, invViewMatrix) - parallaxOffset.xy;
     
 	return texture2D(sphereSampler, coords);
 }
 
-vec4 SampleCubeMap(vec3 eyeVec, vec4 eyeNormal, vec3 parallaxOffset, sampler3D cubeSampler)
+vec4 SampleCubeMap(vec3 worldCamToVert, vec4 worldNormal, mat4 invViewMatrix, vec3 parallaxOffset, samplerCube cubeSampler)
 {
-	vec3 cmR = reflect(eyeVec, eyeNormal.xyz);
+	//vec3 cmR = reflect(eyeNormal.xyz, eyeVec);
+	vec3 cmR = CalcReflectionVectorUnnormalized(worldNormal.xyz, worldCamToVert);
+	//cmR = vec3(invViewMatrix * vec4(cmR, 0.0));
 	return texture(cubeSampler, cmR - parallaxOffset.xyz);
 }
 
@@ -249,19 +355,6 @@ bool ClipPlaneTest(vec4 worldPosition, vec4 clipPlane)
 
 vec3 AmbientCubeLight(vec3 worldNormal, vec3 ambientCube[6])
 {
-#if 0
-	vec3 nSqr = worldNormal * worldNormal;
-	int neg = 0;
-	if (nSqr < 0)
-	{
-		neg = 1;
-	}
-	vec3 linear = nSqr.x * ambientCube[neg] +
-        nSqr.y * ambientCube[neg + 2] +
-        nSqr.z * ambientCube[neg + 4];
-	return linear;
-#endif
-
     vec3 linearColor;
     vec3 nSquared = worldNormal * worldNormal;
     vec3 isNegative = vec3(worldNormal.x < 0.0, worldNormal.y < 0.0, worldNormal.z < 0.0);

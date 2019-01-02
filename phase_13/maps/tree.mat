@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_13/maps/tree.jpg"
+	"$phong"			"1"
+	"$phongexponent"	"12.5"
+	"$phongtint"		"0.0 0.0 0.0"
+}

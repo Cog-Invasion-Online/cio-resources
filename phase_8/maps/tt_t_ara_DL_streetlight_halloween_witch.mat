@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_8/maps/tt_t_ara_DL_streetlight_halloween_witch.jpg"
+	"$basetexture_alpha"	"phase_8/maps/tt_t_ara_DL_streetlight_halloween_witch_a.rgb"
+	"$translucent"			"1"
+}

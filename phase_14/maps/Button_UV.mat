@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_14/maps/Button_UV.jpg"
+	"$phong"			"1"
+	"$phongexponent"	"24.75"
+	"$phongtint"		"0.108808003366 0.108808003366 0.108808003366"
+}

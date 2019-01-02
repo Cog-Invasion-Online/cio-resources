@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_5/maps/tt_t_gui_cmg_miniMap_frame.jpg"
+	"$basetexture_alpha"	"phase_5/maps/tt_t_gui_cmg_miniMap_frame_a.rgb"
+	"$translucent"			"1"
+}

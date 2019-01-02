@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_6/maps/boost_arrow.jpg"
+	"$basetexture_alpha"	"phase_6/maps/boost_arrow_a.rgb"
+	"$translucent"			"1"
+}

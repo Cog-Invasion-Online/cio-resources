@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_13/maps/launchPad_Diffuse2.jpg"
+	"$basetexture_alpha"	"phase_13/maps/launchPad_Diffuse2_a.rgb"
+	"$translucent"			"1"
+}

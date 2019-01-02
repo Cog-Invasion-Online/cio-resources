@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_4/maps/photogame_camera.jpg"
+	"$basetexture_alpha"	"phase_4/maps/photogame_camera_a.rgb"
+	"$translucent"			"1"
+}

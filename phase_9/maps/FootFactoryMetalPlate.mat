@@ -1,5 +1,4 @@
-LightmappedGeneric
+VertexLitGeneric
 {
-    "$surfaceprop"          "metalfloor"
-    "$envmap_shininess"     ".09"
+	"$basetexture"			"phase_9/maps/FootFactoryMetalPlate.jpg"
 }

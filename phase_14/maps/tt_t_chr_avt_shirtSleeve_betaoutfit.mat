@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"		"phase_14/maps/tt_t_chr_avt_shirtSleeve_betaoutfit.jpg"
+	
+	//"$phong"				"1"
+	//"$phongexponent"		"10"
+}

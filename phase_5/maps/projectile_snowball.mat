@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_5/maps/projectile_snowball.png"
+	"$phong"			"1"
+	"$phongexponent"	"20.0"
+	"$phongtint"		"0.0 0.0 0.0"
+}

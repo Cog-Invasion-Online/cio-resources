@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_6/maps/regular_checker_btn_hilite.jpg"
+	"$basetexture_alpha"	"phase_6/maps/regular_checker_btn_hilite_a.rgb"
+	"$translucent"			"1"
+}

@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"		"phase_14/maps/cog_office_typewriter.jpg"
+	
+	"$envmap"			"env_cubemap"
+	"$envmapmask"		"phase_14/maps/cog_office_typewritermask.jpg"
+}

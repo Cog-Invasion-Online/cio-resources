@@ -1,6 +1,4 @@
-LightmappedGeneric
+VertexLitGeneric
 {
-    "$surfaceprop"          "metalfloor"
-    "$envmap_shininess"     ".07"
-    "$normalmap"             "phase_9/maps/pipe2_bump.jpg"
+	"$basetexture"			"phase_9/maps/pipe2.jpg"
 }

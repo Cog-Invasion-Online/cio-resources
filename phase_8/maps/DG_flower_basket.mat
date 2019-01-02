@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_8/maps/DG_flower_basket.jpg"
+	"$basetexture_alpha"	"phase_8/maps/DG_flower_basket_a.rgb"
+	"$translucent"			"1"
+}

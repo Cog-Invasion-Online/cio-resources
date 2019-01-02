@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_6/maps/dale_eye1.jpg"
+	"$basetexture_alpha"	"phase_6/maps/dale_eye1_a.rgb"
+	"$translucent"			"1"
+}
