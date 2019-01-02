@@ -1,5 +1,4 @@
-LightmappedGeneric
+VertexLitGeneric
 {
-    "$surfaceprop"          "concrete"
-    "$normalmap"            "phase_9/maps/FootFactoryFloor_bump.jpg"
+	"$basetexture"			"phase_9/maps/FootFactoryFloor.jpg"
 }

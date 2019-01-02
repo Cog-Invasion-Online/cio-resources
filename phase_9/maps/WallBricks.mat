@@ -1,4 +1,4 @@
-LightmappedGeneric
+VertexLitGeneric
 {
-    "$surfaceprop"          "concrete"
+	"$basetexture"			"phase_9/maps/WallBricks.jpg"
 }

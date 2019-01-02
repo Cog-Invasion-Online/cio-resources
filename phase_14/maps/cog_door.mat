@@ -1,6 +1,8 @@
 LightmappedGeneric
 {
+	"$basetexture"			"phase_14/maps/cog_door.png"
     "$surfaceprop"          "metalfloor"
-    "$envmap_shininess"     ".08"
-    "$normalmap"            "phase_14/maps/cog_door_bump.png"
+    "$envmap"				"env_cubemap"
+    "$envmaptint"     ".08 .08 .08"
+    "$bumpmap"            "phase_14/maps/cog_door_bump.png"
 }

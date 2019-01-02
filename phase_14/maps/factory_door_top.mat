@@ -1,6 +1,8 @@
 LightmappedGeneric
 {
+    "$basetexture"			"phase_14/maps/factory_door_top.png"
     "$surfaceprop"          "metalfloor"
-    "$envmap_shininess"     ".15"
-    "$normalmap"            "phase_14/maps/factory_door_top_bump.png"
+    "$envmap"				"env_cubemap"
+    "$envmaptint"     		".15 .15 .15"
+    "$bumpmap"            "phase_14/maps/factory_door_bottom_top.png"
 }

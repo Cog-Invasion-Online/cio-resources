@@ -1,4 +1,6 @@
 LightmappedGeneric
 {
-    "$lightmapped"      "0"
+	"$basetexture"			"phase_10/maps/CBTopLights.jpg"
+	
+	"$lightmapped"			"0"
 }
