@@ -45,38 +45,58 @@ in vec4 l_eyeNormal;
 
 in vec4 l_texcoord;
 
-#ifdef ALBEDO
-uniform sampler2D albedoSampler;
-#else // ALBEDO
+#ifdef BASETEXTURE
+uniform sampler2D baseTextureSampler;
+#else // BASETEXTURE
 uniform sampler2D p3d_Texture0;
-#define albedoSampler p3d_Texture0
+#define baseTextureSampler p3d_Texture0
 #endif
 
-#ifdef HEIGHTMAP
-uniform sampler2D heightSampler;
+#ifdef LIGHTWARP
+uniform sampler2D lightwarpSampler;
 #endif
-#ifdef SPHEREMAP
-uniform sampler2D sphereSampler;
+
+#ifdef ENVMAP
+
+uniform samplerCube envmapSampler;
+uniform vec3 envmapTint;
+uniform vec3 envmapContrast;
+uniform vec3 envmapSaturation;
+
+#ifdef ENVMAP_MASK
+uniform sampler2D envmapMaskSampler;
+#endif
+
 uniform mat4 p3d_ViewMatrixInverse;
-#endif
-#ifdef CUBEMAP
-uniform sampler2D cubeSampler;
-#endif
-#ifdef GLOWMAP
-uniform sampler2D glowSampler;
-#endif
-#ifdef GLOSSMAP
-uniform sampler2D glossSampler;
+in vec4 l_worldEyePos;
+in vec4 l_worldEyeToVert;
 #endif
 
-#ifdef NORMALMAP
-uniform sampler2D normalSampler;
+#ifdef PHONG
+uniform vec2 phongBoost;
+uniform vec3 phongFresnelRanges;
+uniform vec3 phongTint;
+
+#ifdef PHONG_EXP_TEX
+uniform sampler2D phongExponentTexture;
+#else // PHONG_EXP_TEX
+uniform vec2 phongExponent;
+#endif // PHONG_EXP_TEX
+
+#endif
+
+#ifdef BUMPMAP
+uniform sampler2D bumpSampler;
+#endif
+
+#ifdef NEED_TBN
 in vec4 l_tangent;
 in vec4 l_binormal;
 #endif
 
-#if defined(HEIGHTMAP)
+#if NEED_EYE_VEC
 in vec3 l_eyeVec;
+in vec3 l_eyeDir;
 #endif
 
 #if defined(HAVE_AUX_NORMAL) || defined(HAVE_AUX_GLOW)
@@ -95,54 +115,19 @@ uniform vec4 p3d_Color;
 uniform vec4 p3d_ClipPlane[NUM_CLIP_PLANES];
 #endif
 
-#ifdef HAS_MAT
-
-uniform struct
-{
-#ifdef MAT_AMBIENT
-	vec4 ambient;
-#endif
-    
-#ifdef MAT_EMISSION
-    vec4 emission;
-#endif
-    
-//#ifdef MAT_DIFFUSE
-    vec4 diffuse;
-//#endif
-    
-#ifdef MAT_SPECULAR
-    vec3 specular;
-    float shininess;
-#endif
-    
-#ifdef MAT_RIM
-    vec4 rimColor;
-    float rimWidth;
-#endif
-    
-#ifdef MAT_LIGHTWARP
-    sampler2D lightwarp;
-#endif
-   
-} p3d_Material;
-
-#endif
-
 #ifdef LIGHTING
-
 uniform int lightTypes[NUM_LIGHTS];
 
 #ifdef BSP_LIGHTING
+
 uniform int lightCount[1];
 uniform mat4 lightData[NUM_LIGHTS];
 uniform mat4 lightData2[NUM_LIGHTS];
-//in vec4 l_lightPos[NUM_LIGHTS];
-//in vec4 l_lightDir[NUM_LIGHTS];
 #ifdef AMBIENT_CUBE
 uniform vec3 ambientCube[6];
 #endif
-#else
+
+#else // BSP_LIGHTING
 
 uniform struct
 {
@@ -158,7 +143,7 @@ uniform struct
     vec4 ambient;
 } p3d_LightModel;
 
-#endif
+#endif // BSP_LIGHTING
 
 #ifdef HAS_SHADOW_SUNLIGHT
 uniform sampler2DArray pssmSplitSampler;
@@ -172,25 +157,13 @@ uniform vec4 p3d_ColorScale;
 layout(location = 0) out vec4 o_color;
 
 void DoGetSpecAndRim(float lattenv, vec4 finalEyeNormal, vec4 l_eyePosition,
-                     float shininess, vec3 lvec, inout vec3 spec, inout vec3 rim)
+					 float exponent, vec3 tint,
+                     vec3 lvec, inout vec3 spec, vec4 lightColor, vec4 albedoColor)
 {
-    
-#if defined(HAVE_SPECULAR) || defined(MAT_RIM)
+#if defined(PHONG) || defined(RIMLIGHT)
     GetSpecular(lattenv, finalEyeNormal, l_eyePosition,
-    
-#ifdef HAVE_SPECULAR
-                p3d_Material.specular,
-#else
-                vec3(1.0),
-#endif
-                shininess, lvec, spec,
-
-#ifdef MAT_RIM
-                true, p3d_Material.rimWidth, p3d_Material.rimColor,
-#else
-                false, 0.0, vec4(0.0),
-#endif
-                rim);
+                tint, lightColor.xyz,
+                exponent, phongBoost.x, lvec, l_eyeDir, spec);
          
 #endif
 }
@@ -230,8 +203,8 @@ void main()
 	vec4 finalEyeNormal = vec4(0.0);
 #endif
 
-#ifdef NORMALMAP
-	GetBumpedNormal(finalEyeNormal, normalSampler, l_texcoord,
+#ifdef BUMPMAP
+	GetBumpedNormal(finalEyeNormal, bumpSampler, l_texcoord,
 			        l_tangent, l_binormal);
 #endif
 
@@ -243,21 +216,38 @@ void main()
 	o_aux.rgb = (finalEyeNormal.xyz * 0.5) + vec3(0.5, 0.5, 0.5);
 #endif
 
+#ifdef BASETEXTURE
+	vec4 albedo = SampleAlbedo(l_texcoord, parallaxOffset, baseTextureSampler);
+#else
+	vec4 albedo = vec4(1.0);
+#endif
+
+#ifdef PHONG
+
+#ifdef PHONG_EXP_TEX
+    float finalPhongExp = texture2D(phongExponentTexture, l_texcoord).r;
+#else // PHONG_EXP_TEX
+	float finalPhongExp = phongExponent.x;
+#endif
+
+	vec3 finalPhongTint = phongTint;
+#ifdef PHONG_ALBEDO_TINT
+	finalPhongTint *= albedo.rgb;
+#endif
+
+#else // PHONG
+
+	float finalPhongExp = 0.0;
+	vec3 finalPhongTint = vec3(0);
+
+#endif // PHONG
+
     vec4 totalSpecular = vec4(0.0);
     vec4 totalRim = vec4(0.0);
 
 #ifdef LIGHTING
 
 	vec4 totalDiffuse = vec4(0.0);
-
-//#ifdef HAVE_SPECULAR
-	
-#ifdef MAT_SPECULAR
-	float shininess = p3d_Material.shininess;
-#else
-	float shininess = 50.0;
-#endif
-//#endif
 
 #ifdef HAVE_SEPARATE_AMBIENT
 	vec4 totalAmbient = vec4(0.0);
@@ -273,11 +263,6 @@ void main()
     totalDiffuse += p3d_LightModel.ambient;
 #endif
 #endif
-
-//#ifdef MAT_RIM
-//	vec4 totalRim = vec4(0.0);
-//	RimTerm(totalRim, l_eyePosition, finalEyeNormal, p3d_Material.rimColor, p3d_Material.rimWidth);
-//#endif
     
     float ldist, lattenv, langle, lshad, lintensity;
 	vec4 lcolor, lspec, lpoint, latten, ldir, leye, lfalloff2, lfalloff3;
@@ -291,8 +276,6 @@ void main()
 #endif
 	{
 #ifdef BSP_LIGHTING
-		//lpoint = l_lightPos[i];
-		//ldir = l_lightDir[i];
 		lpoint = lightData[i][0];
 		ldir = lightData[i][1];
 		latten = lightData[i][2];
@@ -317,36 +300,36 @@ void main()
 			totalDiffuse.rgb += GetPointLight(lpoint, latten, lcolor, lattenv, lvec, lfalloff2, lfalloff3,
                                           l_eyePosition, finalEyeNormal,
 
-#ifdef MAT_HALFLAMBERT
+#ifdef HALFLAMBERT
 				true,
 #else
 				false,
 #endif
 
-#ifdef MAT_LIGHTWARP
-				true, p3d_Material.lightwarp
+#ifdef LIGHTWARP
+				true, lightwarpSampler
 #else
-				false, albedoSampler
+				false, baseTextureSampler
 #endif
 
 			);
 
-            DoGetSpecAndRim(lattenv, finalEyeNormal, l_eyePosition, shininess, lvec, totalSpecular.rgb, totalRim.rgb);
+            DoGetSpecAndRim(lattenv, finalEyeNormal, l_eyePosition, finalPhongExp, finalPhongTint, lvec, totalSpecular.rgb, lcolor, albedo);
 
 		}
         else if (lightTypes[i] == LIGHTTYPE_DIRECTIONAL)
         {
             totalDiffuse.rgb += GetDirectionalLight(ldir, lcolor, finalEyeNormal, lvec,
-#ifdef MAT_HALFLAMBERT
+#ifdef HALFLAMBERT
                 true,
 #else
                 false,
 #endif
                 
-#ifdef MAT_LIGHTWARP
-                true, p3d_Material.lightwarp
+#ifdef LIGHTWARP
+                true, lightwarpSampler
 #else
-                false, albedoSampler
+                false, baseTextureSampler
 #endif
                 
 #ifdef HAS_SHADOW_SUNLIGHT
@@ -354,7 +337,7 @@ void main()
 #endif
             );
             
-            DoGetSpecAndRim(1.0, finalEyeNormal, l_eyePosition, shininess, -lvec, totalSpecular.rgb, totalRim.rgb);
+            DoGetSpecAndRim(1.0, finalEyeNormal, l_eyePosition, finalPhongExp, finalPhongTint, ldir.xyz, totalSpecular.rgb, lcolor, albedo);
         }
         else if (lightTypes[i] == LIGHTTYPE_SPOT)
         {
@@ -363,56 +346,32 @@ void main()
 #endif
             totalDiffuse.rgb += GetSpotlight(lpoint, latten, lcolor, lattenv, lvec, ldir, lfalloff2, lfalloff3,
                                             l_eyePosition, finalEyeNormal,
-#ifdef MAT_HALFLAMBERT
+#ifdef HALFLAMBERT
                 true,
 #else
                 false,
 #endif
             
-#ifdef MAT_LIGHTWARP
-                true, p3d_Material.lightwarp
+#ifdef LIGHTWARP
+                true, lightwarpSampler
 #else
-                false, albedoSampler
+                false, baseTextureSampler
 #endif
             
             );
             
-            DoGetSpecAndRim(lattenv, finalEyeNormal, l_eyePosition, shininess, lvec, totalSpecular.rgb, totalRim.rgb);
+            DoGetSpecAndRim(lattenv, finalEyeNormal, l_eyePosition, finalPhongExp, finalPhongTint, lvec, totalSpecular.rgb, lcolor, albedo);
         }
 	}
 
-#ifdef GLOWMAP
-	vec4 glow = texture2D(glowSampler, l_texcoord.xy - parallaxOffset.xy);
-#endif
-
 	// Begin view-space light summation.
-#ifdef MAT_EMISSION
-#ifdef GLOWMAP
-	result = p3d_Material.emission * clamp(2 * (glow.a - 0.5), 0, 1);
-#else
-	result = p3d_Material.emission;
-#endif
-#else // MAT_EMISSION
-#ifdef GLOWMAP
-	result = vec4(clamp(2 * (glow.a - 0.5), 0, 1));
-#else
 	result = vec4(0.0);
-#endif
-#endif
 
 #ifdef HAVE_SEPARATE_AMBIENT
 	result += totalAmbient;
 #endif
 
-#ifdef MAT_DIFFUSE
-	result += totalDiffuse * p3d_Material.diffuse;
-#else
 	result += totalDiffuse;
-#endif
-
-//#ifdef MAT_RIM
-	//result += totalRim;
-//#endif
 
 #ifdef COLOR_VERTEX
 	result *= l_color;
@@ -448,18 +407,42 @@ void main()
 
 	result *= p3d_ColorScale;
 
-#ifdef ALBEDO
-	result *= SampleAlbedo(l_texcoord, parallaxOffset, albedoSampler);
+#ifdef BASETEXTURE
+	result.rgb *= albedo.rgb;
+	#ifdef TRANSLUCENT
+	result.a *= albedo.a;
+	#endif
 #endif
 
-#ifdef SPHEREMAP
-	result += SampleSphereMap(l_eyePosition.xyz, finalEyeNormal,
-							  p3d_ViewMatrixInverse, parallaxOffset,
-							  sphereSampler);
+#ifdef ENVMAP
+
+    vec3 spec = SampleCubeMap(l_worldEyeToVert.xyz, l_worldNormal,
+							  p3d_ViewMatrixInverse, vec3(0), envmapSampler).rgb;
+	
+	#ifdef ENVMAP_MASK
+	spec *= texture2D(envmapMaskSampler, l_texcoord.xy).rgb;
+	#endif
+	
+	spec *= envmapTint;
+	
+	// saturation and contrast
+	vec3 specSqr = spec * spec;
+	spec = mix(spec, specSqr, envmapContrast);
+	vec3 greyScale = vec3(dot(spec, vec3(.299, .587, .114)));
+	spec = mix(greyScale, spec, envmapSaturation);
+	
+	// calc fresnel factor
+	vec3 eyeVec = normalize(l_worldEyeToVert.xyz);
+	//float fresnel = 1.0 - dot(l_worldNormal.xyz, eyeVec);
+	//fresnel = pow(fresnel, 5.0);
+	spec *= Fresnel(l_worldNormal.xyz, eyeVec);
+	
+	totalSpecular.rgb += spec;
+	
 #endif
 
-#ifdef CUBEMAP
-	result += SampleCubeMap(l_eyeVec, finalEyeNormal, parallaxOffset, cubeSampler);
+#ifdef ALPHA
+	result.a *= ALPHA;
 #endif
 
 #ifdef ALPHA_TEST
@@ -485,15 +468,9 @@ void main()
 #endif
 #endif
 
-//#ifdef HAVE_SPECULAR
-#ifdef MAT_SPECULAR
-	totalSpecular.rgb *= p3d_Material.specular;
-#endif
-#ifdef GLOSSMAP
-	totalSpecular *= texture2D(glossSampler, l_texcoord.xy - parallaxOffset.xy).a;
-#endif
+#if defined(PHONG) || defined(RIMLIGHT) || defined(ENVMAP)
 	result.rgb += max(totalSpecular.rgb, totalRim.rgb);
-//#endif
+#endif
 
 #ifdef FOG
 	// Apply fog.

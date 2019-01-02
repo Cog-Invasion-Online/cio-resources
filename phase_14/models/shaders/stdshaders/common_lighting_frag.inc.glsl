@@ -205,53 +205,60 @@ vec3 GetDirectionalLight(vec4 ldir, vec4 lcolor, vec4 eyeNormal, inout vec3 lvec
 	return vResult;
 }
 
-void RimTerm(inout vec4 totalRim, vec4 eyePos, vec4 eyeNormal, vec4 rimColor, float rimWidth)
-{
-	vec3 rimEyePos = normalize(-eyePos.xyz);
-	float rIntensity = rimWidth - max(dot(rimEyePos, eyeNormal.xyz), 0.0);
-	rIntensity = max(0.0, rIntensity);
-	totalRim += vec4(rIntensity * rimColor);
-}
-
 float Fresnel(vec3 vNormal, vec3 vEyeDir)
 {
-    float fresnel = 1 - clamp(dot(vNormal, vEyeDir), 0, 1);
+    float fresnel = 1 - clamp(dot(vNormal, normalize(vEyeDir)), 0, 1);
     return fresnel * fresnel;
 }
 
 float Fresnel4(vec3 vNormal, vec3 vEyeDir)
 {
-    float fresnel = 1 - clamp(dot(vNormal, vEyeDir), 0, 1);
+    float fresnel = 1 - clamp(dot(vNormal, normalize(vEyeDir)), 0, 1);
     fresnel = fresnel * fresnel;
     return fresnel * fresnel;
 }
 
-void GetSpecular(float lattenv, vec4 eyeNormal,
-				 vec4 eyePos, vec3 specularColor, float shininess, vec3 lightVec,
-                 
-                 inout vec3 olspec, bool doRim, float rimWidth, vec4 rimExponent, inout vec3 orim)
+void RimTerm(inout vec3 totalRim, vec3 eyePos, vec4 eyeNormal, vec4 rimExponent, float rimWidth, float lattenv, vec4 worldNormal)
+{
+	vec3 rimEyePos = normalize(-eyePos.xyz);
+	float rIntensity = pow(rimWidth - max(dot(rimEyePos, eyeNormal.xyz), 0.0), 0.7);
+	rIntensity = max(0.0, rIntensity);
+    rIntensity = smoothstep(0.6, 1.0, rIntensity);
+	totalRim += vec3(rIntensity * rimExponent.xyz * Fresnel(eyeNormal.xyz, eyePos.xyz));
+}
+
+void RimTerm2(inout vec3 totalRim, vec3 eyeNormal, vec3 eyeVec, vec3 lightVec, vec4 rimColor, float rimWidth)
+{
+    float rim = 1.0 - rimWidth;
+    float diff = rimWidth - clamp(dot(eyeNormal, -lightVec), 0, 1);
+    diff = step(rim, diff) * diff;
+    diff = smoothstep(0.7, 1.0, diff);
+    diff *= Fresnel(eyeNormal, eyeVec);
+    totalRim += step(rim, diff) * (diff - rim) / rim;
+}
+
+void GetSpecular(float lattenv, vec4 eyeNormal, vec4 eyePos,
+				 vec3 specularTint, vec3 lightColor, float shininess, float boost, vec3 lightVec, vec3 eyeVec,
+                 inout vec3 olspec)
 {
     vec3 rim = vec3(0);
     
 	vec3 lhalf = normalize(lightVec - normalize(eyePos.xyz));
-    float LdotR = max(dot(eyeNormal.xyz, lhalf), 0);
+    float LdotR = clamp(dot(eyeNormal.xyz, lhalf), 0, 1);
+
+	//olspec += vec3(1.0);
 
     if (shininess > 0.0)
     {
-        vec3 lspec = specularColor;
+        vec3 lspec = specularTint * lightColor;
+        lspec *= pow(LdotR, shininess);
+        lspec *= boost;
+        // mask with N.L
+        lspec *= dot(lightVec, eyeNormal.xyz);
         lspec *= lattenv;
-        lspec *= pow(clamp(LdotR, 0, 1), shininess);
+        lspec *= Fresnel(eyeNormal.xyz, eyeVec);
         olspec += lspec;
     }
-#if 0
-	if (doRim)
-    {
-        rim = rimExponent.xyz;
-        rim *= pow(max(0.0, rimWidth - LdotR), rimExponent.w);
-        rim *= lattenv;
-        orim += rim;
-    }
-#endif
 }
 
 void GetBumpedNormal(inout vec4 finalEyeNormal, sampler2D normalSampler, vec4 texcoord,
@@ -268,6 +275,11 @@ void GetBumpedNormal(inout vec4 finalEyeNormal, sampler2D normalSampler, vec4 te
 	finalEyeNormal.xyz += binormal.xyz * tsnormal.y;
 }
 
+vec3 CalcReflectionVectorUnnormalized(vec3 normal, vec3 eyeVector)
+{
+	return (2.0*(dot( normal, eyeVector ))*normal) - (dot( normal, normal )*eyeVector);
+}
+
 vec3 CalcReflectionVectorNormalized(vec3 normal, vec3 eyeVector)
 {
 	return 2.0 * (dot(normal, eyeVector) / dot(normal, normal)) * normal - eyeVector;
@@ -282,8 +294,7 @@ vec2 GetSphereMapTexCoords(vec3 reflVec, mat4 invViewMatrix)
     float ooLen = dot(tmp, tmp);
     ooLen = 1.0 / sqrt(ooLen);
     
-    tmp.x = ooLen * tmp.x + 1.0;
-	tmp.y = ooLen * tmp.y + 1.0;
+    tmp.xy = ooLen * tmp.xy + 1.0;
     
     return tmp.xy * 0.5;
 }
@@ -291,15 +302,17 @@ vec2 GetSphereMapTexCoords(vec3 reflVec, mat4 invViewMatrix)
 vec4 SampleSphereMap(vec3 eyeVec, vec4 eyeNormal, mat4 invViewMatrix,
 				   vec3 parallaxOffset, sampler2D sphereSampler)
 {
-	vec3 r = CalcReflectionVectorNormalized(eyeNormal.xyz, eyeVec);
-    vec2 coords = GetSphereMapTexCoords(r, invViewMatrix) - parallaxOffset.xy;
+	vec3 r = normalize(reflect(-eyeNormal.xyz, eyeVec));//CalcReflectionVectorNormalized(eyeNormal.xyz, eyeVec);
+	vec2 coords = GetSphereMapTexCoords(r, invViewMatrix) - parallaxOffset.xy;
     
 	return texture2D(sphereSampler, coords);
 }
 
-vec4 SampleCubeMap(vec3 eyeVec, vec4 eyeNormal, vec3 parallaxOffset, sampler3D cubeSampler)
+vec4 SampleCubeMap(vec3 worldCamToVert, vec4 worldNormal, mat4 invViewMatrix, vec3 parallaxOffset, samplerCube cubeSampler)
 {
-	vec3 cmR = reflect(eyeVec, eyeNormal.xyz);
+	//vec3 cmR = reflect(eyeNormal.xyz, eyeVec);
+	vec3 cmR = CalcReflectionVectorUnnormalized(worldNormal.xyz, worldCamToVert);
+	//cmR = vec3(invViewMatrix * vec4(cmR, 0.0));
 	return texture(cubeSampler, cmR - parallaxOffset.xyz);
 }
 
@@ -342,19 +355,6 @@ bool ClipPlaneTest(vec4 worldPosition, vec4 clipPlane)
 
 vec3 AmbientCubeLight(vec3 worldNormal, vec3 ambientCube[6])
 {
-#if 0
-	vec3 nSqr = worldNormal * worldNormal;
-	int neg = 0;
-	if (nSqr < 0)
-	{
-		neg = 1;
-	}
-	vec3 linear = nSqr.x * ambientCube[neg] +
-        nSqr.y * ambientCube[neg + 2] +
-        nSqr.z * ambientCube[neg + 4];
-	return linear;
-#endif
-
     vec3 linearColor;
     vec3 nSquared = worldNormal * worldNormal;
     vec3 isNegative = vec3(worldNormal.x < 0.0, worldNormal.y < 0.0, worldNormal.z < 0.0);

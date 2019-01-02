@@ -14,12 +14,9 @@ uniform mat4 p3d_ModelViewProjectionMatrix;
 in vec4 p3d_Vertex;
 out vec4 l_position;
 
-#if defined(NORMALMAP) || defined(HEIGHTMAP)
-in vec4 TANGENTNAME;
-in vec4 BINORMALNAME;
-#endif
-
-#ifdef NORMALMAP
+#if defined(NEED_TBN) || defined(NEED_EYE_VEC)
+in vec4 p3d_Tangent;
+in vec4 p3d_Binormal;
 out vec4 l_tangent;
 out vec4 l_binormal;
 #endif
@@ -46,7 +43,7 @@ out vec4 l_worldNormal;
 #ifdef NEED_EYE_POSITION
 uniform mat4 p3d_ModelViewMatrix;
 out vec4 l_eyePosition;
-#elif defined(NORMALMAP)
+#elif defined(NEED_TBN)
 uniform mat4 p3d_ModelViewMatrix;
 #endif
 
@@ -55,33 +52,24 @@ uniform mat4 tpose_view_to_model;
 out vec4 l_eyeNormal;
 #endif
 
-#if defined(HEIGHTMAP) || defined(NEED_WORLD_NORMAL) || defined(NEED_EYE_NORMAL)
+#if defined(NEED_WORLD_NORMAL) || defined(NEED_EYE_NORMAL)
 in vec3 p3d_Normal;
 #endif
 
-#if defined(HEIGHTMAP)
+#ifdef NEED_EYE_VEC
 uniform vec4 mspos_view;
 out vec3 l_eyeVec;
+out vec3 l_eyeDir;
+#endif
+
+#ifdef ENVMAP
+uniform vec4 wspos_view;
+out vec4 l_worldEyePos;
+out vec4 l_worldEyeToVert;
 #endif
 
 in vec4 texcoord;
 out vec4 l_texcoord;
-
-//#if defined(LIGHTING) && defined(BSP_LIGHTING)
-
-//uniform mat4 p3d_ViewMatrix;
-
-// row 1: position
-// row 2: direction
-// row 3: attenuation
-// row 4: color
-//uniform mat4 lightData[NUM_LIGHTS];
-// transform world-space position and direction
-// into view space for the fragment shader
-//out vec4 l_lightPos[NUM_LIGHTS];
-//out vec4 l_lightDir[NUM_LIGHTS];
-
-//#endif
 
 #ifdef HAS_SHADOW_SUNLIGHT
 uniform mat4 pssmMVPs[PSSM_SPLITS];
@@ -105,34 +93,34 @@ void main()
 {
 	vec4 finalVertex = p3d_Vertex;
 
-	#if defined(NEED_WORLD_NORMAL) || defined(NEED_EYE_NORMAL)
+#if defined(NEED_WORLD_NORMAL) || defined(NEED_EYE_NORMAL)
 	vec3 finalNormal = p3d_Normal;
-	#endif
+#endif
 
-	#if defined(HARDWARE_SKINNING) && NUM_TRANSFORMS > 0
+#if defined(HARDWARE_SKINNING) && NUM_TRANSFORMS > 0
 
-	#ifndef INDEXED_TRANSFORMS
+#ifndef INDEXED_TRANSFORMS
 	const uvec4 transform_index = uvec4(0, 1, 2, 3);
-	#endif
+#endif
 
 	mat4 matrix = p3d_TransformTable[transform_index.x] * transform_weight.x
-	#if NUM_TRANSFORMS > 1
+#if NUM_TRANSFORMS > 1
 		+ p3d_TransformTable[transform_index.y] * transform_weight.y
-	#endif
-	#if NUM_TRANSFORMS > 2
+#endif
+#if NUM_TRANSFORMS > 2
 		+ p3d_TransformTable[transform_index.z] * transform_weight.z
-	#endif
-	#if NUM_TRANSFORMS > 3
+#endif
+#if NUM_TRANSFORMS > 3
 		+ p3d_TransformTable[transform_index.w] * transform_weight.w
-	#endif
+#endif
 	;
 
 	finalVertex = matrix * p3d_Vertex;
-	#if defined(NEED_WORLD_NORMAL) || defined(NEED_EYE_NORMAL)
+#if defined(NEED_WORLD_NORMAL) || defined(NEED_EYE_NORMAL)
 	finalNormal = (mat3)matrix * p3d_Normal;
-	#endif
+#endif
 
-	#endif
+#endif
 
 	gl_Position = p3d_ModelViewProjectionMatrix * finalVertex;
 	l_position = gl_Position;
@@ -140,66 +128,60 @@ void main()
     // pass through the texcoord input as-is
     l_texcoord = texcoord;
 
-	#ifdef FOG
+#ifdef FOG
 	l_hPos = l_position;
-	#endif
+#endif
 
-	#ifdef NEED_WORLD_POSITION
+#ifdef NEED_WORLD_POSITION
 	l_worldPosition = p3d_ModelMatrix * finalVertex;
-	#endif
+#endif
 
-	#if defined(NEED_WORLD_NORMAL)
+#if defined(NEED_WORLD_NORMAL)
 	l_worldNormal = p3d_ModelMatrix * vec4(finalNormal, 0);
-	#endif
+#endif
 
-	#ifdef NEED_EYE_POSITION
+#ifdef NEED_EYE_POSITION
 	l_eyePosition = p3d_ModelViewMatrix * finalVertex;
-	#endif
+#endif
 
-	#ifdef NEED_EYE_NORMAL
+#ifdef NEED_EYE_NORMAL
 	l_eyeNormal.xyz = normalize(mat3(tpose_view_to_model) * finalNormal);
 	l_eyeNormal.w = 0.0;
-	#endif
+#endif
 
-	#ifdef NEED_COLOR
-	#ifdef COLOR_VERTEX
+#ifdef NEED_COLOR
+#ifdef COLOR_VERTEX
 	l_color = p3d_Color;
-	#endif
-	#endif
+#endif
+#endif
 
-	#ifdef NORMALMAP
-	l_tangent.xyz = normalize(mat3(p3d_ModelViewMatrix) * TANGENTNAME.xyz);
+#ifdef NEED_TBN
+	l_tangent.xyz = normalize(mat3(p3d_ModelViewMatrix) * p3d_Tangent.xyz);
 	l_tangent.w = 0.0;
-	l_binormal.xyz = normalize(mat3(p3d_ModelViewMatrix) * -BINORMALNAME.xyz);
+	l_binormal.xyz = normalize(mat3(p3d_ModelViewMatrix) * -p3d_Binormal.xyz);
 	l_binormal.w = 0.0;
-	#endif
-	
-	// We define BSP light information in world-space,
-    // but shader lighting calculations are done in eye-space.
-	//#if defined(LIGHTING) && defined(BSP_LIGHTING)
-	//for (int i = 0; i < NUM_LIGHTS; i++)
-	//{
-		// Transform world-space position and direction into view space
-		// for the fragment shader
-	//	l_lightPos[i] = p3d_ViewMatrix * lightData[i][0];
-	//	l_lightDir[i] = normalize(p3d_ViewMatrix * lightData[i][1]);
-	//}
-	//#endif
+#endif
 
-	#if defined(HEIGHTMAP) || defined(CUBEMAP)
+#ifdef NEED_EYE_VEC
 	vec3 eyeDir = mspos_view.xyz - finalVertex.xyz;
 	l_eyeVec.x = dot(p3d_Tangent.xyz, eyeDir);
 	l_eyeVec.y = dot(p3d_Binormal.xyz, eyeDir);
 	l_eyeVec.z = dot(finalNormal, eyeDir);
 	l_eyeVec = normalize(l_eyeVec);
-	#endif
+    l_eyeDir = normalize(eyeDir);
+#endif
 
-	#ifdef HAS_SHADOW_SUNLIGHT
+#ifdef ENVMAP
+	l_worldEyePos = wspos_view;
+	l_worldEyeToVert = l_worldEyePos - l_worldPosition;
+#endif
+
+#ifdef HAS_SHADOW_SUNLIGHT
 	vec4 lightclip;
 	float push = clamp(dot(l_worldNormal.xyz, sunVector[0]), 0, 1) * NORMAL_OFFSET_SCALE;
-	#ifndef NEED_WORLD_POSITION
+#ifndef NEED_WORLD_POSITION
 	vec4 l_worldPosition = p3d_ModelMatrix * finalVertex;
-	#endif
+#endif
 
 	for (int i = 0; i < PSSM_SPLITS; i++)
 	{
@@ -207,5 +189,5 @@ void main()
 		l_pssmCoords[i] = lightclip * vec4(0.5, 0.5, 0.5, 1.0) + lightclip.w * vec4(0.5, 0.5, 0.5, 0.0);
 	}
 
-	#endif
+#endif
 }
