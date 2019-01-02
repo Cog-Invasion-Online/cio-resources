@@ -1,0 +1,439 @@
+node "level" [
+ prop "mg_terrain_DNARoot" [
+  code [ "mg_terrain" ]
+  pos [ 0.000366211 0.00140381 4.19617e-005 ]
+  nhpr [ 0 0 0 ]
+ ]
+ prop "prop_trolley_station_DG_DNARoot" [
+  code [ "prop_trolley_station_DG" ]
+  pos [ 289.54 772.354 31.9707 ]
+  nhpr [ 0 0 0 ]
+  sign [
+   baseline [
+    code [ "mickey" ]
+    color [ 0.772549 0.756863 0.262745 1 ]
+    pos [ 0.394299 0 1.78927 ]
+    scale [ 1.3 1 1.3 ]
+    kern [ -0.0366175 ]
+    width [ 10.7457 ]
+    height [ 10.7457 ]
+    flags [ "d" ]
+    text [
+     letters [ "B" ]
+    ]
+    text [
+     letters [ "a" ]
+    ]
+    text [
+     letters [ "c" ]
+    ]
+    text [
+     letters [ "k" ]
+    ]
+    text [
+     letters [ " " ]
+    ]
+    text [
+     letters [ "T" ]
+    ]
+    text [
+     letters [ "o" ]
+    ]
+   ]
+   baseline [
+    code [ "mickey" ]
+    color [ 0.905882 0.380392 0.627451 1 ]
+    pos [ 0.179163 0 -1.06793 ]
+    scale [ 1.6 1 1.6 ]
+    kern [ 0.0701013 ]
+    flags [ "d" ]
+    text [
+     letters [ "P" ]
+    ]
+    text [
+     letters [ "l" ]
+    ]
+    text [
+     letters [ "a" ]
+    ]
+    text [
+     letters [ "y" ]
+    ]
+    text [
+     letters [ "g" ]
+    ]
+    text [
+     letters [ "r" ]
+    ]
+    text [
+     letters [ "o" ]
+    ]
+    text [
+     letters [ "u" ]
+    ]
+    text [
+     letters [ "n" ]
+    ]
+    text [
+     letters [ "d" ]
+    ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 319.54 772.354 31.46 ]
+  nhpr [ 0 0 0 ]
+  width [ 10 ]
+  wall [
+   height [ 4 ]
+   code [ "wall_basement_rock_ur" ]
+   color [ 0.53 0.48 0.82 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.27 1 0.42 1 ]
+    count [ 0 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_md_board_ur" ]
+   color [ 1 0.55 0.81 1 ]
+   windows [
+    code [ "window_sm_curved_ul" ]
+    color [ 1 1 0.75 1 ]
+    count [ 1 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_md_blank_ur" ]
+   color [ 1 1 0.52 1 ]
+   windows [
+    code [ "window_md_curved_DG_ul" ]
+    color [ 1 1 0.75 1 ]
+    count [ 1 ]
+   ]
+   cornice [
+    code [ "cornice_brickDG_ur" ]
+    color [ 1 1 1 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 329.54 772.354 31.46 ]
+  nhpr [ 15 0 0 ]
+  width [ 20 ]
+  wall [
+   height [ 4 ]
+   code [ "wall_basement_rock_ur" ]
+   color [ 0.57 1 0.65 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.27 1 0.42 1 ]
+    count [ 0 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_md_board_ur" ]
+   color [ 0.48 1 0.7 1 ]
+   windows [
+    code [ "window_sm_pointed_DG_ur" ]
+    color [ 1 1 1 1 ]
+    count [ 1 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_md_board_ur" ]
+   color [ 0.48 1 0.7 1 ]
+   windows [
+    code [ "window_sm_pointed_DG_ur" ]
+    color [ 1 1 1 1 ]
+    count [ 1 ]
+   ]
+   cornice [
+    code [ "cornice_shinglesDG_ur" ]
+    color [ 0.53 0.92 0.81 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 348.859 777.53 31.46 ]
+  nhpr [ 15 0 0 ]
+  width [ 15 ]
+  wall [
+   height [ 4 ]
+   code [ "wall_basement_brick_ur" ]
+   color [ 0.42 0.39 0.61 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.27 1 0.42 1 ]
+    count [ 0 ]
+   ]
+  ]
+  wall [
+   height [ 20 ]
+   code [ "wall_md_pillars_ur" ]
+   color [ 1 0.55 1 1 ]
+   windows [
+    code [ "window_md_curved_DG_ur" ]
+    color [ 1 1 1 1 ]
+    count [ 1 ]
+   ]
+   cornice [
+    code [ "cornice_stone_ur" ]
+    color [ 0.74 0.65 1 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 363.347 781.413 31.46 ]
+  nhpr [ 15 0 0 ]
+  width [ 5 ]
+  wall [
+   height [ 4 ]
+   code [ "wall_basement_rock_ur" ]
+   color [ 0.57 1 0.65 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.27 1 0.42 1 ]
+    count [ 0 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_md_board_ur" ]
+   color [ 0.48 1 0.7 1 ]
+   windows [
+    code [ "window_sm_pointed_DG_ur" ]
+    color [ 1 1 1 1 ]
+    count [ 1 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_md_board_ur" ]
+   color [ 0.48 1 0.7 1 ]
+   windows [
+    code [ "window_sm_pointed_DG_ur" ]
+    color [ 1 1 1 1 ]
+    count [ 1 ]
+   ]
+   cornice [
+    code [ "cornice_shinglesDG_ur" ]
+    color [ 0.53 0.92 0.81 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 368.177 782.707 31.46 ]
+  nhpr [ 15 0 -0 ]
+  width [ 15 ]
+  wall [
+   height [ 4 ]
+   code [ "wall_basement_brick_ur" ]
+   color [ 0.69 0.31 0.83 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 1 1 1 1 ]
+    count [ 0 ]
+   ]
+  ]
+  wall [
+   height [ 20 ]
+   code [ "wall_md_blank_ur" ]
+   color [ 1 0.55 1 1 ]
+   windows [
+    code [ "window_flower_porthole_ul" ]
+    color [ 1 1 1 1 ]
+    count [ 4 ]
+   ]
+   cornice [
+    code [ "cornice_brick_ur" ]
+    color [ 0.8 0.53 1 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 382.666 786.589 31.46 ]
+  nhpr [ 345.727 0 0 ]
+  width [ 25 ]
+  wall [
+   height [ 4 ]
+   code [ "wall_basement_brick_ur" ]
+   color [ 0.69 0.31 0.83 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 1 1 1 1 ]
+    count [ 0 ]
+   ]
+  ]
+  wall [
+   height [ 20 ]
+   code [ "wall_md_pillars_ur" ]
+   color [ 0.44 0.96 1 1 ]
+   windows [
+    code [ "window_porthole_ur" ]
+    color [ 0.35 0.9 0.98 1 ]
+    count [ 1 ]
+   ]
+   cornice [
+    code [ "cornice_stone_ur" ]
+    color [ 0.53 0.91 1 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 274.54 772.354 31.46 ]
+  nhpr [ -0 0 -0 ]
+  width [ 15 ]
+  wall [
+   height [ 4 ]
+   code [ "wall_basement_brick_ur" ]
+   color [ 0.68 0.85 0.45 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.27 1 0.42 1 ]
+    count [ 0 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_md_board_ur" ]
+   color [ 0.48 1 0.7 1 ]
+   windows [
+    code [ "window_sm_curved_ul" ]
+    color [ 0.5 1 0.53 1 ]
+    count [ 2 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_md_blank_ur" ]
+   color [ 1 1 0.52 1 ]
+   windows [
+    code [ "window_sm_curved_ur" ]
+    color [ 0.5 1 0.53 1 ]
+    count [ 1 ]
+   ]
+   cornice [
+    code [ "cornice_brick_ur" ]
+    color [ 0.53 0.92 0.53 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 254.54 772.354 31.46 ]
+  nhpr [ 0 0 0 ]
+  width [ 20 ]
+  wall [
+   height [ 4 ]
+   code [ "wall_basement_brick_ur" ]
+   color [ 0.53 0.48 0.82 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.27 1 0.42 1 ]
+    count [ 0 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_sm_brick_pink_ur" ]
+   color [ 0.75 0.7 1 1 ]
+   windows [
+    code [ "window_sm_curved_ul" ]
+    color [ 0.85 0.91 1 1 ]
+    count [ 2 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_sm_brick_pink_ur" ]
+   color [ 0.75 0.7 1 1 ]
+   windows [
+    code [ "window_sm_curved_ul" ]
+    color [ 0.85 0.91 1 1 ]
+    count [ 2 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 235.222 777.53 31.46 ]
+  nhpr [ 345 0 0 ]
+  width [ 20 ]
+  wall [
+   height [ 4 ]
+   code [ "wall_basement_rock_ur" ]
+   color [ 0.53 0.48 0.82 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.27 1 0.42 1 ]
+    count [ 0 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_md_board_ur" ]
+   color [ 0.79 0.55 1 1 ]
+   windows [
+    code [ "window_sm_curved_ul" ]
+    color [ 0.85 0.91 1 1 ]
+    count [ 2 ]
+   ]
+  ]
+  wall [
+   height [ 10 ]
+   code [ "wall_md_blank_ur" ]
+   color [ 0.6 1 0.68 1 ]
+   windows [
+    code [ "window_md_curved_ul" ]
+    color [ 0.85 0.91 1 1 ]
+    count [ 2 ]
+   ]
+   cornice [
+    code [ "cornice_brick_ur" ]
+    color [ 0.8 0.53 1 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 215.298 776.919 31.46 ]
+  nhpr [ 1.7357 0 0 ]
+  width [ 20 ]
+  wall [
+   height [ 4 ]
+   code [ "wall_basement_rock_ur" ]
+   color [ 0.53 0.48 0.82 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.27 1 0.42 1 ]
+    count [ 0 ]
+   ]
+  ]
+  wall [
+   height [ 13 ]
+   code [ "wall_md_board_ur" ]
+   color [ 1 0.55 0.81 1 ]
+   windows [
+    code [ "window_sm_curved_ul" ]
+    color [ 1 1 0.75 1 ]
+    count [ 2 ]
+   ]
+  ]
+  wall [
+   height [ 8 ]
+   code [ "wall_md_blank_ur" ]
+   color [ 1 1 0.52 1 ]
+   windows [
+    code [ "window_md_curved_DG_ul" ]
+    color [ 1 1 0.75 1 ]
+    count [ 2 ]
+   ]
+   cornice [
+    code [ "cornice_brickDG_ur" ]
+    color [ 1 1 1 1 ]
+   ]
+  ]
+ ]
+]

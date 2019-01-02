@@ -48,12 +48,12 @@ hood_model "phase_3.5/models/props/old_trees" [
 	store_node [ "holiday_prop" "old_tree_large_ul" "green_tree_large_ul" ]
         ]
     
-store_texture [ "texture" "street_street_TT_tex"	
-		"phase_3.5/maps/sidewalkbrown.jpg"		]
-store_texture [ "texture" "street_sidewalk_TT_tex"
-		"phase_3.5/maps/sidewalk_4cont_brown.jpg"	]
-store_texture [ "texture" "street_curb_TT_tex"
-		"phase_3.5/maps/curb_brown_even.jpg"	]
+store_material [ "material" "street_street_TT_tex"	
+		"phase_3.5/maps/sidewalkbrown.mat"		]
+store_material [ "material" "street_sidewalk_TT_tex"
+		"phase_3.5/maps/sidewalk_4cont_brown.mat"	]
+store_material [ "material" "street_curb_TT_tex"
+		"phase_3.5/maps/curb_brown_even.mat"	]
 
 store_font [ "font" "TT_Comedy"
              "phase_3/models/fonts/Comedy" ]

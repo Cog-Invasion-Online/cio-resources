@@ -58,12 +58,12 @@ hood_model "phase_8/models/modules/BR_windows" [
 
 
 
-store_texture [ "texture" "street_street_BR_tex"
-		"phase_3.5/maps/cobblestone_blue.jpg"	]
-store_texture [ "texture" "street_sidewalk_BR_tex"
-		"phase_3.5/maps/snow.jpg" 	]
-store_texture [ "texture" "street_curb_BR_tex"
-		"phase_3.5/maps/snow.jpg" 	]
+store_material [ "material" "street_street_BR_tex"
+		"phase_3.5/maps/cobblestone_blue.mat"	]
+store_material [ "material" "street_sidewalk_BR_tex"
+		"phase_3.5/maps/snow.mat" 	]
+store_material [ "material" "street_curb_BR_tex"
+		"phase_3.5/maps/snow.mat" 	]
 
 store_font [ "font" "BR_Aftershock" 
              "phase_3/models/fonts/Aftershock" ]
