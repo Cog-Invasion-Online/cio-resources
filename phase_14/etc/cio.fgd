@@ -805,3 +805,8 @@
     input SetDelay(void) : "Sets the delay on the timer"
     input SetLoop(void) : "Sets if the timer should loop"
 ]
+
+@PointClass iconsprite("sprites/env_cubemap.spr") = env_cubemap : "Cubemap sample point"
+[
+    size(integer) : "Quality of cubemap" : 32
+]
