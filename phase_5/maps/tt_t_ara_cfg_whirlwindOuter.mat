@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_5/maps/tt_t_ara_cfg_whirlwindOuter.jpg"
+	"$basetexture_alpha"	"phase_5/maps/tt_t_ara_cfg_whirlwindOuter_a.rgb"
+	"$translucent"			"1"
+}

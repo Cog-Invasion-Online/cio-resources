@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_3.5/maps/toontown_central_tutorial_palette_4amla_2.jpg"
+	"$basetexture_alpha"	"phase_3.5/maps/toontown_central_tutorial_palette_4amla_2_a.rgb"
+	"$translucent"			"1"
+}

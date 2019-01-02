@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_12/maps/Icon_hunger.jpg"
+	"$basetexture_alpha"	"phase_12/maps/Icon_hunger_a.rgb"
+	"$translucent"			"1"
+}

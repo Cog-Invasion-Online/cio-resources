@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_8/maps/DG_arch_flowers.jpg"
+	"$basetexture_alpha"	"phase_8/maps/DG_arch_flowers_a.rgb"
+	"$translucent"			"1"
+}

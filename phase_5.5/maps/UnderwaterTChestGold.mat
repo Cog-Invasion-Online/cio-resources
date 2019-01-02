@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_5.5/maps/UnderwaterTChestGold.jpg"
+	"$basetexture_alpha"	"phase_5.5/maps/UnderwaterTChestGold_a.rgb"
+	"$translucent"			"1"
+}

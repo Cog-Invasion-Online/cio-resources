@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_13/maps/tt_t_gui_pty_pieToss_balanceBarBG.jpg"
+	"$basetexture_alpha"	"phase_13/maps/tt_t_gui_pty_pieToss_balanceBarBG_a.rgb"
+	"$translucent"			"1"
+}

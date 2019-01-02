@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_12/maps/CogHedgeFar2.jpg"
+	"$basetexture_alpha"	"phase_12/maps/CogHedgeFar2_a.rgb"
+	"$translucent"			"1"
+}

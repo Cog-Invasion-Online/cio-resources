@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_6/maps/kart3_SideDecal_7.jpg"
+	"$basetexture_alpha"	"phase_6/maps/kart3_SideDecal_7_a.rgb"
+	"$translucent"			"1"
+}

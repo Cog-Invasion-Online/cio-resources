@@ -1,0 +1,6 @@
+UnlitGeneric
+{
+	"$basetexture"			"phase_3.5/maps/tutorial_battle_props_palette_4amla_2.jpg"
+	"$basetexture_alpha"	"phase_3.5/maps/tutorial_battle_props_palette_4amla_2_a.rgb"
+	"$translucent"			"1"
+}

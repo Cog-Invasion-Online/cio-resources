@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_5/maps/battle_props_palette_3cmla_6.jpg"
+	"$phong"			"1"
+	"$phongexponent"	"12.5"
+	"$phongtint"		"0.0 0.0 0.0"
+}

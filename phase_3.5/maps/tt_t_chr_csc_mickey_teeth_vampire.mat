@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_3.5/maps/tt_t_chr_csc_mickey_teeth_vampire.jpg"
+	"$basetexture_alpha"	"phase_3.5/maps/tt_t_chr_csc_mickey_teeth_vampire_a.rgb"
+	"$translucent"			"1"
+}

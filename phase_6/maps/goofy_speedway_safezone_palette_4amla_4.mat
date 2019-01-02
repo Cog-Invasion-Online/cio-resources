@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_6/maps/goofy_speedway_safezone_palette_4amla_4.jpg"
+	"$basetexture_alpha"	"phase_6/maps/goofy_speedway_safezone_palette_4amla_4_a.rgb"
+	"$translucent"			"1"
+}

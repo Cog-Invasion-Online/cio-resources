@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_8/maps/hqDL_rope.jpg"
+	"$basetexture_alpha"	"phase_8/maps/hqDL_rope_a.rgb"
+	"$translucent"			"1"
+}

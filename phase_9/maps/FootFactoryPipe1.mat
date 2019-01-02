@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_9/maps/FootFactoryPipe1.jpg"
+	"$phong"			"1"
+	"$phongexponent"	"2.5"
+	"$phongtint"		"0.260147988796 0.260147988796 0.260147988796"
+}

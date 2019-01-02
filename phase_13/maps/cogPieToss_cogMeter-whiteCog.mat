@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_13/maps/cogPieToss_cogMeter-whiteCog.jpg"
+	"$basetexture_alpha"	"phase_13/maps/cogPieToss_cogMeter-whiteCog_a.rgb"
+	"$translucent"			"1"
+}

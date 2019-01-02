@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_8/maps/GS_signBIG_BR.jpg"
+	"$basetexture_alpha"	"phase_8/maps/GS_signBIG_BR_a.rgb"
+	"$translucent"			"1"
+}

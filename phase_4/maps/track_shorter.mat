@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_4/maps/track_shorter.jpg"
+	"$basetexture_alpha"	"phase_4/maps/track_shorter_a.rgb"
+	"$translucent"			"1"
+}

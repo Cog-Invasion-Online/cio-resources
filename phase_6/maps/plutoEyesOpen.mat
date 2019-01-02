@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_6/maps/plutoEyesOpen.jpg"
+	"$basetexture_alpha"	"phase_6/maps/plutoEyesOpen_a.rgb"
+	"$translucent"			"1"
+}

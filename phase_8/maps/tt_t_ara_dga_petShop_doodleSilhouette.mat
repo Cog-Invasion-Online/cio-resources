@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_8/maps/tt_t_ara_dga_petShop_doodleSilhouette.jpg"
+	"$basetexture_alpha"	"phase_8/maps/tt_t_ara_dga_petShop_doodleSilhouette_a.rgb"
+	"$translucent"			"1"
+}

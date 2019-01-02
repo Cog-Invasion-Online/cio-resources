@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_6/maps/Rural_tree_cover.jpg"
+	"$basetexture_alpha"	"phase_6/maps/Rural_tree_cover_a.rgb"
+	"$translucent"			"1"
+}

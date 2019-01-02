@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_4/maps/trolley_straight_tracks.jpg"
+	"$basetexture_alpha"	"phase_4/maps/trolley_straight_tracks_a.rgb"
+	"$translucent"			"1"
+}

@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_4/maps/tt_t_ara_ttc_progressBar.jpg"
+	"$basetexture_alpha"	"phase_4/maps/tt_t_ara_ttc_progressBar_a.rgb"
+	"$translucent"			"1"
+}

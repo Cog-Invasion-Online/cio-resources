@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_9/maps/CrossBeamx4.jpg"
+	"$basetexture_alpha"	"phase_9/maps/CrossBeamx4_a.rgb"
+	"$translucent"			"1"
+}

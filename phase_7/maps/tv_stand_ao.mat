@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_7/maps/tv_stand_ao.png"
+	"$phong"			"1"
+	"$phongexponent"	"12.5"
+	"$phongtint"		"0.5 0.5 0.5"
+}

@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_13/maps/bg_Jukebox_GUI.jpg"
+	"$basetexture_alpha"	"phase_13/maps/bg_Jukebox_GUI_a.rgb"
+	"$translucent"			"1"
+}

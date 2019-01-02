@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_4/maps/particleGlow.jpg"
+	"$basetexture_alpha"	"phase_4/maps/particleGlow_a.rgb"
+	"$translucent"			"1"
+}

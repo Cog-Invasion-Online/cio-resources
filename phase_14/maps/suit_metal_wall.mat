@@ -1,0 +1,8 @@
+LightmappedGeneric
+{
+	"$basetexture"			"phase_14/maps/suit_metal_wall.jpg"
+    "$surfaceprop"          "metalfloor"
+	"$envmap"				"env_cubemap"
+	"$envmapmask"			"phase_14/maps/suit_metal_wall_envmask.jpg"
+    //"$envmaptint"     ".2 .2 .2"
+}

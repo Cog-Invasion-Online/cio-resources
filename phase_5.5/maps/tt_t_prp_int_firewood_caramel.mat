@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_5.5/maps/tt_t_prp_int_firewood_caramel.jpg"
+	"$basetexture_alpha"	"phase_5.5/maps/tt_t_prp_int_firewood_caramel_a.rgb"
+	"$translucent"			"1"
+}

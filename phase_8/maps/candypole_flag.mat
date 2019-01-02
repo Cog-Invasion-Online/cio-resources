@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_8/maps/candypole_flag.jpg"
+	"$basetexture_alpha"	"phase_8/maps/candypole_flag_a.rgb"
+	"$translucent"			"1"
+}

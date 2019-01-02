@@ -1,0 +1,5 @@
+VertexLitGeneric
+{
+	"$basetexture"			"phase_6/maps/tt_central_fence.jpg"
+	"$bumpmap"				"phase_14/maps/ttc_fence_normal.jpg"
+}
