@@ -16,6 +16,12 @@
 uniform sampler2D baseTextureSampler;
 #endif
 
+#ifdef COLOR_VERTEX
+in vec4 l_color;
+#elif defined(COLOR_FLAT)
+uniform vec4 p3d_Color;
+#endif
+
 #ifdef FOG
 in vec4 l_hPos;
 uniform struct
@@ -27,6 +33,8 @@ uniform struct
 	float scale;
 } p3d_Fog;
 #endif
+
+uniform vec4 p3d_ColorScale;
 
 in vec2 l_texcoord;
 
@@ -43,6 +51,14 @@ void main()
 	o_color.a *= albedo.a;
 	#endif
 #endif
+
+#ifdef COLOR_VERTEX
+	o_color *= l_color;
+#elif defined(COLOR_FLAT)
+	o_color *= p3d_Color;
+#endif
+
+    o_color *= p3d_ColorScale;
 
 #ifdef ALPHA
     o_color.a *= ALPHA;

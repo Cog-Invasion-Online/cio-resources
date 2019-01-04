@@ -1,0 +1,11 @@
+LightmappedGeneric
+{
+    "$basetexture"          "phase_9/maps/FloorGrate.jpg"
+    "$basetexture_alpha"    "phase_9/maps/FloorGrate_a.rgb"
+    "$translucent"          "1"
+    
+    "$surfaceprop"  "metalfloor"
+    
+    "$envmap"       "env_cubemap"
+    "$envmaptint"   ".2 .2 .2"
+}

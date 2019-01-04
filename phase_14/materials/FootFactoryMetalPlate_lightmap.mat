@@ -1,0 +1,8 @@
+LightmappedGeneric
+{
+    "$basetexture"  "phase_9/maps/FootFactoryMetalPlate.jpg"
+    "$surfaceprop"  "metalfloor"
+    
+    "$envmap"       "env_cubemap"
+    "$envmaptint"   ".2 .2 .2"
+}

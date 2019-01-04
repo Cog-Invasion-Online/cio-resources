@@ -1,0 +1,9 @@
+LightmappedGeneric
+{
+    "$basetexture"          "phase_14/maps/signs/gag_containment.jpg"
+    
+    "$surfaceprop"  "metalfloor"
+    
+    "$envmap"       "env_cubemap"
+    "$envmaptint"   ".1 .1 .1"
+}

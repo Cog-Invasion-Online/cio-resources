@@ -1,0 +1,7 @@
+UnlitGeneric
+{
+    "$basetexture"  "phase_14/maps/toolsnodraw.png"
+    "$translucent"  "1"
+    
+    "$contents"     "null"
+}
