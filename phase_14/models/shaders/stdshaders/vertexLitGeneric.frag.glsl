@@ -77,6 +77,10 @@ uniform vec2 phongBoost;
 uniform vec3 phongFresnelRanges;
 uniform vec3 phongTint;
 
+#ifdef PHONG_MASK
+uniform sampler2D phongMaskSampler;
+#endif
+
 #ifdef PHONG_EXP_TEX
 uniform sampler2D phongExponentTexture;
 #else // PHONG_EXP_TEX
@@ -225,7 +229,7 @@ void main()
 #ifdef PHONG
 
 #ifdef PHONG_EXP_TEX
-    float finalPhongExp = texture2D(phongExponentTexture, l_texcoord).r;
+    float finalPhongExp = texture2D(phongExponentTexture, l_texcoord.xy).r;
 #else // PHONG_EXP_TEX
 	float finalPhongExp = phongExponent.x;
 #endif
@@ -233,6 +237,9 @@ void main()
 	vec3 finalPhongTint = phongTint;
 #ifdef PHONG_ALBEDO_TINT
 	finalPhongTint *= albedo.rgb;
+#endif
+#ifdef PHONG_MASK
+	finalPhongTint *= texture2D(phongMaskSampler, l_texcoord.xy).rgb;
 #endif
 
 #else // PHONG

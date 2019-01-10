@@ -265,14 +265,13 @@ void GetBumpedNormal(inout vec4 finalEyeNormal, sampler2D normalSampler, vec4 te
 					 vec4 tangent, vec4 binormal)
 {
 	// Translate tangent-space normal in map to view-space.
-	vec3 nSample = texture2D(normalSampler, texcoord.xy).rgb * 2.0 - 1.0;
-	vec3 tsnormal = nSample + vec3(0.0, 0.0, 1.0);
-	vec3 tmp = nSample * vec3(-2, -2, 2) + vec3(1, 1, -1);
-	tsnormal = normalize(tsnormal * dot(tsnormal, tmp) - tmp * tsnormal.z);
+	vec3 nSample = texture2D(normalSampler, texcoord.xy).rgb;
+	vec3 tsnormal = normalize((nSample * 2.0) - 1.0);
 
 	finalEyeNormal.xyz *= tsnormal.z;
 	finalEyeNormal.xyz += tangent.xyz * tsnormal.x;
 	finalEyeNormal.xyz += binormal.xyz * tsnormal.y;
+	finalEyeNormal.xyz = normalize(finalEyeNormal.xyz);
 }
 
 vec3 CalcReflectionVectorUnnormalized(vec3 normal, vec3 eyeVector)
