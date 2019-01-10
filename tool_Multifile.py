@@ -15,6 +15,10 @@ args = parser.parse_args()
 multify = '..\\..\\cio-panda3d\\built_x64\\bin\\multify.exe'
 
 def do(mtype, filename):
+    if mtype == "compile" and filename == "phase_0":
+        do_phase0()
+        return
+
     cmd = os.path.join(multify)
     if mtype == "decompile":
         cmd += " -x -f %s -p \"cio-03-06-16_lsphases\"" % filename
