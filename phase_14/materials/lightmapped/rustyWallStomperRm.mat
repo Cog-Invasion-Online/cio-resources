@@ -1,0 +1,9 @@
+LightmappedGeneric
+{
+    "$basetexture"  "phase_9/maps/rustyWallStomperRm.jpg"
+    
+    "$envmap"       "env_cubemap"
+    "$envmaptint"   ".1 .1 .1"
+    
+    "$surfaceprop"  "metalfloor"
+}

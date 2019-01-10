@@ -1,0 +1,8 @@
+VertexLitGeneric
+{
+    "$basetexture"  "phase_3.5/maps/m_rust_blazer.jpg"
+    "$bumpmap"      "phase_3.5/maps/m_rust_blazer_NRM.jpg"
+    
+    "$envmap"       "env_cubemap"
+    "$envmaptint"   ".1 .1 .1"
+}

@@ -1,0 +1,7 @@
+LightmappedGeneric
+{
+    "$basetexture"  "phase_9/maps/CeilingSquares.jpg"
+    
+    "$envmap"       "env_cubemap"
+    "$envmaptint"   ".1 .1 .1"
+}

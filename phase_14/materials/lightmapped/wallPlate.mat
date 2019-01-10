@@ -1,0 +1,7 @@
+LightmappedGeneric
+{
+    "$basetexture"  "phase_9/maps/wallPlate.jpg"
+    
+    "$envmap"       "env_cubemap"
+    "$envmaptint"   ".15 .15 .15"
+}

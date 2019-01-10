@@ -1,0 +1,5 @@
+LightmappedGeneric
+{
+    "$basetexture"  "phase_9/maps/WallCement.jpg"
+    "$bumpmap"      "phase_9/maps/WallCement_bump.jpg"
+}

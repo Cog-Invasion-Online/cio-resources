@@ -1,0 +1,7 @@
+LightmappedGeneric
+{
+    "$basetexture"  "phase_14/maps/powerovrd.png"
+    
+    "$envmap"       "env_cubemap"
+    "$envmaptint"   ".1 .1 .1"
+}

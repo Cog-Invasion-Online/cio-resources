@@ -1,0 +1,8 @@
+LightmappedGeneric
+{
+    "$basetexture"  "phase_9/maps/FootFactoryFloor.jpg"
+    "$bumpmap"      "phase_9/maps/FootFactoryFloor_bump.jpg"
+    
+    "$envmap"       "env_cubemap"
+    "$envmaptint"   ".07 .07 .07"
+}

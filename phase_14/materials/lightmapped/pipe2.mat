@@ -1,0 +1,8 @@
+LightmappedGeneric
+{
+    "$basetexture"  "phase_9/maps/pipe2.jpg"
+    "$bumpmap"      "phase_9/maps/pipe2_bump.jpg"
+    
+    "$envmap"       "env_cubemap"
+    "$envmaptint"   ".15 .15 .15"
+}
