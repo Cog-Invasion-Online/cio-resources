@@ -14,7 +14,7 @@ uniform mat4 p3d_ModelViewProjectionMatrix;
 in vec4 p3d_Vertex;
 out vec4 l_position;
 
-#if defined(NEED_TBN) || defined(NEED_EYE_VEC)
+#if defined(NEED_TBN) || defined(NEED_EYE_VEC) || defined(NEED_WORLD_NORMAL)
 in vec4 p3d_Tangent;
 in vec4 p3d_Binormal;
 out vec4 l_tangent;
@@ -38,6 +38,7 @@ out vec4 l_worldPosition;
 
 #ifdef NEED_WORLD_NORMAL
 out vec4 l_worldNormal;
+out mat3 l_tangentSpaceTranspose;
 #endif
 
 #ifdef NEED_EYE_POSITION
@@ -136,8 +137,11 @@ void main()
 	l_worldPosition = p3d_ModelMatrix * finalVertex;
 #endif
 
-#if defined(NEED_WORLD_NORMAL)
+#ifdef NEED_WORLD_NORMAL
 	l_worldNormal = p3d_ModelMatrix * vec4(finalNormal, 0);
+	l_tangentSpaceTranspose[0] = mat3(p3d_ModelMatrix) * p3d_Tangent.xyz;
+	l_tangentSpaceTranspose[1] = mat3(p3d_ModelMatrix) * p3d_Binormal.xyz;
+	l_tangentSpaceTranspose[2] = l_worldNormal.xyz;
 #endif
 
 #ifdef NEED_EYE_POSITION

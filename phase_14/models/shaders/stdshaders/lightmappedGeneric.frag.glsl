@@ -78,6 +78,9 @@ in vec3 l_eyeVec;
 in vec4 l_eyeNormal;
 in vec3 l_eyeDir;
 in vec4 l_worldNormal;
+#ifdef BUMPMAP
+in mat3 l_tangentSpaceTranspose;
+#endif
 in vec4 l_worldEyePos;
 in vec4 l_worldVertPos;
 in vec4 l_worldEyeToVert;
@@ -90,7 +93,7 @@ in vec4 l_tangent;
 in vec4 l_binormal;
 #endif
 
-#if defined(BUMPMAP) || defined(BUMPED_LIGHTMAP) || defined(ENVMAP)
+#if defined(BUMPMAP) || defined(BUMPED_LIGHTMAP)
 in vec3 l_normal;
 #endif
 
@@ -106,16 +109,20 @@ void main()
     outputColor = texture2D(baseTextureSampler, l_texcoordBaseTexture.xy);
 #endif
 
-#if defined(ENVMAP)
-    vec4 bumpedEyeNormal = l_eyeNormal;
+#ifdef BUMPMAP
+    vec3 tangentSpaceNormal = GetTangentSpaceNormal(bumpSampler, l_texcoordBumpMap.xy);
 #endif
-#if defined(BUMPMAP) && defined(ENVMAP)
-    GetBumpedNormal(bumpedEyeNormal, bumpSampler, l_texcoordBumpMap, l_tangent, l_binormal);
+
+#ifdef ENVMAP
+    vec4 finalWorldNormal = l_worldNormal;
+    #ifdef BUMPMAP
+    TangentToWorld(finalWorldNormal.xyz, l_tangentSpaceTranspose, tangentSpaceNormal);
+    #endif
 #endif
   
 #if defined(BUMPMAP) && defined(BUMPED_LIGHTMAP)
-    // the normal for bumped lightmaps is in model space, not eye space
-    vec3 msNormal = texture2D(bumpSampler, l_texcoordBumpMap.xy).rgb * 2.0 - 1.0;
+    // the normal for bumped lightmaps is in tangent space, not eye space
+    vec3 msNormal = tangentSpaceNormal;
     msNormal = normalize(msNormal);
 #elif defined(BUMPED_LIGHTMAP)
     // hmm, there is a bumped lightmap but no normal map.
@@ -147,14 +154,7 @@ void main()
     
 #endif
 
-//#ifdef SPHEREMAP
-//    bumpedEyeNormal = normalize(bumpedEyeNormal);
-//    outputColor.rgb += SampleSphereMap(l_eyeVec, bumpedEyeNormal, p3d_ViewMatrixInverse,
-//                                  vec3(0), sphereSampler).rgb * p3d_Material.shininess * Fresnel4(bumpedEyeNormal.xyz, l_eyeVec.xyz);
-//#endif
-
 #ifdef ENVMAP
-    bumpedEyeNormal = normalize(bumpedEyeNormal);
     vec3 spec = SampleCubeMap(l_worldEyeToVert.xyz, l_worldNormal,
 							  p3d_ViewMatrixInverse, vec3(0), envmapSampler).rgb;
 							  

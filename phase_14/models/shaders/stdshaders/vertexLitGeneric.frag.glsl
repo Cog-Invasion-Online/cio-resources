@@ -33,6 +33,7 @@ in vec4 l_worldPosition;
 
 #ifdef NEED_WORLD_NORMAL
 in vec4 l_worldNormal;
+in mat3 l_tangentSpaceTranspose;
 #endif
 
 #ifdef NEED_EYE_POSITION
@@ -204,16 +205,23 @@ void main()
 #ifdef NEED_EYE_NORMAL
 	vec4 finalEyeNormal = l_eyeNormal;
 #else
-	vec4 finalEyeNormal = vec4(0.0);
+	vec4 finalEyeNormal = vec4(1.0);
+#endif
+
+	
+#ifdef NEED_WORLD_NORMAL
+	vec4 finalWorldNormal = l_worldNormal;
+#else
+	vec4 finalWorldNormal = vec4(0.0);
 #endif
 
 #ifdef BUMPMAP
-	GetBumpedNormal(finalEyeNormal, bumpSampler, l_texcoord,
+	#ifdef NEED_WORLD_NORMAL
+	GetBumpedEyeAndWorldNormal(finalEyeNormal, finalWorldNormal, bumpSampler, l_texcoord, l_tangent, l_binormal, l_tangentSpaceTranspose);
+	#else
+	GetBumpedEyeNormal(finalEyeNormal, bumpSampler, l_texcoord,
 			        l_tangent, l_binormal);
-#endif
-
-#ifdef NEED_EYE_NORMAL
-	finalEyeNormal.xyz = normalize(finalEyeNormal.xyz);
+	#endif
 #endif
 
 #ifdef HAVE_AUX_NORMAL
@@ -259,13 +267,13 @@ void main()
 #ifdef HAVE_SEPARATE_AMBIENT
 	vec4 totalAmbient = vec4(0.0);
 #ifdef BSP_LIGHTING
-    totalAmbient.rgb += AmbientCubeLight(l_worldNormal.xyz, ambientCube);
+    totalAmbient.rgb += AmbientCubeLight(finalWorldNormal.xyz, ambientCube);
 #else
     totalAmbient += p3d_LightModel.ambient;
 #endif
 #else // HAVE_SEPARATE_AMBIENT
 #ifdef BSP_LIGHTING
-    totalDiffuse.rgb += AmbientCubeLight(l_worldNormal.xyz, ambientCube);
+    totalDiffuse.rgb += AmbientCubeLight(finalWorldNormal.xyz, ambientCube);
 #else
     totalDiffuse += p3d_LightModel.ambient;
 #endif
@@ -423,7 +431,7 @@ void main()
 
 #ifdef ENVMAP
 
-    vec3 spec = SampleCubeMap(l_worldEyeToVert.xyz, l_worldNormal,
+    vec3 spec = SampleCubeMap(l_worldEyeToVert.xyz, finalWorldNormal,
 							  p3d_ViewMatrixInverse, vec3(0), envmapSampler).rgb;
 	
 	#ifdef ENVMAP_MASK
@@ -442,7 +450,7 @@ void main()
 	vec3 eyeVec = normalize(l_worldEyeToVert.xyz);
 	//float fresnel = 1.0 - dot(l_worldNormal.xyz, eyeVec);
 	//fresnel = pow(fresnel, 5.0);
-	spec *= Fresnel(l_worldNormal.xyz, eyeVec);
+	spec *= Fresnel(finalWorldNormal.xyz, eyeVec);
 	
 	totalSpecular.rgb += spec;
 	

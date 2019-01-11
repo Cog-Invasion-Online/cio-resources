@@ -47,6 +47,9 @@ uniform mat4 p3d_ModelMatrix;
 out vec4 l_worldEyePos;
 out vec4 l_worldVertPos;
 out vec4 l_worldEyeToVert;
+#ifdef BUMPMAP
+out mat3 l_tangentSpaceTranspose;
+#endif
 #endif
 
 #ifdef FOG
@@ -73,7 +76,7 @@ void main()
 	l_texcoordBumpMap = texcoord;
 #endif
     
-#if defined(BUMPMAP) || defined(BUMPED_LIGHTMAP) || defined(ENVMAP)
+#if defined(BUMPMAP) || defined(BUMPED_LIGHTMAP)
     l_normal = p3d_Normal;
 #endif
     
@@ -82,6 +85,13 @@ void main()
     l_worldVertPos = p3d_ModelMatrix * p3d_Vertex;
     l_worldEyeToVert = l_worldEyePos - l_worldVertPos;
     l_worldNormal = p3d_ModelMatrix * vec4(p3d_Normal, 0);
+    
+    #ifdef BUMPMAP
+    l_tangentSpaceTranspose[0] = mat3(p3d_ModelMatrix) * p3d_Tangent.xyz;
+	l_tangentSpaceTranspose[1] = mat3(p3d_ModelMatrix) * p3d_Binormal.xyz;
+	l_tangentSpaceTranspose[2] = l_worldNormal.xyz;
+    #endif
+    
     l_eyeVec = (p3d_ModelViewMatrix * p3d_Vertex).xyz;
     l_eyeDir = normalize(l_eyeVec);
     l_eyeNormal.xyz = normalize(mat3(tpose_view_to_model) * p3d_Normal);

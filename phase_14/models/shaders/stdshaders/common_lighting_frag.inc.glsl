@@ -261,17 +261,47 @@ void GetSpecular(float lattenv, vec4 eyeNormal, vec4 eyePos,
     }
 }
 
-void GetBumpedNormal(inout vec4 finalEyeNormal, sampler2D normalSampler, vec4 texcoord,
+vec3 GetTangentSpaceNormal(sampler2D bumpSampler, vec2 texcoord)
+{
+	
+	vec3 nSample = texture2D(bumpSampler, texcoord).rgb;
+	return normalize((nSample * 2.0) - 1.0);
+}
+
+void TangentToEye(inout vec3 eyeNormal, vec3 eyeTangent, vec3 eyeBinormal, vec3 tangentNormal)
+{
+	eyeNormal *= tangentNormal.z;
+	eyeNormal += eyeTangent.xyz * tangentNormal.x;
+	eyeNormal += eyeBinormal.xyz * tangentNormal.y;
+	eyeNormal = normalize(eyeNormal.xyz);
+}
+
+void TangentToWorld(inout vec3 worldNormal, mat3 tangentSpaceTranspose, vec3 tangentNormal)
+{
+	worldNormal = tangentSpaceTranspose * tangentNormal;
+}
+
+void GetBumpedEyeNormal(inout vec4 finalEyeNormal, sampler2D bumpSampler, vec4 texcoord,
 					 vec4 tangent, vec4 binormal)
 {
 	// Translate tangent-space normal in map to view-space.
-	vec3 nSample = texture2D(normalSampler, texcoord.xy).rgb;
-	vec3 tsnormal = normalize((nSample * 2.0) - 1.0);
+	vec3 tsnormal = GetTangentSpaceNormal(bumpSampler, texcoord.xy);
+	TangentToEye(finalEyeNormal.xyz, tangent.xyz, binormal.xyz, tsnormal);
+}
 
-	finalEyeNormal.xyz *= tsnormal.z;
-	finalEyeNormal.xyz += tangent.xyz * tsnormal.x;
-	finalEyeNormal.xyz += binormal.xyz * tsnormal.y;
-	finalEyeNormal.xyz = normalize(finalEyeNormal.xyz);
+void GetBumpedWorldNormal(inout vec4 finalWorldNormal, sampler2D bumpSampler, vec4 texcoord,
+		          mat3 tangentSpaceTranspose)
+{
+	vec3 tsnormal = GetTangentSpaceNormal(bumpSampler, texcoord.xy);
+	TangentToWorld(finalWorldNormal.xyz, tangentSpaceTranspose, tsnormal);
+}
+
+void GetBumpedEyeAndWorldNormal(inout vec4 finalEyeNormal, inout vec4 finalWorldNormal, sampler2D bumpSampler, vec4 texcoord,
+				vec4 eyeTangent, vec4 eyeBinormal, mat3 tangentSpaceTranspose)
+{
+	vec3 tsnormal = GetTangentSpaceNormal(bumpSampler, texcoord.xy);
+	TangentToEye(finalEyeNormal.xyz, eyeTangent.xyz, eyeBinormal.xyz, tsnormal);
+	TangentToWorld(finalWorldNormal.xyz, tangentSpaceTranspose, tsnormal);
 }
 
 vec3 CalcReflectionVectorUnnormalized(vec3 normal, vec3 eyeVector)
