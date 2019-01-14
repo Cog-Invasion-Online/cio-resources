@@ -183,7 +183,8 @@ vec3 GetSpotlight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, in
 vec3 GetDirectionalLight(vec4 ldir, vec4 lcolor, vec4 eyeNormal, inout vec3 lvec, bool halfLambert,
 						 bool lightwarp, sampler2D lightwarpSampler
                          #ifdef HAS_SHADOW_SUNLIGHT
-                         , bool shadows, sampler2DArray shadowSampler, vec4 shadowCoords[PSSM_SPLITS]
+                         , bool shadows, sampler2DArray shadowSampler, vec4 shadowCoords[PSSM_SPLITS],
+                           inout float lshad
                          #endif
                          )
 {
@@ -194,7 +195,7 @@ vec3 GetDirectionalLight(vec4 ldir, vec4 lcolor, vec4 eyeNormal, inout vec3 lvec
     #ifdef HAS_SHADOW_SUNLIGHT
 	if (shadows)
 	{
-		float lshad = 0.0;
+		lshad = 0.0;
 		GetSunShadow(lshad, shadowSampler, shadowCoords);
 		vResult *= lshad;
 	}
@@ -237,16 +238,26 @@ void RimTerm2(inout vec3 totalRim, vec3 eyeNormal, vec3 eyeVec, vec3 lightVec, v
     totalRim += step(rim, diff) * (diff - rim) / rim;
 }
 
+void DedicatedRimTerm(inout vec3 totalRim, vec3 worldNormal, vec3 worldEyeToVert,
+                      vec3 ambientLight, float rimBoost, float rimExponent)
+{
+    // =================================================
+    // Derived from Team Fortress 2's Illustrative Rendering paper
+    // https://steamcdn-a.akamaihd.net/apps/valve/2007/NPAR07_IllustrativeRenderingInTeamFortress2.pdf
+    // =================================================
+    
+    vec3 up = vec3(0, 0, 1);
+    totalRim += ( (ambientLight * rimBoost) * Fresnel(worldNormal, worldEyeToVert) *
+                  max(0, dot(worldNormal, up)) );
+}
+
 void GetSpecular(float lattenv, vec4 eyeNormal, vec4 eyePos,
-				 vec3 specularTint, vec3 lightColor, float shininess, float boost, vec3 lightVec, vec3 eyeVec,
+				 vec3 specularTint, vec3 lightColor, float shininess,
+                 float boost, vec3 lightVec, vec3 eyeVec,
                  inout vec3 olspec)
 {
-    vec3 rim = vec3(0);
-    
 	vec3 lhalf = normalize(lightVec - normalize(eyePos.xyz));
     float LdotR = clamp(dot(eyeNormal.xyz, lhalf), 0, 1);
-
-	//olspec += vec3(1.0);
 
     if (shininess > 0.0)
     {
@@ -337,11 +348,9 @@ vec4 SampleSphereMap(vec3 eyeVec, vec4 eyeNormal, mat4 invViewMatrix,
 	return texture2D(sphereSampler, coords);
 }
 
-vec4 SampleCubeMap(vec3 worldCamToVert, vec4 worldNormal, mat4 invViewMatrix, vec3 parallaxOffset, samplerCube cubeSampler)
+vec4 SampleCubeMap(vec3 worldCamToVert, vec4 worldNormal, vec3 parallaxOffset, samplerCube cubeSampler)
 {
-	//vec3 cmR = reflect(eyeNormal.xyz, eyeVec);
 	vec3 cmR = CalcReflectionVectorUnnormalized(worldNormal.xyz, worldCamToVert);
-	//cmR = vec3(invViewMatrix * vec4(cmR, 0.0));
 	return texture(cubeSampler, cmR - parallaxOffset.xyz);
 }
 

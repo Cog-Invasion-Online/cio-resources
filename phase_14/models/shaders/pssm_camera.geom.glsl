@@ -1,4 +1,4 @@
-#version 150
+#version 330
 
 const int NUM_SPLITS = 3;
 

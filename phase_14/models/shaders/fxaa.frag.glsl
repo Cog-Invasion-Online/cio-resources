@@ -1,4 +1,4 @@
-#version 140
+#version 330
 
 uniform sampler2D sceneTexture;
 in vec4 posPos;

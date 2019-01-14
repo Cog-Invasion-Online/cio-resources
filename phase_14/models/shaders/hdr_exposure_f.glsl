@@ -11,4 +11,4 @@
  
 //GLSL
 
-#version 140
+#version 330

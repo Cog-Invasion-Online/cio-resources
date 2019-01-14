@@ -1,4 +1,4 @@
-#version 140
+#version 330
 
 uniform sampler2D sceneTexture;
 uniform mat4 p3d_ModelViewProjectionMatrix;

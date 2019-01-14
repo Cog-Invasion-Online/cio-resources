@@ -15,15 +15,15 @@
 #pragma include "phase_14/models/shaders/stdshaders/common_fog_frag.inc.glsl"
 
 #ifdef FOG
-in vec4 l_hPos;
-uniform struct
-{
-	vec4 color;
-	float density;
-	float start;
-	float end;
-	float scale;
-} p3d_Fog;
+    in vec4 l_hPos;
+    uniform struct
+    {
+        vec4 color;
+        float density;
+        float start;
+        float end;
+        float scale;
+    } p3d_Fog;
 #endif
 
 //====================================================
@@ -52,49 +52,44 @@ vec3 LightmapSample(sampler2DArray lightmapSampler, vec2 coords, int page)
 }
  
 #ifdef BASETEXTURE
-uniform sampler2D baseTextureSampler;
+    uniform sampler2D baseTextureSampler;
 #endif
 
 in vec4 l_texcoordBaseTexture;
 
 #if defined(FLAT_LIGHTMAP) || defined(BUMPED_LIGHTMAP)
-in vec4 l_texcoordLightmap;
-uniform sampler2DArray lightmapSampler;
+    in vec4 l_texcoordLightmap;
+    uniform sampler2DArray lightmapSampler;
 #endif
 
 #if defined(ENVMAP)
 
-uniform samplerCube envmapSampler;
-uniform vec3 envmapTint;
-uniform vec3 envmapContrast;
-uniform vec3 envmapSaturation;
+    uniform samplerCube envmapSampler;
+    uniform vec3 envmapTint;
+    uniform vec3 envmapContrast;
+    uniform vec3 envmapSaturation;
 
-#ifdef ENVMAP_MASK
-uniform sampler2D envmapMaskSampler;
-#endif
+    #ifdef ENVMAP_MASK
+        uniform sampler2D envmapMaskSampler;
+    #endif
 
-uniform mat4 p3d_ViewMatrixInverse;
-in vec3 l_eyeVec;
-in vec4 l_eyeNormal;
-in vec3 l_eyeDir;
-in vec4 l_worldNormal;
-#ifdef BUMPMAP
-in mat3 l_tangentSpaceTranspose;
-#endif
-in vec4 l_worldEyePos;
-in vec4 l_worldVertPos;
-in vec4 l_worldEyeToVert;
+    in vec4 l_worldNormal;
+    #ifdef BUMPMAP
+        in mat3 l_tangentSpaceTranspose;
+    #endif
+    in vec4 l_worldEyeToVert;
+    
 #endif
 
 #ifdef BUMPMAP
-uniform sampler2D bumpSampler;
-in vec4 l_texcoordBumpMap;
-in vec4 l_tangent;
-in vec4 l_binormal;
+    uniform sampler2D bumpSampler;
+    in vec4 l_texcoordBumpMap;
+    in vec4 l_tangent;
+    in vec4 l_binormal;
 #endif
 
 #if defined(BUMPMAP) || defined(BUMPED_LIGHTMAP)
-in vec3 l_normal;
+    in vec3 l_normal;
 #endif
 
 out vec4 outputColor;
@@ -105,90 +100,86 @@ void main()
     // again, why wouldn't there be one
     outputColor = vec4(1.0);
     
-#ifdef BASETEXTURE
-    outputColor = texture2D(baseTextureSampler, l_texcoordBaseTexture.xy);
-#endif
-
-#ifdef BUMPMAP
-    vec3 tangentSpaceNormal = GetTangentSpaceNormal(bumpSampler, l_texcoordBumpMap.xy);
-#endif
-
-#ifdef ENVMAP
-    vec4 finalWorldNormal = l_worldNormal;
-    #ifdef BUMPMAP
-    TangentToWorld(finalWorldNormal.xyz, l_tangentSpaceTranspose, tangentSpaceNormal);
+    #ifdef BASETEXTURE
+        outputColor = texture2D(baseTextureSampler, l_texcoordBaseTexture.xy);
     #endif
-#endif
+
+    #ifdef BUMPMAP
+        vec3 tangentSpaceNormal = GetTangentSpaceNormal(bumpSampler, l_texcoordBumpMap.xy);
+    #endif
+
+    #ifdef ENVMAP
+        vec4 finalWorldNormal = l_worldNormal;
+        #ifdef BUMPMAP
+            TangentToWorld(finalWorldNormal.xyz, l_tangentSpaceTranspose, tangentSpaceNormal);
+        #endif
+    #endif
   
-#if defined(BUMPMAP) && defined(BUMPED_LIGHTMAP)
-    // the normal for bumped lightmaps is in tangent space, not eye space
-    vec3 msNormal = tangentSpaceNormal;
-    msNormal = normalize(msNormal);
-#elif defined(BUMPED_LIGHTMAP)
-    // hmm, there is a bumped lightmap but no normal map.
-    vec3 msNormal = l_normal;
-#endif
+    #if defined(BUMPMAP) && defined(BUMPED_LIGHTMAP)
+        // the normal for bumped lightmaps is in tangent space, not eye space
+        vec3 msNormal = tangentSpaceNormal;
+        msNormal = normalize(msNormal);
+    #elif defined(BUMPED_LIGHTMAP)
+        // hmm, there is a bumped lightmap but no normal map.
+        vec3 msNormal = l_normal;
+    #endif
     
-#if defined(FLAT_LIGHTMAP)
-    
-    outputColor.rgb *= LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 0);
-    
-#elif defined(BUMPED_LIGHTMAP)
-   
-    vec3 dp = vec3(0);
-    dp.x = clamp(dot(msNormal, g_localBumpBasis[0]), 0, 1);
-    dp.y = clamp(dot(msNormal, g_localBumpBasis[1]), 0, 1);
-    dp.z = clamp(dot(msNormal, g_localBumpBasis[2]), 0, 1);
-    dp *= dp;
-    
-    vec3 lmColor0 = LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 1);
-    vec3 lmColor1 = LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 2);
-    vec3 lmColor2 = LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 3);
-    
-    float sum = dot(dp, vec3(1.0));
-    
-    vec3 finalLightmap = dp.x*lmColor0 + dp.y*lmColor1 + dp.z*lmColor2;
-    finalLightmap *= 1.0 / sum;
-    
-    outputColor.rgb *= finalLightmap;
-    
-#endif
-
-#ifdef ENVMAP
-    vec3 spec = SampleCubeMap(l_worldEyeToVert.xyz, l_worldNormal,
-							  p3d_ViewMatrixInverse, vec3(0), envmapSampler).rgb;
-							  
-	#ifdef ENVMAP_MASK
-	spec *= texture2D(envmapMaskSampler, l_texcoordBaseTexture.xy).rgb;
-	#endif
-	
-	spec *= envmapTint;
-	
-	// saturation and contrast
-	vec3 specSqr = spec * spec;
-	spec = mix(spec, specSqr, envmapContrast);
-	vec3 greyScale = vec3(dot(spec, vec3(.299, .587, .114)));
-	spec = mix(greyScale, spec, envmapSaturation);
-	
-	// calc fresnel factor
-	vec3 eyeVec = normalize(l_worldEyeToVert.xyz);
-	//float fresnel = 1.0 - dot(l_worldNormal.xyz, eyeVec);
-	//fresnel = pow(fresnel, 5.0);
-	spec *= Fresnel(l_worldNormal.xyz, eyeVec);
-    
-    outputColor.rgb += spec;
+    #if defined(FLAT_LIGHTMAP)
         
-#endif
+        outputColor.rgb *= LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 0);
+        
+    #elif defined(BUMPED_LIGHTMAP)
+       
+        vec3 dp = vec3(0);
+        dp.x = clamp(dot(msNormal, g_localBumpBasis[0]), 0, 1);
+        dp.y = clamp(dot(msNormal, g_localBumpBasis[1]), 0, 1);
+        dp.z = clamp(dot(msNormal, g_localBumpBasis[2]), 0, 1);
+        dp *= dp;
+        
+        vec3 lmColor0 = LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 1);
+        vec3 lmColor1 = LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 2);
+        vec3 lmColor2 = LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 3);
+        
+        float sum = dot(dp, vec3(1.0));
+        
+        vec3 finalLightmap = dp.x*lmColor0 + dp.y*lmColor1 + dp.z*lmColor2;
+        finalLightmap *= 1.0 / sum;
+        
+        outputColor.rgb *= finalLightmap;
+        
+    #endif
 
-#ifdef FOG
-	// Apply fog.
-	outputColor.rgb = GetFog(FOG, outputColor, p3d_Fog.color, l_hPos, p3d_Fog.density,
-						p3d_Fog.start, p3d_Fog.end, p3d_Fog.scale);
-#endif
+    #ifdef ENVMAP
+        vec3 spec = SampleCubeMap(l_worldEyeToVert.xyz, l_worldNormal,
+                                  vec3(0), envmapSampler).rgb;
+                                  
+        #ifdef ENVMAP_MASK
+            spec *= texture2D(envmapMaskSampler, l_texcoordBaseTexture.xy).rgb;
+        #endif
+        
+        spec *= envmapTint;
+        
+        // saturation and contrast
+        vec3 specSqr = spec * spec;
+        spec = mix(spec, specSqr, envmapContrast);
+        vec3 greyScale = vec3(dot(spec, vec3(.299, .587, .114)));
+        spec = mix(greyScale, spec, envmapSaturation);
+        
+        // calc fresnel factor
+        vec3 eyeVec = normalize(l_worldEyeToVert.xyz);
+        spec *= Fresnel(l_worldNormal.xyz, eyeVec);
+        
+        outputColor.rgb += spec;
+            
+    #endif
 
-#ifndef HDR
-    outputColor.rgb = clamp(outputColor.rgb, 0.0, 1.0);
-#endif
+    #ifdef FOG
+        // Apply fog.
+        outputColor.rgb = GetFog(FOG, outputColor, p3d_Fog.color, l_hPos, p3d_Fog.density,
+                            p3d_Fog.start, p3d_Fog.end, p3d_Fog.scale);
+    #endif
 
-	//outputColor.rgb = l_texcoordBaseTexture.rgb;
+    #ifndef HDR
+        outputColor.rgb = clamp(outputColor.rgb, 0.0, 1.0);
+    #endif
 }
