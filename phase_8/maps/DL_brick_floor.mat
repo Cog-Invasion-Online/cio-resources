@@ -1,4 +1,5 @@
 VertexLitGeneric
 {
 	"$basetexture"			"phase_8/maps/DL_brick_floor.jpg"
+	"$bumpmap"				"phase_3.5/maps/sidewalk_bump.jpg"
 }

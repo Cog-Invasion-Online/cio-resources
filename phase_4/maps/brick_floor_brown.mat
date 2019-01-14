@@ -1,6 +1,7 @@
 VertexLitGeneric
 {
 	"$basetexture"			"phase_4/maps/brick_floor_brown.jpg"
+	"$bumpmap"				"phase_3.5/maps/sidewalk_bump.jpg"
 	"$phong"			"1"
 	"$phongexponent"	"0.25"
 	"$phongtint"		"0.0 0.0 0.0"

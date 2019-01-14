@@ -2,8 +2,7 @@ VertexLitGeneric
 {
 	"$basetexture"		"phase_14/maps/tt_t_chr_avt_shirt_betaoutfit.jpg"
 	
-	//"$bumpmap"			"phase_14/maps/tt_t_chr_avt_shirt_betaoutfit_bump.jpg"
-	
-	//"$phong"				"1"
-	//"$phongexponent"		"10"
+    
+    "$rimlight"         "1"
+    "$lightwarp"            "phase_3/maps/toon_lightwarp.jpg"
 }
