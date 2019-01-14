@@ -28,7 +28,7 @@ out vec4 l_position;
     #endif
 #endif
 
-#if defined(NEED_WORLD_POSITION) || defined(NEED_WORLD_NORMAL) || defined(HAS_SHADOW_SUNLIGHT)
+#if defined(NEED_WORLD_POSITION) || defined(NEED_WORLD_NORMAL)
     uniform mat4 p3d_ModelMatrix;
 #endif
 
@@ -180,16 +180,30 @@ void main()
 
     #ifdef HAS_SHADOW_SUNLIGHT
         vec4 lightclip;
-        float push = clamp(dot(l_worldNormal.xyz, sunVector[0]), 0, 1) * NORMAL_OFFSET_SCALE;
-        #ifndef NEED_WORLD_POSITION
-            vec4 l_worldPosition = p3d_ModelMatrix * finalVertex;
+        #ifdef NORMAL_OFFSET_UV_SPACE
+            vec4 uvOffset;
         #endif
-
+        
+        // Compute a normal offset bias for the shadow position.
+        float cosSun = dot(sunVector[0], l_worldNormal.xyz);
+        float slopeScale = clamp(1 - cosSun, 0, 1);
+        // NORMAL_OFFSET_SCALE: constant value suppled in config prc
+        float normalOffsetScale = slopeScale * NORMAL_OFFSET_SCALE * SHADOW_TEXEL_SIZE;
+        
+        vec4 shadowOffset = vec4(l_worldNormal.xyz * normalOffsetScale, 0.0);
+        vec4 pushedVertex = l_worldPosition + shadowOffset;
+        
         for (int i = 0; i < PSSM_SPLITS; i++)
         {
-            lightclip = pssmMVPs[i] * (l_worldPosition + (l_worldNormal * push));
+            #ifdef NORMAL_OFFSET_UV_SPACE
+                lightclip = pssmMVPs[i] * l_worldPosition;
+                uvOffset = pssmMVPs[i] * pushedVertex;
+                lightclip.xy = uvOffset.xy;
+            #else
+                lightclip = pssmMVPs[i] * pushedVertex;
+            #endif
+            
             l_pssmCoords[i] = lightclip * vec4(0.5, 0.5, 0.5, 1.0) + lightclip.w * vec4(0.5, 0.5, 0.5, 0.0);
         }
-
     #endif
 }
