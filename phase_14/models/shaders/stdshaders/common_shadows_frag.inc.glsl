@@ -25,9 +25,16 @@ vec2 poissonDisk[NUM_POISSON] = vec2[](
     vec2( .896, .412 ), vec2( -.322, -.933 ), vec2( -.792, -.598 )
 );
 
-void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCoords[PSSM_SPLITS])
+void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCoords[PSSM_SPLITS], vec3 lightDir, vec3 eyeNormal)
 {
 	lshad = 0.0;
+	
+	if (dot(eyeNormal, lightDir) < 0)
+	{
+		// if pixel is facing away from light, it's guaranteed to be in shadow
+		return;
+	}
+	
 	float shadowBlur = SHADOW_BLUR;
 	int j, k;
 	for (j = 0; j < PSSM_SPLITS; j++)

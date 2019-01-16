@@ -7,8 +7,13 @@ uniform mat4 split_mvps[NUM_SPLITS];
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 9) out; // NUM_SPLITS * 3
 
+in vec2 geo_uv[];
+out vec2 l_uv;
+
 void main()
 {
+	
+	
 	// for each pssm split
 	for (int i = 0; i < NUM_SPLITS; i++)
 	{
@@ -19,6 +24,7 @@ void main()
 		{
 			// project this vertex into clip space of this pssm split camera
 			gl_Position = split_mvps[i] * gl_in[j].gl_Position;
+			l_uv = geo_uv[j];
 			EmitVertex();
 		}
 		EndPrimitive();

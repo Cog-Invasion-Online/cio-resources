@@ -14,6 +14,9 @@ uniform mat4 p3d_ModelViewProjectionMatrix;
 in vec4 p3d_Vertex;
 out vec4 l_position;
 
+const vec4 lClipScale1 = vec4(0.5, 0.5, 0.5, 1.0);
+const vec4 lClipScale2 = vec4(0.5, 0.5, 0.5, 0.0);
+
 #if defined(NEED_TBN) || defined(NEED_EYE_VEC) || defined(NEED_WORLD_NORMAL)
     in vec4 p3d_Tangent;
     in vec4 p3d_Binormal;
@@ -117,7 +120,7 @@ void main()
 
         finalVertex = matrix * p3d_Vertex;
         #if defined(NEED_WORLD_NORMAL) || defined(NEED_EYE_NORMAL)
-            finalNormal = (mat3)matrix * p3d_Normal;
+            finalNormal = mat3(matrix) * p3d_Normal;
         #endif
 
     #endif
@@ -148,8 +151,7 @@ void main()
     #endif
 
     #ifdef NEED_EYE_NORMAL
-        l_eyeNormal.xyz = normalize(mat3(tpose_view_to_model) * finalNormal);
-        l_eyeNormal.w = 0.0;
+        l_eyeNormal = vec4(normalize(mat3(tpose_view_to_model) * finalNormal), 0.0);
     #endif
 
     #ifdef NEED_COLOR
@@ -159,19 +161,17 @@ void main()
     #endif
 
     #ifdef NEED_TBN
-        l_tangent.xyz = normalize(mat3(p3d_ModelViewMatrix) * p3d_Tangent.xyz);
-        l_tangent.w = 0.0;
-        l_binormal.xyz = normalize(mat3(p3d_ModelViewMatrix) * -p3d_Binormal.xyz);
-        l_binormal.w = 0.0;
+        l_tangent = vec4(normalize(mat3(p3d_ModelViewMatrix) * p3d_Tangent.xyz), 0.0);
+        l_binormal = vec4(normalize(mat3(p3d_ModelViewMatrix) * -p3d_Binormal.xyz), 0.0);
     #endif
 
     #ifdef NEED_EYE_VEC
         vec3 eyeDir = mspos_view.xyz - finalVertex.xyz;
-        l_eyeVec.x = dot(p3d_Tangent.xyz, eyeDir);
-        l_eyeVec.y = dot(p3d_Binormal.xyz, eyeDir);
-        l_eyeVec.z = dot(finalNormal, eyeDir);
-        l_eyeVec = normalize(l_eyeVec);
-        l_eyeDir = normalize(eyeDir);
+        l_eyeVec = normalize(vec3(
+			dot(p3d_Tangent.xyz, eyeDir),
+			dot(p3d_Binormal.xyz, eyeDir),
+			dot(finalNormal, eyeDir)
+        ));
     #endif
 
     #ifdef NEED_WORLD_VEC
@@ -196,14 +196,15 @@ void main()
         for (int i = 0; i < PSSM_SPLITS; i++)
         {
             #ifdef NORMAL_OFFSET_UV_SPACE
-                lightclip = pssmMVPs[i] * l_worldPosition;
-                uvOffset = pssmMVPs[i] * pushedVertex;
-                lightclip.xy = uvOffset.xy;
+                lightclip = vec4(
+					(pssmMVPs[i] * pushedVertex).xy,
+					(pssmMVPs[i] * l_worldPosition).zw
+                );
             #else
                 lightclip = pssmMVPs[i] * pushedVertex;
             #endif
             
-            l_pssmCoords[i] = lightclip * vec4(0.5, 0.5, 0.5, 1.0) + lightclip.w * vec4(0.5, 0.5, 0.5, 0.0);
+            l_pssmCoords[i] = lightclip * lClipScale1 + lightclip.w * lClipScale2;
         }
     #endif
 }

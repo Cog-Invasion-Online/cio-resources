@@ -37,7 +37,7 @@
 
 #define NUM_BUMP_VECTS 3
 
-vec3 g_localBumpBasis[3] = vec3[](
+const vec3 g_localBumpBasis[3] = vec3[](
     vec3(OO_SQRT_2_OVER_3, 0.0f, OO_SQRT_3),
     vec3(-OO_SQRT_6, OO_SQRT_2, OO_SQRT_3),
     vec3(-OO_SQRT_6, -OO_SQRT_2, OO_SQRT_3)
@@ -117,8 +117,7 @@ void main()
   
     #if defined(BUMPMAP) && defined(BUMPED_LIGHTMAP)
         // the normal for bumped lightmaps is in tangent space, not eye space
-        vec3 msNormal = tangentSpaceNormal;
-        msNormal = normalize(msNormal);
+        vec3 msNormal = normalize(tangentSpaceNormal);
     #elif defined(BUMPED_LIGHTMAP)
         // hmm, there is a bumped lightmap but no normal map.
         vec3 msNormal = l_normal;

@@ -196,7 +196,7 @@ vec3 GetDirectionalLight(vec4 ldir, vec4 lcolor, vec4 eyeNormal, inout vec3 lvec
 	if (shadows)
 	{
 		lshad = 0.0;
-		GetSunShadow(lshad, shadowSampler, shadowCoords);
+		GetSunShadow(lshad, shadowSampler, shadowCoords, lvec, eyeNormal.xyz);
 		vResult *= lshad;
 	}
     #endif
