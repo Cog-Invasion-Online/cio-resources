@@ -1,9 +1,12 @@
 VertexLitGeneric
 {
-	"$basetexture"			"phase_3/maps/neckGeneric.jpg"
-    
     "$rimlight"             "1"
+    "$rimlightboost"        "10"
     "$lightwarp"            "phase_3/maps/toon_lightwarp.jpg"
+    
+    "$phong"            "1"
+    "$phongexponent"    "25"
+    "$phongboost"       ".5"
     
     "$halflambert"		"1"
 }

@@ -1,5 +1,5 @@
 VertexLitGeneric
 {
 	"$basetexture"			"phase_3.5/maps/cobblestone_blue.jpg"
-	"$bumpmap"				"phase_3.5/maps/cobblestone_bump.jpg"
+	//"$bumpmap"				"phase_3.5/maps/cobblestone_bump.jpg"
 }

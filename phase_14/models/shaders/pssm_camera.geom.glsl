@@ -12,17 +12,13 @@ out vec2 l_uv;
 
 void main()
 {
-	
-	
-	// for each pssm split
+	// for each CSM split
 	for (int i = 0; i < NUM_SPLITS; i++)
 	{
 		gl_Layer = i;
-		// reverse the winding order of the primitive
-		// helps to alleviate shadow map artifacts
 		for (int j = 0; j < 3; j++)
 		{
-			// project this vertex into clip space of this pssm split camera
+			// project this vertex into clip space of this cascade camera
 			gl_Position = split_mvps[i] * gl_in[j].gl_Position;
 			l_uv = geo_uv[j];
 			EmitVertex();

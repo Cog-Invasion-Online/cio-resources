@@ -8,10 +8,10 @@ out vec2 geo_uv;
 
 void main()
 {
-	// move vertex into world space
+    // move vertex into world space
     // as the geometry shader will multiply the vertex
     // by the world space view projection matrix of each pssm split
-	gl_Position = p3d_ModelMatrix * p3d_Vertex;
+    gl_Position = p3d_ModelMatrix * p3d_Vertex;
     
-	geo_uv = texcoord;
+    geo_uv = texcoord;
 }

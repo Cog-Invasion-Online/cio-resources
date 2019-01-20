@@ -27,6 +27,7 @@ uniform vec4 p3d_Color;
 #endif
 
 uniform vec4 p3d_ColorScale;
+uniform vec4 p3d_TexAlphaOnly;
 
 out vec4 o_color;
 
@@ -39,6 +40,8 @@ void main()
     o_color *= albedo;
 #endif
 
+    o_color += p3d_TexAlphaOnly;
+
 #ifdef COLOR_VERTEX
     o_color *= l_color;
 #elif defined(COLOR_FLAT)
@@ -46,5 +49,4 @@ void main()
 #endif
 
     o_color *= p3d_ColorScale;
-
 }

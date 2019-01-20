@@ -423,7 +423,7 @@ void main()
         // ====================================
         // Light summation
 
-        vec3 totalLight = totalAmbient.rgb + totalDiffuse.rgb + totalSpecular.rgb + totalRim.rgb;
+        vec3 totalLight = totalAmbient.rgb + totalDiffuse.rgb;
         #ifndef HDR
             totalLight = clamp(totalLight, 0, 1);
         #endif
@@ -456,6 +456,14 @@ void main()
     #endif
 
 	result *= p3d_ColorScale;
+    
+    #ifdef LIGHTING
+        vec3 totalRimSpec = totalSpecular.rgb + totalRim.rgb;
+        #ifndef HDR
+            totalRimSpec = clamp(totalRimSpec, 0, 1);
+        #endif
+        result.rgb += totalRimSpec;
+    #endif
 
     #ifdef ENVMAP
 
