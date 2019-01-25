@@ -17,16 +17,16 @@ model "phase_3.5/models/modules/tt_m_ara_int_toonhall" [
         ]
 
 
-store_material [ "TI_wallpaper" "wall_paper_a1"
-                "phase_3.5/maps/wall_paper_a1.mat" ]
-store_material [ "TI_wallpaper" "wall_paper_a2"
-                "phase_3.5/maps/wall_paper_a2.mat" ]
-store_material [ "TI_wallpaper" "wall_paper_a3"
-                "phase_3.5/maps/wall_paper_a3.mat" ]
-store_material [ "TI_wallpaper" "wall_paper_a4"
-                "phase_3.5/maps/wall_paper_a4.mat" ]
-store_material [ "TI_wallpaper" "wall_paper_a5"
-                "phase_3.5/maps/wall_paper_a5.mat" ]
+// store_material [ "TI_wallpaper" "wall_paper_a1"
+//                 "phase_3.5/maps/wall_paper_a1.mat" ]
+// store_material [ "TI_wallpaper" "wall_paper_a2"
+//                 "phase_3.5/maps/wall_paper_a2.mat" ]
+// store_material [ "TI_wallpaper" "wall_paper_a3"
+//                 "phase_3.5/maps/wall_paper_a3.mat" ]
+// store_material [ "TI_wallpaper" "wall_paper_a4"
+//                 "phase_3.5/maps/wall_paper_a4.mat" ]
+// store_material [ "TI_wallpaper" "wall_paper_a5"
+//                 "phase_3.5/maps/wall_paper_a5.mat" ]
 
 store_material [ "TI_wallpaper" "stripeB5"
                 "phase_3.5/maps/stripeB5.mat" ]

@@ -1,6 +1,6 @@
 @echo off
 
-IF NOT EXIST "..\..\..\libpandadnas" (goto missinglpd) ELSE (goto compile)
+IF NOT EXIST "..\..\..\libpandadna" (goto missinglpd) ELSE (goto compile)
 
 :missinglpd
 echo You need to clone libpandadna into the main repository directory first (the folder that has 'game' and 'cio-panda3d' in it).
