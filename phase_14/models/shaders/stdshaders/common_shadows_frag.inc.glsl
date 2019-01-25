@@ -62,8 +62,16 @@ void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCo
 {	
 	lshad = 0.0;
 	
-	if (dot(eyeNormal, lightDir) < 0.0)
-		return;
+	// We can guarantee that the pixel is in shadow if
+	// it's facing away from the light source.
+	//
+	// This is a good optimization, but will only look
+	// correct if we are using unmodified lambert shading.
+	// Lightwarps and half-lambert modify the lambertian term.
+	#if !defined(LIGHTWARP) && !defined(HALFLAMBERT)
+		if (dot(eyeNormal, lightDir) < 0.0)
+			return;
+	#endif
 	
 	vec3 proj = vec3(0);
 	float depthCmp = 0.0;

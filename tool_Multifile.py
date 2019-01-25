@@ -29,7 +29,7 @@ def do(mtype, filename):
 
 def do_phase0():
     cmd = os.path.join(multify)
-    cmd += " -c -f phase_0.mf models"
+    cmd += " -c -f phase_0.mf models maps icons"
     os.system(cmd)
 
 def do_all(mtype):

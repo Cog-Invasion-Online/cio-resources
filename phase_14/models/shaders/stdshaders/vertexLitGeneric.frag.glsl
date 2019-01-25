@@ -172,6 +172,9 @@ uniform vec4 p3d_ClipPlane[NUM_CLIP_PLANES];
             vec4 position;
             vec3 attenuation;
             
+            // Spotlights only
+            float spotCosCutoff;
+            float spotExponent;
             vec3 spotDirection;
         } p3d_LightSource[NUM_LIGHTS];
 
@@ -413,6 +416,11 @@ void main()
                                                 #else
                                                     false, baseTextureSampler
                                                 #endif // HALFLAMBERT
+                                                
+                                                #ifndef BSP_LIGHTING
+                                                    , p3d_LightSource[i].spotExponent,
+                                                    p3d_LightSource[i].spotCosCutoff
+                                                #endif
                 );
                 
                 DoGetSpecular(lattenv, finalEyeNormal, l_eyePosition, finalPhongExp,

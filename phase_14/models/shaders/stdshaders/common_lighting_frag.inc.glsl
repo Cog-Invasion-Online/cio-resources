@@ -95,10 +95,13 @@ vec3 GetPointLight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, i
     vec3 ratio;
     
     lvec = lpoint.xyz - eyePos.xyz;
-	float ldist = length(lvec);
-	lvec = normalize(lvec);
+#ifndef BSP_LIGHTING
+    lvec *= lpoint.w;
+#endif
+    float ldist = length(lvec);
+    lvec = normalize(lvec);
 	
-	vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler);
+    vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler);
     
 #ifdef BSP_LIGHTING
     bool hasHardFalloff = HasHardFalloff(falloff2);
@@ -118,15 +121,22 @@ vec3 GetPointLight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, i
     ratio = vec3(lattenv, lattenv, lattenv);
 	
     vResult *= lcolor.rgb * ratio;
-	return vResult;
+    return vResult;
 }
 
 vec3 GetSpotlight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, inout vec3 lvec, vec4 ldir,
                   vec4 falloff2, vec4 falloff3,
                   vec4 eyePos, vec4 eyeNormal, bool halfLambert, bool lightwarp,
-                  sampler2D lightwarpSampler)
+                  sampler2D lightwarpSampler
+		  #ifndef BSP_LIGHTING
+		  , float spotExponent, float spotCosCutoff
+		  #endif
+		  )
 {
     lvec = lpoint.xyz - eyePos.xyz;
+#ifndef BSP_LIGHTING
+    lvec *= lpoint.w;
+#endif
     float ldist = length(lvec);
     lvec = normalize(lvec);
     vec3 vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler); 
@@ -171,10 +181,17 @@ vec3 GetSpotlight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, in
     //}
     
 #else
-    float langle = clamp(dot(ldir.xyz, lvec), 0, 1);
-    lattenv = 1/(latten.x + latten.y*ldist + latten.z*ldist*ldist);
-    lattenv *= pow(langle, latten.w);
-    if (langle < ldir.w) return vec3(0);
+    float langle = clamp(dot(ldir.xyz, -lvec), 0, 1);
+    
+    if (langle > spotCosCutoff)
+    {
+	lattenv = 1/(latten.x + latten.y*ldist + latten.z*ldist*ldist);
+	lattenv *= pow(langle, spotExponent);
+    }
+    else
+    {
+	return vec3(0);
+    }
 #endif
 
     return (vResult * lcolor.rgb) * lattenv;
