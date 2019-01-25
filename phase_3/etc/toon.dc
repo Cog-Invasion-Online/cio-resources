@@ -738,7 +738,7 @@ dclass FriendsManager : DistributedObject {
 
   avatarInfo(string name, string dna, int16 maxHP, int16 hp,
              uint32 zoneId, uint32 shardId, int8 isOnline,
-			 int8 adminToken);
+			 int16 adminToken);
 
   friendRequest(uint32, string, string);
   cancelFriendRequest(uint32) clsend;
@@ -759,7 +759,7 @@ dclass FriendsManager : DistributedObject {
   teleportNotify(string);
   requestFriendsList() clsend;
 
-  friendsList(uint32 avIds[], string names[], int8 onlineFlags[], int8 adminTokens[]);
+  friendsList(uint32 avIds[], string names[], int8 onlineFlags[], int16 adminTokens[]);
 
   sendWhisper(uint32 target, string message) clsend;
 
