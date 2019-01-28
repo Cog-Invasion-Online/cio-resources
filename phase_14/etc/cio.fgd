@@ -810,3 +810,8 @@
 [
     size(integer) : "Quality of cubemap" : 32
 ]
+
+@PointClass base(Angles) = shadow_control : "Controls shadow appearance"
+[
+    color(color255) : "Shadow color" : "127 127 127 255"
+]
