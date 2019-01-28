@@ -62,6 +62,10 @@ in vec4 l_texcoordBaseTexture;
     uniform sampler2DArray lightmapSampler;
 #endif
 
+#if defined(ENVMAP) || defined(HAS_SHADOW_SUNLIGHT)
+    in vec4 l_worldNormal;
+#endif
+
 #if defined(ENVMAP)
 
     uniform samplerCube envmapSampler;
@@ -73,12 +77,20 @@ in vec4 l_texcoordBaseTexture;
         uniform sampler2D envmapMaskSampler;
     #endif
 
-    in vec4 l_worldNormal;
     #ifdef BUMPMAP
         in mat3 l_tangentSpaceTranspose;
     #endif
     in vec4 l_worldEyeToVert;
     
+#endif
+
+#ifdef HAS_SHADOW_SUNLIGHT
+    uniform sampler2DArray pssmSplitSampler;
+    in vec4 l_pssmCoords[PSSM_SPLITS];
+    uniform vec3 sunVector[1];
+    uniform vec3 ambientLightIdentifier;
+    uniform vec3 ambientLightMin;
+    uniform vec2 ambientLightScale;
 #endif
 
 #ifdef BUMPMAP
@@ -96,20 +108,17 @@ out vec4 outputColor;
 
 void main()
 {
-    // start completely white, in case there is no base texture
-    // again, why wouldn't there be one
-    outputColor = vec4(1.0);
-    
-    #ifdef BASETEXTURE
-        outputColor = texture2D(baseTextureSampler, l_texcoordBaseTexture.xy);
-    #endif
+    outputColor = vec4(0, 0, 0, 1);
 
     #ifdef BUMPMAP
         vec3 tangentSpaceNormal = GetTangentSpaceNormal(bumpSampler, l_texcoordBumpMap.xy);
     #endif
+    
+    #if defined(ENVMAP) || defined(HAS_SHADOW_SUNLIGHT)
+        vec4 finalWorldNormal = l_worldNormal;
+    #endif
 
     #ifdef ENVMAP
-        vec4 finalWorldNormal = l_worldNormal;
         #ifdef BUMPMAP
             TangentToWorld(finalWorldNormal.xyz, l_tangentSpaceTranspose, tangentSpaceNormal);
         #endif
@@ -123,9 +132,11 @@ void main()
         vec3 msNormal = l_normal;
     #endif
     
+    vec3 diffuseLighting = vec3(0);
+    
     #if defined(FLAT_LIGHTMAP)
         
-        outputColor.rgb *= LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 0);
+        diffuseLighting += LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 0);
         
     #elif defined(BUMPED_LIGHTMAP)
        
@@ -144,8 +155,24 @@ void main()
         vec3 finalLightmap = dp.x*lmColor0 + dp.y*lmColor1 + dp.z*lmColor2;
         finalLightmap *= 1.0 / sum;
         
-        outputColor.rgb *= finalLightmap;
+        diffuseLighting += finalLightmap;
         
+    #endif
+    
+    #ifdef HAS_SHADOW_SUNLIGHT
+        DoBlendShadow(diffuseLighting, pssmSplitSampler, l_pssmCoords, sunVector[0], finalWorldNormal.xyz,
+                      ambientLightIdentifier, ambientLightMin, ambientLightScale.x);
+    #endif
+    
+    outputColor.rgb += diffuseLighting;
+    
+    // Modulate with albedo
+    #ifdef BASETEXTURE
+        vec4 albedo = texture2D(baseTextureSampler, l_texcoordBaseTexture.xy);
+        outputColor.rgb *= albedo.rgb;
+        #ifdef TRANSLUCENT
+            outputColor.a *= albedo.a;
+        #endif
     #endif
 
     #ifdef ENVMAP
@@ -159,10 +186,10 @@ void main()
         spec *= envmapTint;
         
         // saturation and contrast
-        vec3 specSqr = spec * spec;
-        spec = mix(spec, specSqr, envmapContrast);
-        vec3 greyScale = vec3(dot(spec, vec3(.299, .587, .114)));
-        spec = mix(greyScale, spec, envmapSaturation);
+        //vec3 specSqr = spec * spec;
+        //spec = mix(spec, specSqr, envmapContrast);
+        //vec3 greyScale = vec3(dot(spec, vec3(.299, .587, .114)));
+        //spec = mix(greyScale, spec, envmapSaturation);
         
         // calc fresnel factor
         vec3 eyeVec = normalize(l_worldEyeToVert.xyz);

@@ -275,18 +275,15 @@ void GetSpecular(float lattenv, vec4 eyeNormal, vec4 eyePos,
 {
 	vec3 lhalf = normalize(lightVec - normalize(eyePos.xyz));
     float LdotR = clamp(dot(eyeNormal.xyz, lhalf), 0, 1);
-
-    if (shininess > 0.0)
-    {
-        vec3 lspec = specularTint * lightColor;
-        lspec *= pow(LdotR, shininess);
-        lspec *= boost;
-        // mask with N.L
-        lspec *= dot(lightVec, eyeNormal.xyz);
-        lspec *= lattenv;
-        lspec *= Fresnel(eyeNormal.xyz, eyeVec);
-        olspec += lspec;
-    }
+    
+    vec3 lspec = specularTint * lightColor;
+    lspec *= pow(LdotR, shininess);
+    lspec *= boost;
+    // mask with N.L
+    lspec *= dot(lightVec, eyeNormal.xyz);
+    lspec *= lattenv;
+    lspec *= Fresnel(eyeNormal.xyz, eyeVec);
+    olspec += lspec;
 }
 
 vec3 GetTangentSpaceNormal(sampler2D bumpSampler, vec2 texcoord)

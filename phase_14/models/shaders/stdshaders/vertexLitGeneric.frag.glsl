@@ -188,6 +188,10 @@ uniform vec4 p3d_ClipPlane[NUM_CLIP_PLANES];
     #ifdef HAS_SHADOW_SUNLIGHT
         uniform sampler2DArray pssmSplitSampler;
         in vec4 l_pssmCoords[PSSM_SPLITS];
+        uniform vec3 sunVector[1];
+        uniform vec3 ambientLightIdentifier;
+        uniform vec3 ambientLightMin;
+        uniform vec2 ambientLightScale;
     #endif
 
 #endif // LIGHTING
@@ -428,6 +432,12 @@ void main()
             }
         }
         
+        #if defined(BSP_LIGHTING) && defined(HAS_SHADOW_SUNLIGHT)
+            // This is cascaded shadows from a fake light source in interior lighting or BSP levels
+            DoBlendShadow(totalDiffuse.rgb, pssmSplitSampler, l_pssmCoords, sunVector[0], finalWorldNormal.xyz,
+                          ambientLightIdentifier, ambientLightMin, ambientLightScale.x);
+        #endif
+        
         // ====================================
         // Light summation
 
@@ -484,10 +494,10 @@ void main()
         spec *= envmapTint;
         
         // saturation and contrast
-        vec3 specSqr = spec * spec;
-        spec = mix(spec, specSqr, envmapContrast);
-        vec3 greyScale = vec3(dot(spec, vec3(.299, .587, .114)));
-        spec = mix(greyScale, spec, envmapSaturation);
+        //vec3 specSqr = spec * spec;
+        //spec = mix(spec, specSqr, envmapContrast);
+        //vec3 greyScale = vec3(dot(spec, vec3(.299, .587, .114)));
+        //spec = mix(greyScale, spec, envmapSaturation);
         
         // calc fresnel factor
         spec *= Fresnel(l_worldNormal.xyz, normalize(l_worldEyeToVert.xyz));

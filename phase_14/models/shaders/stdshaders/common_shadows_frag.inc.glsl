@@ -52,10 +52,7 @@ float SampleCascade(sampler2DArray shadowSampler, vec3 proj, float depthCmp, int
 {
 	float val = texture(shadowSampler, vec3(proj.x + (poissonDisk[diskIdx].x * SHADOW_BLUR),
 										    proj.y + (poissonDisk[diskIdx].y * SHADOW_BLUR), cascade)).r;
-	if (val > depthCmp)
-		return 1.0;
-	
-	return 0.0;
+	return step(depthCmp, val);
 }
 
 void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCoords[PSSM_SPLITS], vec3 lightDir, vec3 eyeNormal)
@@ -68,7 +65,11 @@ void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCo
 	// This is a good optimization, but will only look
 	// correct if we are using unmodified lambert shading.
 	// Lightwarps and half-lambert modify the lambertian term.
-	#if !defined(LIGHTWARP) && !defined(HALFLAMBERT)
+    //
+    // We also only do this outside of BSP levels. Doing this in BSP
+    // levels will cause brush faces facing away from the fake shadows
+    // to be dark.
+	#if !defined(LIGHTWARP) && !defined(HALFLAMBERT) && !defined(BSP_LIGHTING) && !defined(BUMPED_LIGHTMAP) && !defined(FLAT_LIGHTMAP)
 		if (dot(eyeNormal, lightDir) < 0.0)
 			return;
 	#endif
@@ -76,10 +77,11 @@ void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCo
 	vec3 proj = vec3(0);
 	float depthCmp = 0.0;
 	int cascade = FindCascade(shadowCoords, proj, depthCmp);
-	for (int i = 0; i < 5; i++)
-	{
-		lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, i);
-	}
+    lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 0);
+    lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 1);
+    lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 2);
+    lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 3);
+    lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 4);
 	
 	if (lshad > 0.1 && lshad < 4.9)
 	{
@@ -91,11 +93,24 @@ void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCo
 		}
 		
 		lshad /= NUM_POISSON;
+        return;
 	}
-	else
-	{
-		lshad /= 5;
-	}
-	
-	
+
+    lshad /= 5;
+}
+
+void DoBlendShadow(inout vec3 diffuseLighting, sampler2DArray shadowSampler,
+                   vec4 shadowCoords[PSSM_SPLITS], vec3 lightDir, vec3 eyeNormal,
+                   vec3 ambientLightIdentifier, vec3 ambientLightMin, float ambientLightScale)
+{
+    float shadow = 0.0;
+    GetSunShadow(shadow, shadowSampler, shadowCoords, lightDir, eyeNormal);
+    shadow = 1.0 - shadow;
+    
+    vec3 lightDelta = diffuseLighting - ambientLightMin;
+    lightDelta -= dot(ambientLightIdentifier, lightDelta) * ambientLightIdentifier;
+    float shadowMask = lightDelta.x * lightDelta.x + lightDelta.y * lightDelta.y + lightDelta.z * lightDelta.z;
+    shadowMask = 1.0 - clamp(shadowMask * ambientLightScale, 0, 1);
+    
+    diffuseLighting = min(diffuseLighting, mix(diffuseLighting, ambientLightMin, shadow * shadowMask));
 }

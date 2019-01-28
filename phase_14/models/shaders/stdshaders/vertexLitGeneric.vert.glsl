@@ -9,13 +9,12 @@
  * @date October 29, 2018
  *
  */
+ 
+#pragma include "phase_14/models/shaders/stdshaders/common_shadows_vert.inc.glsl"
 
 uniform mat4 p3d_ModelViewProjectionMatrix;
 in vec4 p3d_Vertex;
 out vec4 l_position;
-
-const vec4 lClipScale1 = vec4(0.5, 0.5, 0.5, 1.0);
-const vec4 lClipScale2 = vec4(0.5, 0.5, 0.5, 0.0);
 
 #if defined(NEED_TBN) || defined(NEED_EYE_VEC) || defined(NEED_WORLD_NORMAL)
     in vec4 p3d_Tangent;
@@ -74,12 +73,6 @@ const vec4 lClipScale2 = vec4(0.5, 0.5, 0.5, 0.0);
 in vec4 texcoord;
 out vec4 l_texcoord;
 
-#ifdef HAS_SHADOW_SUNLIGHT
-    uniform mat4 pssmMVPs[PSSM_SPLITS];
-    uniform vec3 sunVector[1];
-    out vec4 l_pssmCoords[PSSM_SPLITS];
-#endif
-
 #ifdef FOG
     out vec4 l_hPos;
 #endif
@@ -90,6 +83,12 @@ out vec4 l_texcoord;
     #ifdef INDEXED_TRANSFORMS
         in uvec4 transform_index;
     #endif
+#endif
+
+#ifdef HAS_SHADOW_SUNLIGHT
+    uniform mat4 pssmMVPs[PSSM_SPLITS];
+    uniform vec3 sunVector[1];
+    out vec4 l_pssmCoords[PSSM_SPLITS];
 #endif
 
 void main()
@@ -179,32 +178,7 @@ void main()
     #endif
 
     #ifdef HAS_SHADOW_SUNLIGHT
-        vec4 lightclip;
-        #ifdef NORMAL_OFFSET_UV_SPACE
-            vec4 uvOffset;
-        #endif
-        
-        // Compute a normal offset bias for the shadow position.
-        float cosSun = dot(sunVector[0], l_worldNormal.xyz);
-        float slopeScale = clamp(1 - cosSun, 0, 1);
-        // NORMAL_OFFSET_SCALE: constant value suppled in config prc
-        float normalOffsetScale = slopeScale * NORMAL_OFFSET_SCALE * SHADOW_TEXEL_SIZE;
-        
-        vec4 shadowOffset = vec4(l_worldNormal.xyz * normalOffsetScale, 0.0);
-        vec4 pushedVertex = l_worldPosition + shadowOffset;
-        
-        for (int i = 0; i < PSSM_SPLITS; i++)
-        {
-            #ifdef NORMAL_OFFSET_UV_SPACE
-                lightclip = vec4(
-					(pssmMVPs[i] * pushedVertex).xy,
-					(pssmMVPs[i] * l_worldPosition).zw
-                );
-            #else
-                lightclip = pssmMVPs[i] * pushedVertex;
-            #endif
-            
-            l_pssmCoords[i] = lightclip * lClipScale1 + lightclip.w * lClipScale2;
-        }
+        ComputeShadowPositions(l_worldNormal.xyz, l_worldPosition,
+                               sunVector[0], pssmMVPs, l_pssmCoords);
     #endif
 }

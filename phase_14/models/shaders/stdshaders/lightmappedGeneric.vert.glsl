@@ -12,6 +12,8 @@
  *
  */
  
+#pragma include "phase_14/models/shaders/stdshaders/common_shadows_vert.inc.glsl"
+ 
 in vec4 texcoord;
 out vec4 l_texcoordBaseTexture;
 
@@ -20,7 +22,7 @@ out vec4 l_texcoordBaseTexture;
     out vec4 l_texcoordLightmap;
 #endif
 
-#if defined(BUMPMAP) || defined(BUMPED_LIGHTMAP) || defined(ENVMAP)
+#if defined(BUMPMAP) || defined(BUMPED_LIGHTMAP) || defined(ENVMAP) || defined(HAS_SHADOW_SUNLIGHT)
     in vec3 p3d_Normal;
     out vec3 l_normal;
 #endif
@@ -33,11 +35,14 @@ out vec4 l_texcoordBaseTexture;
     out vec4 l_texcoordBumpMap;
 #endif
 
+#if defined(ENVMAP) || defined(HAS_SHADOW_SUNLIGHT)
+    uniform mat4 p3d_ModelMatrix;
+    out vec4 l_worldNormal;
+#endif
+
 #if defined(ENVMAP)
     uniform vec4 wspos_view;
-    uniform mat4 p3d_ModelMatrix;
     out vec4 l_worldEyeToVert;
-    out vec4 l_worldNormal;
     #ifdef BUMPMAP
         out mat3 l_tangentSpaceTranspose;
     #endif
@@ -45,6 +50,12 @@ out vec4 l_texcoordBaseTexture;
 
 #ifdef FOG
     out vec4 l_hPos;
+#endif
+
+#ifdef HAS_SHADOW_SUNLIGHT
+    uniform mat4 pssmMVPs[PSSM_SPLITS];
+    uniform vec3 sunVector[1];
+    out vec4 l_pssmCoords[PSSM_SPLITS];
 #endif
 
 uniform mat4 p3d_ModelViewProjectionMatrix;
@@ -71,11 +82,13 @@ void main()
         l_normal = p3d_Normal;
     #endif
     
-    #if defined(ENVMAP)
+    #if defined(ENVMAP) || defined(HAS_SHADOW_SUNLIGHT)
         vec4 worldPos = p3d_ModelMatrix * p3d_Vertex;
-        l_worldEyeToVert = wspos_view - worldPos;
         l_worldNormal = p3d_ModelMatrix * vec4(p3d_Normal, 0);
-        
+    #endif
+    
+    #if defined(ENVMAP)
+        l_worldEyeToVert = wspos_view - worldPos;
         #ifdef BUMPMAP
             l_tangentSpaceTranspose[0] = mat3(p3d_ModelMatrix) * p3d_Tangent.xyz;
             l_tangentSpaceTranspose[1] = mat3(p3d_ModelMatrix) * -p3d_Binormal.xyz;
@@ -85,5 +98,10 @@ void main()
 
     #ifdef FOG
         l_hPos = gl_Position;
+    #endif
+    
+    #ifdef HAS_SHADOW_SUNLIGHT
+        ComputeShadowPositions(l_worldNormal.xyz, worldPos,
+                               sunVector[0], pssmMVPs, l_pssmCoords);
     #endif
 }
