@@ -1,0 +1,10 @@
+LightmappedGeneric
+{
+    "$basetexture"  "phase_14/maps/sellbotOffice/sellwalltext.png"
+    "$bumpmap"      "phase_14/maps/sellbotOffice/Sellbot_CO_WallPattern_bump.png"
+    
+    "$envmap"       "env_cubemap"
+    "$envmapmask"   "phase_14/maps/sellbotOffice/Sellbot_CO_WallPattern_spec.png"
+    
+    "$surfaceprop"  "metalfloor"
+}

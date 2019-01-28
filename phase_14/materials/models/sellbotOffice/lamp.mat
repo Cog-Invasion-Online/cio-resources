@@ -1,0 +1,8 @@
+VertexLitGeneric
+{
+    "$basetexture"      "phase_14/maps/sellbotOffice/sellbot_lamp.png"
+    
+    "$phong"            "1"
+    "$phongboost"       ".3"
+    "$phongexponent"    "75"
+}

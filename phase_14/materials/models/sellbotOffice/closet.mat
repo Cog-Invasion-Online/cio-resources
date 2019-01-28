@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+    "$basetexture"  "phase_14/maps/sellbotOffice/sellbot_closet.png"
+    
+    "$envmap"       "env_cubemap"
+    "$envmaptint"   ".5 .5 .5"
+}

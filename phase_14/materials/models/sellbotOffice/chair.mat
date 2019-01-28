@@ -1,0 +1,12 @@
+VertexLitGeneric
+{
+    "$basetexture"      "phase_14/maps/sellbotOffice/SB_O_CHAIR.jpg"
+    "$bumpmap"          "phase_14/maps/sellbotOffice/SB_O_CHAIR_bump.jpg"
+    
+    "$phong"            "1"
+    "$phongmask"        "phase_14/maps/sellbotOffice/SB_O_CHAIR_phongmask.jpg"
+    "$phongexponent"    "15"
+    
+    "$envmap"           "env_cubemap"
+    "$envmapmask"       "phase_14/maps/sellbotOffice/SB_O_CHAIR_specmask.jpg"
+}

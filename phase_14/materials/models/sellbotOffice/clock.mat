@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+    "$basetexture"      "phase_14/maps/sellbotOffice/SB_O_CL.png"
+    "$envmap"           "env_cubemap"
+    "$envmapmask"       "phase_14/maps/sellbotOffice/SB_O_CL_envmask.jpg"
+}

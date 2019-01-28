@@ -1,7 +1,5 @@
-VertexLitGeneric
+UnlitGeneric
 {
 	"$basetexture"			"phase_14/maps/light_glow.png"
-	"$phong"			"1"
-	"$phongexponent"	"12.5"
-	"$phongtint"		"0.0 0.0 0.0"
+	"$translucent"			"1"
 }
