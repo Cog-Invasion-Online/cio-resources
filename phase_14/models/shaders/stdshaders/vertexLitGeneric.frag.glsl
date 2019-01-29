@@ -40,6 +40,8 @@
  * - $displacement (parallax mapping)
  *
  */
+ 
+#pragma optionNV(unroll all)
 
 #pragma include "phase_14/models/shaders/stdshaders/common_lighting_frag.inc.glsl"
 #pragma include "phase_14/models/shaders/stdshaders/common_fog_frag.inc.glsl"

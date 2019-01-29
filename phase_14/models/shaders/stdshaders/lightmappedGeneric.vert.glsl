@@ -12,6 +12,8 @@
  *
  */
  
+#pragma optionNV(unroll all)
+ 
 #pragma include "phase_14/models/shaders/stdshaders/common_shadows_vert.inc.glsl"
  
 in vec4 texcoord;

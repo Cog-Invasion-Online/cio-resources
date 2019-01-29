@@ -12,6 +12,8 @@
  *
  */
  
+#pragma optionNV(unroll all)
+ 
 #pragma include "phase_14/models/shaders/stdshaders/common_fog_frag.inc.glsl"
 
 #ifdef FOG
