@@ -5,4 +5,9 @@ VertexLitGeneric
     
     "$envmap"       "env_cubemap"
     "$envmaptint"   ".1 .1 .1"
+    
+    "$rimlight"             "1"
+    "$lightwarp"            "phase_3/maps/toon_lightwarp.jpg"
+    
+    "$halflambert"		"1"
 }

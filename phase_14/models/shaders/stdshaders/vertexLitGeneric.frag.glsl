@@ -434,11 +434,11 @@ void main()
             }
         }
         
-        #if defined(BSP_LIGHTING) && defined(HAS_SHADOW_SUNLIGHT)
-            // This is cascaded shadows from a fake light source in interior lighting or BSP levels
-            DoBlendShadow(totalDiffuse.rgb, pssmSplitSampler, l_pssmCoords, sunVector[0], finalWorldNormal.xyz,
-                          ambientLightIdentifier, ambientLightMin, ambientLightScale.x);
-        #endif
+        //#if defined(BSP_LIGHTING) && defined(HAS_SHADOW_SUNLIGHT)
+        //    // This is cascaded shadows from a fake light source in interior lighting or BSP levels
+        //    DoBlendShadow(totalDiffuse.rgb, pssmSplitSampler, l_pssmCoords, sunVector[0], finalWorldNormal.xyz,
+        //                  ambientLightIdentifier, ambientLightMin, ambientLightScale.x);
+        //#endif
         
         // ====================================
         // Light summation

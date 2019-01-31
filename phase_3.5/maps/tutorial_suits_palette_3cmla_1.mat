@@ -1,4 +1,8 @@
 VertexLitGeneric
 {
 	"$basetexture"			"phase_3.5/maps/tutorial_suits_palette_3cmla_1.jpg"
+	"$rimlight"             "1"
+    "$lightwarp"            "phase_3/maps/toon_lightwarp.jpg"
+    
+    "$halflambert"		"1"
 }
