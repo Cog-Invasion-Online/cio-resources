@@ -16,6 +16,8 @@
 #define DEPTH_BIAS 0.0001
 #endif
 
+#define DO_POISSON 1
+
 #define NUM_POISSON 14
 //const vec2 poissonDisk[NUM_POISSON] = vec2[](
 //    vec2( 0.0, 0.0 ),
@@ -65,10 +67,10 @@ void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCo
 	// This is a good optimization, but will only look
 	// correct if we are using unmodified lambert shading.
 	// Lightwarps and half-lambert modify the lambertian term.
-    //
-    // We also only do this outside of BSP levels. Doing this in BSP
-    // levels will cause brush faces facing away from the fake shadows
-    // to be dark.
+	//
+	// We also only do this outside of BSP levels. Doing this in BSP
+	// levels will cause brush faces facing away from the fake shadows
+	// to be dark.
 	#if !defined(LIGHTWARP) && !defined(HALFLAMBERT) && !defined(BSP_LIGHTING) && !defined(BUMPED_LIGHTMAP) && !defined(FLAT_LIGHTMAP)
 		if (dot(eyeNormal, lightDir) < 0.0)
 			return;
@@ -77,26 +79,29 @@ void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCo
 	vec3 proj = vec3(0);
 	float depthCmp = 0.0;
 	int cascade = FindCascade(shadowCoords, proj, depthCmp);
-    lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 0);
-    lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 1);
-    lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 2);
-    lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 3);
-    lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 4);
+	lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 0);
 	
-	if (lshad > 0.1 && lshad < 4.9)
-	{
-		// pixel was not totally in light or totally in shadow
-		// do more samples
-		for (int i = 5; i < NUM_POISSON; i++)
-		{
-			lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, i);
-		}
+	#if DO_POISSON
+		lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 1);
+		lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 2);
+		lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 3);
+		lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, 4);
 		
-		lshad /= NUM_POISSON;
-        return;
-	}
+		if (lshad > 0.1 && lshad < 4.9)
+		{
+			// pixel was not totally in light or totally in shadow
+			// do more samples
+			for (int i = 5; i < NUM_POISSON; i++)
+			{
+				lshad += SampleCascade(shadowSampler, proj, depthCmp, cascade, i);
+			}
+			
+			lshad /= NUM_POISSON;
+			return;
+		}
 
-    lshad /= 5;
+		lshad /= 5;
+	#endif
 }
 
 void DoBlendShadow(inout vec3 diffuseLighting, sampler2DArray shadowSampler,
