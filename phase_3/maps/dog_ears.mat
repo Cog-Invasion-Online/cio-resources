@@ -1,7 +1,7 @@
 VertexLitGeneric
 {
     "$rimlight"             "1"
-    "$rimlightboost"        "10"
+    "$rimlightboost"        "2"
     "$lightwarp"            "phase_3/maps/toon_lightwarp.jpg"
     
     "$phong"            "1"
