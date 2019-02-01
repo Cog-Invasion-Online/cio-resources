@@ -3,6 +3,6 @@ VertexLitGeneric
 	"$basetexture"			"phase_3/maps/avatar_palette_2tmla_1.jpg"
 	"$basetexture_alpha"	"phase_3/maps/avatar_palette_2tmla_1_a.rgb"
 	"$translucent"			"1"
-	
-	"$envmap"				"env_cubemap"
+    
+    "$halflambert"		"1"
 }

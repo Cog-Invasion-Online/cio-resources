@@ -3,4 +3,6 @@ VertexLitGeneric
 	"$basetexture"			"phase_3/maps/eyesFemale.jpg"
 	"$basetexture_alpha"	"phase_3/maps/eyesFemale_a.rgb"
 	"$translucent"			"1"
+    
+    "$halflambert"		"1"
 }
