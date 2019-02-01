@@ -1,6 +1,6 @@
 VertexLitGeneric
 {
-    "$basetexture"	"phase_14/maps/tsasleeve_creative.jpg"
+    "$basetexture"	"phase_4/maps/tsasleeve_creative.jpg"
 
     "$rimlight"         "1"
     "$lightwarp"        "phase_3/maps/toon_lightwarp.jpg"
