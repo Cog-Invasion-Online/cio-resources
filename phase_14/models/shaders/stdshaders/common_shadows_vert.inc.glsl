@@ -28,7 +28,7 @@ void ComputeShadowPositions(vec3 worldNormal, vec4 worldPosition, vec3 sunVector
     #endif
     
     // Compute a normal offset bias for the shadow position.
-    float cosSun = dot(sunVector, worldNormal.xyz);
+    float cosSun = dot(-sunVector, worldNormal.xyz);
     float slopeScale = clamp(1 - cosSun, 0, 1);
     // NORMAL_OFFSET_SCALE: constant value suppled in config prc
     float normalOffsetScale = slopeScale * NORMAL_OFFSET_SCALE * SHADOW_TEXEL_SIZE;
