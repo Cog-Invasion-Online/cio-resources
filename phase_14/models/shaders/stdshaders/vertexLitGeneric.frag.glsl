@@ -22,6 +22,7 @@
  * - $halflambert
  * - $lightwarp
  * - $alpha/$translucent
+ * - $selfillum
  * 
  * And these render effects:
  * - Clip planes
@@ -35,7 +36,6 @@
  * - Output normals/glow to auxiliary buffer
  * 
  * Will eventually support:
- * - $selfillum (glowing parts of model)
  * - $detail (finer detail at close distance)
  * - $displacement (parallax mapping)
  *
@@ -97,6 +97,11 @@ in vec4 l_texcoord;
     #ifdef ENVMAP_MASK
         uniform sampler2D envmapMaskSampler;
     #endif
+#endif
+
+#ifdef SELFILLUM
+    uniform sampler2D selfillumSampler; // mask for selfillum
+    uniform vec3 selfillumTint;
 #endif
 
 #ifdef NEED_WORLD_VEC
@@ -448,43 +453,50 @@ void main()
             totalLight = clamp(totalLight, 0, 1);
         #endif
         
-        vec4 result = vec4(totalLight.rgb, 1.0);
+        vec4 diffuseLighting = vec4(totalLight.rgb, 1.0);
         
         // ======================================
         
     #else // LIGHTING
     
         // No lighting, pixel starts fullbright.
-        vec4 result = vec4(1.0);
+        vec4 diffuseLighting = vec4(1.0);
         
     #endif // LIGHTING
     
+    // Modulate with vertex/flat colors
+    #ifdef COLOR_VERTEX
+        diffuseLighting *= l_color;
+    #elif defined(COLOR_FLAT)
+        diffuseLighting *= p3d_Color;
+    #endif
+
+	diffuseLighting *= p3d_ColorScale;
+    
     // Modulate with albedo
     #ifdef BASETEXTURE
-        result.rgb *= albedo.rgb;
+        diffuseLighting.rgb *= albedo.rgb;
         
         #ifdef TRANSLUCENT
-            result.a *= albedo.a;
+            diffuseLighting.a *= albedo.a;
         #endif
     #endif
     
-    // Modulate with vertex/flat colors
-    #ifdef COLOR_VERTEX
-        result *= l_color;
-    #elif defined(COLOR_FLAT)
-        result *= p3d_Color;
+    #ifdef SELFILLUM
+        vec3 selfillumMask = texture2D(selfillumSampler, l_texcoord.xy).rgb;
+        diffuseLighting.rgb = mix(diffuseLighting.rgb, selfillumTint * albedo.rgb, selfillumMask);
     #endif
-
-	result *= p3d_ColorScale;
+    
+    vec3 specularLighting = vec3(0);
     
     #ifdef LIGHTING
         vec3 totalRimSpec = totalSpecular.rgb + totalRim.rgb;
         #ifndef HDR
             totalRimSpec = clamp(totalRimSpec, 0, 1);
         #endif
-        result.rgb += totalRimSpec;
+        specularLighting += totalRimSpec;
     #endif
-
+    
     #ifdef ENVMAP
 
         vec3 spec = SampleCubeMap(l_worldEyeToVert.xyz, finalWorldNormal, vec3(0), envmapSampler).rgb;
@@ -504,9 +516,11 @@ void main()
         // calc fresnel factor
         spec *= Fresnel(l_worldNormal.xyz, normalize(l_worldEyeToVert.xyz));
         
-        result.rgb += spec;
+        specularLighting += spec;
 	
     #endif
+    
+    vec4 result = diffuseLighting + vec4(specularLighting.rgb, 0.0);
     
     // Explicit alpha value from material.
     #ifdef ALPHA
