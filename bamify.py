@@ -25,7 +25,13 @@ np = NodePath(node)
 meshes = np.findAllMatches("**/+GeomNode")
 for meshNp in meshes:
     mat_file = raw_input("Material file for mesh `{0}`: ".format(meshNp.getName()))
-    meshNp.setAttrib(BSPMaterialAttrib.make(BSPMaterial.getFromFile(mat_file)))
+    mat = BSPMaterial.getFromFile(mat_file)
+    meshNp.setAttrib(BSPMaterialAttrib.make(mat))
+    if ((mat.hasKeyvalue("$translucent") and int(mat.getKeyvalue("$translucent")) == 1) or
+        (mat.hasKeyvalue("$alpha") and float(mat.getKeyvalue("$alpha")) < 1.0)):
+        
+        print meshNp.getName(), "has $translucent or $alpha"
+        meshNp.setTransparency(1)
     
 lbr()
     
