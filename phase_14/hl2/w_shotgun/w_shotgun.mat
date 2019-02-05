@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"      "phase_14/hl2/w_shotgun/w_shotgun.png"
+	"$envmap"           "env_cubemap"
+    "$envmapmask"       "phase_14/hl2/w_shotgun/w_shotgun_envmask.png"
+	"$bumpmap"          "phase_14/hl2/w_shotgun/w_shotgun_normal.png"
+}
