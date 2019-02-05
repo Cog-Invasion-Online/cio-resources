@@ -1,0 +1,6 @@
+VertexLitGeneric
+{
+    "$basetexture"      "phase_14/maps/sellbotOffice/ceilingspotlight.png"
+    "$selfillum"        "1"
+    "$selfillummask"    "phase_14/maps/sellbotOffice/ceilingspotlight_selfillum.png"
+}

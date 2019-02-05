@@ -1,0 +1,5 @@
+UnlitGeneric
+{
+    "$basetexture"  "phase_4/maps/water3_NEW.jpg"
+    "$alpha"        "0.6"
+}
