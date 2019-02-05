@@ -1,0 +1,5 @@
+VertexLitGeneric
+{
+	// Original shader: VertexLitTexture
+	"$basetexture" "phase_14/hl2/casing01.png"
+}

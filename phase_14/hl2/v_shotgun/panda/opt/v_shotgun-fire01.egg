@@ -1,0 +1,320 @@
+<CoordinateSystem> { Z-Up }
+
+<Comment> {
+  "egg-optchar -d opt -keepall -flag arm -flag shell -flag shotgun v_shotgun.egg v_shotgun-altfire.egg v_shotgun-draw.egg v_shotgun-dryfire.egg v_shotgun-fire.egg v_shotgun-fire01.egg v_shotgun-holster.egg v_shotgun-idle_to_lowered.egg v_shotgun-idle01.egg v_shotgun-lowered.egg v_shotgun-lowered_to_idle.egg v_shotgun-pump.egg v_shotgun-reload1.egg v_shotgun-reload2.egg v_shotgun-reload3.egg"
+}
+<Table> {
+  <Bundle> v_shotgun.qc_skeleton {
+    <Table> "<skeleton>" {
+      <Table> ValveBiped.Bip01 {
+        <Xfm$Anim_S$> xform {
+          <Scalar> fps { 24 }
+          <Char*> order { sprht }
+          <S$Anim> i { <V> { 0.0625 } }
+          <S$Anim> j { <V> { 0.0625 } }
+          <S$Anim> k { <V> { 0.0625 } }
+          <S$Anim> p { <V> { 89.999975 } }
+          <S$Anim> x { <V> { -0.312575 } }
+          <S$Anim> y { <V> { -0.569486 } }
+          <S$Anim> z { <V> { -1.839453 } }
+        }
+        <Table> ValveBiped.Bip01_Spine {
+          <Xfm$Anim_S$> xform {
+            <Scalar> fps { 24 }
+            <Char*> order { sprht }
+            <S$Anim> h { <V> { 89.999982 } }
+            <S$Anim> p { <V> { 89.999975 } }
+            <S$Anim> r { <V> { 4.944222 } }
+            <S$Anim> y { <V> { 3.345128 } }
+            <S$Anim> z { <V> { -2.981897 } }
+          }
+          <Table> ValveBiped.Bip01_Spine1 {
+            <Xfm$Anim_S$> xform {
+              <Scalar> fps { 24 }
+              <Char*> order { sprht }
+              <S$Anim> h { <V> { -1.675447 } }
+              <S$Anim> x { <V> { 4.018332 } }
+            }
+            <Table> ValveBiped.Bip01_Spine2 {
+              <Xfm$Anim_S$> xform {
+                <Scalar> fps { 24 }
+                <Char*> order { sprht }
+                <S$Anim> h { <V> { 5.74883 } }
+                <S$Anim> x { <V> { 3.518569 } }
+              }
+              <Table> ValveBiped.Bip01_Spine4 {
+                <Xfm$Anim_S$> xform {
+                  <Scalar> fps { 24 }
+                  <Char*> order { sprht }
+                  <S$Anim> h { <V> { 11.120882 } }
+                  <S$Anim> x { <V> { 8.942645 } }
+                }
+                <Table> ValveBiped.Bip01_L_Clavicle {
+                  <Xfm$Anim_S$> xform {
+                    <Scalar> fps { 24 }
+                    <Char*> order { sprht }
+                    <S$Anim> h { <V> { -11.3807 } }
+                    <S$Anim> p { <V> { -88.519498 } }
+                    <S$Anim> r { <V> { -106.288105 } }
+                    <S$Anim> x { <V> { 2.033349 } }
+                    <S$Anim> y { <V> { 1.000768 } }
+                    <S$Anim> z { <V> { 1.93766 } }
+                  }
+                  <Table> ValveBiped.Bip01_L_UpperArm {
+                    <Xfm$Anim_S$> xform {
+                      <Scalar> fps { 24 }
+                      <Char*> order { sprht }
+                      <S$Anim> h {
+                        <V> {
+                          -90.7145 -87.142 -85.774 -86.7417 -90.1217
+                          -96.7236 -106.619 -111.493 -111.725 -109.502
+                        }
+                      }
+                      <S$Anim> p {
+                        <V> {
+                          -10.3221 -16.1905 -23.1798 -28.7492 -32.1586
+                          -31.9878 -27.0434 -23.7011 -23.4821 -24.9756
+                        }
+                      }
+                      <S$Anim> r {
+                        <V> {
+                          -43.4398 -43.5896 -44.4465 -46.135 -49.1124
+                          -53.6293 -58.5012 -60.2199 -60.2577 -59.4756
+                        }
+                      }
+                      <S$Anim> x { <V> { 6.028144 } }
+                    }
+                    <Table> ValveBiped.Bip01_L_Forearm {
+                      <Xfm$Anim_S$> xform {
+                        <Scalar> fps { 24 }
+                        <Char*> order { sprht }
+                        <S$Anim> h {
+                          <V> {
+                            -119.569 -115.934 -109.339 -100.219 -87.7331
+                            -71.4287 -54.0218 -46.8656 -46.045 -48.2432
+                          }
+                        }
+                        <S$Anim> x { <V> { 11.692557 } }
+                      }
+                      <Table> ValveBiped.Bip01_L_Hand {
+                        <Xfm$Anim_S$> xform {
+                          <Scalar> fps { 24 }
+                          <Char*> order { sprht }
+                          <S$Anim> h {
+                            <V> {
+                              66.8402 57.6442 47.5056 39.2975 31.0894
+                              22.1997 13.8078 11.1482 11.33 12.0848
+                            }
+                          }
+                          <S$Anim> p {
+                            <V> {
+                              -37.2868 -32.1805 -26.9329 -24.7693
+                              -23.8401 -23.5005 -23.6574 -24.4849
+                              -25.221 -25.3796
+                            }
+                          }
+                          <S$Anim> r {
+                            <V> {
+                              -16.9857 -15.2249 -10.5038 -4.49486
+                              1.58033 7.00996 10.9153 12.3069 12.5966
+                              12.1202
+                            }
+                          }
+                          <S$Anim> x { <V> { 11.481673 } }
+                        }
+                        <Table> ValveBiped.Bip01_L_Finger4 {
+                          <Xfm$Anim_S$> xform {
+                            <Scalar> fps { 24 }
+                            <Char*> order { sprht }
+                            <S$Anim> h { <V> { -76.07212 } }
+                            <S$Anim> p { <V> { -28.806999 } }
+                            <S$Anim> r { <V> { -14.030301 } }
+                            <S$Anim> x { <V> { 3.859704 } }
+                            <S$Anim> y { <V> { -0.142405 } }
+                            <S$Anim> z { <V> { -1.191975 } }
+                          }
+                          <Table> ValveBiped.Bip01_L_Finger41 {
+                            <Xfm$Anim_S$> xform {
+                              <Scalar> fps { 24 }
+                              <Char*> order { sprht }
+                              <S$Anim> h { <V> { -15.7725 } }
+                              <S$Anim> x { <V> { 1.312563 } }
+                            }
+                            <Table> ValveBiped.Bip01_L_Finger42 {
+                              <Xfm$Anim_S$> xform {
+                                <Scalar> fps { 24 }
+                                <Char*> order { sprht }
+                                <S$Anim> h { <V> { -5.358306 } }
+                                <S$Anim> x { <V> { 0.729363 } }
+                              }
+                            }
+                          }
+                        }
+                        <Table> ValveBiped.Bip01_L_Finger3 {
+                          <Xfm$Anim_S$> xform {
+                            <Scalar> fps { 24 }
+                            <Char*> order { sprht }
+                            <S$Anim> h { <V> { -54.111159 } }
+                            <S$Anim> p { <V> { -14.524023 } }
+                            <S$Anim> r { <V> { -8.028918 } }
+                            <S$Anim> x { <V> { 3.942323 } }
+                            <S$Anim> y { <V> { 0.046769 } }
+                            <S$Anim> z { <V> { -0.431444 } }
+                          }
+                          <Table> ValveBiped.Bip01_L_Finger31 {
+                            <Xfm$Anim_S$> xform {
+                              <Scalar> fps { 24 }
+                              <Char*> order { sprht }
+                              <S$Anim> h { <V> { -24.22477 } }
+                              <S$Anim> x { <V> { 1.539092 } }
+                            }
+                            <Table> ValveBiped.Bip01_L_Finger32 {
+                              <Xfm$Anim_S$> xform {
+                                <Scalar> fps { 24 }
+                                <Char*> order { sprht }
+                                <S$Anim> h { <V> { -39.289041 } }
+                                <S$Anim> x { <V> { 1.196321 } }
+                              }
+                            }
+                          }
+                        }
+                        <Table> ValveBiped.Bip01_L_Finger2 {
+                          <Xfm$Anim_S$> xform {
+                            <Scalar> fps { 24 }
+                            <Char*> order { sprht }
+                            <S$Anim> h { <V> { -32.739894 } }
+                            <S$Anim> p { <V> { -2.79025 } }
+                            <S$Anim> r { <V> { -8.563543 } }
+                            <S$Anim> x { <V> { 3.883687 } }
+                            <S$Anim> y { <V> { -0.046771 } }
+                            <S$Anim> z { <V> { 0.431441 } }
+                          }
+                          <Table> ValveBiped.Bip01_L_Finger21 {
+                            <Xfm$Anim_S$> xform {
+                              <Scalar> fps { 24 }
+                              <Char*> order { sprht }
+                              <S$Anim> h { <V> { -45.24263 } }
+                              <S$Anim> x { <V> { 1.719573 } }
+                            }
+                            <Table> ValveBiped.Bip01_L_Finger22 {
+                              <Xfm$Anim_S$> xform {
+                                <Scalar> fps { 24 }
+                                <Char*> order { sprht }
+                                <S$Anim> h { <V> { -36.590403 } }
+                                <S$Anim> x { <V> { 1.209186 } }
+                              }
+                            }
+                          }
+                        }
+                        <Table> ValveBiped.Bip01_L_Finger1 {
+                          <Xfm$Anim_S$> xform {
+                            <Scalar> fps { 24 }
+                            <Char*> order { sprht }
+                            <S$Anim> h { <V> { -26.967865 } }
+                            <S$Anim> p { <V> { 13.366935 } }
+                            <S$Anim> r { <V> { -11.505566 } }
+                            <S$Anim> x { <V> { 3.85986 } }
+                            <S$Anim> y { <V> { -0.137946 } }
+                            <S$Anim> z { <V> { 1.332468 } }
+                          }
+                          <Table> ValveBiped.Bip01_L_Finger11 {
+                            <Xfm$Anim_S$> xform {
+                              <Scalar> fps { 24 }
+                              <Char*> order { sprht }
+                              <S$Anim> h { <V> { -48.77435 } }
+                              <S$Anim> x { <V> { 1.71943 } }
+                            }
+                            <Table> ValveBiped.Bip01_L_Finger12 {
+                              <Xfm$Anim_S$> xform {
+                                <Scalar> fps { 24 }
+                                <Char*> order { sprht }
+                                <S$Anim> h { <V> { -41.395116 } }
+                                <S$Anim> x { <V> { 1.099663 } }
+                              }
+                            }
+                          }
+                        }
+                        <Table> ValveBiped.Bip01_L_Finger0 {
+                          <Xfm$Anim_S$> xform {
+                            <Scalar> fps { 24 }
+                            <Char*> order { sprht }
+                            <S$Anim> h { <V> { -73.911724 } }
+                            <S$Anim> p { <V> { -52.689012 } }
+                            <S$Anim> r { <V> { -29.885308 } }
+                            <S$Anim> x { <V> { 0.806042 } }
+                            <S$Anim> y { <V> { -0.348924 } }
+                            <S$Anim> z { <V> { 1.321255 } }
+                          }
+                          <Table> ValveBiped.Bip01_L_Finger01 {
+                            <Xfm$Anim_S$> xform {
+                              <Scalar> fps { 24 }
+                              <Char*> order { sprht }
+                              <S$Anim> h { <V> { 14.809126 } }
+                              <S$Anim> x { <V> { 1.789787 } }
+                            }
+                            <Table> ValveBiped.Bip01_L_Finger02 {
+                              <Xfm$Anim_S$> xform {
+                                <Scalar> fps { 24 }
+                                <Char*> order { sprht }
+                                <S$Anim> h { <V> { 4.830034 } }
+                                <S$Anim> x { <V> { 1.206995 } }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              <Table> ValveBiped.Gun {
+                <Xfm$Anim_S$> xform {
+                  <Scalar> fps { 24 }
+                  <Char*> order { sprht }
+                  <S$Anim> p {
+                    <V> {
+                      -89.1291 -93.3388 -97.0433 -97.3219 -96.0544
+                      -93.9787 -91.5906 -89.4812 -88.1861 -88.2688
+                    }
+                  }
+                  <S$Anim> r { <V> { -89.999996 } }
+                  <S$Anim> x {
+                    <V> {
+                      13.036 12.997 13.1766 13.1884 13.0673 12.829
+                      12.536 12.2704 12.0633 11.9422
+                    }
+                  }
+                  <S$Anim> y {
+                    <V> {
+                      11.2164 12.1305 13.7126 15.8455 18.4042 21.1699
+                      23.5059 24.3653 24.5332 24.3106
+                    }
+                  }
+                  <S$Anim> z { <V> { -4.014897 } }
+                }
+                <Table> ValveBiped.Pump {
+                  <Xfm$Anim_S$> xform {
+                    <Scalar> fps { 24 }
+                    <Char*> order { sprht }
+                    <S$Anim> x { <V> { -0.004455 } }
+                    <S$Anim> y { <V> { -0.545139 } }
+                    <S$Anim> z { <V> { -2.13655 } }
+                  }
+                }
+                <Table> ValveBiped.square {
+                  <Xfm$Anim_S$> xform {
+                    <Scalar> fps { 24 }
+                    <Char*> order { sprht }
+                    <S$Anim> x { <V> { 0.009659 } }
+                    <S$Anim> y { <V> { -6.406694 } }
+                    <S$Anim> z { <V> { -21.60853 } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
