@@ -6,55 +6,6 @@
 <Comment> {
   "egg-trans -o phase_14/models/props/waterpellet.egg -tbnall phase_14/models/props/waterpellet.egg"
 }
-<Group> glow {
-  <Billboard> { point_world }
-  <Transform> {
-    <Matrix4> {
-      -1 -3.25841369885893e-07 0 0
-      0 4.37113882867379e-08 1 0
-      -3.25841369885893e-07 1 -4.37113882867379e-08 0
-      0 0 0 1
-    }
-  }
-  <VertexPool> glow {
-    <Vertex> 0 {
-      -0.503184 0.306012 -0.503184
-      <UV> {
-        0.9999 0.0001
-        <Tangent> { -1 0 0 }
-        <Binormal> { 0 0 1 }
-      }
-    }
-    <Vertex> 1 {
-      -0.503184 0.306012 0.503184
-      <UV> {
-        0.9999 0.9999
-        <Tangent> { -1 0 0 }
-        <Binormal> { 0 0 1 }
-      }
-    }
-    <Vertex> 2 {
-      0.503183 0.306013 -0.503184
-      <UV> {
-        0.0001 0.0001
-        <Tangent> { -1 0 0 }
-        <Binormal> { 0 0 1 }
-      }
-    }
-    <Vertex> 3 {
-      0.503183 0.306013 0.503184
-      <UV> {
-        0.0001 0.9999
-        <Tangent> { -1 0 0 }
-        <Binormal> { 0 0 1 }
-      }
-    }
-  }
-  <Polygon> {
-    <Normal> { 0 -1 0 }
-    <VertexRef> { 2 3 1 0 <Ref> { glow } }
-  }
-}
 <Group> pellet {
   <Transform> {
     <Matrix4> {

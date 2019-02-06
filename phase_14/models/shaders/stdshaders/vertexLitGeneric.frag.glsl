@@ -355,7 +355,10 @@ void main()
             lvec = vec3(0);
             
             lightType = lightTypes[i];
-
+            
+            // FIXME: make Panda point and spotlights work in
+            //        our shader system
+            #ifdef BSP_LIGHTING
             if (lightType == LIGHTTYPE_POINT)
             {
                 
@@ -380,33 +383,6 @@ void main()
                 DoGetSpecular(lattenv, finalEyeNormal, l_eyePosition, finalPhongExp,
                               finalPhongTint, lvec, totalSpecular.rgb, lcolor, albedo);
 
-            }
-            else if (lightType == LIGHTTYPE_DIRECTIONAL)
-            {
-                totalDiffuse.rgb += GetDirectionalLight(ldir, lcolor, finalEyeNormal, lvec,
-                                                #ifdef HALFLAMBERT
-                                                    true,
-                                                #else
-                                                    false,
-                                                #endif // HALFLAMBERT
-                    
-                                                #ifdef LIGHTWARP
-                                                    true, lightwarpSampler
-                                                #else
-                                                    false, baseTextureSampler
-                                                #endif // LIGHTWARP
-                    
-                                                #ifdef HAS_SHADOW_SUNLIGHT
-                                                    , true, pssmSplitSampler, l_pssmCoords, lshad
-                                                #endif // HAS_SHADOW_SUNLIGHT
-                );
-                
-                // use the shadow value as the falloff.
-                // we shouldn't see any specular if the pixel is in shadow,
-                // and the sun doesn't actually have a real falloff.
-                DoGetSpecular(lshad, finalEyeNormal, l_eyePosition, finalPhongExp,
-                              finalPhongTint, ldir.xyz, totalSpecular.rgb,
-                              lcolor, albedo);
             }
             else if (lightType == LIGHTTYPE_SPOT)
             {
@@ -436,6 +412,36 @@ void main()
                 
                 DoGetSpecular(lattenv, finalEyeNormal, l_eyePosition, finalPhongExp,
                               finalPhongTint, lvec, totalSpecular.rgb, lcolor, albedo);
+            }
+            else if (lightType == LIGHTTYPE_DIRECTIONAL)
+            #else // BSP_LIGHTING
+            if (lightType == LIGHTTYPE_DIRECTIONAL)
+            #endif // BSP_LIGHTING
+            {
+                totalDiffuse.rgb += GetDirectionalLight(ldir, lcolor, finalEyeNormal, lvec,
+                                                #ifdef HALFLAMBERT
+                                                    true,
+                                                #else
+                                                    false,
+                                                #endif // HALFLAMBERT
+                    
+                                                #ifdef LIGHTWARP
+                                                    true, lightwarpSampler
+                                                #else
+                                                    false, baseTextureSampler
+                                                #endif // LIGHTWARP
+                    
+                                                #ifdef HAS_SHADOW_SUNLIGHT
+                                                    , true, pssmSplitSampler, l_pssmCoords, lshad
+                                                #endif // HAS_SHADOW_SUNLIGHT
+                );
+                
+                // use the shadow value as the falloff.
+                // we shouldn't see any specular if the pixel is in shadow,
+                // and the sun doesn't actually have a real falloff.
+                DoGetSpecular(lshad, finalEyeNormal, l_eyePosition, finalPhongExp,
+                              finalPhongTint, ldir.xyz, totalSpecular.rgb,
+                              lcolor, albedo);
             }
         }
         

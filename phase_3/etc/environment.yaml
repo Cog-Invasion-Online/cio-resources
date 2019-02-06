@@ -31,4 +31,4 @@ shaders:
   dl:
    sky-type: 4
    outdoor-ambient-color: [82, 132, 190, 100]
-   sun-color: [224, 213, 208, 0]
+   sun-color: [0, 0, 0, 255]
