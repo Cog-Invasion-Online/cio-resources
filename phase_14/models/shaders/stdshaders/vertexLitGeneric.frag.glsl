@@ -282,7 +282,8 @@ void main()
 
     #ifdef PHONG
         #ifdef PHONG_EXP_TEX
-            float finalPhongExp = texture2D(phongExponentTexture, l_texcoord.xy).r;
+            // Texels in range of 0-1 will be a phong exponent in range of 0-150
+            float finalPhongExp = texture2D(phongExponentTexture, l_texcoord.xy).r * 150.0;
         #else // PHONG_EXP_TEX
             float finalPhongExp = phongExponent.x;
         #endif
