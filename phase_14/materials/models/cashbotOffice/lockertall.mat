@@ -1,12 +1,12 @@
 VertexLitGeneric
 {
-    "$basetexture"      "phase_14/maps/cashbotOffice/lockertall_diffuse.png"
-    "$bumpmap"          "phase_14/maps/cashbotOffice/lockertall_normal.png"
+    "$basetexture"      "phase_14/maps/cashbotOffice/CashbotProps_LockerTall_Diffuse.png"
+    "$bumpmap"          "phase_14/maps/cashbotOffice/CashbotProps_LockerTall_Normal.png"
     
     "$phong"            "1"
-    "$phongmask"        "phase_14/maps/cashbotOffice/lockertall_phongmask.png"
-    "$phongexponent"    "50"
+    "$phongmask"        "phase_14/maps/cashbotOffice/CashbotProps_LockerTall_Specular.png"
+    "$phongexponenttexture"    "phase_14/maps/cashbotOffice/CashbotProps_LockerTall_Glossiness.png"
     
     "$envmap"           "env_cubemap"
-    "$envmapmask"       "phase_14/maps/cashbotOffice/lockertall_specmask.png"
+    "$envmapmask"       "phase_14/maps/cashbotOffice/CashbotProps_LockerTall_Specular.png"
 }
