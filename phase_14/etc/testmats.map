@@ -73,7 +73,7 @@
 "propsources" ""
 "_fade" "1.0"
 "_falloff" "0"
-"origin" "256 0 128"
+"origin" "256.0 128.000000149011144 128.0"
 </entity>
 <entity>
 "classname" "env_cubemap"
@@ -160,4 +160,160 @@
 "_distance" "0"
 "pitch" "0"
 "origin" "-255.99999999999958873458442421 -0.00000000000000000000108153 63.99999999999999999999999971"
+</entity>
+<entity>
+"classname" "light"
+"_constant_attn" "0"
+"_fade" "1.0"
+"_falloff" "0"
+"_fifty_percent_distance" "0"
+"_hardfalloff" "0"
+"_light" "255 255 255 300"
+"_linear_attn" "0"
+"_quadratic_attn" "1"
+"_zero_percent_distance" "0"
+"pattern" ""
+"propsources" ""
+"style" "0"
+"target" ""
+"targetname" ""
+"origin" "256.00000000 448.00000000 128.00000000"
+</entity>
+<entity>
+"classname" "light"
+"_constant_attn" "0"
+"_fade" "1.0"
+"_falloff" "0"
+"_fifty_percent_distance" "0"
+"_hardfalloff" "0"
+"_light" "255 255 255 300"
+"_linear_attn" "0"
+"_quadratic_attn" "1"
+"_zero_percent_distance" "0"
+"pattern" ""
+"propsources" ""
+"style" "0"
+"target" ""
+"targetname" ""
+"origin" "256.00000000 -64.00000000 128.00000000"
+</entity>
+<entity>
+"classname" "light"
+"_constant_attn" "0"
+"_fade" "1.0"
+"_falloff" "0"
+"_fifty_percent_distance" "0"
+"_hardfalloff" "0"
+"_light" "255 255 255 300"
+"_linear_attn" "0"
+"_quadratic_attn" "1"
+"_zero_percent_distance" "0"
+"pattern" ""
+"propsources" ""
+"style" "0"
+"target" ""
+"targetname" ""
+"origin" "256.00000000 -256.00000000 128.00000000"
+</entity>
+<entity>
+"classname" "light"
+"_constant_attn" "0"
+"_fade" "1.0"
+"_falloff" "0"
+"_fifty_percent_distance" "0"
+"_hardfalloff" "0"
+"_light" "255 255 255 300"
+"_linear_attn" "0"
+"_quadratic_attn" "1"
+"_zero_percent_distance" "0"
+"pattern" ""
+"propsources" ""
+"style" "0"
+"target" ""
+"targetname" ""
+"origin" "256.00000000 -448.00000000 128.00000000"
+</entity>
+<entity>
+"classname" "npc_suit"
+"spawnflags" "8"
+"angles" "0 155 0"
+"targetname" ""
+"suitPlan" "18"
+"variant" "0"
+"level" "7"
+"origin" "380.24211283461171781031589490 -164.32826546455753123089675380 0.00000000000000000000000041"
+</entity>
+<entity>
+"classname" "npc_toon"
+"angles" "0 0 0"
+"targetname" ""
+"npcId" "20001"
+"name" ""
+"origin" "0.00005007188876600408823003 -191.99997707170915880000117689 0.00000000000000000000000090"
+</entity>
+<entity>
+"classname" "info_hint_cover"
+"targetname" ""
+"origin" "-256.00000479516796765709309770 416.00000000000004302924650213 0.000000000000000000000000412"
+</entity>
+<entity>
+"classname" "info_hint_cover"
+"targetname" ""
+"origin" "-352.00000480 320.00000041 0.00000000"
+</entity>
+<entity>
+"classname" "info_hint_cover"
+"targetname" ""
+"origin" "-160.00000480 320.00000000 0.00000000"
+</entity>
+<entity>
+"classname" "info_hint_cover"
+"targetname" ""
+"origin" "-255.99999480 224.00000000 0.00000000"
+</entity>
+<entity>
+"classname" "info_hint_cover"
+"targetname" ""
+"origin" "256.00000520 224.00000000 0.00000000"
+</entity>
+<entity>
+"classname" "info_hint_cover"
+"targetname" ""
+"origin" "351.99999520 320.00000000 0.00000000"
+</entity>
+<entity>
+"classname" "info_hint_cover"
+"targetname" ""
+"origin" "256.00000520 416.00000000 0.00000000"
+</entity>
+<entity>
+"classname" "info_hint_cover"
+"targetname" ""
+"origin" "159.99999520 320.00000000 0.00000000"
+</entity>
+<entity>
+"classname" "npc_suit"
+"spawnflags" "8"
+"angles" "0 155 0"
+"level" "10"
+"suitPlan" "22"
+"targetname" ""
+"variant" "0"
+"origin" "-223.99998717 -351.99996546 0.00000000"
+</entity>
+<entity>
+"classname" "npc_toon"
+"angles" "0 220 0"
+"name" "Professor Pete"
+"npcId" "1"
+"targetname" ""
+"origin" "-31.99999993 -63.99997707 0.00000000"
+</entity>
+<entity>
+"classname" "npc_toon"
+"angles" "0 267 0"
+"name" "Tutorial Tom"
+"npcId" "0"
+"targetname" ""
+"origin" "64.00000007 192.00002293 0.00000000"
 </entity>

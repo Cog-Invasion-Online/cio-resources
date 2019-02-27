@@ -571,16 +571,8 @@
 //
 @PointClass base(Targetname, Angles) size(-20, -20, 0, 20, 20, 60) = npc_toon : "NPC Toon"
 [
-    npc(choices) : "Which NPC" : 0 =
-    [
-        0 : "Random"
-        1 : "Flippy"
-        2 : "Alec Tinn"
-        3 : "Professor Prepostera"
-        4 : "Doctor Dimm"
-        5 : "Doctor Surlee"
-        6 : "HQ Harry"
-    ]
+	npcId(integer)	:	"ID of NPC (instead of name)"	:	0
+	name(string)	:	"Name of NPC (instead of ID)"	:	""
 ]
 
 @PointClass base(Targetname, Angles) size(-100, -100, 0, 100, 100, 200) = item_sillymeter : "Silly Meter"
@@ -814,4 +806,8 @@
 @PointClass base(Angles) = shadow_control : "Controls shadow appearance"
 [
     color(color255) : "Shadow color" : "127 127 127 255"
+]
+
+@PointClass base(Targetname) = info_hint_cover : "Cover hint location"
+[
 ]

@@ -1,7 +1,15 @@
 // Filename: toon.dc
 // Created by: DuckyDuck1553 (17June14)
 
+keyword udp;
+
 from src.coginvasion.avatar import DistributedAvatar/AI
+from src.coginvasion.avatar.BaseProjectile import BaseProjectile/AI
+from src.coginvasion.avatar.BaseProjectile import LinearProjectile/AI
+from src.coginvasion.avatar.BaseProjectile import LobProjectile/AI
+from src.coginvasion.gagsnew.WholeCreamPie import WholeCreamPieProjectile/AI
+from src.coginvasion.gagsnew.TNT import TNTProjectile/AI
+from src.coginvasion.cog.attacks.ClipOnTie import ClipOnTieProjectile/AI
 from src.coginvasion.toon import DistributedToon/AI
 from src.coginvasion.toon import DistributedPlayerToon/AI/UD
 from src.coginvasion.toon import DistributedNPCToon/AI
@@ -39,11 +47,6 @@ from src.coginvasion.holiday import HolidayManager/AI/UD
 from src.coginvasion.holiday import DistributedWinterCoachActivity/AI
 from src.coginvasion.uber import NameServicesManager/UD
 from src.coginvasion.cog import DistributedSuit/AI
-from src.coginvasion.cog import DistributedDroppableCollectableObject/AI
-from src.coginvasion.cog import DistributedDroppableCollectableJellybeans/AI
-from src.coginvasion.cog import DistributedDroppableCollectableJellybeanJar/AI
-from src.coginvasion.cog import DistributedDroppableCollectableJellybean/AI
-from src.coginvasion.cog import DistributedDroppableCollectableBackpack/AI
 from src.coginvasion.hood.playground import DistributedTreasure/AI
 from src.coginvasion.hood.playground import DistributedTTCTreasure/AI
 from src.coginvasion.hood.playground import DistributedTBTreasure/AI
@@ -82,7 +85,6 @@ from src.coginvasion.quest import DistributedInspectionSite/AI
 from src.coginvasion.quest import DistributedDigSite/AI
 from src.coginvasion.uber import UniqueInterestNotifier/AI/UD
 from src.coginvasion.phys import DistributedPhysicsEntity/AI
-from src.coginvasion.phys import DistributedTNT/AI/OV
 from src.coginvasion.szboss.sewer import DistributedSewer/AI
 from src.coginvasion.szboss.DistributedTrigger/AI import DistributedTriggerOnce/AI
 from src.coginvasion.szboss.DistributedTrigger/AI import DistributedTriggerMultiple/AI
@@ -94,6 +96,7 @@ from src.coginvasion.szboss import DistributedIndicatorLight/AI
 from src.coginvasion.szboss import DistributedButton/AI
 from src.coginvasion.szboss import DistributedGenerator/AI
 from src.coginvasion.szboss import DistributedFuncRotating/AI
+from src.coginvasion.szboss import DistributedSZBossToon/AI
 
 struct AvChoice {
   uint32 avId;
@@ -181,6 +184,34 @@ dclass DistributedAvatar : DistributedSmoothNode {
   setHood(string) required broadcast ram;
   splash(int16/10, int16/10, int16/10) broadcast ownsend;
   takeDamage(uint16) ownsend airecv;
+
+  // Special animations
+  setActivity(int8 activity, int16 timestamp) broadcast;
+
+  setLookPitch(int8 pitch) required broadcast ram ownsend airecv;
+  setHitboxData(uint16 / 10, uint16 / 10, uint16 / 10) required broadcast ram ownsend airecv;
+
+  // ========================= //
+  // Attack stuff
+  setAttackIds(int16 attackIDs[]) required broadcast ram;
+  setEquippedAttack(int16 attackID = -1) required broadcast ram ownsend airecv;
+  setAttackState(uint8 state = 0) required broadcast ram ownsend airecv;
+
+  // Bump ammo to uint16 if attack needs more than 255 ammo
+  updateAttackAmmo(int16 attackId, uint8 ammo) broadcast airecv ownrecv;
+
+  // Blob argument allows for arbitrary data to be sent
+  // along with the key press. This way we don't need a unique field
+  // for a particular attack's data, just pack it into a Datagram
+  // and send it as a blob, the AI implementation of the attacks
+  // should understand how to unpack it.
+  primaryFirePress(blob) broadcast ownsend airecv udp;
+  primaryFireRelease(blob) broadcast ownsend airecv udp;
+  secondaryFirePress(blob) broadcast ownsend airecv udp;
+  secondaryFireRelease(blob) broadcast ownsend airecv udp;
+  reloadPress(blob) broadcast ownsend airecv udp;
+  reloadRelease(blob) broadcast ownsend airecv udp;
+  // ========================= //
 };
 
 dclass DistributedToon : DistributedAvatar {
@@ -188,7 +219,6 @@ dclass DistributedToon : DistributedAvatar {
   setAnimState(uint8, int16) broadcast ram ownsend airecv;
   lookAtObject(int16 / 10, int16 / 10, int16 / 10, int8 = 1) broadcast ownsend;
   setLookMode(uint8 mode) required broadcast ram ownsend airecv;
-  setLookPitch(int8 pitch) required broadcast ram ownsend airecv;
 };
 
 dclass DistributedPlayerToon : DistributedToon {
@@ -205,7 +235,6 @@ dclass DistributedPlayerToon : DistributedToon {
   setDefaultShard(uint32) required ownrecv db;
   setTrackExperience(blob) required broadcast airecv ownrecv db;
   setBackpackAmmo(blob) required broadcast airecv ownrecv db;
-  setGagAmmo(uint8 gagId, uint8 ammo) broadcast airecv ownrecv;
   setLoadout(uint8 gagIds [] = [2, 0, 1, 3]) required broadcast airecv ownrecv db;
   requestSetLoadout(uint8[]) ownsend airecv;
   setQuests(string) required broadcast ownrecv db;
@@ -227,22 +256,6 @@ dclass DistributedPlayerToon : DistributedToon {
   createTutorial() ownsend airecv;
   tutorialCreated(uint32) ownrecv;
   goThroughTunnel(uint32, int8) ownsend broadcast;
-
-  // Gags
-  setCurrentGag(int8 gagId = -1) required broadcast ram ownsend airecv;
-  gagStart(uint8 gagId) broadcast ownsend airecv;
-  gagThrow(uint8 gagId) broadcast ownsend;
-  gagBuild(uint8 gagId) broadcast ownsend;
-  gagRelease(uint8 gag_id) broadcast ownsend airecv;
-  usedGag(uint8 gag_id) ownsend airecv;
-  trapActivate(uint8 gagId, uint32 avId, uint8 entityId, uint32 suitId) broadcast ownsend;
-  setDropLoc(uint8 gagId, int16/10, int16/10, int16/10) clsend broadcast;
-  setSplatPos(uint8 gagId, int16/10, int16/10, int16/10) ownsend broadcast;
-  gagCollision(uint8 gagId) broadcast clsend;
-  gagActivate(uint8 gagId) ownsend broadcast;
-  setTarget(uint8 gagId, uint32 target) clsend broadcast;
-  setGagPos(uint8 gagId, float64, float64, float64) ownsend broadcast;
-  setThrowPower(uint8 gagId, uint16 power) ownsend broadcast;
   
   // Admin requests for toon
   requestEject(uint32, int8 = 0) ownsend airecv;
@@ -368,25 +381,7 @@ dclass DistributedSuit : DistributedAvatar {
   setLevel(uint8 level) required broadcast ram;
   setSuit(uint8 planId, uint8 variantId) required broadcast ram;
   setName(string name) required broadcast ram;
-  setAnimState(uint8 anim, int8 loop, int16 timestamp) broadcast ram;
-  doAttack(int8 attackName, uint32, int16) broadcast;
-  hitByGag(uint8 gagId, uint16 distance = 10) clsend airecv;
-  toonHitByWeapon(int8, uint32, uint8 distance = 10) clsend airecv;
-  turretHitByWeapon(int8, uint32) clsend airecv;
-  handleWeaponTouch() clsend broadcast;
-  interruptAttack() broadcast;
-  disableMovement() clsend broadcast;
-  enableMovement() clsend broadcast;
-  startMoveInterval(int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, uint8 duration) broadcast ram;
-  startProjInterval(int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, uint8 / 10, uint8 / 10, int16 timestamp) broadcast ram;
-  startPosInterval(int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, int16 / 10, uint8 / 10, string blendType, int16 timestamp) broadcast ram;
-  stopMoveInterval(int8 turnAround = 0) broadcast ram;
 
-  // This field is for setting the position of a Cog for a toon that
-  // comes in while the Cog is standing still.
-  setLatePos(int16 / 10, int16 / 10) required ram;
-
-  setSuitState(int8, int8, int8, int16) broadcast ram;
   setWalkPath(Point3[], int16) broadcast;
 
   // Tell the clients who we are targeting.
@@ -693,27 +688,6 @@ dclass DistributedWinterCoachActivity : DistributedNode {
   greetAvatar(string avatarName) broadcast;
 }
 
-dclass DistributedDroppableCollectableObject : DistributedNode {
-  collectedObject() clsend airecv;
-};
-
-dclass DistributedDroppableCollectableJellybeans : DistributedDroppableCollectableObject {
-
-};
-
-dclass DistributedDroppableCollectableJellybean : DistributedDroppableCollectableJellybeans {
-  requestGrab() airecv clsend;
-  handlePickup(uint32) broadcast ram;
-};
-
-dclass DistributedDroppableCollectableJellybeanJar : DistributedDroppableCollectableJellybeans {
-
-};
-
-dclass DistributedDroppableCollectableBackpack : DistributedDroppableCollectableObject {
-  setBP(int8[]) required broadcast ram;
-};
-
 dclass DistributedPieTurretManager : DistributedObject {
   requestPlace(float64[]) clsend airecv;
   turretPlaced(uint32);
@@ -871,10 +845,6 @@ dclass DistributedButterfly : DistributedNode {
 dclass DistributedPhysicsEntity : DistributedSmoothNode {
 };
 
-dclass DistributedTNT : DistributedPhysicsEntity {
-  explode() ownsend airecv broadcast;
-};
-
 dclass DistributedEntity : DistributedObject, IDistributedEntity {
 };
 
@@ -919,6 +889,9 @@ dclass DistributedGoon : DistributedAvatar, IDistributedEntity {
 dclass DistributedSZBossSuit : DistributedSuit, IDistributedEntity {
 };
 
+dclass DistributedSZBossToon : DistributedToon, IDistributedEntity {
+};
+
 dclass DistributedCutscene : DistributedEntity {
   doCutscene(string id) broadcast;
   endCutscene() broadcast;
@@ -945,4 +918,26 @@ dclass DistributedFuncRotating : DistributedEntity {
 dclass DistributedCogOfficeElevator : DistributedElevator, IDistributedEntity {
   setIndex(int8) required broadcast ram;
   putToonsInElevator() broadcast;
+};
+
+dclass BaseProjectile : DistributedSmoothNode {
+  impact(Point3) broadcast;
+};
+
+dclass LinearProjectile : BaseProjectile {
+  setLinear(uint16 / 10, Point3, Point3, int16) required broadcast ram;
+};
+
+dclass LobProjectile : BaseProjectile {
+  setProjectile(uint16 / 10, Point3, Point3, uint8 / 100, int16) required broadcast ram;
+};
+
+dclass WholeCreamPieProjectile : LobProjectile {
+};
+
+dclass ClipOnTieProjectile : LinearProjectile {
+};
+
+dclass TNTProjectile : DistributedPhysicsEntity {
+  explode() broadcast udp;
 };

@@ -11,8 +11,21 @@ out_file = raw_input("Output file: ")
 
 lbr()
 
+normalsStr = ""
+normals = True
+while (normalsStr not in ["y", "n"]):
+    normalsStr = raw_input("Calculate vertex normals? [Y/N]: ").lower()
+    if normalsStr == "y":
+        normals = True
+    elif normalsStr == "n":
+        normals = False
+
 print("Running egg-trans...")
-cmd  = "..\\..\\cio-panda3d\\built_x64\\bin\\egg-trans -o {0} -tbnall ".format(inp_file)
+cmd  = "..\\..\\cio-panda3d\\built_x64\\bin\\egg-trans -o {0} ".format(inp_file)
+if normals:
+    print("Also calculating vertex normals")
+    cmd += "-nv 90 "
+cmd += "-tbnall "
 cmd += inp_file
 os.system(cmd)
         
