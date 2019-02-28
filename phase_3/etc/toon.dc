@@ -801,13 +801,6 @@ dclass DistributedCogOfficeBattle : DistributedBattleZone {
 };
 
 dclass DistributedCogOfficeSuit : DistributedSuit {
-  setBattleDoId(uint32) required broadcast ram;
-
-  setState(string, int16) required broadcast ram;
-
-  setHangoutPoint(uint8, Point3, int16 % 360 / 10) required broadcast ram;
-  setGuardPoint(Point3, int16 % 360 / 10) required broadcast ram;
-  setChairPoint(Point3, int16 % 360 / 10) required broadcast ram;
 };
 
 dclass DistributedTakeOverSuit : DistributedSuit {
