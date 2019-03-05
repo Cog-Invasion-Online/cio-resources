@@ -1,0 +1,5 @@
+UnlitGeneric
+{
+    "$basetexture"      "phase_14/maps/glow_test02.png"
+    "$translucent"      "1"
+}

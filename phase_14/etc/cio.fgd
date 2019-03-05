@@ -545,6 +545,14 @@
 	height(string) : "Glow height" : "1.0"
 ]
 
+@PointClass iconsprite("sprites/light_glow.spr") = point_spotlight : "Beam and halo effect"
+[
+	angles(string) : "Pitch Yaw Roll (Y Z X)" : "-90 0 0"
+	_light(color255) : "Light color" : "255 255 128 200"
+	SpotlightWidth(string) : "Beam width" : "5.0"
+	SpotlightLength(string) : "Beam length" : "500.0"
+]
+
 @PointClass base(Angles, Targetname) size(-16, -16, 0, 16 16 32) = prop_static : "Static prop"
 [
     modelpath(studio) : "Prop Model" : "models/smiley.egg.pz"
