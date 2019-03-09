@@ -1,4 +1,5 @@
 UnlitGeneric
 {
 	"$basetexture"			"phase_3.5/maps/middayskyB.jpg"
+	"$basetexture_wrap"		"clamp"
 }

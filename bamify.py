@@ -40,9 +40,7 @@ for meshNp in meshes:
     mat_file = raw_input("Material file for mesh `{0}`: ".format(meshNp.getName()))
     mat = BSPMaterial.getFromFile(mat_file)
     meshNp.setAttrib(BSPMaterialAttrib.make(mat))
-    if ((mat.hasKeyvalue("$translucent") and int(mat.getKeyvalue("$translucent")) == 1) or
-        (mat.hasKeyvalue("$alpha") and float(mat.getKeyvalue("$alpha")) < 1.0)):
-        
+    if mat.hasTransparency():
         print meshNp.getName(), "has $translucent or $alpha"
         meshNp.setTransparency(1)
     
