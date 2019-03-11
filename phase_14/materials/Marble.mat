@@ -1,0 +1,8 @@
+LightmappedGeneric
+{
+    "$basetexture"      "phase_14/maps/stone/Marble_albedo.png"
+    "$bumpmap"          "phase_14/maps/stone/Marble_normal.png"
+    "$arme"             "phase_14/maps/stone/Marble_arme.png"
+    
+    "$envmap"           "env_cubemap"
+}

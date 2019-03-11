@@ -2,10 +2,8 @@ LightmappedGeneric
 {
 	"$basetexture"			"phase_10/maps/Marble3.jpg"
 	
-	"$surfaceprop"			"tile"
-	
 	"$bumpmap"				"phase_10/maps/Marble3_bump.jpg"
 	
 	"$envmap"				"env_cubemap"
-	"$envmapmask"			"phase_10/maps/Marble3_envmask.jpg"
+	"$arme"			"phase_10/maps/Marble3_arme.jpg"
 }

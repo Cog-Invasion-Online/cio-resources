@@ -1,0 +1,107 @@
+<CoordinateSystem> { Z-Up }
+
+<Comment> {
+  "egg-trans -o phase_14/models/misc/light_beam_and_halo.egg -tbnall phase_14/models/misc/light_beam_and_halo.egg"
+}
+<Comment> {
+  "egg-trans -o phase_14/models/misc/light_beam_and_halo.egg -tbnall phase_14/models/misc/light_beam_and_halo.egg"
+}
+<Comment> {
+  "egg-trans -o phase_14/models/misc/light_beam_and_halo.egg -tbnall phase_14/models/misc/light_beam_and_halo.egg"
+}
+<Group> halo {
+  <Transform> {
+    <Matrix4> {
+      1 0 0 0
+      0 1 0 0
+      0 0 1 0
+      0 0 0 1
+    }
+  }
+  <VertexPool> halo {
+    <Vertex> 0 {
+      -0.5 0 -0.5
+      <UV> {
+        0 0
+        <Tangent> { 1 0 0 }
+        <Binormal> { 0 0 1 }
+      }
+    }
+    <Vertex> 1 {
+      -0.5 -0 0.5
+      <UV> {
+        0 1
+        <Tangent> { 1 0 0 }
+        <Binormal> { 0 0 1 }
+      }
+    }
+    <Vertex> 2 {
+      0.5 0 -0.5
+      <UV> {
+        1 0
+        <Tangent> { 1 0 0 }
+        <Binormal> { 0 0 1 }
+      }
+    }
+    <Vertex> 3 {
+      0.5 -0 0.5
+      <UV> {
+        1 1
+        <Tangent> { 1 0 0 }
+        <Binormal> { 0 0 1 }
+      }
+    }
+  }
+  <Polygon> {
+    <Normal> { 0 -1 0 }
+    <VertexRef> { 0 2 3 1 <Ref> { halo } }
+  }
+}
+<Group> beam {
+  <Transform> {
+    <Matrix4> {
+      1 0 0 0
+      0 1 0 0
+      0 0 1 0
+      0 0 0 1
+    }
+  }
+  <VertexPool> beam {
+    <Vertex> 0 {
+      -0.5 0 -1
+      <UV> {
+        0 0
+        <Tangent> { 1 0 0 }
+        <Binormal> { 0 0 1 }
+      }
+    }
+    <Vertex> 1 {
+      -0.5 -0 -0
+      <UV> {
+        0 1
+        <Tangent> { 1 0 0 }
+        <Binormal> { 0 0 1 }
+      }
+    }
+    <Vertex> 2 {
+      0.5 0 -1
+      <UV> {
+        1 0
+        <Tangent> { 1 0 0 }
+        <Binormal> { 0 0 1 }
+      }
+    }
+    <Vertex> 3 {
+      0.5 -0 -0
+      <UV> {
+        1 1
+        <Tangent> { 1 0 0 }
+        <Binormal> { 0 0 1 }
+      }
+    }
+  }
+  <Polygon> {
+    <Normal> { 0 -1 0 }
+    <VertexRef> { 0 2 3 1 <Ref> { beam } }
+  }
+}

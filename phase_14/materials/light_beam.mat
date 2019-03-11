@@ -1,0 +1,6 @@
+UnlitGeneric
+{
+    "$basetexture"      "phase_14/maps/glow_test02.png"
+    "$basetexture_wrap" "clamp"
+    "$translucent"      "1"
+}

@@ -3,10 +3,5 @@ VertexLitGeneric
     "$rimlight"             "1"
     "$rimlightboost"        "2"
     "$lightwarp"            "phase_3/maps/toon_lightwarp.jpg"
-    
-    "$phong"            "1"
-    "$phongexponent"    "25"
-    "$phongboost"       ".5"
-    
     "$halflambert"		"1"
 }

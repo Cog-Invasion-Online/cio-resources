@@ -1,4 +1,4 @@
-UnlitGeneric
+SkyBox
 {
     "$basetexture"  "phase_14/maps/toolsskybox.png"
     "$translucent"  "1"

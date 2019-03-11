@@ -1,0 +1,5 @@
+VertexLitGeneric
+{
+    //"$basetexture"      "phase_3/maps/black.png"
+    "$envmap"           "env_cubemap"
+}

@@ -11,8 +11,21 @@ out_file = raw_input("Output file: ")
 
 lbr()
 
+normalsStr = ""
+normals = True
+while (normalsStr not in ["y", "n"]):
+    normalsStr = raw_input("Calculate vertex normals? [Y/N]: ").lower()
+    if normalsStr == "y":
+        normals = True
+    elif normalsStr == "n":
+        normals = False
+
 print("Running egg-trans...")
-cmd  = "..\\..\\cio-panda3d\\built_x64\\bin\\egg-trans -o {0} -tbnall ".format(inp_file)
+cmd  = "..\\..\\cio-panda3d\\built_x64\\bin\\egg-trans -o {0} ".format(inp_file)
+if normals:
+    print("Also calculating vertex normals")
+    cmd += "-nv 90 "
+cmd += "-tbnall "
 cmd += inp_file
 os.system(cmd)
         
@@ -27,9 +40,7 @@ for meshNp in meshes:
     mat_file = raw_input("Material file for mesh `{0}`: ".format(meshNp.getName()))
     mat = BSPMaterial.getFromFile(mat_file)
     meshNp.setAttrib(BSPMaterialAttrib.make(mat))
-    if ((mat.hasKeyvalue("$translucent") and int(mat.getKeyvalue("$translucent")) == 1) or
-        (mat.hasKeyvalue("$alpha") and float(mat.getKeyvalue("$alpha")) < 1.0)):
-        
+    if mat.hasTransparency():
         print meshNp.getName(), "has $translucent or $alpha"
         meshNp.setTransparency(1)
     

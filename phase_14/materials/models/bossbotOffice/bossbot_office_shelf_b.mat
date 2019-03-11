@@ -1,0 +1,8 @@
+VertexLitGeneric
+{
+    "$basetexture"      "phase_14/maps/bossbotOffice/bossbot_office_shelf_b_albedo.png"
+    "$bumpmap"          "phase_14/maps/bossbotOffice/bossbot_office_shelf_b_normal.png"
+    "$arme"             "phase_14/maps/bossbotOffice/bossbot_office_shelf_b_arme.png"
+    
+    "$envmap"           "env_cubemap"
+}

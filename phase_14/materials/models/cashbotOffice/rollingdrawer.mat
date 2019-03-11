@@ -1,0 +1,12 @@
+VertexLitGeneric
+{
+    "$basetexture"      "phase_14/maps/cashbotOffice/CashbotProps_RollingDrawer_Diffuse.png"
+    "$bumpmap"          "phase_14/maps/cashbotOffice/CashbotProps_RollingDrawer_Normal.png"
+    
+    "$phong"            "1"
+    "$phongmask"        "phase_14/maps/cashbotOffice/CashbotProps_RollingDrawer_Specular.png"
+    "$phongexponenttexture" "phase_14/maps/cashbotOffice/CashbotProps_RollingDrawer_Glossiness.png"
+    
+    "$envmap"           "env_cubemap"
+    "$envmapmask"       "phase_14/maps/cashbotOffice/CashbotProps_RollingDrawer_Specular.png"
+}
