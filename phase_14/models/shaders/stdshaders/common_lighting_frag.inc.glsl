@@ -11,11 +11,102 @@
 #pragma once
 
 #pragma include "phase_14/models/shaders/stdshaders/common_shadows_frag.inc.glsl"
+#pragma include "phase_14/models/shaders/stdshaders/common_brdf_frag.inc.glsl"
 
 #define LIGHTTYPE_DIRECTIONAL	0
 #define LIGHTTYPE_POINT			1
 #define LIGHTTYPE_SPHERE		2
 #define LIGHTTYPE_SPOT			3
+
+#ifdef LIGHTWARP
+    uniform sampler2D lightwarpSampler;
+#endif
+
+/**
+ * Per-light parameters that are needed to
+ * calculate the light's contribution.
+ * 
+ * V	:	camera->fragment (eye space)
+ * N	:	fragment normal (eye space)
+ * L	:	light->fragment (eye space)
+ * H	:	light->fragment halfvector (eye space)
+ */
+struct LightingParams_t
+{
+    // All in eye-space
+    
+    // These are calculated once ahead of time
+    // before calculating any lights
+    vec4 fragPos;
+    vec3 V; // camera->fragment
+    vec3 N; // fragment normal
+    float roughness;
+    float metallic;
+    vec3 specularColor;
+    vec3 albedo;
+
+    // This information is filled in for a light
+    // before it gets calculated
+    vec4 lDir;
+    vec4 lPos;
+    vec4 lColor;
+    vec4 lAtten;
+    vec4 falloff2;
+    vec4 falloff3;
+    float spotCosCutoff;
+    float spotExponent;
+    
+    // These ones are calculated by the light
+    vec3 L; // light->fragment ( or in case of directional light, direction of light )
+    vec3 H; // half (light->fragment)
+    float NdotL;
+    float NdotV;
+    float HdotN;
+    float HdotV;
+    float attenuation;
+    float distance;
+    
+    // Sum of each light radiance,
+    // filled in one-by-one.
+    vec3 totalRadiance;
+};
+
+LightingParams_t newLightingParams_t(vec4 eyePos, vec3 eyeVec, vec3 eyeNormal,
+                                     float roughness, float metallic, vec3 specular,
+                                     vec3 albedo)
+{
+    LightingParams_t params = LightingParams_t(
+        eyePos,
+        eyeVec,
+        eyeNormal,
+        roughness,
+        metallic,
+        specular,
+        albedo,
+        
+        vec4(0),
+        vec4(0),
+        vec4(0),
+        vec4(0),
+        vec4(0),
+        vec4(0),
+        0.0,
+        0.0,
+        
+        vec3(0),
+        vec3(0),
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        
+        vec3(0)
+    );
+    
+    return params;
+}
 
 vec3 GetDiffuseTerm(vec3 eyeSpaceLightVec, vec3 eyeSpaceNormal, bool halfLambert,
 				    bool lightwarp, sampler2D lightwarpSampler)
@@ -86,94 +177,125 @@ void ApplyHardFalloff(inout float falloff, vec4 falloff2, float dist, float dot)
     falloff *= mult;
 }
 
-vec3 GetPointLight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, inout vec3 lvec,
-                   vec4 falloff2, vec4 falloff3,
-				   vec4 eyePos, vec4 eyeNormal, bool halfLambert, bool lightwarp,
-				   sampler2D lightwarpSampler)
+void ComputeLightHAndDots(inout LightingParams_t params)
 {
-    vec3 vResult = vec3(0);
-    vec3 ratio;
+    params.H = normalize(params.V + params.L);
     
-    lvec = lpoint.xyz - eyePos.xyz;
-#ifndef BSP_LIGHTING
-    lvec *= lpoint.w;
-#endif
-    float ldist = length(lvec);
-    lvec = normalize(lvec);
-	
-    vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler);
+    params.NdotL = dot(params.N, params.L);
+    #ifdef HALFLAMBERT
+        params.NdotL = clamp(params.NdotL * 0.5 + 0.5, 0.0, 1.0);
+        #ifndef LIGHTWARP
+            params.NdotL *= params.NdotL;
+        #endif
+    #else // HALFLAMBERT
+        params.NdotL = clamp(params.NdotL, 0.0, 1.0);
+    #endif // HALFLAMBERT
+    #ifdef LIGHTWARP
+        params.NdotL = 2.0 * texture(lightwarpSampler, vec2(params.NdotL, 0.5)).r;
+    #endif // LIGHTWARP
     
-#ifdef BSP_LIGHTING
-    bool hasHardFalloff = HasHardFalloff(falloff2);
-    if (hasHardFalloff && !CheckHardFalloff(falloff2, ldist, vResult.x))
-    {
-        return vec3(0);
-    }
-    lattenv = GetFalloff(latten, falloff2, ldist);
-    //if (hasHardFalloff)
-    //{
-    //    ApplyHardFalloff(lattenv, falloff2, ldist, vResult.x);
-    //}
-#else
-    lattenv = 1.0 / (latten.x + latten.y*ldist + latten.z*ldist*ldist);
-#endif
-    
-    ratio = vec3(lattenv, lattenv, lattenv);
-	
-    vResult *= lcolor.rgb * ratio;
-    return vResult;
+    params.NdotV = max(dot(params.N, params.V), 0.001);
+    params.HdotN = max(dot(params.N, params.H), 0.001);
+    params.HdotV = max(dot(params.H, params.V), 0.001);
 }
 
-vec3 GetSpotlight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, inout vec3 lvec, vec4 ldir,
-                  vec4 falloff2, vec4 falloff3,
-                  vec4 eyePos, vec4 eyeNormal, bool halfLambert, bool lightwarp,
-                  sampler2D lightwarpSampler
-		  #ifndef BSP_LIGHTING
-		  , float spotExponent, float spotCosCutoff
-		  #endif
-		  )
+void ComputeLightVectors_Dir(inout LightingParams_t params)
 {
-    lvec = lpoint.xyz - eyePos.xyz;
+    params.L = normalize(params.lDir.xyz);
+    
+    ComputeLightHAndDots(params);
+}
+
+void ComputeLightVectors(inout LightingParams_t params)
+{
+    params.L = params.lPos.xyz - params.fragPos.xyz;
 #ifndef BSP_LIGHTING
-    lvec *= lpoint.w;
+    params.L *= params.lPos.w;
 #endif
-    float ldist = length(lvec);
-    lvec = normalize(lvec);
-    vec3 vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler); 
+    params.distance = length(params.L);
+    params.L = normalize(params.L);
+    
+    ComputeLightHAndDots(params);
+}
+
+void AddTotalRadiance(inout LightingParams_t params)
+{
+    vec3 radiance = params.lColor.rgb * params.attenuation;
+    
+    float NDF 	= Distribution_GGX2(params.HdotN, params.roughness);
+    float G 	= Geometry_Smith(params.NdotV,
+			              params.NdotL,
+				      params.roughness);
+    vec3 F	= Fresnel_Schlick(params.specularColor, params.HdotV);
+    vec3 kS = F;
+    vec3 kD = vec3(1.0) - kS;
+    kD *= 1.0 - params.metallic;
+    
+    vec3 numerator = NDF * G * F;
+    float denominator = 4.0 * max(params.NdotV, 0.0) *
+		        max(params.NdotL, 0.0);
+    vec3 specular = numerator / max(denominator, 0.001);
+    
+    float NdotL = max(params.NdotL, 0.0);
+    params.totalRadiance += (kD * params.albedo / PI + specular) * radiance * NdotL;
+}
+
+void GetPointLight(inout LightingParams_t params)
+{
+    
+    ComputeLightVectors(params);
+    
+#ifdef BSP_LIGHTING
+    bool hasHardFalloff = HasHardFalloff(params.falloff2);
+    if (hasHardFalloff && !CheckHardFalloff(params.falloff2, params.distance, params.NdotL))
+    {
+        return;
+    }
+    params.attenuation = GetFalloff(params.lAtten, params.falloff2, params.distance);
+#else
+    params.attenuation = 1.0 / (params.lAtten.x + params.lAtten.y*params.distance + params.lAtten.z*params.distance*params.distance);
+#endif
+
+    AddTotalRadiance(params);
+}
+
+void GetSpotlight(inout LightingParams_t params)
+{
+    ComputeLightVectors(params);
     
 #ifdef BSP_LIGHTING
     
-    bool hasHardFalloff = HasHardFalloff(falloff2);
-    if (hasHardFalloff && !CheckHardFalloff(falloff2, ldist, vResult.x))
+    bool hasHardFalloff = HasHardFalloff(params.falloff2);
+    if (hasHardFalloff && !CheckHardFalloff(params.falloff2, params.distance, params.NdotL))
     {
-        return vec3(0);
+        return;
     }
 
-    float dot2 = clamp(dot(lvec, normalize(-ldir.xyz)), 0, 1);
-    if (dot2 <= falloff2.w)
+    float dot2 = clamp(dot(params.L, normalize(-params.lDir.xyz)), 0, 1);
+    if (dot2 <= params.falloff2.w)
     {
         // outside entire cone
-        return vec3(0);
+        return;
     }
     
-    lattenv = GetFalloff(latten, falloff2, ldist);
-    lattenv *= dot2;
+    params.attenuation = GetFalloff(params.lAtten, params.falloff2, params.distance);
+    params.attenuation *= dot2;
     
     float mult = 1.0;
     
-    if (dot2 <= latten.w)
+    if (dot2 <= params.lAtten.w)
     {
-        mult *= (dot2 - falloff2.w) / (latten.w - falloff2.w);
+        mult *= (dot2 - params.falloff2.w) / (params.lAtten.w - params.falloff2.w);
         mult = clamp(mult, 0, 1);
     }
     
-    float exp = falloff3.x;
+    float exp = params.falloff3.x;
     if (exp != 0.0 && exp != 1.0)
     {
         mult = pow(mult, exp);
     }
     
-    lattenv *= mult;
+    params.attenuation *= mult;
     
     //if (hasHardFalloff)
     //{
@@ -181,46 +303,42 @@ vec3 GetSpotlight(vec4 lpoint, vec4 latten, vec4 lcolor, inout float lattenv, in
     //}
     
 #else
-    float langle = clamp(dot(ldir.xyz, -lvec), 0, 1);
+    float langle = clamp(dot(params.lDir.xyz, -params.L), 0, 1);
     
-    if (langle > spotCosCutoff)
+    params.attenuation = 0.0;
+    if (langle > params.spotCosCutoff)
     {
-	lattenv = 1/(latten.x + latten.y*ldist + latten.z*ldist*ldist);
-	lattenv *= pow(langle, spotExponent);
+        params.attenuation = 1/(params.lAtten.x + params.lAtten.y*params.distance + params.lAtten.z*params.distance*params.distance);
+        params.attenuation *= pow(langle, params.spotExponent);
     }
     else
     {
-	return vec3(0);
+        return;
     }
 #endif
 
-    return (vResult * lcolor.rgb) * lattenv;
+    AddTotalRadiance(params);
 }
 
-vec3 GetDirectionalLight(vec4 ldir, vec4 lcolor, vec4 eyeNormal, inout vec3 lvec, bool halfLambert,
-						 bool lightwarp, sampler2D lightwarpSampler
+void GetDirectionalLight(inout LightingParams_t params
                          #ifdef HAS_SHADOW_SUNLIGHT
-                         , bool shadows, sampler2DArray shadowSampler, vec4 shadowCoords[PSSM_SPLITS],
-                           inout float lshad
+                         , sampler2DArray shadowSampler, vec4 shadowCoords[PSSM_SPLITS]
                          #endif
                          )
 {
-	lvec = normalize(ldir.xyz);
-
-	vec3 vResult = GetDiffuseTerm(lvec, eyeNormal.xyz, halfLambert, lightwarp, lightwarpSampler);
+	ComputeLightVectors_Dir(params);
+    
+    // Sunlight has constant full intensity
+	params.attenuation = 1.0;
     
     #ifdef HAS_SHADOW_SUNLIGHT
-	if (shadows)
-	{
-		lshad = 0.0;
-		GetSunShadow(lshad, shadowSampler, shadowCoords, lvec, eyeNormal.xyz);
-		vResult *= lshad;
-	}
+        float lshad = 0.0;
+        GetSunShadow(lshad, shadowSampler, shadowCoords, params.L, params.N);
+        params.attenuation *= lshad;
     #endif
-
-	vResult *= lcolor.rgb;
-
-	return vResult;
+    
+    AddTotalRadiance(params);
+    
 }
 
 float Fresnel(vec3 vNormal, vec3 vEyeDir)
@@ -366,6 +484,15 @@ vec4 SampleCubeMap(vec3 worldCamToVert, vec4 worldNormal, vec3 parallaxOffset, s
 {
 	vec3 cmR = CalcReflectionVectorUnnormalized(worldNormal.xyz, worldCamToVert);
 	return texture(cubeSampler, cmR - parallaxOffset.xyz);
+}
+
+vec4 SampleCubeMapLod(vec3 worldCamToVert, vec4 worldNormal,
+                      vec3 parallaxOffset, samplerCube cubeSampler,
+                      float roughness)
+{
+	vec3 cmR = CalcReflectionVectorUnnormalized(worldNormal.xyz, worldCamToVert);
+	return textureLod(cubeSampler, cmR - parallaxOffset.xyz,
+                      roughness * 4.0);
 }
 
 vec4 SampleAlbedo(vec4 texcoord, vec3 parallaxOffset, sampler2D albedoSampler)
