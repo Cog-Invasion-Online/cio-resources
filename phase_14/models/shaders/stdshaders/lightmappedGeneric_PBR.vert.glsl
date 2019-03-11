@@ -4,9 +4,9 @@
  * COG INVASION ONLINE
  * Copyright (c) CIO Team. All rights reserved.
  *
- * @file lightmappedGeneric.vert.glsl
+ * @file lightmappedGeneric_PBR.vert.glsl
  * @author Brian Lach
- * @date November 02, 2018
+ * @date March 10, 2019
  *
  * @desc Shader for lightmapped geometry (brushes, displacements).
  *
