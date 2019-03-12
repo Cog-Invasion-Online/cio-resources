@@ -224,6 +224,8 @@ void main()
 	
     #ifdef NEED_WORLD_NORMAL
         vec4 finalWorldNormal = l_worldNormal;
+        mat3 tangentSpaceTranspose = l_tangentSpaceTranspose;
+        tangentSpaceTranspose[2] = finalWorldNormal.xyz;
     #else
         vec4 finalWorldNormal = vec4(0.0);
     #endif
@@ -231,7 +233,7 @@ void main()
     #ifdef BUMPMAP
         #ifdef NEED_WORLD_NORMAL
             GetBumpedEyeAndWorldNormal(finalEyeNormal, finalWorldNormal, bumpSampler,
-                l_texcoord, l_tangent, l_binormal, l_tangentSpaceTranspose);
+                l_texcoord, l_tangent, l_binormal, tangentSpaceTranspose);
         #else
             GetBumpedEyeNormal(finalEyeNormal, bumpSampler, l_texcoord,
                             l_tangent, l_binormal);
@@ -244,10 +246,16 @@ void main()
 
     #ifdef BASETEXTURE
         vec4 albedo = SampleAlbedo(l_texcoord, parallaxOffset, baseTextureSampler);
-        //albedo.rgb = pow(albedo.rgb, vec3(2.2));
     #else
         vec4 albedo = vec4(0.0, 0.0, 0.0, 1.0);
     #endif
+    // Modulate albedo with vertex/flat colors
+    #ifdef COLOR_VERTEX
+        albedo *= l_color;
+    #elif defined(COLOR_FLAT)
+        albedo *= p3d_Color;
+    #endif
+	albedo *= p3d_ColorScale;
     
     // AO/Roughness/Metallic/Emissive properties
     #ifdef ARME
@@ -361,23 +369,10 @@ void main()
         
     #endif // LIGHTING
     
-    // Modulate with vertex/flat colors
-    #ifdef COLOR_VERTEX
-        totalAmbient *= l_color;
-    #elif defined(COLOR_FLAT)
-        totalAmbient *= p3d_Color;
-    #endif
-
-	totalAmbient *= p3d_ColorScale;
-    
-    // Modulate with albedo
-    #ifdef BASETEXTURE
-        totalAmbient.rgb *= albedo.rgb;
-        
-        #ifdef TRANSLUCENT
-            totalAmbient.a *= albedo.a;
-        #endif
-    #endif
+    // Modulate with albedo  
+    totalAmbient.rgb *= albedo.rgb;
+    // Modulate with AO
+    totalAmbient.rgb *= armeParams.x;
     
     vec4 color = totalAmbient + vec4(totalRadiance, 0.0);
     
@@ -403,7 +398,6 @@ void main()
         vec3 spec = SampleCubeMapLod(l_worldEyeToVert.xyz,
                                      finalWorldNormal, vec3(0),
                                      envmapSampler, armeParams.y).rgb;
-        //spec *= envmapTint;
         
         vec2 brdf = texture2D(brdfLUTSampler, vec2(NdotV, armeParams.y)).xy;
         vec3 iblspec = spec * (F * brdf.x + brdf.y);
@@ -412,7 +406,11 @@ void main()
     #endif
     
     vec4 result = color + vec4(specularLighting.rgb, 0.0);
+    result.a = 1.0;
     
+    #ifdef TRANSLUCENT
+        result.a *= albedo.a;
+    #endif
     // Explicit alpha value from material.
     #ifdef ALPHA
         result.a *= ALPHA;
@@ -446,9 +444,6 @@ void main()
         result.rgb = GetFog(FOG, result, p3d_Fog.color, l_hPos, p3d_Fog.density,
                             p3d_Fog.start, p3d_Fog.end, p3d_Fog.scale);
     #endif
-    
-    //result.rgb = result.rgb / (result.rgb + vec3(1.0));
-    //result.rgb = pow(result.rgb, vec3(1.0 / 2.2));
     
     #ifndef HDR
         result.rgb = clamp(result.rgb, 0, 1);

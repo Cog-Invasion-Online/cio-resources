@@ -9,6 +9,7 @@ from src.coginvasion.avatar.BaseProjectile import LinearProjectile/AI
 from src.coginvasion.avatar.BaseProjectile import LobProjectile/AI
 from src.coginvasion.gagsnew.WholeCreamPie import WholeCreamPieProjectile/AI
 from src.coginvasion.gagsnew.TNT import TNTProjectile/AI
+from src.coginvasion.gagsnew.GumballBlaster import GumballProjectile/AI
 from src.coginvasion.cog.attacks.ClipOnTie import ClipOnTieProjectile/AI
 from src.coginvasion.cog.attacks.Bomb import BombProjectile/AI
 from src.coginvasion.toon import DistributedToon/AI
@@ -938,4 +939,7 @@ dclass TNTProjectile : DistributedPhysicsEntity {
 
 dclass BombProjectile : DistributedPhysicsEntity {
   explode() broadcast udp;
+};
+
+dclass GumballProjectile : LobProjectile {
 };

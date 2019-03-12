@@ -1,7 +1,0 @@
-VertexLitGeneric
-{
-	"$basetexture"    "phase_14/maps/gumballShooter/gumballShooter_albedo.png"
-	"$bumpmap"        "phase_14/maps/gumballShooter/gumballShooter_normal.png"
-	"$amre"            "phase_14/maps/gumballShooter/gumballShooter_amre.png"
-	"$envmap"    "env_cubemap"
-}

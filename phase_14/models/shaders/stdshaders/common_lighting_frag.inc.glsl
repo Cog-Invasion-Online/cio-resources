@@ -182,17 +182,17 @@ void ComputeLightHAndDots(inout LightingParams_t params)
     params.H = normalize(params.V + params.L);
     
     params.NdotL = dot(params.N, params.L);
-    #ifdef HALFLAMBERT
-        params.NdotL = clamp(params.NdotL * 0.5 + 0.5, 0.0, 1.0);
-        #ifndef LIGHTWARP
-            params.NdotL *= params.NdotL;
-        #endif
-    #else // HALFLAMBERT
+    //#ifdef HALFLAMBERT
+    //    params.NdotL = clamp(params.NdotL * 0.5 + 0.5, 0.0, 1.0);
+    //    #ifndef LIGHTWARP
+    //        params.NdotL *= params.NdotL;
+    //    #endif
+    //#else // HALFLAMBERT
         params.NdotL = clamp(params.NdotL, 0.0, 1.0);
-    #endif // HALFLAMBERT
-    #ifdef LIGHTWARP
-        params.NdotL = 2.0 * texture(lightwarpSampler, vec2(params.NdotL, 0.5)).r;
-    #endif // LIGHTWARP
+    //#endif // HALFLAMBERT
+    //#ifdef LIGHTWARP
+    //    params.NdotL = 2.0 * texture(lightwarpSampler, vec2(params.NdotL, 0.5)).r;
+    //#endif // LIGHTWARP
     
     params.NdotV = max(dot(params.N, params.V), 0.001);
     params.HdotN = max(dot(params.N, params.H), 0.001);

@@ -122,7 +122,9 @@ void main()
 
     #ifdef ENVMAP
         #ifdef BUMPMAP
-            TangentToWorld(finalWorldNormal.xyz, l_tangentSpaceTranspose, tangentSpaceNormal);
+            mat3 tangentSpaceTranspose = l_tangentSpaceTranspose;
+            tangentSpaceTranspose[2] = finalWorldNormal.xyz;
+            TangentToWorld(finalWorldNormal.xyz, tangentSpaceTranspose, tangentSpaceNormal);
         #endif
     #endif
     
@@ -145,6 +147,7 @@ void main()
         vec3 msNormal = l_normal;
     #endif
     
+    // Diffuse term.
     vec3 diffuseLighting = vec3(0);
     
     #if defined(FLAT_LIGHTMAP)
@@ -177,21 +180,19 @@ void main()
                       ambientLightIdentifier, ambientLightMin, ambientLightScale.x);
     #endif
     
-    outputColor.rgb += diffuseLighting;
-    
-    // Modulate with albedo
+    // Ambient term.
+    vec3 ambientLighting = vec3(1.0);
     #ifdef BASETEXTURE
         vec4 albedo = texture2D(baseTextureSampler, l_texcoordBaseTexture.xy);
-        outputColor.rgb *= albedo.rgb;
-        #ifdef TRANSLUCENT
-            outputColor.a *= albedo.a;
-        #endif
     #else
         vec4 albedo = vec4(0.5, 0.5, 0.5, 1.0);
     #endif
+    ambientLighting *= albedo.rgb;
+    ambientLighting *= ao;
     
+    // Specular term.
+    vec3 specularLighting = vec3(0.0);
     vec3 specularColor = mix(vec3(0.0), albedo.rgb, metallic);
-
     #ifdef ENVMAP
         float NdotV = max(dot(finalWorldNormal.xyz, normalize(l_worldEyeToVert.xyz)), 0);
         vec3 F = Fresnel_Schlick(specularColor, NdotV);
@@ -199,13 +200,13 @@ void main()
         vec3 spec = SampleCubeMapLod(l_worldEyeToVert.xyz,
                                      finalWorldNormal, vec3(0),
                                      envmapSampler, roughness).rgb;
-        //spec *= envmapTint;
         
         vec2 brdf = texture2D(brdfLUTSampler, vec2(NdotV, roughness)).xy;
         vec3 iblspec = spec * (F * brdf.x + brdf.y);
-        outputColor.rgb += iblspec;
-            
+        specularLighting += iblspec;     
     #endif
+    
+    outputColor.rgb = (ambientLighting * diffuseLighting) + specularLighting;
 
     #ifdef FOG
         // Apply fog.
@@ -215,5 +216,9 @@ void main()
 
     #ifndef HDR
         outputColor.rgb = clamp(outputColor.rgb, 0.0, 1.0);
+    #endif
+    
+    #ifdef TRANSLUCENT
+        outputColor.a *= albedo.a;
     #endif
 }
