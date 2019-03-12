@@ -42,7 +42,7 @@ for meshNp in meshes:
     meshNp.setAttrib(BSPMaterialAttrib.make(mat))
     if mat.hasTransparency():
         print meshNp.getName(), "has $translucent or $alpha"
-        meshNp.setTransparency(1)
+        meshNp.setTransparency(TransparencyAttrib.MDual, 1)
     
 lbr()
     
@@ -61,7 +61,6 @@ if optimize:
     print("\nModel before optimization:")
     np.ls()
     
-    np.clearModelNodes()
     np.flattenStrong()
     
     print("\nModel after optimization:")

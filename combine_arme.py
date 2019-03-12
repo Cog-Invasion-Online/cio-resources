@@ -1,9 +1,29 @@
-from panda3d.core import PNMImage, Filename
+from panda3d.core import PNMImage, Filename, PNMImageHeader
 
 CHANNEL_AO = 0
 CHANNEL_ROUGHNESS = 1
 CHANNEL_METALLIC = 2
 CHANNEL_EMISSIVE = 3
+
+def setChannel(img, x, y, channel, val):
+    if channel == CHANNEL_AO:
+        img.setRed(x, y, val)
+    elif channel == CHANNEL_ROUGHNESS:
+        img.setGreen(x, y, val)
+    elif channel == CHANNEL_METALLIC:
+        img.setBlue(x, y, val)
+    elif channel == CHANNEL_EMISSIVE:
+        img.setAlpha(x, y, val)
+        
+def getChannel(img, x, y, channel):
+    if channel == CHANNEL_AO:
+        img.getRed(x, y)
+    elif channel == CHANNEL_ROUGHNESS:
+        img.getGreen(x, y)
+    elif channel == CHANNEL_METALLIC:
+        img.getBlue(x, y)
+    elif channel == CHANNEL_EMISSIVE:
+        img.getAlpha(x, y)
 
 def getChannelName(channel):
     if channel == CHANNEL_AO:
@@ -44,17 +64,20 @@ print "Size:", size
         
 output = PNMImage(*size)
 output.setNumChannels(4)
+output.setColorType(PNMImageHeader.CTFourChannel)
 output.fill(1.0, 0.0, 0.0)
 output.alphaFill(1.0)
 
 for channel, img in imgs.items():
     print "Filling in", getChannelName(channel), "channel..."
+    if isinstance(img, float):
+        print "Value", img
     for x in xrange(size[0]):
         for y in xrange(size[1]):
             if isinstance(img, float):
-                output.setChannel(x, y, channel, img)
+                setChannel(output, x, y, channel, img)
             else:
-                output.setChannel(x, y, channel, img.getChannel(x, y, channel))
+                setChannel(output, x, y, channel, getChannel(img, x, y, channel))
             
 outputFile = Filename(raw_input("Output image: "))
 output.write(outputFile)
