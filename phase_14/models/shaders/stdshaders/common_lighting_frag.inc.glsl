@@ -108,34 +108,6 @@ LightingParams_t newLightingParams_t(vec4 eyePos, vec3 eyeVec, vec3 eyeNormal,
     return params;
 }
 
-vec3 GetDiffuseTerm(vec3 eyeSpaceLightVec, vec3 eyeSpaceNormal, bool halfLambert,
-				    bool lightwarp, sampler2D lightwarpSampler)
-{
-	float result;
-	float lintensity = dot(eyeSpaceNormal, eyeSpaceLightVec);
-
-	if (halfLambert)
-	{
-		result = clamp(lintensity * 0.5 + 0.5, 0.0, 1.0);
-		if (!lightwarp)
-		{
-			result *= result;
-		}
-	}
-	else
-	{
-		result = clamp(lintensity, 0.0, 1.0);
-	}
-
-	vec3 vResult = vec3(result);
-	if (lightwarp)
-	{
-		vResult = 2.0 * texture(lightwarpSampler, vec2(result, 0.5)).rgb;
-	}
-
-	return vResult;
-}
-
 float GetFalloff(vec4 falloff, vec4 falloff2, float dist)
 {
     float falloffevaldist = min(dist * 16.0, falloff2.z);
@@ -182,17 +154,17 @@ void ComputeLightHAndDots(inout LightingParams_t params)
     params.H = normalize(params.V + params.L);
     
     params.NdotL = dot(params.N, params.L);
-    //#ifdef HALFLAMBERT
-    //    params.NdotL = clamp(params.NdotL * 0.5 + 0.5, 0.0, 1.0);
-    //    #ifndef LIGHTWARP
-    //        params.NdotL *= params.NdotL;
-    //    #endif
-    //#else // HALFLAMBERT
+    #ifdef HALFLAMBERT
+        params.NdotL = clamp(params.NdotL * 0.5 + 0.5, 0.0, 1.0);
+        #ifndef LIGHTWARP
+            params.NdotL *= params.NdotL;
+        #endif
+    #else // HALFLAMBERT
         params.NdotL = clamp(params.NdotL, 0.0, 1.0);
-    //#endif // HALFLAMBERT
-    //#ifdef LIGHTWARP
-    //    params.NdotL = 2.0 * texture(lightwarpSampler, vec2(params.NdotL, 0.5)).r;
-    //#endif // LIGHTWARP
+    #endif // HALFLAMBERT
+    #ifdef LIGHTWARP
+        params.NdotL = 2.0 * texture(lightwarpSampler, vec2(params.NdotL, 0.5)).r;
+    #endif // LIGHTWARP
     
     params.NdotV = max(dot(params.N, params.V), 0.001);
     params.HdotN = max(dot(params.N, params.H), 0.001);
@@ -354,25 +326,6 @@ float Fresnel4(vec3 vNormal, vec3 vEyeDir)
     return fresnel * fresnel;
 }
 
-void RimTerm(inout vec3 totalRim, vec3 eyePos, vec4 eyeNormal, vec4 rimExponent, float rimWidth, float lattenv, vec4 worldNormal)
-{
-	vec3 rimEyePos = normalize(-eyePos.xyz);
-	float rIntensity = pow(rimWidth - max(dot(rimEyePos, eyeNormal.xyz), 0.0), 0.7);
-	rIntensity = max(0.0, rIntensity);
-    rIntensity = smoothstep(0.6, 1.0, rIntensity);
-	totalRim += vec3(rIntensity * rimExponent.xyz * Fresnel(eyeNormal.xyz, eyePos.xyz));
-}
-
-void RimTerm2(inout vec3 totalRim, vec3 eyeNormal, vec3 eyeVec, vec3 lightVec, vec4 rimColor, float rimWidth)
-{
-    float rim = 1.0 - rimWidth;
-    float diff = rimWidth - clamp(dot(eyeNormal, -lightVec), 0, 1);
-    diff = step(rim, diff) * diff;
-    diff = smoothstep(0.7, 1.0, diff);
-    diff *= Fresnel(eyeNormal, eyeVec);
-    totalRim += step(rim, diff) * (diff - rim) / rim;
-}
-
 void DedicatedRimTerm(inout vec3 totalRim, vec3 worldNormal, vec3 worldEyeToVert,
                       vec3 ambientLight, float rimBoost, float rimExponent)
 {
@@ -384,24 +337,6 @@ void DedicatedRimTerm(inout vec3 totalRim, vec3 worldNormal, vec3 worldEyeToVert
     vec3 up = vec3(0, 0, 1);
     totalRim += ( (ambientLight * rimBoost) * Fresnel(worldNormal, worldEyeToVert) *
                   max(0, dot(worldNormal, up)) );
-}
-
-void GetSpecular(float lattenv, vec4 eyeNormal, vec4 eyePos,
-				 vec3 specularTint, vec3 lightColor, float shininess,
-                 float boost, vec3 lightVec, vec3 eyeVec,
-                 inout vec3 olspec)
-{
-	vec3 lhalf = normalize(lightVec - normalize(eyePos.xyz));
-    float LdotR = clamp(dot(eyeNormal.xyz, lhalf), 0, 1);
-    
-    vec3 lspec = specularTint * lightColor;
-    lspec *= pow(LdotR, shininess);
-    lspec *= boost;
-    // mask with N.L
-    lspec *= dot(lightVec, eyeNormal.xyz);
-    lspec *= lattenv;
-    lspec *= Fresnel(eyeNormal.xyz, eyeVec);
-    olspec += lspec;
 }
 
 vec3 GetTangentSpaceNormal(sampler2D bumpSampler, vec2 texcoord)
@@ -421,7 +356,7 @@ void TangentToEye(inout vec3 eyeNormal, vec3 eyeTangent, vec3 eyeBinormal, vec3 
 
 void TangentToWorld(inout vec3 worldNormal, mat3 tangentSpaceTranspose, vec3 tangentNormal)
 {
-	worldNormal = tangentSpaceTranspose * tangentNormal;
+	worldNormal = normalize(tangentSpaceTranspose * normalize(tangentNormal));
 }
 
 void GetBumpedEyeNormal(inout vec4 finalEyeNormal, sampler2D bumpSampler, vec4 texcoord,
@@ -457,34 +392,13 @@ vec3 CalcReflectionVectorNormalized(vec3 normal, vec3 eyeVector)
 	return 2.0 * (dot(normal, eyeVector) / dot(normal, normal)) * normal - eyeVector;
 }
 
-vec2 GetSphereMapTexCoords(vec3 reflVec, mat4 invViewMatrix)
-{
-	// transform reflection vector into view space
-	vec3 r = vec3(invViewMatrix * vec4(reflVec, 0.0));
-
-    vec3 tmp = vec3(r.x, r.y, r.z + 1.0);
-    float ooLen = dot(tmp, tmp);
-    ooLen = 1.0 / sqrt(ooLen);
-    
-    tmp.xy = ooLen * tmp.xy + 1.0;
-    
-    return tmp.xy * 0.5;
-}
-
-vec4 SampleSphereMap(vec3 eyeVec, vec4 eyeNormal, mat4 invViewMatrix,
-				   vec3 parallaxOffset, sampler2D sphereSampler)
-{
-	vec3 r = normalize(reflect(-eyeNormal.xyz, eyeVec));//CalcReflectionVectorNormalized(eyeNormal.xyz, eyeVec);
-	vec2 coords = GetSphereMapTexCoords(r, invViewMatrix) - parallaxOffset.xy;
-    
-	return texture2D(sphereSampler, coords);
-}
-
 vec4 SampleCubeMap(vec3 worldCamToVert, vec4 worldNormal, vec3 parallaxOffset, samplerCube cubeSampler)
 {
 	vec3 cmR = CalcReflectionVectorUnnormalized(worldNormal.xyz, worldCamToVert);
 	return texture(cubeSampler, cmR - parallaxOffset.xyz);
 }
+
+const int CUBEMAP_MIPS = 8;
 
 vec4 SampleCubeMapLod(vec3 worldCamToVert, vec4 worldNormal,
                       vec3 parallaxOffset, samplerCube cubeSampler,
@@ -492,7 +406,8 @@ vec4 SampleCubeMapLod(vec3 worldCamToVert, vec4 worldNormal,
 {
 	vec3 cmR = CalcReflectionVectorUnnormalized(worldNormal.xyz, worldCamToVert);
 	return textureLod(cubeSampler, cmR - parallaxOffset.xyz,
-                      roughness * 4.0);
+                      roughness * (CUBEMAP_MIPS - 1));
+    //return texture(cubeSampler, cmR - parallaxOffset);
 }
 
 vec4 SampleAlbedo(vec4 texcoord, vec3 parallaxOffset, sampler2D albedoSampler)

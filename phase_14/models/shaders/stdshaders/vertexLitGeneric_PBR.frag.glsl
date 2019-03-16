@@ -261,7 +261,7 @@ void main()
     #ifdef ARME
         vec4 armeParams = texture(armeSampler, l_texcoord.xy);
     #else
-        vec4 armeParams = vec4(1.0, 0.0, 0.0, 0.0);
+        vec4 armeParams = vec4(1.0, 1.0, 0.0, 0.0);
     #endif
     
     vec3 specularColor = mix(vec3(0.04), albedo.rgb, armeParams.z);
@@ -393,7 +393,7 @@ void main()
     
     #ifdef ENVMAP
         
-        float NdotV = max(dot(finalWorldNormal.xyz, normalize(l_worldEyeToVert.xyz)), 0);
+        float NdotV = clamp(dot(finalWorldNormal.xyz, normalize(l_worldEyeToVert.xyz)), 0, 1);
         vec3 F = Fresnel_Schlick(specularColor, NdotV);
         vec3 spec = SampleCubeMapLod(l_worldEyeToVert.xyz,
                                      finalWorldNormal, vec3(0),
