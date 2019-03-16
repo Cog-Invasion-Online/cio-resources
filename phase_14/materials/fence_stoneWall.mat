@@ -1,0 +1,7 @@
+LightmappedGeneric
+{
+    "$basetexture"      "phase_3.5/maps/fence_stoneWall.jpg"
+    "$basetexture_alpha"    "phase_3.5/maps/face_stoneWall_a.rgb"
+    
+    "$translucent"      "1"
+}

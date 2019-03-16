@@ -808,7 +808,7 @@
 
 @PointClass iconsprite("sprites/env_cubemap.spr") = env_cubemap : "Cubemap sample point"
 [
-    size(integer) : "Quality of cubemap" : 32
+    size(integer) : "Quality of cubemap" : 128
 ]
 
 @PointClass base(Angles) = shadow_control : "Controls shadow appearance"
