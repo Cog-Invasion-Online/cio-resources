@@ -4,6 +4,6 @@ VertexLitGeneric
     "$translucent"      "1"
     
 	"$bumpmap"        "phase_14/maps/gumballShooter/gumballShooter_normal.png"
-	"$amre"            "phase_14/maps/gumballShooter/gumballShooter_amre.png"
+	"$arme"            "phase_14/maps/gumballShooter/gumballShooter_arme.png"
 	"$envmap"    "env_cubemap"
 }

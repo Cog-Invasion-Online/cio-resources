@@ -8,12 +8,10 @@ shaders:
   default-fog-color: [200, 202, 230, 140]
   default-fog-density: 0.001
   default-interior-light-color: [255, 255, 255, 255]
-  tt:
-   sun-color: [216, 207, 194, 450]
   dd:
    sky-type: 2
-   sun-color: [216, 207, 194, 150]
-   outdoor-ambient-color: [200, 202, 230, 100]
+   sun-color: [216, 207, 194, 300]
+   outdoor-ambient-color: [200, 202, 230, 150]
    fog-color: [200, 202, 230, 100]
    fog-density: 0.003
   br:
@@ -25,7 +23,7 @@ shaders:
   mm:
    sky-type: 3
    outdoor-ambient-color: [255, 207, 194, 119]
-   sun-color: [255, 173, 153, 120]
+   sun-color: [255, 173, 153, 375]
    sun-angle: [93, -45, 0]
    fog-color: [255, 207, 194, 110]
   dl:
