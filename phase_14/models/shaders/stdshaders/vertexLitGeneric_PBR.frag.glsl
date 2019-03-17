@@ -261,7 +261,7 @@ void main()
     #ifdef ARME
         vec4 armeParams = texture(armeSampler, l_texcoord.xy);
     #else
-        vec4 armeParams = vec4(1.0, 1.0, 0.0, 0.0);
+        vec4 armeParams = vec4(AO, ROUGHNESS, METALLIC, EMISSIVE);
     #endif
     
     vec3 specularColor = mix(vec3(0.04), albedo.rgb, armeParams.z);

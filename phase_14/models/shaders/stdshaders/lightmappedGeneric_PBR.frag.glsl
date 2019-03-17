@@ -131,7 +131,7 @@ void main()
     #ifdef ARME
         vec4 armeParams = texture(armeSampler, l_texcoordBaseTexture.xy);
     #else
-        vec4 armeParams = vec4(1.0, 1.0, 0.0, 0.0);
+        vec4 armeParams = vec4(AO, ROUGHNESS, METALLIC, EMISSIVE);
     #endif
     
     float ao        = armeParams.x;
