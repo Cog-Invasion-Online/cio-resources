@@ -1,7 +1,4 @@
-VertexLitGeneric
+UnlitGeneric
 {
     "$basetexture"      "phase_14/maps/white.jpg"
-    "$arme"             "phase_14/maps/gumball_arme.png"
-    
-    "$rimlight"         "1"
 }

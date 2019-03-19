@@ -768,7 +768,7 @@
 <entity>
 "classname" "env_cubemap"
 "size" "32"
-"origin" "0.00000 0.00000 64.00000"
+"origin" "0.00000 96.00000 64.00000"
 </entity>
 <entity>
 "classname" "env_cubemap"
