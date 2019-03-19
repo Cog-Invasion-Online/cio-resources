@@ -17,13 +17,13 @@ def setChannel(img, x, y, channel, val):
         
 def getChannel(img, x, y, channel):
     if channel == CHANNEL_AO:
-        img.getRed(x, y)
+        return img.getRed(x, y)
     elif channel == CHANNEL_ROUGHNESS:
-        img.getGreen(x, y)
+        return img.getGreen(x, y)
     elif channel == CHANNEL_METALLIC:
-        img.getBlue(x, y)
+        return img.getBlue(x, y)
     elif channel == CHANNEL_EMISSIVE:
-        img.getAlpha(x, y)
+        return img.getAlpha(x, y)
 
 def getChannelName(channel):
     if channel == CHANNEL_AO:
@@ -52,6 +52,7 @@ for i in xrange(len(fImgs)):
     if fImg.exists():
         img = PNMImage()
         img.read(fImg)
+        img.makeRgb()
         if not foundSize:
             size = [img.getReadXSize(), img.getReadYSize()]
             foundSize = True
@@ -77,7 +78,7 @@ for channel, img in imgs.items():
             if isinstance(img, float):
                 setChannel(output, x, y, channel, img)
             else:
-                setChannel(output, x, y, channel, getChannel(img, x, y, channel))
+                setChannel(output, x, y, channel, getChannel(img, x, y, 0))
             
 outputFile = Filename(raw_input("Output image: "))
 output.write(outputFile)
