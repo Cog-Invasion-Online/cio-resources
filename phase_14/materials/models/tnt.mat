@@ -1,8 +1,8 @@
 VertexLitGeneric
 {
-    "$basetexture"  "phase_14/maps/tnt/tnt_diffuse.png"
+    "$basetexture"  "phase_14/maps/tnt/tnt_albedo.png"
     "$bumpmap"      "phase_14/maps/tnt/tnt_normal.png"
     
     "$envmap"       "env_cubemap"
-    "$envmapmask"   "phase_14/maps/tnt/tnt_envmask.png"
+    "$arme"         "phase_14/maps/tnt/tnt_arme.png"
 }

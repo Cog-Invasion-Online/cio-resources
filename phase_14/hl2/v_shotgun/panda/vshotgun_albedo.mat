@@ -3,13 +3,9 @@ VertexLitGeneric
 	"$basetexture" 			"phase_14/hl2/v_shotgun/panda/vshotgun_albedo.png"
 	"$bumpmap" 				"phase_14/hl2/v_shotgun/panda/vshotgun_normal.png"
 	
-	"$selfillum" 			"1"
-	"$selfillummask"		"phase_14/hl2/v_shotgun/panda/vshotgun_selfillum.png"
+	"$arme"					"phase_14/hl2/v_shotgun/panda/vshotgun_arme.png"
 	
-	"$phong"				"1"
-	"$phongboost" 			"1"
-	"$phongexponent" 		"10"
-	"$phongalbedotint" 		"1"
-	"$phongmask"			"phase_14/hl2/v_shotgun/panda/vshotgun_phongmask.png"							
-	"$phongfresnelranges"	".1 5 1"
+	"$envmap"				"env_cubemap"
+	
+	"$selfillum" 			"1"
 }
