@@ -60,6 +60,11 @@ out vec4 l_texcoordBaseTexture;
     out vec4 l_pssmCoords[PSSM_SPLITS];
 #endif
 
+#if NUM_CLIP_PLANES > 0
+    uniform mat4 p3d_ModelViewMatrix;
+    out vec4 l_eyePosition;
+#endif
+
 uniform mat4 p3d_ModelViewProjectionMatrix;
 in vec4 p3d_Vertex;
 
@@ -68,6 +73,10 @@ void main()
     gl_Position = p3d_ModelViewProjectionMatrix * p3d_Vertex;
     
     l_texcoordBaseTexture = texcoord;
+    
+    #if NUM_CLIP_PLANES > 0
+        l_eyePosition = p3d_ModelViewMatrix * p3d_Vertex;
+    #endif
     
     #if defined(FLAT_LIGHTMAP) || defined(BUMPED_LIGHTMAP)
         l_texcoordLightmap = vec4(TEXCOORD_LIGHTMAP, 0, 0);

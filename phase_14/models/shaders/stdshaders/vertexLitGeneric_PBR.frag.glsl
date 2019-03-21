@@ -193,7 +193,7 @@ void main()
     #if NUM_CLIP_PLANES > 0
         for (int i = 0; i < NUM_CLIP_PLANES; i++)
         {
-            if (ClipPlaneTest(l_worldPosition, p3d_ClipPlane[i])) 
+            if (!ClipPlaneTest(l_eyePosition, p3d_ClipPlane[i])) 
             {
                 // pixel outside of clip plane interiors
                 discard;

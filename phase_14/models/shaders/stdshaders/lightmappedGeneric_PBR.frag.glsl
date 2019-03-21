@@ -106,10 +106,27 @@ in vec4 l_texcoordBaseTexture;
     in vec3 l_normal;
 #endif
 
+#if NUM_CLIP_PLANES > 0
+    uniform vec4 p3d_ClipPlane[NUM_CLIP_PLANES];
+    in vec4 l_eyePosition;
+#endif
+
 out vec4 outputColor;
 
 void main()
 {
+    // Clipping first!
+    #if NUM_CLIP_PLANES > 0
+        for (int i = 0; i < NUM_CLIP_PLANES; i++)
+        {
+            if (!ClipPlaneTest(l_eyePosition, p3d_ClipPlane[i])) 
+            {
+                // pixel outside of clip plane interiors
+                discard;
+            }
+        }
+    #endif
+    
     outputColor = vec4(0, 0, 0, 1);
 
     #ifdef BUMPMAP

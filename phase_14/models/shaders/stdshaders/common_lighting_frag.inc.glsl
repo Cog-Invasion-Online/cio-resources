@@ -432,11 +432,9 @@ bool AlphaTest(int type, float test, float ref)
 	return false;
 }
 
-bool ClipPlaneTest(vec4 worldPosition, vec4 clipPlane)
+bool ClipPlaneTest(vec4 position, vec4 clipPlane)
 {
-	return (worldPosition.x * clipPlane.x + worldPosition.y
-			* clipPlane.y + worldPosition.z * clipPlane.z
-			+ clipPlane.w <= 0.0);
+	return (dot(position.xyz, clipPlane.xyz) + clipPlane.w) > 0;
 }
 
 vec3 AmbientCubeLight(vec3 worldNormal, vec3 ambientCube[6])
