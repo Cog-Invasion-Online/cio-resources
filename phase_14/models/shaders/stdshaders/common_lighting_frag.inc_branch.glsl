@@ -10,7 +10,6 @@
  
 #pragma once
 
-#pragma include "phase_14/models/shaders/stdshaders/common.inc.glsl"
 #pragma include "phase_14/models/shaders/stdshaders/common_shadows_frag.inc.glsl"
 #pragma include "phase_14/models/shaders/stdshaders/common_brdf_frag.inc.glsl"
 
@@ -122,21 +121,19 @@ float GetFalloff(vec4 falloff, vec4 falloff2, float dist)
     return lattenv;
 }
 
-float HasHardFalloff(vec4 falloff2)
+bool HasHardFalloff(vec4 falloff2)
 {
-    return float(falloff2.y > falloff2.x);
+    return (falloff2.y > falloff2.x);
 }
 
-float CheckHardFalloff(vec4 falloff2, float dist, float dot)
+bool CheckHardFalloff(vec4 falloff2, float dist, float dot)
 {
-    return float(dist * 16.0 <= falloff2.y);
-}
-
-float HardFalloff(LightingParams_t params)
-{
-    float hasHardFalloff = HasHardFalloff(params.falloff2);
-    float hardFalloff = CheckHardFalloff(params.falloff2, params.distance, params.NdotL);
-    return not(and(hasHardFalloff, not(hardFalloff)));
+    if (dist * 16.0 > falloff2.y)
+    {
+        return false;
+    }
+    
+    return true;
 }
 
 void ApplyHardFalloff(inout float falloff, vec4 falloff2, float dist, float dot)
@@ -221,7 +218,12 @@ void GetPointLight(inout LightingParams_t params)
     ComputeLightVectors(params);
     
 #ifdef BSP_LIGHTING
-    params.attenuation = GetFalloff(params.lAtten, params.falloff2, params.distance) * HardFalloff(params);
+    bool hasHardFalloff = HasHardFalloff(params.falloff2);
+    if (hasHardFalloff && !CheckHardFalloff(params.falloff2, params.distance, params.NdotL))
+    {
+        return;
+    }
+    params.attenuation = GetFalloff(params.lAtten, params.falloff2, params.distance);
 #else
     params.attenuation = 1.0 / (params.lAtten.x + params.lAtten.y*params.distance + params.lAtten.z*params.distance*params.distance);
 #endif
@@ -234,29 +236,36 @@ void GetSpotlight(inout LightingParams_t params)
     ComputeLightVectors(params);
     
 #ifdef BSP_LIGHTING
+    
+    bool hasHardFalloff = HasHardFalloff(params.falloff2);
+    if (hasHardFalloff && !CheckHardFalloff(params.falloff2, params.distance, params.NdotL))
+    {
+        return;
+    }
 
     float dot2 = clamp(dot(params.L, normalize(-params.lDir.xyz)), 0, 1);
     if (dot2 <= params.falloff2.w)
     {
-        // outside light cone
+        // outside entire cone
         return;
     }
     
     params.attenuation = GetFalloff(params.lAtten, params.falloff2, params.distance);
     params.attenuation *= dot2;
     
-    float mult = HardFalloff(params);
+    float mult = 1.0;
     
-    float innerCone = (dot2 - params.falloff2.w) / (params.lAtten.w - params.falloff2.w);
-    // since we multiply this with the existing mult,
-    // this makes innerCone become 1 if false, or remain the same if true
-    innerCone = mul_cmp(innerCone, float(dot2 <= params.lAtten.w));
-    mult *= innerCone;
-    mult = clamp(mult, 0, 1);
+    if (dot2 <= params.lAtten.w)
+    {
+        mult *= (dot2 - params.falloff2.w) / (params.lAtten.w - params.falloff2.w);
+        mult = clamp(mult, 0, 1);
+    }
     
     float exp = params.falloff3.x;
-    exp = mul_cmp(exp, float(exp != 0.0 && exp != 1.0));
-    mult = pow(mult, exp);
+    if (exp != 0.0 && exp != 1.0)
+    {
+        mult = pow(mult, exp);
+    }
     
     params.attenuation *= mult;
     
@@ -268,6 +277,7 @@ void GetSpotlight(inout LightingParams_t params)
 #else
     float langle = clamp(dot(params.lDir.xyz, -params.L), 0, 1);
     
+    params.attenuation = 0.0;
     if (langle > params.spotCosCutoff)
     {
         params.attenuation = 1/(params.lAtten.x + params.lAtten.y*params.distance + params.lAtten.z*params.distance*params.distance);
@@ -277,8 +287,6 @@ void GetSpotlight(inout LightingParams_t params)
     {
         return;
     }
-
-    params.attenuation *= float(langle > params.spotCosCutoff);
 #endif
 
     AddTotalRadiance(params);
