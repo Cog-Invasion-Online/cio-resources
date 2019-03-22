@@ -20,7 +20,6 @@ in vec3 l_worldNormal;
 in vec3 l_worldEyeToVert;
 in mat3 l_tangentSpaceTranspose;
 
-uniform sampler2D base_map;
 uniform sampler2D normal_map;
 uniform samplerCube cube_map;
 uniform float reflectivity;
@@ -30,8 +29,6 @@ out vec4 frag_color;
 
 void main()
 {
-        vec4 basecolor = texture(base_map, l_texcoord);
-        
         mat3 tangentSpaceTranspose = l_tangentSpaceTranspose;
         tangentSpaceTranspose[2] = l_worldNormal;
         vec4 worldNormal = vec4(0);
@@ -40,8 +37,8 @@ void main()
         worldNormal.xyz = normalize(worldNormal.xyz);
         
         vec3 specular = SampleCubeMap(l_worldEyeToVert, worldNormal, vec3(0), cube_map).rgb;
-        float fresnel = max(Fresnel(worldNormal.xyz, l_worldEyeToVert.xyz), 0.1);
+        float fresnel = max(Fresnel4(worldNormal.xyz, l_worldEyeToVert.xyz), 0.1);
         
-        frag_color.rgb = (basecolor.rgb * water_tint.rgb) + (specular * reflectivity);
-        frag_color.a = fresnel;
+        frag_color.rgb = water_tint.rgb + (specular * reflectivity);
+        frag_color.a = fresnel * water_tint.a;
 }
