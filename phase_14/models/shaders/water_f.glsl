@@ -28,14 +28,10 @@ uniform sampler2D refr_depth;
 uniform sampler2D dudv;
 uniform sampler2D normal_map;
 
-uniform float reflectivity;
-uniform float shine_damper;
 uniform float dudv_strength;
 uniform vec2 move_factor;
 uniform float near;
 uniform float far;
-uniform vec3 lightdir;
-uniform vec3 lightcol;
 uniform vec4 fog_color;
 uniform vec4 water_tint;
 uniform float fog_density;

@@ -12,9 +12,11 @@
  
 #pragma optionNV(unroll all)
 #pragma include "phase_14/models/shaders/stdshaders/common_shadows_vert.inc.glsl"
+#pragma include "phase_14/models/shaders/stdshaders/common_animation_vert.inc.glsl"
 
 uniform mat4 p3d_ModelViewProjectionMatrix;
 in vec4 p3d_Vertex;
+in vec3 p3d_Normal;
 out vec4 l_position;
 
 #if defined(NEED_TBN) || defined(NEED_EYE_VEC) || defined(NEED_WORLD_NORMAL)
@@ -56,10 +58,6 @@ out vec4 l_position;
     out vec4 l_eyeNormal;
 #endif
 
-#if defined(NEED_WORLD_NORMAL) || defined(NEED_EYE_NORMAL)
-    in vec3 p3d_Normal;
-#endif
-
 #ifdef NEED_EYE_VEC
     uniform vec4 mspos_view;
     out vec3 l_eyeVec;
@@ -78,14 +76,6 @@ out vec4 l_texcoord;
     out vec4 l_hPos;
 #endif
 
-#if defined(HARDWARE_SKINNING) && NUM_TRANSFORMS > 0
-    uniform mat4 p3d_TransformTable[NUM_TRANSFORMS];
-    in vec4 transform_weight;
-    #ifdef INDEXED_TRANSFORMS
-        in uvec4 transform_index;
-    #endif
-#endif
-
 #ifdef HAS_SHADOW_SUNLIGHT
     uniform mat4 pssmMVPs[PSSM_SPLITS];
     uniform vec3 sunVector[1];
@@ -95,34 +85,10 @@ out vec4 l_texcoord;
 void main()
 {
 	vec4 finalVertex = p3d_Vertex;
+    vec3 finalNormal = p3d_Normal;
 
-    #if defined(NEED_WORLD_NORMAL) || defined(NEED_EYE_NORMAL)
-        vec3 finalNormal = p3d_Normal;
-    #endif
-
-    #if defined(HARDWARE_SKINNING) && NUM_TRANSFORMS > 0
-
-        #ifndef INDEXED_TRANSFORMS
-            const uvec4 transform_index = uvec4(0, 1, 2, 3);
-        #endif
-
-        mat4 matrix = p3d_TransformTable[transform_index.x] * transform_weight.x
-        #if NUM_TRANSFORMS > 1
-            + p3d_TransformTable[transform_index.y] * transform_weight.y
-        #endif
-        #if NUM_TRANSFORMS > 2
-            + p3d_TransformTable[transform_index.z] * transform_weight.z
-        #endif
-        #if NUM_TRANSFORMS > 3
-            + p3d_TransformTable[transform_index.w] * transform_weight.w
-        #endif
-        ;
-
-        finalVertex = matrix * p3d_Vertex;
-        #if defined(NEED_WORLD_NORMAL) || defined(NEED_EYE_NORMAL)
-            finalNormal = mat3(matrix) * p3d_Normal;
-        #endif
-
+    #if HAS_HARDWARE_SKINNING
+        DoHardwareAnimation(finalVertex, finalNormal, p3d_Vertex, p3d_Normal);
     #endif
 
 	gl_Position = p3d_ModelViewProjectionMatrix * finalVertex;

@@ -10,6 +10,8 @@
  *
  */
  
+#pragma include "phase_14/models/shaders/stdshaders/common_animation_vert.inc.glsl"
+ 
 uniform mat4 p3d_ModelViewProjectionMatrix;
 
 in vec4 p3d_Vertex;
@@ -28,7 +30,13 @@ out vec4 l_color;
 
 void main()
 {
-    gl_Position = p3d_ModelViewProjectionMatrix * p3d_Vertex;
+    vec4 finalVertex = p3d_Vertex;
+    #if HAS_HARDWARE_SKINNING
+	vec3 foo = vec3(0);
+        DoHardwareAnimation(finalVertex, foo, p3d_Vertex, foo);
+    #endif
+    
+    gl_Position = p3d_ModelViewProjectionMatrix * finalVertex;
     
     l_texcoord = texcoord;
     
