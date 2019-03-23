@@ -398,20 +398,9 @@
 	]
 ]
 
-@SolidClass base(Door, ZHLT) = func_water : "Liquid" 
+@SolidClass base(ZHLT) = func_water : "Liquid" 
 [
-	spawnflags(flags) =
-	[
-		1 : "Starts Open" : 0
-		256:"Use Only" : 0
-	]
-	skin(choices) : "Contents" : -3 =
-	[
-		-3: "Water"
-		-4: "Slime"
-		-5: "Lava"
-	]
-	WaveHeight(string) : "Wave Height" : "3.2"
+	waterspec(string) : "Water type" : "pond"
 ]
 
 //

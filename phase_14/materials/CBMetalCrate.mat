@@ -1,0 +1,9 @@
+LightmappedGeneric
+{
+	"$basetexture"			"phase_10/maps/CBMetalCrate.jpg"
+	"$bumpmap"				"phase_10/maps/CBMetalCrate_normal.jpg"
+	
+	"$envmap"				"env_cubemap"
+	"$metallic"				"1.0"
+	"$roughness"			"0.5"
+}

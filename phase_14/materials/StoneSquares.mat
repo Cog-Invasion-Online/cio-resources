@@ -1,0 +1,9 @@
+LightmappedGeneric
+{
+	"$basetexture"			"phase_10/maps/StoneSquares.jpg"
+	"$bumpmap"				"phase_10/maps/StoneSquares_normal.jpg"
+	
+	"$envmap"				"env_cubemap"
+	"$roughness"			"0.35"
+	"$metallic"				"1.0"
+}
