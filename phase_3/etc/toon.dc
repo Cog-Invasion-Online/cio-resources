@@ -7,7 +7,7 @@ from src.coginvasion.avatar import DistributedAvatar/AI
 from src.coginvasion.attack import BaseProjectile/AI
 from src.coginvasion.attack import LinearProjectile/AI
 from src.coginvasion.attack import LobProjectile/AI
-from src.coginvasion.attack import WholeCreamPieProjectile/AI
+from src.coginvasion.gagsnew import WholeCreamPieProjectile/AI
 from src.coginvasion.gagsnew import TNTProjectile/AI
 from src.coginvasion.gagsnew import GumballProjectile/AI
 from src.coginvasion.cog.attacks import ClipOnTieProjectile/AI
