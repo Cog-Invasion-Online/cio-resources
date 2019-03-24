@@ -4,14 +4,14 @@
 keyword udp;
 
 from src.coginvasion.avatar import DistributedAvatar/AI
-from src.coginvasion.avatar.BaseProjectile import BaseProjectile/AI
-from src.coginvasion.avatar.BaseProjectile import LinearProjectile/AI
-from src.coginvasion.avatar.BaseProjectile import LobProjectile/AI
-from src.coginvasion.gagsnew.WholeCreamPie import WholeCreamPieProjectile/AI
-from src.coginvasion.gagsnew.TNT import TNTProjectile/AI
-from src.coginvasion.gagsnew.GumballBlaster import GumballProjectile/AI
-from src.coginvasion.cog.attacks.ClipOnTie import ClipOnTieProjectile/AI
-from src.coginvasion.cog.attacks.Bomb import BombProjectile/AI
+from src.coginvasion.attack import BaseProjectile/AI
+from src.coginvasion.attack import LinearProjectile/AI
+from src.coginvasion.attack import LobProjectile/AI
+from src.coginvasion.attack import WholeCreamPieProjectile/AI
+from src.coginvasion.gagsnew import TNTProjectile/AI
+from src.coginvasion.gagsnew import GumballProjectile/AI
+from src.coginvasion.cog.attacks import ClipOnTieProjectile/AI
+from src.coginvasion.cog.attacks import BombProjectile/AI
 from src.coginvasion.toon import DistributedToon/AI
 from src.coginvasion.toon import DistributedPlayerToon/AI/UD
 from src.coginvasion.toon import DistributedNPCToon/AI
