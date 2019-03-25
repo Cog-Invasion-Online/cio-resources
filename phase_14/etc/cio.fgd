@@ -808,3 +808,25 @@
 @PointClass base(Targetname) = info_hint_cover : "Cover hint location"
 [
 ]
+
+@PointClass base(Targetname) = batch_cog_spawner : "Batch cog spawner"
+[
+    ivalMin(string) : "Min time between spawns"	: "5.0"
+    ivalMax(string) : "Max time between spawns"	: "10.0"
+    looping(choices) : "Looping" : 1 =
+    [
+	0 : "No"
+	1 : "Yes"
+    ]
+    startNow(choices) : "Start now" : 1 =
+    [
+	0 : "No"
+	1 : "Yes"
+    ]
+    maxBatchMin(integer) : "Batch minimum"	:	"4"
+    maxBatchMax(integer) : "Batch maximum"	:	"8"
+    
+    output OnSpawn(void)	:	"Fired when we spawn a batch"
+    input Start(void)	:	"Start the spawning"
+    input Stop(void)	:	"Stop the spawning"
+]
