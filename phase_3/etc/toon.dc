@@ -207,12 +207,12 @@ dclass DistributedAvatar : DistributedSmoothNode {
   // for a particular attack's data, just pack it into a Datagram
   // and send it as a blob, the AI implementation of the attacks
   // should understand how to unpack it.
-  primaryFirePress(blob) broadcast ownsend airecv udp;
-  primaryFireRelease(blob) broadcast ownsend airecv udp;
-  secondaryFirePress(blob) broadcast ownsend airecv udp;
-  secondaryFireRelease(blob) broadcast ownsend airecv udp;
-  reloadPress(blob) broadcast ownsend airecv udp;
-  reloadRelease(blob) broadcast ownsend airecv udp;
+  primaryFirePress(blob) ownsend airecv udp;
+  primaryFireRelease(blob) ownsend airecv udp;
+  secondaryFirePress(blob) ownsend airecv udp;
+  secondaryFireRelease(blob) ownsend airecv udp;
+  reloadPress(blob) ownsend airecv udp;
+  reloadRelease(blob) ownsend airecv udp;
   // ========================= //
 };
 
