@@ -265,6 +265,7 @@ dclass DistributedPlayerToon : DistributedToon {
   reqSetTSAUni(int8 flag) clsend airecv;
   reqSetWorldAccess(int8 andTP) clsend airecv;
   reqUnlockAllGags() clsend ownsend airecv;
+  reqRefillLaff() clsend ownsend airecv;
   reqAllGagSlots() clsend ownsend airecv;
   
   createObjectForMe(uint16 dclassNum) ownsend airecv;
