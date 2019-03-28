@@ -10,7 +10,7 @@ import glob
 import argparse
 import sys
 
-phases = []
+phases = ['winter.mf']
 
 for multifile in glob.glob("phase_*"):
     if multifile[-1:].isdigit():
