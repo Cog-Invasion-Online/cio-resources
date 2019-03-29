@@ -1,12 +1,11 @@
 #version 330
 
-in vec4 l_texcoord;
+in vec3 l_worldEyeToVert;
+uniform samplerCube skyboxSampler;
 
 out vec4 outputColor;
 
-uniform sampler2D skyboxRTT;
-
 void main()
 {
-    outputColor = textureProj(skyboxRTT, l_texcoord);
+    outputColor = texture(skyboxSampler, normalize(l_worldEyeToVert));
 }

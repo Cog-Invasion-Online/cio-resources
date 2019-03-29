@@ -7,5 +7,5 @@ VertexLitGeneric
 	
 	"$envmap"			"env_cubemap"
 	"$metallic"			"1.0"
-	"$roughness"		"0.7"
+	"$roughness"		"0.5"
 }

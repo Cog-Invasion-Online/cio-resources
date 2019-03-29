@@ -1,4 +1,5 @@
 VertexLitGeneric
 {
 	"$basetexture"			"phase_8/maps/nightsky.jpg"
+	"$basetexture_wrapv"		"clamp"
 }
