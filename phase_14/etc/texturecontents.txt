@@ -1,7 +1,0 @@
-phase_4/maps/sky.jpg sky
-phase_9/maps/FloorGrate.jpg hlgrate
-phase_14/maps/toolstrigger.png null
-phase_14/maps/sewer_water.png water
-phase_14/maps/toolsskybox.png sky
-phase_14/maps/toolsnodraw.png null
-phase_14/maps/toolsclip.png clip
