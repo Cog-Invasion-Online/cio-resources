@@ -209,7 +209,7 @@ void main()
     
     // Specular term.
     vec3 specularLighting = vec3(0.0);
-    vec3 specularColor = mix(vec3(0.0), ambientLighting, metallic);
+    vec3 specularColor = mix(vec3(0.04), albedo.rgb, metallic);
     #ifdef ENVMAP
         float NdotV = clamp(dot(finalWorldNormal.xyz, normalize(l_worldEyeToVert.xyz)), 0, 1);
         vec3 F = Fresnel_Schlick(specularColor, NdotV);
