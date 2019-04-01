@@ -334,18 +334,18 @@ int FindCascade(vec4 shadowCoords[PSSM_SPLITS], inout vec3 proj, inout float dep
 	}
 }
 
-void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCoords[PSSM_SPLITS], vec3 lightDir, vec3 eyeNormal)
+void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCoords[PSSM_SPLITS], float NdotL)
 {	
 	lshad = 0.0;
 	
 	// We can guarantee that the pixel is in shadow if
 	// it's facing away from the light source.
 	//
-	// We also only do this outside of BSP levels. Doing this in BSP
-	// levels will cause brush faces facing away from the fake shadows
+	// We only do this on models. Doing this on brushes
+	// will cause brush faces facing away from the fake shadows
 	// to be dark.
-	#if !defined(LIGHTWARP) && !defined(HALFLAMBERT) && !defined(BSP_LIGHTING) && !defined(BUMPED_LIGHTMAP) && !defined(FLAT_LIGHTMAP)
-		if (dot(eyeNormal, lightDir) < 0.0)
+	#if !defined(BUMPED_LIGHTMAP) && !defined(FLAT_LIGHTMAP)
+		if (NdotL < 0.0)
 		{
 			return;
 		}
@@ -364,11 +364,11 @@ void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCo
 }
 
 void DoBlendShadow(inout vec3 diffuseLighting, sampler2DArray shadowSampler,
-                   vec4 shadowCoords[PSSM_SPLITS], vec3 lightDir, vec3 eyeNormal,
+                   vec4 shadowCoords[PSSM_SPLITS],
                    vec3 ambientLightIdentifier, vec3 ambientLightMin, float ambientLightScale)
 {
     float shadow = 0.0;
-    GetSunShadow(shadow, shadowSampler, shadowCoords, lightDir, eyeNormal);
+    GetSunShadow(shadow, shadowSampler, shadowCoords, 0.0);
     shadow = 1.0 - shadow;
     
     vec3 lightDelta = diffuseLighting - ambientLightMin;

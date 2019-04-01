@@ -12,6 +12,7 @@ from src.coginvasion.gagsnew import TNTProjectile/AI
 from src.coginvasion.gagsnew import GumballProjectile/AI
 from src.coginvasion.cog.attacks import ClipOnTieProjectile/AI
 from src.coginvasion.cog.attacks import BombProjectile/AI
+from src.coginvasion.cog.attacks.Fired/AI import FiredProjectile/AI
 from src.coginvasion.toon import DistributedToon/AI
 from src.coginvasion.toon import DistributedPlayerToon/AI/UD
 from src.coginvasion.toon import DistributedNPCToon/AI
@@ -916,7 +917,7 @@ dclass DistributedCogOfficeElevator : DistributedElevator, IDistributedEntity {
 };
 
 dclass BaseProjectile : DistributedSmoothNode {
-  impact(Point3) broadcast;
+  impact(Point3) broadcast udp;
 };
 
 dclass LinearProjectile : BaseProjectile {
@@ -942,4 +943,7 @@ dclass BombProjectile : DistributedPhysicsEntity {
 };
 
 dclass GumballProjectile : LobProjectile {
+};
+
+dclass FiredProjectile : LobProjectile {
 };

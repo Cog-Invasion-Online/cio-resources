@@ -193,7 +193,7 @@ void main()
     #endif
     
     #ifdef HAS_SHADOW_SUNLIGHT
-        DoBlendShadow(diffuseLighting, pssmSplitSampler, l_pssmCoords, sunVector[0], finalWorldNormal.xyz,
+        DoBlendShadow(diffuseLighting, pssmSplitSampler, l_pssmCoords,
                       ambientLightIdentifier, ambientLightMin, ambientLightScale.x);
     #endif
     

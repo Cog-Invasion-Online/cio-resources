@@ -297,7 +297,7 @@ void GetDirectionalLight(inout LightingParams_t params
     
     #ifdef HAS_SHADOW_SUNLIGHT
         float lshad = 0.0;
-        GetSunShadow(lshad, shadowSampler, shadowCoords, params.L, params.N);
+        GetSunShadow(lshad, shadowSampler, shadowCoords, params.NdotL);
         params.attenuation *= lshad;
     #endif
     
