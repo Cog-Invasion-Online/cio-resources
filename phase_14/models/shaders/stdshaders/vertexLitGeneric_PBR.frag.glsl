@@ -85,7 +85,6 @@ in vec4 l_texcoord;
 #endif
 
 #ifdef ENVMAP
-    uniform sampler2D brdfLUTSampler;
     uniform samplerCube envmapSampler;
     uniform vec3 envmapTint;
 #endif
@@ -402,9 +401,7 @@ void main()
         vec3 spec = SampleCubeMapLod(l_worldEyeToVert.xyz,
                                      finalWorldNormal, vec3(0),
                                      envmapSampler, armeParams.y).rgb;
-        
-        vec2 brdf = texture2D(brdfLUTSampler, vec2(NdotV, armeParams.y)).xy;
-        vec3 iblspec = spec * (F * brdf.x + brdf.y);
+        vec3 iblspec = spec * EnvironmentBRDF(armeParams.y, NdotV, F);
         specularLighting += iblspec;
 	
     #endif

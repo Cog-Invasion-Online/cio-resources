@@ -76,8 +76,6 @@ in vec4 l_texcoordBaseTexture;
 
     uniform samplerCube envmapSampler;
     uniform vec3 envmapTint;
-    
-    uniform sampler2D brdfLUTSampler;
 
     #ifdef BUMPMAP
         in mat3 l_tangentSpaceTranspose;
@@ -217,9 +215,8 @@ void main()
         vec3 spec = SampleCubeMapLod(l_worldEyeToVert.xyz,
                                      finalWorldNormal, vec3(0),
                                      envmapSampler, roughness).rgb;
-        
-        vec2 brdf = texture2D(brdfLUTSampler, vec2(NdotV, roughness)).xy;
-        vec3 iblspec = spec * (F * brdf.x + brdf.y);
+                                     
+        vec3 iblspec = spec * EnvironmentBRDF(roughness, NdotV, F);
         specularLighting += iblspec;     
     #endif
     
