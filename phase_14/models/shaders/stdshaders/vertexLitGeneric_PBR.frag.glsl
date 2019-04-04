@@ -140,10 +140,10 @@ uniform vec4 p3d_ClipPlane[NUM_CLIP_PLANES];
 #endif
 
 #ifdef LIGHTING
-    uniform int lightTypes[NUM_LIGHTS];
 
     #ifdef BSP_LIGHTING
-
+    
+        uniform int lightTypes[NUM_LIGHTS];
         uniform int lightCount[1];
         uniform mat4 lightData[NUM_LIGHTS];
         uniform mat4 lightData2[NUM_LIGHTS];
@@ -153,7 +153,7 @@ uniform vec4 p3d_ClipPlane[NUM_CLIP_PLANES];
 
     #else // BSP_LIGHTING
 
-        uniform struct
+        uniform struct p3d_LightSourceParameters
         {
             vec4 diffuse;
             vec4 position;
@@ -301,10 +301,9 @@ void main()
                              rimlightParams.x, rimlightParams.y);
         #endif
         
-        int lightType;
-
         // Now factor in local light sources
         #ifdef BSP_LIGHTING
+            int lightType;
             for (int i = 0; i < lightCount[0]; i++)
         #else
             for (int i = 0; i < NUM_LIGHTS; i++)
@@ -317,6 +316,7 @@ void main()
                 params.lColor = lightData[i][3];
                 params.falloff2 = lightData2[i][0];
                 params.falloff3 = lightData2[i][1];
+                lightType = lightTypes[i];
             #else
                 params.lColor = p3d_LightSource[i].diffuse;
                 params.lDir = p3d_LightSource[i].position;
@@ -324,19 +324,34 @@ void main()
                 params.lAtten = vec4(p3d_LightSource[i].attenuation, 0.0);
                 params.falloff2 = vec4(0);
                 params.falloff3 = vec4(0);
+                bool isDirectional = params.lPos[3] == 0.0;
             #endif // BSP_LIGHTING
             
-            lightType = lightTypes[i];
-            
-            // FIXME: make Panda point and spotlights work in
-            //        our shader system
             #ifdef BSP_LIGHTING
-            if (lightType == LIGHTTYPE_POINT)
+                if (lightType == LIGHTTYPE_DIRECTIONAL)
+            #else
+                if (isDirectional)
+            #endif
+            {
+                GetDirectionalLight(params
+                                    #ifdef HAS_SHADOW_SUNLIGHT
+                                        , pssmSplitSampler, l_pssmCoords
+                                    #endif // HAS_SHADOW_SUNLIGHT
+                );
+            }
+            #ifdef BSP_LIGHTING
+                else if (lightType == LIGHTTYPE_POINT)
+            #else
+                else if (p3d_LightSource[i].spotExponent == 0.0)
+            #endif
             {
                 GetPointLight(params);
-
             }
-            else if (lightType == LIGHTTYPE_SPOT)
+            #ifdef BSP_LIGHTING
+                else if (lightType == LIGHTTYPE_SPOT)
+            #else
+                else
+            #endif
             {
                 #ifndef BSP_LIGHTING
                     params.lDir = vec4(p3d_LightSource[i].spotDirection, 0);
@@ -345,17 +360,6 @@ void main()
                 #endif
                 
                 GetSpotlight(params);
-            }
-            else if (lightType == LIGHTTYPE_DIRECTIONAL)
-            #else // BSP_LIGHTING
-            if (lightType == LIGHTTYPE_DIRECTIONAL)
-            #endif // BSP_LIGHTING
-            {
-                GetDirectionalLight(params
-                                    #ifdef HAS_SHADOW_SUNLIGHT
-                                        , pssmSplitSampler, l_pssmCoords
-                                    #endif // HAS_SHADOW_SUNLIGHT
-                );
             }
         }
         
