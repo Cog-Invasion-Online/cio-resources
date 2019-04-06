@@ -117,11 +117,6 @@ in vec4 l_texcoord;
     in vec4 l_binormal;
 #endif
 
-#if NEED_EYE_VEC
-    in vec3 l_eyeVec;
-    in vec3 l_eyeDir;
-#endif
-
 #if defined(HAVE_AUX_NORMAL) || defined(HAVE_AUX_GLOW)
     layout(location = 1) out vec4 o_aux;
 #endif
@@ -205,13 +200,19 @@ void main()
     #endif
 
 	vec3 parallaxOffset = vec3(0.0);
+    
+    #ifdef NEED_EYE_POSITION
+        vec3 eyeVec = normalize(-l_eyePosition.xyz);
+    #else
+        vec3 eyeVec = vec3(0);
+    #endif
 
     #ifdef HEIGHTMAP
-        parallaxOffset = l_eyeVec.xyz * (texture2D(heightSampler, l_texcoord.xy).rgb * 2.0 - 1.0) * PARALLAX_MAPPING_SCALE;
+        parallaxOffset = eyeVec * (texture2D(heightSampler, l_texcoord.xy).rgb * 2.0 - 1.0) * PARALLAX_MAPPING_SCALE;
         // Additional samples
         for (int i = 0; i < PARALLAX_MAPPING_SAMPLES; i++)
         {
-            parallaxOffset += l_eyeVec.xyz * (parallaxOffset + (texture2D(heightSampler, l_texcoord.xy).rgb * 2.0 - 1.0)) * (0.5 * PARALLAX_MAPPING_SCALE);
+            parallaxOffset += eyeVec * (parallaxOffset + (texture2D(heightSampler, l_texcoord.xy).rgb * 2.0 - 1.0)) * (0.5 * PARALLAX_MAPPING_SCALE);
         }
     #endif
 
@@ -270,7 +271,7 @@ void main()
         // Initialize our lighting parameters
         LightingParams_t params = newLightingParams_t(
             l_eyePosition,
-            l_eyeVec,
+            eyeVec,
             finalEyeNormal.xyz,
             armeParams.y,
             armeParams.z,

@@ -58,12 +58,6 @@ out vec4 l_position;
     out vec4 l_eyeNormal;
 #endif
 
-#ifdef NEED_EYE_VEC
-    uniform vec4 mspos_view;
-    out vec3 l_eyeVec;
-    out vec3 l_eyeDir;
-#endif
-
 #ifdef NEED_WORLD_VEC
     uniform vec4 wspos_view;
     out vec4 l_worldEyeToVert;
@@ -129,15 +123,6 @@ void main()
     #ifdef NEED_TBN
         l_tangent = vec4(normalize(mat3(p3d_ModelViewMatrix) * p3d_Tangent.xyz), 0.0);
         l_binormal = vec4(normalize(mat3(p3d_ModelViewMatrix) * -p3d_Binormal.xyz), 0.0);
-    #endif
-
-    #ifdef NEED_EYE_VEC
-        vec3 eyeDir = mspos_view.xyz - finalVertex.xyz;
-        l_eyeVec = normalize(vec3(
-			dot(p3d_Tangent.xyz, eyeDir),
-			dot(p3d_Binormal.xyz, eyeDir),
-			dot(finalNormal, eyeDir)
-        ));
     #endif
 
     #ifdef NEED_WORLD_VEC
