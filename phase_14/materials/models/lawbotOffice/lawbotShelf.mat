@@ -1,8 +1,8 @@
 VertexLitGeneric
 {
-    "$basetexture"  "phase_14/maps/lawbotOffice/shelf_albedo.png"
-    "$bumpmap"      "phase_14/maps/lawbotOffice/shelf_normal.png"
-    "$arme"         "phase_14/maps/lawbotOffice/shelf_arme.png"
+    "$basetexture"  "phase_14/maps/lawbotOffice/Shelf_albedo.png"
+    "$bumpmap"      "phase_14/maps/lawbotOffice/Shelf_normal.png"
+    "$arme"         "phase_14/maps/lawbotOffice/Shelf_arme.png"
     
     "$envmap"       "env_cubemap"
 }
