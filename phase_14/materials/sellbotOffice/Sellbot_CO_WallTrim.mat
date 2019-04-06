@@ -1,10 +1,14 @@
 LightmappedGeneric
 {
     "$basetexture"  "phase_14/maps/sellbotOffice/SB_CO_Wall.jpg"
-    //"$bumpmap"      "phase_14/maps/sellbotOffice/Sellbot_CO_WallTrim_bump.png"
+    "$bumpmap"      "phase_14/maps/sellbotOffice/Sellbot_CO_WallTrim_bump.png"
     
     "$envmap"       "env_cubemap"
-    "$envmapmask"   "phase_14/maps/sellbotOffice/Sellbot_CO_WallTrim_spec.png"
+    
+    "$ao"           "1.0"
+    "$roughness"    "0.3"
+    "$metallic"     "1.0"
+    "$emissive"     "1.0"
     
     "$surfaceprop"  "metalfloor"
 }
