@@ -42,6 +42,7 @@ struct LightingParams_t
     vec3 V; // camera->fragment
     vec3 N; // fragment normal
     float roughness;
+    float roughness2;
     float metallic;
     vec3 specularColor;
     vec3 albedo;
@@ -62,8 +63,8 @@ struct LightingParams_t
     vec3 H; // half (light->fragment)
     float NdotL;
     float NdotV;
-    float HdotN;
-    float HdotV;
+    float NdotH;
+    float VdotH;
     float attenuation;
     float distance;
     
@@ -80,7 +81,8 @@ LightingParams_t newLightingParams_t(vec4 eyePos, vec3 eyeVec, vec3 eyeNormal,
         eyePos,
         eyeVec,
         eyeNormal,
-        roughness,
+        roughness*roughness,
+        roughness*roughness*roughness*roughness,
         metallic,
         specular,
         albedo,
@@ -154,24 +156,24 @@ void ApplyHardFalloff(inout float falloff, vec4 falloff2, float dist, float dot)
 
 void ComputeLightHAndDots(inout LightingParams_t params)
 {
-    params.H = normalize(params.V + params.L);
+    params.H = normalize(params.L + params.V);
     
     params.NdotL = dot(params.N, params.L);
     #ifdef HALFLAMBERT
-        params.NdotL = clamp(params.NdotL * 0.5 + 0.5, 0.0, 1.0);
+        params.NdotL = clamp(params.NdotL * 0.5 + 0.5, 0.001, 1.0);
         #ifndef LIGHTWARP
             params.NdotL *= params.NdotL;
         #endif
     #else // HALFLAMBERT
-        params.NdotL = clamp(params.NdotL, 0.0, 1.0);
+        params.NdotL = clamp(params.NdotL, 0.001, 1.0);
     #endif // HALFLAMBERT
     #ifdef LIGHTWARP
         params.NdotL = 2.0 * texture(lightwarpSampler, vec2(params.NdotL, 0.5)).r;
     #endif // LIGHTWARP
     
-    params.NdotV = max(dot(params.N, params.V), 0.001);
-    params.HdotN = max(dot(params.N, params.H), 0.001);
-    params.HdotV = max(dot(params.H, params.V), 0.001);
+    params.NdotV = clamp(abs(dot(params.N, params.V)), 0.001, 1.0);
+    params.NdotH = clamp(dot(params.N, params.H), 0.0, 1.0);
+    params.VdotH = clamp(dot(params.V, params.H), 0.0, 1.0);
 }
 
 void ComputeLightVectors_Dir(inout LightingParams_t params)
@@ -195,24 +197,18 @@ void ComputeLightVectors(inout LightingParams_t params)
 
 void AddTotalRadiance(inout LightingParams_t params)
 {
-    vec3 radiance = params.lColor.rgb * params.attenuation;
+    vec3 lightRadiance = params.lColor.rgb * params.attenuation;
     
-    float NDF 	= Distribution_GGX2(params.HdotN, params.roughness);
-    float G 	= Geometry_Smith(params.NdotV,
-			              params.NdotL,
-				      params.roughness);
-    vec3 F	= Fresnel_Schlick(params.specularColor, params.HdotV);
+    float G = GeometricOcclusionTerm(params.roughness2, params.NdotL, params.NdotV);
+    float D = MicrofacetDistributionTerm(params.roughness2, params.NdotH);
+    vec3 F	= Fresnel_Schlick(params.specularColor, params.VdotH);
     vec3 kS = F;
     vec3 kD = vec3(1.0) - kS;
     kD *= 1.0 - params.metallic;
+    vec3 diffuse = kD * params.albedo / PI;
+    vec3 specular = CookTorrance(F, G, D, params.NdotL, params.NdotV);
     
-    vec3 numerator = NDF * G * F;
-    float denominator = 4.0 * max(params.NdotV, 0.0) *
-		        max(params.NdotL, 0.0);
-    vec3 specular = numerator / max(denominator, 0.001);
-    
-    float NdotL = max(params.NdotL, 0.0);
-    params.totalRadiance += (kD * params.albedo / PI + specular) * radiance * NdotL;
+    params.totalRadiance += (diffuse + specular) * lightRadiance * params.NdotL;
 }
 
 void GetPointLight(inout LightingParams_t params)
@@ -297,7 +293,7 @@ void GetDirectionalLight(inout LightingParams_t params
     
     #ifdef HAS_SHADOW_SUNLIGHT
         float lshad = 0.0;
-        GetSunShadow(lshad, shadowSampler, shadowCoords, params.L, params.N);
+        GetSunShadow(lshad, shadowSampler, shadowCoords, params.NdotL);
         params.attenuation *= lshad;
     #endif
     

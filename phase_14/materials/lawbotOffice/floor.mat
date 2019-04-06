@@ -1,0 +1,8 @@
+LightmappedGeneric
+{
+    "$basetexture"  "phase_14/maps/lawbotOffice/floor_albedo.png"
+    "$bumpmap"      "phase_14/maps/lawbotOffice/floor_normal.png"
+    "$arme"         "phase_14/maps/lawbotOffice/floor_arme.png"
+    
+    "$envmap"       "env_cubemap"
+}

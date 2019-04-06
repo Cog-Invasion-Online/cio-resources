@@ -76,8 +76,6 @@ in vec4 l_texcoordBaseTexture;
 
     uniform samplerCube envmapSampler;
     uniform vec3 envmapTint;
-    
-    uniform sampler2D brdfLUTSampler;
 
     #ifdef BUMPMAP
         in mat3 l_tangentSpaceTranspose;
@@ -193,7 +191,7 @@ void main()
     #endif
     
     #ifdef HAS_SHADOW_SUNLIGHT
-        DoBlendShadow(diffuseLighting, pssmSplitSampler, l_pssmCoords, sunVector[0], finalWorldNormal.xyz,
+        DoBlendShadow(diffuseLighting, pssmSplitSampler, l_pssmCoords,
                       ambientLightIdentifier, ambientLightMin, ambientLightScale.x);
     #endif
     
@@ -209,7 +207,7 @@ void main()
     
     // Specular term.
     vec3 specularLighting = vec3(0.0);
-    vec3 specularColor = mix(vec3(0.0), albedo.rgb, metallic);
+    vec3 specularColor = mix(vec3(0.04), albedo.rgb, metallic);
     #ifdef ENVMAP
         float NdotV = clamp(dot(finalWorldNormal.xyz, normalize(l_worldEyeToVert.xyz)), 0, 1);
         vec3 F = Fresnel_Schlick(specularColor, NdotV);
@@ -217,9 +215,8 @@ void main()
         vec3 spec = SampleCubeMapLod(l_worldEyeToVert.xyz,
                                      finalWorldNormal, vec3(0),
                                      envmapSampler, roughness).rgb;
-        
-        vec2 brdf = texture2D(brdfLUTSampler, vec2(NdotV, roughness)).xy;
-        vec3 iblspec = spec * (F * brdf.x + brdf.y);
+                                     
+        vec3 iblspec = spec * EnvironmentBRDF(roughness, NdotV, F);
         specularLighting += iblspec;     
     #endif
     

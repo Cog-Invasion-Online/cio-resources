@@ -10,15 +10,16 @@ in vec2 l_uv;
 
 void main()
 {
-    #ifdef BASETEXTURE
-	vec4 albedo = texture2D(baseTextureSampler, l_uv);
-	#ifdef TRANSLUCENT
-		float alpha = albedo.a;
+    #if (defined(BASETEXTURE) && defined(TRANSLUCENT)) || defined(ALPHA)
+    
+	#if defined(BASETEXTURE) && defined(TRANSLUCENT)
+	    float alpha = texture2D(baseTextureSampler, l_uv).a;
 	#elif defined(ALPHA)
-		float alpha = float(ALPHA);
+	    float alpha = float(ALPHA);
 	#else
-		float alpha = 1.0;
+	    float alpha = 1.0;
 	#endif
+	
 	if (alpha < 0.5)
 	{
 		discard;

@@ -4,7 +4,8 @@ LightmappedGeneric
     "$bumpmap"      "phase_14/maps/sellbotOffice/Sellbot_CO_WallPattern_bump.png"
     
     "$envmap"       "env_cubemap"
-    "$envmapmask"   "phase_14/maps/sellbotOffice/Sellbot_CO_WallPattern_spec.png"
+    
+    "$arme"         "phase_14/maps/sellbotOffice/Sellbot_CO_WallPattern_arme.png"
     
     "$surfaceprop"  "metalfloor"
 }

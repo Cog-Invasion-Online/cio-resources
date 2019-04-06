@@ -10,8 +10,9 @@ from src.coginvasion.attack import LobProjectile/AI
 from src.coginvasion.gagsnew import WholeCreamPieProjectile/AI
 from src.coginvasion.gagsnew import TNTProjectile/AI
 from src.coginvasion.gagsnew import GumballProjectile/AI
-from src.coginvasion.cog.attacks import ClipOnTieProjectile/AI
 from src.coginvasion.cog.attacks import BombProjectile/AI
+from src.coginvasion.cog.attacks.Fired/AI import FiredProjectile/AI
+from src.coginvasion.cog.attacks import GenericThrowableLinearProjectile/AI
 from src.coginvasion.toon import DistributedToon/AI
 from src.coginvasion.toon import DistributedPlayerToon/AI/UD
 from src.coginvasion.toon import DistributedNPCToon/AI
@@ -244,7 +245,6 @@ dclass DistributedPlayerToon : DistributedToon {
   setTier(int8) required broadcast ownrecv db;
   setFriendsList(uint32[] = []) required ownrecv db airecv;
   updateBackpackAmmo() ownrecv;
-  toonHitByPie(uint32, uint8 gag_id) ownsend airecv;
   toonUp(uint8 hp, uint8 announce, uint8 sound) clsend airecv;
   setAccessLevel(uint16) required broadcast db ownrecv; // Is this me?
   announceHealthAndPlaySound(int8, int16) broadcast;
@@ -917,7 +917,7 @@ dclass DistributedCogOfficeElevator : DistributedElevator, IDistributedEntity {
 };
 
 dclass BaseProjectile : DistributedSmoothNode {
-  impact(Point3) broadcast;
+  impact(Point3) broadcast udp;
 };
 
 dclass LinearProjectile : BaseProjectile {
@@ -931,9 +931,6 @@ dclass LobProjectile : BaseProjectile {
 dclass WholeCreamPieProjectile : LobProjectile {
 };
 
-dclass ClipOnTieProjectile : LinearProjectile {
-};
-
 dclass TNTProjectile : DistributedPhysicsEntity {
   explode() broadcast udp;
 };
@@ -943,4 +940,11 @@ dclass BombProjectile : DistributedPhysicsEntity {
 };
 
 dclass GumballProjectile : LobProjectile {
+};
+
+dclass FiredProjectile : LobProjectile {
+};
+
+dclass GenericThrowableLinearProjectile : LinearProjectile {
+  setData(uint16 attackID) required broadcast ram;
 };

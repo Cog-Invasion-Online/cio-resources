@@ -1,0 +1,8 @@
+VertexLitGeneric
+{
+    "$basetexture"  "phase_14/maps/lawbotOffice/table_law_albedo.png"
+    "$bumpmap"      "phase_14/maps/lawbotOffice/table_law_normal.png"
+    "$arme"         "phase_14/maps/lawbotOffice/table_law_arme.png"
+    
+    "$envmap"       "env_cubemap"
+}
