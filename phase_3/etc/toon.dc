@@ -49,6 +49,7 @@ from src.coginvasion.uber import DistrictNameManager/AI/UD
 from src.coginvasion.holiday import HolidayManager/AI/UD
 from src.coginvasion.holiday import DistributedWinterCoachActivity/AI
 from src.coginvasion.uber import NameServicesManager/UD
+from src.coginvasion.uber import StatsManager/AI/UD
 from src.coginvasion.cog import DistributedSuit/AI
 from src.coginvasion.hood.playground import DistributedTreasure/AI
 from src.coginvasion.hood.playground import DistributedTTCTreasure/AI
@@ -174,6 +175,9 @@ dclass ClientServicesManager : DistributedObject {
   requestSetAvatar(uint32 avId) clsend;
   setAvatarResponse();
   networkMessage(string message);
+};
+
+dclass StatsManager : DistributedObject {
 };
 
 dclass DistributedAvatar : DistributedSmoothNode {
