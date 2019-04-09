@@ -1,4 +1,14 @@
-UnlitGeneric
+VertexLitGeneric
 {
     "$basetexture"      "phase_14/maps/white.jpg"
+    
+    "$rimlight"         "1"
+    "$rimlightboost"    "5.0"
+    "$roughness"        "0.8"
+    "$metallic"         "0.0"
+    
+    "$selfillum"        "1"
+    "$emissive"         "0.4"
+    
+    "$envmap"           "env_cubemap"
 }
