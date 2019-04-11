@@ -81,7 +81,7 @@ def egg_extract_bin_name(line):
     line = line.split(" }")[0]
     return line
 
-phases = [3.5]#[3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13]
+phases = [3.5]#[3, 3.5, 4, 5, 5.5]#[3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13]
 #phases = [3.5]
 #phases = [3]
 #phases = [10]
@@ -202,6 +202,7 @@ def __threadRevamp(models):
             def replaceTexturesWithMaterial(node):
                 state = node.getState()
                 name = node.getName()
+                changed = False
 
                 stateDict = node2clsType2mat.get(name, None)
                 
@@ -210,7 +211,7 @@ def __threadRevamp(models):
                     
                     if bspAttr:
                         node.setState(bspAttr)
-                        is_changed = True
+                        changed = True
                     else:
                         if isinstance(node.node(), GeomNode):
                             geomNode = node.node()
@@ -224,11 +225,13 @@ def __threadRevamp(models):
                                     state = state.removeAttrib(state.getClassType())
                                     state = state.setAttrib(bspAttr)
                                     geomNode.setGeomState(i, state)
-                                    is_changed = True
+                                    changed = True
                                     
                 children = node.getChildren()
                 for child in children:
-                    replaceTexturesWithMaterial(child)
+                    if replaceTexturesWithMaterial(child):
+                        changed = True
+                return changed
                     
             def appendMaterial(name, state, material):
                 stateDict = node2clsType2mat.get(name, None)
@@ -242,6 +245,7 @@ def __threadRevamp(models):
             def replaceMaterialsWithTexture(node):
                 state = node.getState()
                 name = node.getName()
+                changed = False
                 
                 if state.getAttrib(BSPMaterialAttrib):
                     bspAttr = state.getAttrib(BSPMaterialAttrib)
@@ -252,7 +256,7 @@ def __threadRevamp(models):
                     appendMaterial(name, newState, bspAttr)
                     
                     node.setState(newState)
-                    is_changed = True
+                    changed = True
                 
                 if isinstance(node.node(), GeomNode):
                     geomNode = node.node()
@@ -276,13 +280,15 @@ def __threadRevamp(models):
                                     appendMaterial(geomNode.getName(), newState, bspAttr)
 
                                     geomNode.setGeomState(i, newState)
-                                    is_changed = True
+                                    changed = True
                                     
                 children = node.getChildren()
                 for child in children:
-                    replaceMaterialsWithTexture(child)
+                    if replaceMaterialsWithTexture(child):
+                        changed = True
+                return changed
                     
-            replaceMaterialsWithTexture(mdlNode)
+            is_changed = replaceMaterialsWithTexture(mdlNode)
             
             if (is_character(mdlNode)):
                 char = get_character(mdlNode)
@@ -454,11 +460,10 @@ def __threadRevamp(models):
 
             if (fix_revampbam):
                 revamp = loader.loadModel(get_revamp_bam(mdl), noCache=True)
-                is_changed = False
                 
                 npc = revamp.findAllMatches('**')
                 
-                replaceTexturesWithMaterial(revamp)
+                is_changed = replaceTexturesWithMaterial(revamp)
                 
                 if (is_character(revamp)):
 
