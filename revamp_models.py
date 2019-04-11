@@ -44,7 +44,7 @@ do_egg2bam = True
 do_trans = True
 do_optchar = True
 fix_eggfile = True
-fix_textures = False
+fix_textures = True
 fix_revampbam = True
 want_threads = True
 
@@ -206,7 +206,7 @@ def __threadRevamp(models):
                 stateDict = node2clsType2mat.get(name, None)
                 
                 if stateDict:
-                    bspAttr = stateDict.get(state.getClassType(), None)
+                    bspAttr = stateDict.get(state.getHash(), None)
                     
                     if bspAttr:
                         node.setState(bspAttr)
@@ -218,7 +218,7 @@ def __threadRevamp(models):
                             
                             for i in xrange(numGeoms):
                                 state = geomNode.getGeomState(i)
-                                bspAttr = stateDict.get(state.getClassType(), None)
+                                bspAttr = stateDict.get(state.getHash(), None)
                                 
                                 if bspAttr:
                                     state = state.removeAttrib(state.getClassType())
@@ -236,7 +236,7 @@ def __threadRevamp(models):
                 if not stateDict:
                     stateDict = {}
                 
-                stateDict.update({state.getClassType() : material})
+                stateDict.update({state.getHash() : material})
                 node2clsType2mat.update({name : stateDict})
                     
             def replaceMaterialsWithTexture(node):
@@ -251,7 +251,7 @@ def __threadRevamp(models):
                     newState = state.setAttrib(tAttr)
                     appendMaterial(name, newState, bspAttr)
                     
-                    node.setState(newState, 1)
+                    node.setState(newState)
                     is_changed = True
                 
                 if isinstance(node.node(), GeomNode):
