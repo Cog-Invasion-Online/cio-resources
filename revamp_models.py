@@ -26,6 +26,9 @@ import subprocess
 prog_lock = Lock()
 error_lock = Lock()
 
+GROUND_BIN = 18
+SHADOW_BIN = 19
+
 loader = Loader(None)
 cbm = CullBinManager.getGlobalPtr()
 cbm.addBin('ground', CullBinManager.BTUnsorted, 18)
@@ -78,7 +81,7 @@ def egg_extract_bin_name(line):
     line = line.split(" }")[0]
     return line
 
-phases = [3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13]
+phases = [3.5]#[3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13]
 #phases = [3.5]
 #phases = [3]
 #phases = [10]
@@ -170,9 +173,10 @@ def __threadRevamp(models):
     
         try:
             orig_mdl_filename = Filename(mdl.replace("\\", "/"))
-            node = loader.loadModel(orig_mdl_filename)
-            if (is_animation(node)):
-                node.removeNode()
+            mdlNode = loader.loadModel(orig_mdl_filename)
+
+            if (is_animation(mdlNode)):
+                mdlNode.removeNode()
                 continue
 
             out_filename = Filename(get_revamp_bam(mdl).replace("\\", "/"))
@@ -192,47 +196,195 @@ def __threadRevamp(models):
             node2mat = {}
             node2tex2mat = {}
             
+            tPath2mat = {}
+            
             is_changed = False
             
-            npc = node.findAllMatches("**")
-            for i in xrange(npc.getNumPaths()):
-                child = npc[i]
-                if len(child.getName()) == 0:
-                    child.setName(get_random_name())
-                    is_changed = True
-                    
-                if child.hasAttrib(BSPMaterialAttrib):
-                    node2mat[child.getName()] = child.getAttrib(BSPMaterialAttrib)
-                    child.setAttrib(texture_from_bsp_mat(node2mat[child.getName()]))
-                    child.clearAttrib(BSPMaterialAttrib)
-                    is_changed = True
-                    
-                if (child.node().isOfType(GeomNode.getClassType())):
-                    if (child.node().getNumGeoms() == 0):
-                        continue
-                            
-                    if not child.getName() in node2tex2mat:
-                        node2tex2mat[child.getName()] = {}
-                            
-                    for i in xrange(child.node().getNumGeoms()):
-                        state = child.node().getGeomState(i)
-                        if state.hasAttrib(BSPMaterialAttrib):
-                            tattr = texture_from_bsp_mat(state.getAttrib(BSPMaterialAttrib))
-                            if tattr:
-                                node2tex2mat[child.getName()][tattr.getTexture().getFilename()] = state.getAttrib(BSPMaterialAttrib)
-                                state = state.setAttrib(tattr)
-                                state = state.removeAttrib(BSPMaterialAttrib)
-                                child.node().setGeomState(i, state)
-                                is_changed = True
-                            else:
-                                mat = state.getAttrib(BSPMaterialAttrib).getMaterial()
-                                if mat:
-                                    print mat.getFile(), "has no $basetexture?"
+            npc = mdlNode.findAllMatches("**")
             
-            if (is_character(node)):
+            def replaceTexturesWithMaterial(node):
+                state = node.getState()
+                name = node.getName()
+                
+                if name in node2tex2mat.keys():
+                    print 'My State: ' + str(state)
+                    attr = node2tex2mat.get(name, None)
+                    print 'Attr: ' + str(attr)
+                    
+                    if str(state) == 'empty':
+                        if isinstance(node.node(), GeomNode):
+                            geomNode = node.node()
+                            numGeoms = geomNode.getNumGeoms()
+                            
+                            for i in xrange(numGeoms):
+                                state = geomNode.getGeomState(i)
+                                attr = node2tex2mat.get(geomNode.getName(), None)
+                                
+                                bspAttr = attr.get(state, None)
+                                print 'BSP Attr 2: ' + str(bspAttr)
+                                
+                                if bspAttr:
+                                    state = state.setAttrib(bspAttr)
+                                    geomNode.setGeomState(i, state)
+                                    is_changed = True
+                                    print 'This is a texture attribute!'
+                    else:
+                        bspAttr = attr.get(state, None)
+                        print 'BSP Attr: ' + str(bspAttr)
+                        
+                        if bspAttr:
+                            print 'This is a texture attribute!'
+                            
+                            node.setState(bspAttr)
+                            is_changed = True
+                
+                """
+                if state.getAttrib(TextureAttrib):
+                    print 'This is a texture attribute!'
+                    tAttr = state.getAttrib(TextureAttrib)
+                    tFile = Filename(tAttr.getTexture().getFilename())
+                    tFile.makeRelativeTo(os.getcwd(), False)
+                    
+                    fullPath = tFile.getFilename().getFullpath()
+                    tFilePathNoPrefix = fullPath[fullPath.index('phase'):len(fullPath)]
+                    
+                    print 'TFilePath: ' + tFilePathNoPrefix
+                    
+                    bspAttr = tPath2mat.get(tFilePathNoPrefix, None)
+                    
+                    if bspAttr:
+                        node.setState(state.setAttrib(bspAttr))
+                        is_changed = True
+                        print 'Added back BSPMaterialAttrib'
+                
+                if isinstance(node.node(), GeomNode):
+                    geomNode = node.node()
+                    numGeoms = geomNode.getNumGeoms()
+                    
+                    for i in xrange(numGeoms):
+                        state = geomNode.getGeomState(i)
+                        
+                        if state.getAttrib(TextureAttrib):
+                            print 'This is a texture attribute!'
+                            tAttr = state.getAttrib(TextureAttrib)
+                            tFile = Filename(tAttr.getTexture().getFilename())
+                            tFile.makeRelativeTo(os.getcwd(), False)
+                            
+                            fullPath = tFile.getFilename().getFullpath()
+                            tFilePathNoPrefix = fullPath[fullPath.index('phase'):len(fullPath)]
+                            
+                            print 'TFilePath: ' + tFilePathNoPrefix
+                            
+                            bspAttr = tPath2mat.get(tFilePathNoPrefix, None)
+                            
+                            if bspAttr:
+                                state = state.removeAttrib(TextureAttrib)
+                                state = state.setAttrib(bspAttr)
+                                geomNode.setGeomState(i, state)
+                                is_changed = True
+                                print 'Added back BSPMaterialAttrib'"""
+                                    
+                children = node.getChildren()
+                for child in children:
+                    replaceTexturesWithMaterial(child)
+                    
+            def replaceMaterialsWithTexture(node):
+                state = node.getState()
+                name = node.getName()
+                
+                if state.getAttrib(BSPMaterialAttrib):
+                    bspAttr = state.getAttrib(BSPMaterialAttrib)
+                    tAttr = texture_from_bsp_mat(bspAttr)
+                    
+                    print "YES, but above"
+                    
+                    if tAttr:
+                        texture = tAttr.getTexture()
+                        if texture:
+                            fullpath = texture.getFilename().getFullpath()
+                            noPrefixPath = fullpath[fullpath.index('phase'):len(fullpath)]
+                            
+                            tPath2mat.update({noPrefixPath : bspAttr})
+                            print 'Set: {0} to {1}'.format(noPrefixPath, str(bspAttr))
+                            
+                            print 'No Prefix Path: ' + noPrefixPath
+                            print 'FullPath: ' + fullpath
+                    
+                    node.clearAttrib(BSPMaterialAttrib)
+                    newState = state.setAttrib(tAttr)
+                    myDict = node2tex2mat.get(name, None)
+                    if not myDict:
+                        node2tex2mat.update({name : {}})
+                        myDict = node2tex2mat.get(name)
+                    
+                    myDict.update({newState : bspAttr})
+                    node2tex2mat.update({name : myDict})
+                    node2mat.update({name : bspAttr})
+                    
+                    node.setState(newState, 1)
+                    is_changed = True
+                    
+                if state.getAttrib(TextureAttrib):
+                    print 'HEY THERE IS A TEXTURE ATTRIB'
+                
+                if isinstance(node.node(), GeomNode):
+                    geomNode = node.node()
+                    numGeoms = geomNode.getNumGeoms()
+                    
+                    for i in xrange(numGeoms):
+                        state = geomNode.getGeomState(i)
+                        
+                        if state.getAttrib(BSPMaterialAttrib):
+                            bspAttr = state.getAttrib(BSPMaterialAttrib)
+                            tAttr = texture_from_bsp_mat(bspAttr)
+                            geomNode.setPreserved(True)
+                            
+                            print "YES"
+                            print "Texture Attribute: " + str(tAttr)
+                            
+                            if tAttr:
+                                texture = tAttr.getTexture()
+                                if texture:
+                                    fullpath = texture.getFilename().getFullpath()
+                                    noPrefixPath = fullpath[fullpath.index('phase'):len(fullpath)]
+                                    
+                                    tPath2mat.update({noPrefixPath : bspAttr})
+                                    node2mat.update({name : bspAttr})
+                                    print 'Set: {0} to {1}'.format(noPrefixPath, str(bspAttr))
+                                    
+                                    print 'No Prefix Path: ' + noPrefixPath
+                                    print 'FullPath: ' + fullpath
+                                    print 'Geom Node Name: ' + geomNode.getName()
+                                    
+                                    newState = state.removeAttrib(BSPMaterialAttrib)
+                                    newState = newState.setAttrib(tAttr)
+                                    
+                                    myDict = node2tex2mat.get(name, None)
+                                    if not myDict:
+                                        node2tex2mat.update({name : {}})
+                                        myDict = node2tex2mat.get(name)
+                                    
+                                    myDict.update({newState : bspAttr})
+                                    node2tex2mat.update({name : myDict})
+
+                                    geomNode.setGeomState(i, newState)
+                                    print 'New State: ' + str(newState)
+                                    is_changed = True
+                                    
+                        if state.getAttrib(TextureAttrib):
+                            print 'HEY THERE IS A TEXTURE ATTRIB'
+                                    
+                children = node.getChildren()
+                for child in children:
+                    replaceMaterialsWithTexture(child)
+                    
+            replaceMaterialsWithTexture(mdlNode)
+            print "Replaced mats with textures"
+            
+            if (is_character(mdlNode)):
                 char = get_character(node)
                 
-                npc = node.findAllMatches("**")
+                npc = mdlNode.findAllMatches("**")
 
                 for child in char.getChildren():
                     if (char.node().findJoint(child.getName())):
@@ -247,7 +399,7 @@ def __threadRevamp(models):
                             is_changed = True
                     
             else:
-                npc = node.findAllMatches("**")
+                npc = mdlNode.findAllMatches("**")
                 
                 for i in xrange(npc.getNumPaths()):
                     child = npc[i]
@@ -266,20 +418,22 @@ def __threadRevamp(models):
                                 
             # Avoid unnecessarily writing to disk if we haven't made any changes.
             # Optimization to speed up the process.
-            if (is_changed):
-                node.writeBamFile(get_revamp_bam(mdl))
+            #if (is_changed):
+            mdlNode.writeBamFile(get_revamp_bam(mdl))
+            mdlNode.ls()
+            print "Wrote changed bam file: " + get_revamp_bam(mdl)
 
             if (do_bam2egg):
                 runproc("{0} -o {1} {2}".format(bam2egg, get_revamp_egg(mdl), get_revamp_bam(mdl)))
                 
-            if (do_trans and not is_character(node)):
+            if (do_trans and not is_character(mdlNode)):
                 runproc("{0} -o {1} -nv 80 -tbnall {2}".format(egg_trans, get_revamp_egg(mdl), get_revamp_egg(mdl)))
 
-            if (do_optchar and is_character(node)):
+            if (do_optchar and is_character(mdlNode)):
 
                 expose_list = []
                 flag_list = []
-                char = get_character(node)
+                char = get_character(mdlNode)
                 for child in char.findAllMatches("**"):
                     # Any node underneath the character in the bam file needs to be exposed in the egg file.
                     name = child.getName()
@@ -311,8 +465,13 @@ def __threadRevamp(models):
                 
                 prev_line = ""
 
-                for line in revampfile.readlines():
-                    # There are certain occurances in the generated egg files that need to be changed.
+                inShadowGroup = False
+                ignoreUntilNewBlock = False
+                
+                lines = revampfile.readlines()
+
+                for line in lines:
+                    # There are certain occurrences in the generated egg files that need to be changed.
                     newline = line.replace("../", "")
                     newline = newline.replace("luminance", "rgb")
                     newline = newline.replace(" linear ", " linear_mipmap_linear ")
@@ -320,24 +479,60 @@ def __threadRevamp(models):
                     # Irritating thing that bam2egg does.
                     newline = newline.replace(".egg", "")
                     
-                    #if "<Scalar> bin" in newline:
-                    #    binname = egg_extract_bin_name(newline)
-                    #    print binname
-                    #    if binname == 'ground':
-                    #        print "Found ground in egg file"
-                    #        prev_line = prev_line.replace("<Scalar> draw-order { 0 }", "<Scalar> draw-order { 18 }")
-                    #    elif binname == 'shadow':
-                    #        print "Found shadow in egg file"
-                    #        prev_line = prev_line.replace("<Scalar> draw-order { 0 }", "<Scalar> draw-order { 19 }")
-                    #    newfile.insert(len(newfile) - 2, prev_line)
+                    # Let's handle when we manually insert a correction block.
+                    if ignoreUntilNewBlock:
+                        noWhitespaceLine = newline.replace(" ", "")
+                        if noWhitespaceLine.startswith('}'):
+                            ignoreUntilNewBlock = False
+                        continue
+                    
+                    if "<Scalar> bin" in newline:
+                        binName = egg_extract_bin_name(newline)
+                        
+                        if binName in ['ground', 'shadow']:
+                            sortOrder = GROUND_BIN if binName == 'ground' else SHADOW_BIN
+                            replacement = "<Scalar> draw-order { %s }" % sortOrder
+                            prev_line = prev_line.replace("<Scalar> draw-order { 0 }", replacement)
+
+                        newfile.insert(len(newfile) - 2, prev_line)
+                        
+                    if "<Group>" in newline:
+                        inShadowGroup = "shadow" in newline
+                        
+                    if inShadowGroup and "<Scalar> alpha" in newline:
+                        alphaBeginIndex = newline.index("<Scalar> alpha")
+                        newline = newline[0:alphaBeginIndex] + "<Scalar> alpha { blend_no_occlude }\n"
+                        
+                    if inShadowGroup and "<Scalar> draw-order" in newline:
+                        drawOrderBeginIndex = newline.index("<Scalar> draw-order")
+                        newline = newline[0:drawOrderBeginIndex] + "<Scalar> draw-order { %s }\n" % SHADOW_BIN
+                        newline = newline + "  <Scalar> bin { shadow }\n"
+
                     if "<Scalar> alpha-file" in newline:
                         nextline = "  <Scalar> alpha { dual }\n"
                         newfile.append(nextline)
+                        
+                    if "<Texture> drop-shadow" in newline:
+                        # Let's manually input the texture information we need for this block.
+                        newline = newline + '  "phase_3/maps/drop-shadow.jpg"\n'
+                        newline = newline + '  <Scalar> alpha-file { "phase_3/maps/drop-shadow_a.rgb" }\n'
+                        newline = newline + '  <Scalar> format { rgba }\n'
+                        newline = newline + '  <Scalar> wrapu { repeat }\n'
+                        newline = newline + '  <Scalar> wrapv { repeat }\n'
+                        newline = newline + '  <Scalar> minfilter { linear_mipmap_linear }\n'
+                        newline = newline + '  <Scalar> magfilter { linear_mipmap_linear }\n'
+                        newline = newline + '  <Scalar> envtype { modulate }\n'
+                        newline = newline + '}\n'
+                        
+                        ignoreUntilNewBlock = True
+                        newfile.append(newline)
+                        continue
                     
                     if (newline != line):
                         is_changed = True
+                        
+                        
                     newfile.append(newline)
-                    
                     prev_line = line
 
                 if (is_changed):
@@ -354,36 +549,15 @@ def __threadRevamp(models):
                 runproc("{0} -o {1} -ps keep {2}".format(egg2bam, get_revamp_bam(mdl), get_revamp_egg(mdl)))
 
             if (fix_revampbam):
-                revamp = loader.loadModel(get_revamp_bam(mdl))
+                revamp = loader.loadModel(get_revamp_bam(mdl), noCache=True)
+                revamp.ls()
                 is_changed = False
                 
-                for nodeName, material in node2mat.items():
-                    _np = revamp.find("**/" + nodeName)
-                    if _np.isEmpty():
-                        continue
-                    if _np.hasAttrib(TextureAttrib):
-                        _np.clearAttrib(TextureAttrib)
-                        _np.setAttrib(material)
-                        is_changed = True
-                    
-                for nodeName, tex2Mat in node2tex2mat.items():
-                    _npc = revamp.findAllMatches("**/" + nodeName)
-                    for gnp in _npc:
-                        _gn = gnp.node()
-                        if not _gn.isOfType(GeomNode.getClassType()):
-                            continue
-                        for tex, mat in tex2Mat.items():
-                            for geomNum in xrange(_gn.getNumGeoms()):
-                                state = _gn.getGeomState(geomNum)
-                                if state.hasAttrib(TextureAttrib):
-                                    tattr = state.getAttrib(TextureAttrib)
-                                    tfile = Filename(tattr.getTexture().getFilename())
-                                    tfile.makeRelativeTo("/d/OTHER/lachb/Documents/cio/game/resources", False)
-                                    if tfile == tex:
-                                        state = state.removeAttrib(TextureAttrib)
-                                        state = state.setAttrib(mat)
-                                        _gn.setGeomState(geomNum, state)
-                                        is_changed = True
+                npc = revamp.findAllMatches('**')
+                
+                replaceTexturesWithMaterial(revamp)
+                print tPath2mat.items()
+                print "Done replacing textures with mats"
                 
                 if (is_character(revamp)):
 
@@ -425,19 +599,23 @@ def __threadRevamp(models):
                                 
                 if (is_changed):
                     revamp.writeBamFile(get_revamp_bam(mdl))
+                    print 'Wrote: ' + get_revamp_bam(mdl)
 
                 revamp.removeNode()
 
-            node.removeNode()
+            mdlNode.removeNode()
         except Exception as e:
             report_error(mdl, str(e))
+            raise e
             
         prog_lock.acquire()
         global __progress
         __progress += 1
         prog_lock.release()
 
-if want_threads:
+
+
+if False:#want_threads:
     print len(orig_models), "models in total"
     numModels = len(orig_models)
     numThreads = 8
@@ -473,10 +651,11 @@ if want_threads:
             break
 else:
     print "Running without threads"
-    __threadRevamp(orig_models)
-    
-print "Errors whilst revamping:"
-for error in errors:
-    print "\t{0}\t:\t{1}".format(error[0], error[1])
+    __threadRevamp(['phase_3.5/models/props/trees.bam'])#orig_models)
+
+if len(errors) > 0:
+    print "Errors whilst revamping:"
+    for error in errors:
+        print "\t{0}\t:\t{1}".format(error[0], error[1])
 
 print "Done!"
