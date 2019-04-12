@@ -5,7 +5,7 @@ VertexLitGeneric
 	
 	"$arme"					"phase_14/hl2/v_shotgun/panda/vshotgun_arme.png"
 	
-	"$envmap"				"env_cubemap"
+	//"$envmap"				"env_cubemap"
 	
 	"$selfillum" 			"1"
 }

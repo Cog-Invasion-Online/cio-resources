@@ -1,5 +1,10 @@
 VertexLitGeneric
 {
     "$basetexture"  "phase_3.5/maps/ambulancechaser.jpg"
-    "$halflambert"  "1"
+    
+    "$rimlight"	"1"
+	
+	"$envmap"			"env_cubemap"
+	"$metallic"			"1.0"
+	"$roughness"		"0.8"
 }
