@@ -3,4 +3,6 @@ VertexLitGeneric
 	"$basetexture"			"phase_6/maps/fence_white_picketB.jpg"
 	"$basetexture_alpha"	"phase_6/maps/fence_white_picketB_a.rgb"
 	"$translucent"			"1"
+    
+    "$basetexture_wrapv"    "clamp"
 }

@@ -3,4 +3,6 @@ VertexLitGeneric
 	"$basetexture"			"phase_3.5/maps/wall_fence_wood.jpg"
 	"$basetexture_alpha"	"phase_3.5/maps/wall_fence_wood_a.rgb"
 	"$translucent"			"1"
+    
+    "$basetexture_wrapv"    "clamp"
 }
