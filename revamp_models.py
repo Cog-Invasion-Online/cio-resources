@@ -44,7 +44,7 @@ do_egg2bam = True
 do_trans = True
 do_optchar = True
 fix_eggfile = True
-fix_textures = True
+fix_textures = False
 fix_revampbam = True
 want_threads = True
 
@@ -207,10 +207,16 @@ def __threadRevamp(models):
                 stateDict = node2clsType2mat.get(name, None)
                 
                 if stateDict:
-                    bspAttr = stateDict.get(state.getHash(), None)
+                    
+                    for i, mat in stateDict.iteritems():
+                        print (i, mat)
+                    
+                    bspAttr = stateDict.get(-1, None)
+                    print 'BSP Attr: ' + str(bspAttr)
                     
                     if bspAttr:
                         node.setState(bspAttr)
+                        print 'BSP Attr: ' + str(bspAttr)
                         changed = True
                     else:
                         if isinstance(node.node(), GeomNode):
@@ -219,10 +225,11 @@ def __threadRevamp(models):
                             
                             for i in xrange(numGeoms):
                                 state = geomNode.getGeomState(i)
-                                bspAttr = stateDict.get(state.getHash(), None)
+                                bspAttr = stateDict.get(i, None)
                                 
                                 if bspAttr:
-                                    state = state.removeAttrib(state.getClassType())
+                                    print 'BSP Attr: ' + str(bspAttr)
+                                    state = state.removeAttrib(TextureAttrib)
                                     state = state.setAttrib(bspAttr)
                                     geomNode.setGeomState(i, state)
                                     changed = True
@@ -233,14 +240,16 @@ def __threadRevamp(models):
                         changed = True
                 return changed
                     
-            def appendMaterial(name, state, material):
+            def appendMaterial(name, state, material, pos=-1):
                 stateDict = node2clsType2mat.get(name, None)
                 
                 if not stateDict:
                     stateDict = {}
+                stateDict[pos] = material
+                node2clsType2mat[name] = stateDict
                 
-                stateDict.update({state.getHash() : material})
-                node2clsType2mat.update({name : stateDict})
+                for i, mat in stateDict.iteritems():
+                    print (i, mat)
                     
             def replaceMaterialsWithTexture(node):
                 state = node.getState()
@@ -254,6 +263,7 @@ def __threadRevamp(models):
                     node.clearAttrib(BSPMaterialAttrib)
                     newState = state.setAttrib(tAttr)
                     appendMaterial(name, newState, bspAttr)
+                    print 'Placed Texture Attrib in Slot: {0}'.format(str(-1))
                     
                     node.setState(newState)
                     changed = True
@@ -277,7 +287,8 @@ def __threadRevamp(models):
                                     newState = state.removeAttrib(BSPMaterialAttrib)
                                     newState = newState.setAttrib(tAttr)
 
-                                    appendMaterial(geomNode.getName(), newState, bspAttr)
+                                    appendMaterial(geomNode.getName(), newState, bspAttr, pos=i)
+                                    print 'Placed Texture Attrib in Slot: {0}'.format(str(i))
 
                                     geomNode.setGeomState(i, newState)
                                     changed = True
