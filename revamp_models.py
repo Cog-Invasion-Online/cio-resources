@@ -205,34 +205,40 @@ def __threadRevamp(models):
                 changed = False
 
                 stateDict = node2clsType2mat.get(name, None)
+                matName = node.getTag('Material')
                 
                 if stateDict:
                     
                     for i, mat in stateDict.iteritems():
                         print (i, mat)
                     
-                    bspAttr = stateDict.get(-1, None)
+                    bspAttr = stateDict.get(matName, None)
                     print 'BSP Attr: ' + str(bspAttr)
                     
                     if bspAttr:
                         node.setState(bspAttr)
+                        node.clearTag('Material')
                         print 'BSP Attr: ' + str(bspAttr)
                         changed = True
                     else:
                         if isinstance(node.node(), GeomNode):
                             geomNode = node.node()
                             numGeoms = geomNode.getNumGeoms()
+                            matName = geomNode.getTag('Material')
                             
-                            for i in xrange(numGeoms):
-                                state = geomNode.getGeomState(i)
-                                bspAttr = stateDict.get(i, None)
-                                
-                                if bspAttr:
-                                    print 'BSP Attr: ' + str(bspAttr)
-                                    state = state.removeAttrib(TextureAttrib)
-                                    state = state.setAttrib(bspAttr)
-                                    geomNode.setGeomState(i, state)
-                                    changed = True
+                            if matName:
+                            
+                                for i in xrange(numGeoms):
+                                    state = geomNode.getGeomState(i)
+                                    bspAttr = stateDict.get(matName, None)
+                                    
+                                    if bspAttr:
+                                        print 'BSP Attr: ' + str(bspAttr)
+                                        state = state.removeAttrib(state.getClassType())
+                                        state = state.setAttrib(bspAttr)
+                                        geomNode.clearTag('Material')
+                                        geomNode.setGeomState(i, state)
+                                        changed = True
                                     
                 children = node.getChildren()
                 for child in children:
@@ -240,13 +246,14 @@ def __threadRevamp(models):
                         changed = True
                 return changed
                     
-            def appendMaterial(name, state, material, pos=-1):
+            def appendMaterial(name, node, material, pos=-1):
                 stateDict = node2clsType2mat.get(name, None)
                 
                 if not stateDict:
                     stateDict = {}
-                stateDict[pos] = material
+                stateDict[str(pos)] = material
                 node2clsType2mat[name] = stateDict
+                node.setTag('Material', str(pos))
                 
                 for i, mat in stateDict.iteritems():
                     print (i, mat)
@@ -262,7 +269,7 @@ def __threadRevamp(models):
                     
                     node.clearAttrib(BSPMaterialAttrib)
                     newState = state.setAttrib(tAttr)
-                    appendMaterial(name, newState, bspAttr)
+                    appendMaterial(name, node, bspAttr, pos=big_random())
                     print 'Placed Texture Attrib in Slot: {0}'.format(str(-1))
                     
                     node.setState(newState)
@@ -287,7 +294,7 @@ def __threadRevamp(models):
                                     newState = state.removeAttrib(BSPMaterialAttrib)
                                     newState = newState.setAttrib(tAttr)
 
-                                    appendMaterial(geomNode.getName(), newState, bspAttr, pos=i)
+                                    appendMaterial(geomNode.getName(), geomNode, bspAttr, pos=big_random())
                                     print 'Placed Texture Attrib in Slot: {0}'.format(str(i))
 
                                     geomNode.setGeomState(i, newState)
