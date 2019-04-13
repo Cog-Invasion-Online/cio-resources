@@ -830,3 +830,7 @@
     input Start(void)	:	"Start the spawning"
     input Stop(void)	:	"Stop the spawning"
 ]
+
+@PointClass base(Targetname, Angles) = gag_pickup : "Deathmatch gag pickup"
+[
+]

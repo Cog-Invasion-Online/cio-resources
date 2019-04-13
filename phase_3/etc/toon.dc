@@ -101,6 +101,8 @@ from src.coginvasion.szboss import DistributedButton/AI
 from src.coginvasion.szboss import DistributedGenerator/AI
 from src.coginvasion.szboss import DistributedFuncRotating/AI
 from src.coginvasion.szboss import DistributedSZBossToon/AI
+from src.coginvasion.deathmatch import DistributedDeathmatchBattle/AI
+from src.coginvasion.deathmatch import DistributedGagPickup/AI
 
 struct AvChoice {
   uint32 avId;
@@ -202,10 +204,14 @@ dclass DistributedAvatar : DistributedSmoothNode {
   // Attack stuff
   setAttackIds(int16 attackIDs[]) required broadcast ram;
   setEquippedAttack(int16 attackID = -1) required broadcast ram ownsend airecv;
-  setAttackState(uint8 state = 0) required broadcast ram ownsend airecv;
+  setAttackState(int8 state = -1) required broadcast ram ownsend airecv;
 
-  // Bump ammo to uint16 if attack needs more than 255 ammo
-  updateAttackAmmo(int16 attackId, uint8 ammo) broadcast airecv ownrecv;
+  // Bump ammo to uint16 if attack needs more than 255 ammo.
+  //
+  // Only the owner player needs to receive this update. Other players
+  // don't really need to know about my ammo.
+  updateAttackAmmo(int16 attackId, uint8 ammo, uint8 maxAmmo, uint8 ammo2,
+                   uint8 maxAmmo2, uint8 clip, uint8 maxClip) ownrecv;
 
   // Blob argument allows for arbitrary data to be sent
   // along with the key press. This way we don't need a unique field
@@ -275,6 +281,11 @@ dclass DistributedPlayerToon : DistributedToon {
   createObjectForMe(uint16 dclassNum) ownsend airecv;
   reqMakeSewer() ownsend airecv;
   sewerHeadOff(uint32) ownrecv;
+
+  // Health to be used in a battle/game mode that is only specific to that game.
+  // Not saved in database.
+  setSessionHealth(uint16) required broadcast ram;
+  setSessionMaxHealth(uint16) required broadcast ram;
 };
 
 dclass DistributedTreasure : DistributedObject {
@@ -407,6 +418,10 @@ dclass DistributedBattleZone : DistributedObject {
   acknowledgeAvatarReady() clsend airecv;
   rewardSequenceComplete(int16 timestamp) broadcast;
   clearAvatarDebris(uint32 avId) broadcast;
+  setEntZone(uint32 zone) required broadcast ram;
+  setMap(string mapName) required broadcast ram;
+  readyToStart() clsend airecv;
+  loadedMap() clsend airecv;
 };
 
 dclass DistributedTutorial : DistributedBattleZone {
@@ -789,8 +804,7 @@ dclass DistributedCogOfficeBattle : DistributedBattleZone {
   setNumFloors(int8) required broadcast ram;
   setBldgDoId(uint32) required broadcast ram;
   setExteriorZoneId(uint32) required broadcast ram;
-  readyToStart() clsend airecv;
-  loadFloor(int8, string) broadcast;
+  setCurrentFloor(int8) required broadcast ram;
   readyForNextFloor() clsend airecv;
   doFaceoff(int8, int16) broadcast;
 
@@ -802,9 +816,6 @@ dclass DistributedCogOfficeBattle : DistributedBattleZone {
 
   // Sent by the AI to all the clients to open up the locked doors to the restock room
   openRestockDoors() broadcast;
-
-  // Sent by the player when they finish loading a floor
-  loadedFloor() clsend airecv;
 };
 
 dclass DistributedCogOfficeSuit : DistributedSuit {
@@ -863,9 +874,6 @@ dclass DistributedTriggerMultiple : DistributedTriggerOnce {
 };
 
 dclass DistributedSewer : DistributedBattleZone {
-  loadMap(string) broadcast;
-  ready() clsend airecv;
-  mapLoaded() clsend airecv;
   startLevel() broadcast;
 };
 
@@ -951,4 +959,17 @@ dclass FiredProjectile : LobProjectile {
 
 dclass GenericThrowableLinearProjectile : LinearProjectile {
   setData(uint16 attackID) required broadcast ram;
+};
+
+dclass DistributedDeathmatchBattle : DistributedBattleZone {
+  requestRespawn() clsend airecv;
+  respawn();
+};
+
+dclass DistributedGagPickup : DistributedEntity {
+  setPickupState(uint8 state) required broadcast ram;
+  setGagId(int16 gagId) required broadcast ram;
+
+  requestPickup() clsend airecv;
+  pickupAccepted();
 };

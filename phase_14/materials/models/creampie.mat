@@ -1,0 +1,8 @@
+VertexLitGeneric
+{
+    "$basetexture"  "phase_14/maps/creampie/PieBakeUV.png"
+    "$bumpmap"      "phase_14/maps/creampie/creampie_bump.png"
+    "$arme"         "phase_14/maps/creampie/creampie_arme.png"
+    
+    "$envmap"           "env_cubemap"
+}

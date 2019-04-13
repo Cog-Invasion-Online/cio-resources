@@ -3,4 +3,6 @@ VertexLitGeneric
 	"$basetexture"			"phase_6/maps/BG5-2.jpg"
 	"$basetexture_alpha"	"phase_6/maps/BG5-2_a.rgb"
 	"$translucent"			"1"
+    
+    "$basetexture_wrapv"    "clamp"
 }
