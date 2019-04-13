@@ -422,6 +422,7 @@ dclass DistributedBattleZone : DistributedObject {
   setMap(string mapName) required broadcast ram;
   readyToStart() clsend airecv;
   loadedMap() clsend airecv;
+  emitSound(string path, Point3 worldPos, uint16 / 100 volume) broadcast;
 };
 
 dclass DistributedTutorial : DistributedBattleZone {
