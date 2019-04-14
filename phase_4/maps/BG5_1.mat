@@ -2,5 +2,6 @@ VertexLitGeneric
 {
 	"$basetexture"			"phase_4/maps/BG5_1.jpg"
 	"$basetexture_alpha"	"phase_4/maps/BG5_1_a.rgb"
+	"$basetexture_wrapv"    "clamp"
 	"$translucent"			"1"
 }

@@ -1,4 +1,5 @@
 VertexLitGeneric
 {
 	"$basetexture"			"phase_4/maps/snow_wall_front2.jpg"
+	"$basetexture_wrapv"    "clamp"
 }
