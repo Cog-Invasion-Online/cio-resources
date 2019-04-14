@@ -1,31 +1,31 @@
 want-reflections: true
 shaders:
   default-sky-type: 1
-  default-outdoor-ambient-color: [200, 202, 230, 245]
+  default-outdoor-ambient-color: [200, 202, 230, 240]
   default-indoor-ambient-color: [255, 255, 255, 190]
-  default-sun-color: [216, 207, 194, 600]
+  default-sun-color: [192, 191, 173, 600]
   default-sun-angle: [145, -80, 0]
-  default-fog-color: [200, 202, 230, 245]
+  default-fog-color: [200, 202, 230, 240]
   default-fog-density: 0.001
   default-interior-light-color: [255, 255, 255, 255]
   dd:
    sky-type: 2
-   sun-color: [216, 207, 194, 220]
+   sun-color: [174, 183, 190, 230]
    outdoor-ambient-color: [200, 202, 230, 220]
    fog-color: [200, 202, 230, 220]
    fog-density: 0.003
   br:
    sky-type: 2
    outdoor-ambient-color: [200, 202, 255, 220]
-   sun-color: [216, 207, 194, 230]
+   sun-color: [174, 183, 190, 230]
    fog-color: [200, 202, 255, 220]
    fog-density: 0.002
   mm:
    sky-type: 3
-   outdoor-ambient-color: [255, 207, 194, 205]
-   sun-color: [255, 173, 153, 650]
+   outdoor-ambient-color: [255, 207, 194, 185]
+   sun-color: [182, 126, 91, 550]
    sun-angle: [93, -45, 0]
-   fog-color: [255, 207, 194, 205]
+   fog-color: [255, 207, 194, 185]
   dl:
    sky-type: 4
    outdoor-ambient-color: [82, 132, 190, 175]
