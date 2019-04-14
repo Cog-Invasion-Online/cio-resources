@@ -18,7 +18,7 @@ shaders:
    sky-type: 2
    outdoor-ambient-color: [200, 202, 255, 220]
    sun-color: [216, 207, 194, 230]
-   fog-color: [200, 202, 255, 262]
+   fog-color: [200, 202, 255, 220]
    fog-density: 0.002
   mm:
    sky-type: 3
