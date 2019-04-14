@@ -393,18 +393,18 @@ void main()
             totalRimSpec = clamp(totalRimSpec, 0, 1);
         #endif
         specularLighting += totalRimSpec;
-    #endif
-    
-    #ifdef ENVMAP
         
-        float NdotV = clamp(dot(finalWorldNormal.xyz, normalize(l_worldEyeToVert.xyz)), 0, 1);
-        vec3 F = Fresnel_Schlick(specularColor, NdotV);
-        vec3 spec = SampleCubeMapLod(l_worldEyeToVert.xyz,
-                                     finalWorldNormal, vec3(0),
-                                     envmapSampler, armeParams.y).rgb;
-        vec3 iblspec = spec * EnvironmentBRDF(armeParams.y, NdotV, F);
-        specularLighting += iblspec;
-	
+        #ifdef ENVMAP
+        
+            float NdotV = clamp(dot(finalWorldNormal.xyz, normalize(l_worldEyeToVert.xyz)), 0, 1);
+            vec3 F = Fresnel_Schlick(specularColor, NdotV);
+            vec3 spec = SampleCubeMapLod(l_worldEyeToVert.xyz,
+                                         finalWorldNormal, vec3(0),
+                                         envmapSampler, armeParams.y).rgb;
+            vec3 iblspec = spec * EnvironmentBRDF(armeParams.y, NdotV, F);
+            specularLighting += iblspec;
+        
+        #endif
     #endif
     
     vec4 result = color + vec4(specularLighting.rgb, 0.0);
