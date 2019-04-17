@@ -395,13 +395,21 @@ void main()
         specularLighting += totalRimSpec;
         
         #ifdef ENVMAP
-        
-            float NdotV = clamp(dot(finalWorldNormal.xyz, normalize(l_worldEyeToVert.xyz)), 0, 1);
-            vec3 F = Fresnel_Schlick(specularColor, NdotV);
+
             vec3 spec = SampleCubeMapLod(l_worldEyeToVert.xyz,
                                          finalWorldNormal, vec3(0),
                                          envmapSampler, armeParams.y).rgb;
-            vec3 iblspec = spec * EnvironmentBRDF(armeParams.y, NdotV, F);
+                                         
+            // TODO: use a BRDF lookup texture in SHADERQUALITY_MEDIUM
+            #if SHADER_QUALITY > SHADERQUALITY_LOW
+                float NdotV = clamp(dot(finalWorldNormal.xyz, normalize(l_worldEyeToVert.xyz)), 0, 1);
+                vec3 F = Fresnel_Schlick(specularColor, NdotV);
+                vec3 iblspec = spec * EnvironmentBRDF(armeParams.y, NdotV, F);
+            #else
+                float F = Fresnel4(normalize(finalWorldNormal.xyz), normalize(l_worldEyeToVert.xyz));
+                vec3 iblspec = spec * F * specularColor;
+            #endif
+            
             specularLighting += iblspec;
         
         #endif

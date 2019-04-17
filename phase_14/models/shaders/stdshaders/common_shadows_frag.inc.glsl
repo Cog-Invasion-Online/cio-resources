@@ -257,6 +257,27 @@ float SampleCascade8(sampler2DArray shadowSampler, vec3 proj, int cascade, float
     return step(depthCmp, texture(shadowSampler, vec3(proj.xy + (poissonDisk_8[i].xy * SHADOW_BLUR), cascade)).r);
 }
 
+float DoShadowPCF5Tap(sampler2DArray shadowSampler, vec3 shadowCoord, int cascade, float depthCmp)
+{
+    float fEpsilonX = SHADOW_TEXEL_SIZE;
+    float fTwoEpsilonX = 2.0 * fEpsilonX;
+    float fEpsilonY = fEpsilonX;
+    float fTwoEpsilonY = fTwoEpsilonX;
+    
+    vec3 shadowMapCenter_objDepth = shadowCoord;
+    vec2 shadowMapCenter = shadowMapCenter_objDepth.xy;
+    float objDepth = depthCmp;
+
+    float shadow = step(objDepth, texture( shadowSampler, vec3(shadowMapCenter, cascade)).x);
+    shadow += step(objDepth, texture(shadowSampler, vec3(shadowMapCenter + vec2(fTwoEpsilonX, fTwoEpsilonY), cascade)).x);
+    shadow += step(objDepth, texture(shadowSampler, vec3(shadowMapCenter + vec2(-fTwoEpsilonX, fTwoEpsilonY), cascade)).x);
+    shadow += step(objDepth, texture(shadowSampler, vec3(shadowMapCenter + vec2(fTwoEpsilonX, -fTwoEpsilonY), cascade)).x);
+    shadow += step(objDepth, texture(shadowSampler, vec3(shadowMapCenter + vec2(-fTwoEpsilonX, -fTwoEpsilonY), cascade)).x);
+    shadow /= 5.0;
+    
+    return shadow;
+}
+
 float DoShadowPoissonV1(sampler2DArray shadowSampler, vec3 proj, int cascade, float depthCmp)
 {
     //float lshad = step(depthCmp, texture(shadowSampler, vec3(proj.xy, cascade)).x);
@@ -354,13 +375,14 @@ void GetSunShadow(inout float lshad, sampler2DArray shadowSampler, vec4 shadowCo
 	vec3 proj = vec3(0);
 	float depthCmp = 0.0;
 	int cascade = FindCascade(shadowCoords, proj, depthCmp);
-	
-	//lshad = PCSS_PCF(shadowSampler, cascade, proj, depthCmp, SHADOW_BLUR);
-	//lshad = DoShadowPCSS(shadowSampler, proj, cascade, depthCmp);
-	//lshad = DoShadowPoissonV1(shadowSampler, proj, cascade, depthCmp);
-	lshad = DoShadowPoisson16Sample(shadowSampler, proj, cascade, depthCmp);
-	//lshad = DoShadowNvidiaPCF5x5Guassian(shadowSampler, proj, cascade, depthCmp);
-	//lshad = DoShadowSimple(shadowSampler, proj, cascade, depthCmp);
+
+    #if SHADER_QUALITY == SHADERQUALITY_HIGH
+        lshad = DoShadowPoisson16Sample(shadowSampler, proj, cascade, depthCmp);
+    #elif SHADER_QUALITY == SHADERQUALITY_MEDIUM
+        lshad = DoShadowPCF5Tap(shadowSampler, proj, cascade, depthCmp);
+    #elif SHADER_QUALITY == SHADERQUALITY_LOW
+        lshad = DoShadowSimple(shadowSampler, proj, cascade, depthCmp);
+    #endif
 }
 
 void DoBlendShadow(inout vec3 diffuseLighting, sampler2DArray shadowSampler,

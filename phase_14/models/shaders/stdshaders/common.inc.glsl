@@ -10,6 +10,10 @@
  
 #pragma once
 
+#define SHADERQUALITY_LOW     0
+#define SHADERQUALITY_MEDIUM  1
+#define SHADERQUALITY_HIGH    2
+
 // ====================================================
 // These functions exist to help perform conditionals
 // without the need to use an if-statement and cause

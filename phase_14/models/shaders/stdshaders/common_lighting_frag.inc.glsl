@@ -195,20 +195,42 @@ void ComputeLightVectors(inout LightingParams_t params)
     ComputeLightHAndDots(params);
 }
 
+float RoughnessToPhongExponent(float roughness)
+{
+    return (1 - roughness) * 150;
+}
+
 void AddTotalRadiance(inout LightingParams_t params)
 {
     vec3 lightRadiance = params.lColor.rgb * params.attenuation;
     
-    float G = GeometricOcclusionTerm(params.roughness2, params.NdotL, params.NdotV);
-    float D = MicrofacetDistributionTerm(params.roughness2, params.NdotH);
-    vec3 F	= Fresnel_Schlick(params.specularColor, params.VdotH);
-    vec3 kS = F;
-    vec3 kD = vec3(1.0) - kS;
-    kD *= 1.0 - params.metallic;
-    vec3 diffuse = kD * params.albedo / PI;
-    vec3 specular = CookTorrance(F, G, D, params.NdotL, params.NdotV);
-    
-    params.totalRadiance += (diffuse + specular) * lightRadiance * params.NdotL;
+    #if SHADER_QUALITY == SHADERQUALITY_HIGH
+        // Full PBR light contribution
+        float G = GeometricOcclusionTerm(params.roughness2, params.NdotL, params.NdotV);
+        float D = MicrofacetDistributionTerm(params.roughness2, params.NdotH);
+        vec3 F	= Fresnel_Schlick(params.specularColor, params.VdotH);
+        vec3 kS = F;
+        vec3 kD = vec3(1.0) - kS;
+        kD *= 1.0 - params.metallic;
+        vec3 diffuse = kD * params.albedo / PI;
+        vec3 specular = CookTorrance(F, G, D, params.NdotL, params.NdotV);
+        params.totalRadiance += (diffuse + specular) * lightRadiance * params.NdotL;
+        
+    #elif SHADER_QUALITY == SHADERQUALITY_MEDIUM
+        // PBR light contribution with phong specular
+        vec3 F	= Fresnel_Schlick(params.specularColor, params.VdotH);
+        vec3 kS = F;
+        vec3 kD = vec3(1.0) - kS;
+        kD *= 1.0 - params.metallic;
+        vec3 diffuse = kD * params.albedo / PI;
+        vec3 specular = F * pow(params.NdotV, RoughnessToPhongExponent(params.roughness2));
+        params.totalRadiance += (diffuse + specular) * lightRadiance * params.NdotL;
+        
+    #elif SHADER_QUALITY == SHADERQUALITY_LOW
+        // Non-PBR light contribution
+        params.totalRadiance += lightRadiance * params.NdotL;
+        
+    #endif
 }
 
 void GetPointLight(inout LightingParams_t params)

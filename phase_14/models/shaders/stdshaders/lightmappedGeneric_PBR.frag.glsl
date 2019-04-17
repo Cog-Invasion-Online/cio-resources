@@ -165,7 +165,7 @@ void main()
     // Diffuse term.
     vec3 diffuseLighting = vec3(0);
     
-    #if defined(FLAT_LIGHTMAP)
+    #if defined(FLAT_LIGHTMAP) || SHADER_QUALITY == SHADERQUALITY_LOW
         
         diffuseLighting += LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 0);
         
@@ -209,15 +209,23 @@ void main()
     vec3 specularLighting = vec3(0.0);
     vec3 specularColor = mix(vec3(0.04), albedo.rgb, metallic);
     #ifdef ENVMAP
-        float NdotV = clamp(dot(finalWorldNormal.xyz, normalize(l_worldEyeToVert.xyz)), 0, 1);
-        vec3 F = Fresnel_Schlick(specularColor, NdotV);
         
         vec3 spec = SampleCubeMapLod(l_worldEyeToVert.xyz,
                                      finalWorldNormal, vec3(0),
                                      envmapSampler, roughness).rgb;
-                                     
-        vec3 iblspec = spec * EnvironmentBRDF(roughness, NdotV, F);
-        specularLighting += iblspec;     
+                                         
+        // TODO: use a BRDF lookup texture in SHADERQUALITY_MEDIUM
+        #if SHADER_QUALITY > SHADERQUALITY_LOW
+            float NdotV = clamp(dot(finalWorldNormal.xyz, normalize(l_worldEyeToVert.xyz)), 0, 1);
+            vec3 F = Fresnel_Schlick(specularColor, NdotV);
+            vec3 iblspec = spec * EnvironmentBRDF(armeParams.y, NdotV, F);
+        #else
+            float F = Fresnel4(normalize(finalWorldNormal.xyz), normalize(l_worldEyeToVert.xyz));
+            vec3 iblspec = spec * F * specularColor;
+        #endif
+        
+        specularLighting += iblspec;
+   
     #endif
     
     outputColor.rgb = (ambientLighting * diffuseLighting) + specularLighting;
