@@ -156,7 +156,9 @@ void ApplyHardFalloff(inout float falloff, vec4 falloff2, float dist, float dot)
 
 void ComputeLightHAndDots(inout LightingParams_t params)
 {
-    params.H = normalize(params.L + params.V);
+    #if SHADER_QUALITY > SHADERQUALITY_LOW
+        params.H = normalize(params.L + params.V);
+    #endif
     
     params.NdotL = dot(params.N, params.L);
     #ifdef HALFLAMBERT
@@ -171,9 +173,14 @@ void ComputeLightHAndDots(inout LightingParams_t params)
         params.NdotL = 2.0 * texture(lightwarpSampler, vec2(params.NdotL, 0.5)).r;
     #endif // LIGHTWARP
     
-    params.NdotV = clamp(abs(dot(params.N, params.V)), 0.001, 1.0);
-    params.NdotH = clamp(dot(params.N, params.H), 0.0, 1.0);
-    params.VdotH = clamp(dot(params.V, params.H), 0.0, 1.0);
+    
+    #if SHADER_QUALITY == SHADERQUALITY_HIGH
+        params.NdotV = clamp(abs(dot(params.N, params.V)), 0.001, 1.0);
+        params.NdotH = clamp(dot(params.N, params.H), 0.0, 1.0);
+    #endif
+    #if SHADER_QUALITY > SHADERQUALITY_LOW
+        params.VdotH = clamp(dot(params.V, params.H), 0.0, 1.0);
+    #endif
 }
 
 void ComputeLightVectors_Dir(inout LightingParams_t params)
@@ -197,7 +204,7 @@ void ComputeLightVectors(inout LightingParams_t params)
 
 float RoughnessToPhongExponent(float roughness)
 {
-    return (1 - roughness) * 150;
+    return (1 - roughness) * 1.5;
 }
 
 void AddTotalRadiance(inout LightingParams_t params)
@@ -205,7 +212,7 @@ void AddTotalRadiance(inout LightingParams_t params)
     vec3 lightRadiance = params.lColor.rgb * params.attenuation;
     
     #if SHADER_QUALITY == SHADERQUALITY_HIGH
-        // Full PBR light contribution
+        // Full PBR light contribution with cook-torrance specular
         float G = GeometricOcclusionTerm(params.roughness2, params.NdotL, params.NdotV);
         float D = MicrofacetDistributionTerm(params.roughness2, params.NdotH);
         vec3 F	= Fresnel_Schlick(params.specularColor, params.VdotH);
@@ -217,18 +224,23 @@ void AddTotalRadiance(inout LightingParams_t params)
         params.totalRadiance += (diffuse + specular) * lightRadiance * params.NdotL;
         
     #elif SHADER_QUALITY == SHADERQUALITY_MEDIUM
-        // PBR light contribution with phong specular
+        // PBR light contribution with empirical phong specular
         vec3 F	= Fresnel_Schlick(params.specularColor, params.VdotH);
         vec3 kS = F;
         vec3 kD = vec3(1.0) - kS;
         kD *= 1.0 - params.metallic;
         vec3 diffuse = kD * params.albedo / PI;
-        vec3 specular = F * pow(params.NdotV, RoughnessToPhongExponent(params.roughness2));
+        
+        vec3 lhalf = normalize(params.L - normalize(params.fragPos.xyz));
+        float LdotR = clamp(dot(params.N, lhalf), 0, 1);
+        vec3 specular = F * pow(LdotR, RoughnessToPhongExponent(params.roughness2));
+        
         params.totalRadiance += (diffuse + specular) * lightRadiance * params.NdotL;
         
     #elif SHADER_QUALITY == SHADERQUALITY_LOW
-        // Non-PBR light contribution
-        params.totalRadiance += lightRadiance * params.NdotL;
+        // Simple light contribution, no specular
+        vec3 diffuse = params.albedo / PI;
+        params.totalRadiance += diffuse * lightRadiance * params.NdotL;
         
     #endif
 }

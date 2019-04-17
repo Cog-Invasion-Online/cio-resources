@@ -165,7 +165,7 @@ void main()
     // Diffuse term.
     vec3 diffuseLighting = vec3(0);
     
-    #if defined(FLAT_LIGHTMAP) || SHADER_QUALITY == SHADERQUALITY_LOW
+    #if defined(FLAT_LIGHTMAP)
         
         diffuseLighting += LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 0);
         
@@ -220,7 +220,7 @@ void main()
             vec3 F = Fresnel_Schlick(specularColor, NdotV);
             vec3 iblspec = spec * EnvironmentBRDF(armeParams.y, NdotV, F);
         #else
-            float F = Fresnel4(normalize(finalWorldNormal.xyz), normalize(l_worldEyeToVert.xyz));
+            float F = Fresnel(normalize(finalWorldNormal.xyz), normalize(l_worldEyeToVert.xyz));
             vec3 iblspec = spec * F * specularColor;
         #endif
         

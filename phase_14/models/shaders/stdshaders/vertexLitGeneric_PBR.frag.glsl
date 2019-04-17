@@ -406,7 +406,7 @@ void main()
                 vec3 F = Fresnel_Schlick(specularColor, NdotV);
                 vec3 iblspec = spec * EnvironmentBRDF(armeParams.y, NdotV, F);
             #else
-                float F = Fresnel4(normalize(finalWorldNormal.xyz), normalize(l_worldEyeToVert.xyz));
+                float F = Fresnel(normalize(finalWorldNormal.xyz), normalize(l_worldEyeToVert.xyz));
                 vec3 iblspec = spec * F * specularColor;
             #endif
             
