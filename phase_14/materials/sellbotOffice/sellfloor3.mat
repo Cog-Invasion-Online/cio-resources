@@ -4,5 +4,5 @@ LightmappedGeneric
     "$bumpmap"          "phase_14/maps/sellbotOffice/sellfloor1_bump.png"
     
     "$envmap"           "env_cubemap"
-    "$envmapmask"       "phase_14/maps/sellbotOffice/sellfloor1_envmask.png"
+    "$arme"             "phase_14/maps/sellbotOffice/sellfloor1_arme.png"
 }
