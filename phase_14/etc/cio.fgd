@@ -833,4 +833,10 @@
 
 @PointClass base(Targetname, Angles) = gag_pickup : "Deathmatch gag pickup"
 [
+    gagName(string) : "Name of gag (empty for random)" : ""
+    oneTimePickup(choices) : "One-time pickup" : 0 =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
 ]
