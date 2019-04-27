@@ -432,8 +432,16 @@
     output OnFinish(void) : "Fired when the cutscene ends"
 ]
 
-@PointClass iconsprite("sprites/info_bgm.spr") base(Targetname, SpawnIO) = info_bgm : "Background Music Manager"
+@PointClass iconsprite("sprites/info_bgm.spr") base(Targetname, SpawnIO) = info_bgm : "Background Music"
 [
+    songName(string) : "Name of song" : ""
+    looping(choices) : "Looping" : 0 =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
+    volume(string) : "Volume" : "1.0"
+    
     input PlayMusic(void) : "Plays a specified song, params: [song;volume;looping]"
     input StopMusic(void) : "Stops the current song"
     output OnSongFinish(void) : "Fired when the song ends"
@@ -839,4 +847,7 @@
         0 : "No"
         1 : "Yes"
     ]
+    
+    output OnRespawn(void) : "Fired when the pickup respawns"
+    output OnPickup(void) : "Fired when the gag/object is picked up"
 ]
