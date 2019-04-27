@@ -851,3 +851,36 @@
     output OnRespawn(void) : "Fired when the pickup respawns"
     output OnPickup(void) : "Fired when the gag/object is picked up"
 ]
+
+@PointClass base(Targetname) = scripted_sequence : "Scripted sequence"
+[
+    targetEnt(target_destination) : "NPC Target" : "" : "The NPC entity to play this sequence on."
+    nextScript(target_destination) : "Next Script" : "" : "The next sequence to play after this one."
+    entryAnimation(string) : "Entry action" : "ACT_IDLE"
+    actionAnimation(string) : "Main action" : "ACT_IDLE"
+    exitAnimation(string) : "Exit action" : "ACT_IDLE"
+    loopAction(choices) : "Loop main action" : 0 =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
+    moveToPosition(choices) : "Move NPC to this entity" : 1 = 
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
+    
+    input StartSequence(void) : "Starts it"
+    input StopSequence(void) : "Stops it"
+    output OnStartSequence(void) : "Thrown when sequence starts"
+    output OnStopSequence(void) : "Thrown when sequence stops"
+]
+
+@PointClass base(Targetname) = scripted_speech : "Scripted speech"
+[
+    targetEntity(target_destination) : "NPC Target" : "" : "The NPC entity that should speak."
+    speech(string) : "What should they say?" : "Hello, world!"
+    
+    input Speak(void) : "Speak!"
+    output OnSpeak(void) : "When we speak"
+]
