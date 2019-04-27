@@ -101,6 +101,7 @@ from src.coginvasion.szboss import DistributedButton/AI
 from src.coginvasion.szboss import DistributedGenerator/AI
 from src.coginvasion.szboss import DistributedFuncRotating/AI
 from src.coginvasion.szboss import DistributedSZBossToon/AI
+from src.coginvasion.szboss import InfoBgm/AI
 from src.coginvasion.deathmatch import DistributedDeathmatchBattle/AI
 from src.coginvasion.deathmatch import DistributedGagPickup/AI
 
@@ -973,4 +974,13 @@ dclass DistributedGagPickup : DistributedEntity {
 
   requestPickup() clsend airecv;
   pickupAccepted();
+};
+
+dclass InfoBgm : DistributedEntity {
+  setSongName(string) required broadcast ram;
+  setVolume(uint8 / 100) required broadcast ram;
+  setLooping(uint8) required broadcast ram;
+  
+  playMusic() broadcast;
+  stopMusic() broadcast;
 };
