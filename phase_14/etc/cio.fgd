@@ -753,12 +753,13 @@
         2 : "Spawn immediately" : 1
         4 : "Don't ignore": 0
 		8 : "No hangout": 0
+        16 : "Do supa fly in move" : 0
     ]
 
 	section(integer) : "Room section" : 0
     
     input Spawn(void) : "Spawns a cog at this point"
-    output OnSpawn(void) : "Fired when a cog is spawned"
+    output OnSpawnCog(void) : "Fired when a cog is spawned"
 ]
 
 @PointClass base(Targetname, Angles) = cogoffice_hangoutpoint : "Office Cog Hangout point"
@@ -834,7 +835,7 @@
     maxBatchMin(integer) : "Batch minimum"	:	"4"
     maxBatchMax(integer) : "Batch maximum"	:	"8"
     
-    output OnSpawn(void)	:	"Fired when we spawn a batch"
+    output OnSpawnBatch(void)	:	"Fired when we spawn a batch"
     input Start(void)	:	"Start the spawning"
     input Stop(void)	:	"Stop the spawning"
 ]
