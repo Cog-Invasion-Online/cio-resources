@@ -12,7 +12,8 @@ parser.add_argument("--filename", default = "phase_3.mf", help = "The file to be
 parser.add_argument("--mtype", default = "compile", help = "Compile or decompile.")
 args = parser.parse_args()
 
-multify = '..\\..\\cio-panda3d\\built_x64\\bin\\multify.exe'
+engine = os.environ.get("CIOENGINE", "..\\..\\cio-panda3d\\built_x64")
+multify = engine + '\\bin\\multify.exe'
 
 def do(mtype, filename):
     if mtype == "compile" and filename == "phase_0":

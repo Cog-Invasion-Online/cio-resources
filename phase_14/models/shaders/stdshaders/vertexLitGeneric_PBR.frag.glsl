@@ -217,13 +217,13 @@ void main()
     #endif
 
     #ifdef NEED_EYE_NORMAL
-        vec4 finalEyeNormal = l_eyeNormal;
+        vec4 finalEyeNormal = normalize(l_eyeNormal);
     #else
         vec4 finalEyeNormal = vec4(0.0);
     #endif
 	
     #ifdef NEED_WORLD_NORMAL
-        vec4 finalWorldNormal = l_worldNormal;
+        vec4 finalWorldNormal = normalize(l_worldNormal);
         mat3 tangentSpaceTranspose = l_tangentSpaceTranspose;
         tangentSpaceTranspose[2] = finalWorldNormal.xyz;
     #else

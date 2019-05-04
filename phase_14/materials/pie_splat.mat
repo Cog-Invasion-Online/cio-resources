@@ -1,0 +1,8 @@
+VertexLitGeneric
+{
+    "$basetexture"      "phase_14/maps/pie_splat.png"
+    "$translucent"      "1"
+    "$bumpmap"          "phase_14/maps/pie_splat_normal.png"
+    "$roughness"        "0.0"
+    "$metallic"         "0.0"
+}

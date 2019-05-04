@@ -11,6 +11,8 @@ out_file = raw_input("Output file: ")
 
 lbr()
 
+engine = os.environ.get("CIOENGINE", "..\\..\\cio-panda3d\\built_x64")
+
 normalsStr = ""
 normals = True
 while (normalsStr not in ["y", "n"]):
@@ -21,7 +23,7 @@ while (normalsStr not in ["y", "n"]):
         normals = False
 
 print("Running egg-trans...")
-cmd  = "..\\..\\cio-panda3d\\built_x64\\bin\\egg-trans -o {0} ".format(inp_file)
+cmd  = engine + "\\bin\\egg-trans -o {0} ".format(inp_file)
 if normals:
     print("Also calculating vertex normals")
     cmd += "-nv 90 "

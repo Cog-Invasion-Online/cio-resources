@@ -2,7 +2,7 @@
 title Cog Invasion Phase File Compiler
 
 set /p file=What phase file do you want compiled? 
-..\..\cio-panda3d\built_x64\python\ppython.exe -B tool_Multifile.py --mtype compile --filename %file%
+%CIOENGINE%\python\ppython.exe -B tool_Multifile.py --mtype compile --filename %file%
 
 echo Done!
 pause >nul

@@ -1,7 +1,10 @@
 LightmappedGeneric
 {
     "$basetexture"  "phase_9/maps/WallMetalPlateLargeRivets.jpg"
+    "$bumpmap"      "phase_9/maps/WallMetalPlateLargeRivets_normal.jpg"
     
     "$envmap"       "env_cubemap"
-    "$envmaptint"   ".15 .15 .15"
+    "$arme"         "phase_9/maps/WallMetalPlateLargeRivets_arme.jpg"
+    
+    "$surfaceprop"  "metalfloor"
 }

@@ -15,6 +15,7 @@
 #pragma include "phase_14/models/shaders/stdshaders/common_animation_vert.inc.glsl"
 
 uniform mat4 p3d_ModelViewProjectionMatrix;
+uniform mat3 p3d_NormalMatrix;
 in vec4 p3d_Vertex;
 in vec3 p3d_Normal;
 out vec4 l_position;
@@ -54,7 +55,6 @@ out vec4 l_position;
 #endif
 
 #ifdef NEED_EYE_NORMAL
-    uniform mat4 tpose_view_to_model;
     out vec4 l_eyeNormal;
 #endif
 
@@ -111,7 +111,7 @@ void main()
     #endif
 
     #ifdef NEED_EYE_NORMAL
-        l_eyeNormal = vec4(normalize(mat3(tpose_view_to_model) * finalNormal), 0.0);
+        l_eyeNormal = vec4(normalize(p3d_NormalMatrix * finalNormal), 0.0);
     #endif
 
     #ifdef NEED_COLOR
@@ -121,8 +121,8 @@ void main()
     #endif
 
     #ifdef NEED_TBN
-        l_tangent = vec4(normalize(mat3(p3d_ModelViewMatrix) * p3d_Tangent.xyz), 0.0);
-        l_binormal = vec4(normalize(mat3(p3d_ModelViewMatrix) * -p3d_Binormal.xyz), 0.0);
+        l_tangent = vec4(normalize(p3d_NormalMatrix * p3d_Tangent.xyz), 0.0);
+        l_binormal = vec4(normalize(p3d_NormalMatrix * -p3d_Binormal.xyz), 0.0);
     #endif
 
     #ifdef NEED_WORLD_VEC
