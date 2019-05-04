@@ -165,7 +165,7 @@ void main()
     // Diffuse term.
     vec3 diffuseLighting = vec3(0);
     
-    #if defined(FLAT_LIGHTMAP)
+    #if 1 //defined(FLAT_LIGHTMAP)
         
         diffuseLighting += LightmapSample(lightmapSampler, l_texcoordLightmap.xy, 0);
         

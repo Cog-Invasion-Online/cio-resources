@@ -931,7 +931,7 @@ dclass DistributedCogOfficeElevator : DistributedElevator, IDistributedEntity {
 };
 
 dclass BaseProjectile : DistributedSmoothNode {
-  impact(Point3) broadcast udp;
+  impact(Point3, Point3) broadcast udp;
 };
 
 dclass LinearProjectile : BaseProjectile {

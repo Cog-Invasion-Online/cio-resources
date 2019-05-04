@@ -4,5 +4,6 @@ LightmappedGeneric
 	"$translucent"			"1"
     "$surfaceprop"          "tile"
     "$envmap"				"env_cubemap"
-    "$envmaptint"     ".3 .3 .3"
+    "$roughness"            "0.0"
+    "$metallic"             "0.0"
 }
