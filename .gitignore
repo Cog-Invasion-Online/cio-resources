@@ -3,3 +3,7 @@
 revamp
 non_revamp
 raw_dna/compiled
+*.ext
+*.bat
+*.prt
+*.log
