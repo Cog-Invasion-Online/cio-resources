@@ -12,7 +12,7 @@
 
 #version 430
 
-#pragma include "phase_14/models/shaders/stdshaders/common_lighting_frag.inc.glsl"
+#pragma include "shaders/stdshaders/common_lighting_frag.inc.glsl"
 
 in vec2 l_texcoord;
 
@@ -36,7 +36,7 @@ void main()
 		          tangentSpaceTranspose);
         worldNormal.xyz = normalize(worldNormal.xyz);
         
-        vec3 specular = SampleCubeMap(l_worldEyeToVert, worldNormal, vec3(0), cube_map).rgb;
+        vec3 specular = SampleCubeMap(l_worldEyeToVert, worldNormal, cube_map).rgb;
         float fresnel = max(Fresnel4(worldNormal.xyz, l_worldEyeToVert.xyz), 0.1);
         
         frag_color.rgb = water_tint.rgb + (specular * reflectivity);

@@ -1,11 +1,11 @@
 want-reflections: true
 shaders:
   default-sky-type: 1
-  default-outdoor-ambient-color: [200, 202, 230, 240]
+  default-outdoor-ambient-color: [200, 202, 230, 120]
   default-indoor-ambient-color: [255, 255, 255, 190]
-  default-sun-color: [192, 191, 173, 600]
+  default-sun-color: [192, 191, 173, 500]
   default-sun-angle: [145, -80, 0]
-  default-fog-color: [200, 202, 230, 240]
+  default-fog-color: [200, 202, 230, 120]
   default-fog-density: 0.001
   default-interior-light-color: [255, 255, 255, 255]
   dd:
