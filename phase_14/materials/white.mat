@@ -1,4 +1,5 @@
 UnlitGeneric
 {
     "$basetexture"      "phase_14/maps/white.jpg"
+    "$surfaceprop"      "glass"
 }

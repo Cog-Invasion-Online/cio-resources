@@ -1,0 +1,5 @@
+LightmappedGeneric
+{
+    "$basetexture"  "materials/ttc_walls/wall05.png"
+    "$translucent"  "1"
+}

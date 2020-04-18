@@ -1,0 +1,8 @@
+VertexLitGeneric
+{
+	"$basetexture"			"materials/models/suit/tt_t_ene_police.jpg"
+	
+	"$envmap"			"env_cubemap"
+    "$metallic"			"1.0"
+	"$roughness"		"0.5"
+}

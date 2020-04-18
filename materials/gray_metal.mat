@@ -1,0 +1,8 @@
+LightmappedGeneric
+{
+    "$basetexture"  "materials/gray_metal.jpg"
+    "$metallic"     "1.0"
+    "$roughness"    "0.25"
+    "$envmap"       "env_cubemap"
+    "$surfaceprop"  "metal"
+}

@@ -3,5 +3,7 @@ LightmappedGeneric
     "$basetexture"  "phase_9/maps/metalPannel.jpg"
     
     "$envmap"       "env_cubemap"
-    "$envmaptint"   ".15 .15 .15"
+    "$bumpmap"      "phase_9/maps/metalPannel_normal.jpg"
+    "$arme"         "phase_9/maps/metalPannel_arme.png"
+    "$surfaceprop"  "metal"
 }

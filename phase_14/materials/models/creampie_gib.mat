@@ -1,0 +1,6 @@
+patch
+{
+	"$include" 		"phase_14/materials/models/creampie.mat"
+
+    "$basetexture"	"phase_14/maps/creampie/creampie_gib.png"
+}

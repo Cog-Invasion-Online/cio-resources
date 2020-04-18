@@ -1,0 +1,7 @@
+LightmappedGeneric
+{
+    "$basetexture"      "materials/metal/floorplate01.jpg"
+    "$metallic"         "1.0"
+    "$roughness"        "0.5"
+    "$envmap"           "env_cubemap"
+}

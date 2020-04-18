@@ -2,7 +2,7 @@ LightmappedGeneric
 {
 	"$basetexture"			"phase_14/maps/window_glass_grey.png"
 	"$translucent"			"1"
-    "$surfaceprop"          "tile"
+    "$surfaceprop"          "glass"
     "$envmap"				"env_cubemap"
     "$roughness"            "0.0"
     "$metallic"             "0.0"

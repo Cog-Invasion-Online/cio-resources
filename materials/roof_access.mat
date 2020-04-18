@@ -1,0 +1,7 @@
+LightmappedGeneric
+{
+	"$basetexture"			"materials/roof_access.jpg"
+    "$metallic"             "1.0"
+    "$roughness"            "0.55"
+    "$envmap"               "env_cubemap"
+}

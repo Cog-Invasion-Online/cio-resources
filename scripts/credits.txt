@@ -1,0 +1,26 @@
+Cog Invasion Online Singeplayer Mod
+
+Created by Brian Lach
+
+Technology inspired by Valve's Source Engine
+
+Thanks to
+
+DecodedLogic
+Captain Frizzy
+Obligatory Unicorn
+Cookiepwee
+Mark
+
+Special thanks to
+
+Panda3D Game Engine and its developers
+Toontown and The Walt Disney Company
+Valve Software and the Source Engine
+
+Toontown and the Toontown logo are trademarks and/or registered trademarks of The Walt Disney Company.
+All Toontown assets are (c) Copyright The Walt Disney Company.
+The Panda3D Game Engine is (c) Copyright Carnegie Mellon University.
+The Source Engine is (c) Copyright Valve Software.
+
+Cog Invasion Online is not affiliated with The Walt Disney Company and/or Valve Software.

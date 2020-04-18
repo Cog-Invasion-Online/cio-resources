@@ -1,0 +1,5 @@
+UnlitGeneric
+{
+    "$basetexture"      "phase_5/maps/quest_scroll_emblem.png"
+    "$translucent"      "1"
+}

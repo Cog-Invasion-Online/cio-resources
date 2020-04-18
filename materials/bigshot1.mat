@@ -1,0 +1,5 @@
+DecalModulate
+{
+    "$basetexture"  "materials/bigshot1.png"
+    "$translucent"  "1"
+}

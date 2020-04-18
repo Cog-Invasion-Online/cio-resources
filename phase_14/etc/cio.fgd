@@ -179,7 +179,24 @@
     lip(integer) : "Lip" : 0
 ]
 
-@BaseClass base(Appearflags, Targetname, RenderFields, Global, Angles, Moveable, SpawnIO) = Door
+@BaseClass = NPC
+[
+    attacklist(string) : "Attack list (semicolon delimited)" : "" : "Empty for default list"
+    marginchat(choices) : "Show speech in margin" : 0 =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
+    health(integer) : "NPC Health (-1 default)" : -1
+    speedMod(string) : "Speed modifier" : "1.0" : "Modifies the base walk speed of the NPC"
+]
+
+@BaseClass = Parent
+[
+    parent(target_destination) : "Parent" : "" : "Makes this entity move with parent entity"
+]
+
+@BaseClass base(Appearflags, Targetname, RenderFields, Global, Angles, Moveable, SpawnIO, Parent) = Door
 [
 	movesnd(sound) : "Move Sound" : ""
 	stopsnd(sound) : "Stop Sound" : ""
@@ -251,63 +268,34 @@
 
 @PointClass iconsprite("sprites/speaker.spr") base(Targetname) = ambient_generic : "Universal Ambient"
 [
-	message(sound) : "WAV Name"
-	health(integer) : "Volume (10 = loudest)" : 10
-	preset(choices) :"Dynamic Presets" : 0 =
-	[
-		0: "None"
-		1: "Huge Machine"
-		2: "Big Machine"
-		3: "Machine"
-		4: "Slow Fade in"  
-		5: "Fade in"
-		6: "Quick Fade in"
-		7: "Slow Pulse"
-		8: "Pulse"
-		9: "Quick pulse"
-		10: "Slow Oscillator"
-		11: "Oscillator"
-		12: "Quick Oscillator"
-		13: "Grunge pitch"
-		14: "Very low pitch"
-		15: "Low pitch"
-		16: "High pitch"
-		17: "Very high pitch"
-		18: "Screaming pitch"
-		19: "Oscillate spinup/down"
-		20: "Pulse spinup/down"
-		21: "Random pitch"
-		22: "Random pitch fast"
-		23: "Incremental Spinup"
-		24: "Alien"
-		25: "Bizzare"
-		26: "Planet X"
-		27: "Haunted"
-	]
-	volstart(integer) : "Start Volume" : 0
-	fadein(integer) : "Fade in time (0-100)" : 0
-	fadeout(integer) : "Fade out time (0-100)" : 0
-	pitch(integer) : "Pitch (> 100 = higher)" : 100
-	pitchstart(integer) : "Start Pitch" : 100
-	spinup(integer) : "Spin up time (0-100)" : 0
-	spindown(integer) : "Spin down time (0-100)" : 0
-	lfotype(integer) : "LFO type 0)off 1)sqr 2)tri 3)rnd" : 0
-	lforate(integer) : "LFO rate (0-1000)" : 0
-	lfomodpitch(integer) : "LFO mod pitch (0-100)" : 0
-	lfomodvol(integer) : "LFO mod vol (0-100)" : 0
-	cspinup(integer) : "Incremental spinup count" : 0
-	spawnflags(flags) =
-	[
-		1 : "Play Everywhere" : 0
-		2 : "Small Radius" : 0
-		4 : "Medium Radius" : 1
-		8 : "Large Radius" : 0
-		16 : "Start Silent":0
-		32 : "Not Toggled":0
-	]
+	soundfile(sound) : "Sound File"
+	volume(string) : "Volume" : "1.0"
+    looping(choices) : "Looping" : 0 = 
+    [
+        0 : "No"
+        1 : "Yes"
+        2 : "Yes (Random Delay)"
+    ]
+    playnow(choices) : "Play immediately" : 0 =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
+    spawnflags(flags) =
+    [
+        1 : "Play everywhere" : 0
+    ]
+    randomDelayMin(string) : "Random delay min" : "1.0"
+    randomDelayMax(string) : "Random delay max" : "20.0"
+    
+    input FadeIn(void) : "Play the sound, fading in"
+    input FadeOut(void) : "Stop the sound, fading out"
+    
+    input Play(void) : "Play the sound"
+    input Stop(void) : "Stop the sound"
 ]
 
-@SolidClass base(Global,Targetname, Target, RenderFields, Angles, ZHLT, Moveable) = func_button : "Button" 
+@SolidClass base(Global,Targetname, Target, RenderFields, Angles, ZHLT, Moveable, Parent) = func_button : "Button" 
 [
 	health(integer) : "Health (shootable if > 0)"
 	master(string) : "Master" 
@@ -347,7 +335,7 @@
 	distance(integer) : "Distance (deg)" : 90
 ]
 
-@SolidClass base(Targetname, SpawnIO) = func_rotating : "Rotating brush"
+@SolidClass base(Targetname, SpawnIO, Parent) = func_rotating : "Rotating brush"
 [
     axis(string) : "Axis of rotation" : "0 0 1"
     speed(string) : "Speed of rotation" : "50.0"
@@ -365,12 +353,12 @@
     output OnStop(void) : "Fired when rotation stops"
 ]
 
-@SolidClass base(Appearflags, RenderFields, ZHLT) = func_friction : "Surface with a change in friction" 
+@SolidClass base(Appearflags, RenderFields, ZHLT, Parent) = func_friction : "Surface with a change in friction" 
 [
 	modifier(integer) : "Percentage of standard (0 - 100)" : 15
 ]
 
-@SolidClass base(Targetname, RenderFields, ZHLT) = func_illusionary : "Fake Wall/Light" 
+@SolidClass base(Targetname, RenderFields, ZHLT, Parent) = func_illusionary : "Fake Wall/Light" 
 [
 
 	skin(choices) : "Contents" : -1 =
@@ -381,9 +369,9 @@
 	_minlight(string) : "Minimum light level"
 ]
 
-@SolidClass base(Targetname) = func_ladder : "Ladder" []
+@SolidClass base(Targetname, Parent) = func_ladder : "Ladder" []
 
-@SolidClass base(Targetname, Appearflags, RenderFields, Global, ZHLT) = func_wall : "Wall" 
+@SolidClass base(Targetname, Appearflags, RenderFields, Global, ZHLT, Parent) = func_wall : "Wall" 
 [
 	_minlight(string) : "Minimum light level"
 ]
@@ -403,6 +391,18 @@
 	waterspec(string) : "Water type" : "pond"
 ]
 
+@SolidClass = func_clip : "Clip entity"
+[
+]
+
+@SolidClass = func_player_clip : "Player clip"
+[
+]
+
+@SolidClass = func_npc_clip : "NPC clip"
+[
+]
+
 //
 // info entities
 //
@@ -414,7 +414,10 @@
 
 @PointClass base(Targetname) = info_null : "info_null (spotlight target)" []
 
-@PointClass studio("phase_14/models/misc/toon_ref.bam") base(PlayerClass) = info_player_start : "Player 1 start" []
+@PointClass studio("phase_14/models/misc/toon_ref.bam") base(PlayerClass, Targetname) = info_player_start : "Player 1 start"
+[
+	output OnPlayerSpawn(void) : "Fired when the player is spawned here"
+]
 
 @PointClass studio("phase_14/models/misc/toon_ref.bam") base(PlayerClass, Targetname) = info_player_relocate : "Player relocation point"
 [
@@ -448,7 +451,7 @@
     output OnSongStart(void) : "Fired when the song starts"
 ]
 
-@PointClass studio("phase_14/models/props/indicator_light.bam") base(Angles, Targetname, SpawnIO) = info_indicator_light : "Fake indicator light"
+@PointClass studio("phase_14/models/props/indicator_light.bam") base(Angles, Targetname, SpawnIO, Parent) = info_indicator_light : "Fake indicator light"
 [
     _light(color255) : "Initial light color" : "0 255 0 255"
     scale(string) : "Scale of light" : "1.0"
@@ -513,17 +516,36 @@
 // Triggers
 //
 
+@PointClass base(Targetname, Angles) = env_sun : "Sun sprite"
+[
+    spriteScale(string) : "Scale of sun" : "1.0"
+    spriteColor(color255) : "Color of sun" : "255 255 255 255"
+    sunAngles(choices) : "Use light_environment angles" : 1 = 
+    [
+	0 : "No"
+	1 : "Yes"
+    ]
+]
 
-@PointClass size(-16, -16, -16, 16, 16, 16) = env_fog : "Fog"
+@PointClass size(-16, -16, -16, 16, 16, 16) base(Targetname) = env_fog : "Fog"
 [
     fogcolor(color255) : "Fog color" : "255 255 255 255"
     fogdensity(string) : "Fog density" : "0.001"
+    startDisabled(choices) : "Start disabled" : 0 =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
+    
+    input EnableFog(void) : "Enables the fog"
+    input DisableFog(void) : "Disables the fog"
 ]
 
-@PointClass size(-16, -16, -16, 16, 16, 16) = env_particlesystem : "Particle System"
+@PointClass base(Targetname, Angles, Parent) size(-16, -16, -16, 16, 16, 16) = env_particlesystem : "Particle System"
 [
     file(string) : "PTF File" : ""
     scale(string) : "Size" : "1.0"
+    aliveTime(string) : "Alive time (-1 forever)" : "-1"
     
     spawnflags(flags) =
     [
@@ -535,14 +557,14 @@
     input Stop(void) : "Stops the particle system"
 ]
 
-@PointClass iconsprite("sprites/light_glow.spr") = env_lightglow : "Light glow"
+@PointClass base(Parent) iconsprite("sprites/light_glow.spr") = env_lightglow : "Light glow"
 [
 	_light(color255) : "Light glow color" : "255 255 128 200"
 	width(string) : "Glow width" : "1.0"
 	height(string) : "Glow height" : "1.0"
 ]
 
-@PointClass iconsprite("sprites/light_glow.spr") = point_spotlight : "Beam and halo effect"
+@PointClass base(Parent) iconsprite("sprites/light_glow.spr") = point_spotlight : "Beam and halo effect"
 [
 	angles(string) : "Pitch Yaw Roll (Y Z X)" : "-90 0 0"
 	_light(color255) : "Light color" : "255 255 128 200"
@@ -550,7 +572,7 @@
 	SpotlightLength(string) : "Beam length" : "500.0"
 ]
 
-@PointClass base(Angles, Targetname) size(-16, -16, 0, 16 16 32) = prop_static : "Static prop"
+@PointClass base(Angles, Targetname, Parent) size(-16, -16, 0, 16 16 32) = prop_static : "Static prop"
 [
     modelpath(studio) : "Prop Model" : "models/smiley.egg.pz"
     scale(string) : "Scale of prop" : "1.0 1.0 1.0"
@@ -616,7 +638,7 @@
     mass(string) : "Mass of physics object" : "1.0"
 ]
 
-@PointClass studio("phase_3.5/models/char/suitA-mod.bam") base(Targetname, Angles) = npc_suit : "Cog"
+@PointClass studio("phase_3.5/models/char/suitA-mod.bam") base(Targetname, Angles, NPC) = npc_suit : "Cog"
 [
     spawnflags(flags) = 
     [
@@ -676,6 +698,7 @@
     input Activate(void) : "Starts the AI brain of the suit"
     input Deactivate(void) : "Stops the AI brain of the suit"
     input Kill(void) : "Kills the suit"
+    output OnDie(void) : "Fired when HP reaches 0"
 ]
 
 @BaseClass = Keyframes
@@ -692,14 +715,14 @@
     output OnDisable(void) : "Fired when entity is disabled"
 ]
 
-@PointClass base(Targetname, Keyframes) = rope_begin : "Beginning point in a rope/cable"
+@PointClass base(Targetname, Keyframes, Parent) = rope_begin : "Beginning point in a rope/cable"
 [
 	resolution(integer) : "How smooth this rope (and all connecting node ropes) should be." : 3
-	thickness(integer) : "How thicc is this rope" : 1
+	thickness(string) : "How thicc is this rope" : "1.0"
 	color(color255) : "Color of rope" : "0 0 0 255"
 ]
 
-@PointClass base(Targetname, Keyframes) = rope_keyframe : "Node in a rope"
+@PointClass base(Targetname, Keyframes, Parent) = rope_keyframe : "Node in a rope"
 [
 ]
 
@@ -712,7 +735,7 @@
     output OnPowerOff(void) : "Fired when the generator powers off completely"
 ]
 
-@PointClass base(Targetname, Angles, EnableDisable) size(-20, -20, 0, 20, 20, 40) studio("phase_5/models/cogdominium/tt_m_ara_cbr_barrel.bam") = item_gagbarrel : "Gag restock barrel"
+@PointClass base(Targetname, Angles, EnableDisable, Parent) size(-20, -20, 0, 20, 20, 40) studio("phase_5/models/cogdominium/tt_m_ara_cbr_barrel.bam") = item_gagbarrel : "Gag restock barrel"
 [
     track(choices) : "Gag Track" : -1 =
     [
@@ -728,12 +751,17 @@
     gag(integer) : "Gag (-1 all)" : -1 : "Specific gag index in this track to restock. -1 is all."
 ]
 
-@PointClass base(Targetname, Angles, EnableDisable) size(-20, -20, 0, 20, 20, 40) studio("phase_5/models/cogdominium/tt_m_ara_cbr_laughBarrel.bam") = item_laffbarrel : "Laff Barrel"
+@PointClass base(Targetname, Angles, EnableDisable, Parent) size(-20, -20, 0, 20, 20, 40) studio("phase_5/models/cogdominium/tt_m_ara_cbr_laughBarrel.bam") = item_laffbarrel : "Laff Barrel"
 [
     healamt(integer) : "Heal amount" : 10 : "How much this laff barrel heals. -1 means to use the heal amount for the neighborhood"
 ]
 
-@PointClass base(Targetname, Angles) studio("phase_4/models/modules/elevator.bam") = cogoffice_elevator : "Cog Office Elevator"
+@PointClass base(Targetname, Angles, EnableDisable, Parent) size(-20, -20, 0, 20, 20, 40) studio("phase_5/models/cogdominium/tt_m_ara_cbr_laughBarrel.bam") = mod_item_laffbarrel : "Mod Laff Barrel"
+[
+    maxHeal(integer) : "Max heal" : 100 : "Capacity of barrel"
+]
+
+@PointClass base(Targetname, Angles, Parent) studio("phase_4/models/modules/elevator.bam") = cogoffice_elevator : "Cog Office Elevator"
 [
     index(integer) : "Elevator index" : 0
     type(choices) : "Elevator type" : 0 =
@@ -757,6 +785,8 @@
     ]
 
 	section(integer) : "Room section" : 0
+	
+    spawnScript(target_destination) : "Spawn script" : "" : "Script to run when the suit spawns"
     
     input Spawn(void) : "Spawns a cog at this point"
     output OnSpawnCog(void) : "Fired when a cog is spawned"
@@ -884,4 +914,128 @@
     
     input Speak(void) : "Speak!"
     output OnSpeak(void) : "When we speak"
+]
+
+@PointClass base(Targetname, Angles) studio("phase_9/models/cogHQ/square_stomper.bam") = cog_stomper : "Cog stomper"
+[
+    scale(string) : "Scale of stomper" : "1.0 1.0 1.0"
+    height(string) : "Height" : "64"
+    stompSpeed(string) : "Stomp speed" : "200"
+    raiseSpeed(string) : "Raise speed" : "200"
+    timeOnGround(string) : "Time on ground (-1 stay)" : "1.0"
+    timeInAir(string) : "Time in air (-1 stay)" : "4.0"
+    startDelay(string) : "Start delay" : "0.0"
+    
+    damage(string) : "Damage dealt (-1 insta kill)" : "-1"
+    
+    input Stomp(void) : "Stomp it"
+    input Raise(void) : "Raise it"
+    output OnStomp(void) : "When it stomps"
+    output OnRaise(void) : "When it raises"
+]
+
+@PointClass base(Targetname, Angles) studio("models/cage.bam") = cog_cage : "Cog cage"
+[
+    scale(string) : "Scale of cage" : "1.0 1.0 1.0"
+    
+    output OnOpenCage(void) : "Fired when the cage opens"
+    
+    input OpenCage(void) : "Open this gate!"
+    input CloseCage(void) : "Close the cage"
+]
+
+@PointClass base(Targetname) = logic_script : "Executable Python script"
+[
+    spawnflags(flags) =
+    [
+        1 : "Execute immediately" : 0
+    ]
+    scriptFilename(string) : "Path to Python script" : ""
+    scriptTarget(target_destination) : "Target entity" : "" : "The target NPC of this script."
+    
+    output OnScriptFinish(void) : "Fired when script finishes executing"
+    output OnScriptExecute(void) : "Fired when the script begins executing"
+    
+    input ExecuteScript(void) : "Execute the script"
+    input FinishScript(void) : "Finish the script"
+]
+
+@PointClass base(Targetname, Angles) = goonie_spawner : "Goonie spawner"
+[
+    output OnSpawn(void) : "When it spawns a goonie"
+    input StartSpawning(void) : "Begin the spawns"
+    input StopSpawning(void) : "End the spawns"
+    input Spawn(void) : "Spawns a goonie"
+    
+    spawnScript(target_destination) : "Spawn script" : "" : "Script to run when the goon spawns"
+]
+
+@PointClass base(Targetname, EnableDisable) = env_elevator_camera : "Elevator camera effect"
+[
+]
+
+@PointClass base(Targetname, EnableDisable) = env_postprocess_flash : "Post process flash effect"
+[
+    color(color255) : "Color of flash" : "255 0 0 255"
+    brightTime(string) : "Brighten time" : "0.5"
+    darkTime(string) : "Darken time" : "1.0"
+]
+
+@PointClass base(Targetname, Angles) = info_landmark : "Transition landmark point"
+[
+]
+
+@SolidClass base(Targetname) = trigger_transition : "Entities in this volume transition to next level"
+[
+]
+
+@SolidClass base(Targetname) = trigger_changelevel : "Changes the level"
+[
+    nextLevel(string) : "Transition to level" : ""
+    
+    input ChangeLevel(void) : "Transitions to the new level"
+]
+
+@PointClass base(Targetname, SpawnIO) = logic_auto : "Logic to run when the map spawns"
+[
+]
+
+@PointClass base(Targetname, Angles, NPC) = npc_vp : "Vice President"
+[
+    input Damage(void) : "Damage the VP"
+    
+    output OnFinishOpeningSpeech(void) : "Fired when VP finishes his pre-battle speech"
+]
+
+@PointClass base(Targetname, Angles) studio("models/keypad.bam") = item_keypad : "Keypad"
+[
+    code(string) : "Keypad code" : "1234"
+    
+    output OnCodeCorrect(void) : "Fired when correct code is entered"
+    output OnCodeIncorrect(void) : "Fired when incorrect code is entered"
+]
+
+@PointClass base(Targetname, Angles, Parent) = prop_dynamic : "Dynamic prop (can move, dynamically lit)"
+[
+    modelpath(studio) : "Prop Model" : ""
+    scale(string) : "Scale of prop" : "1.0 1.0 1.0"
+]
+
+@SolidClass base(Targetname) = func_elevator : "Moving elevator brush"
+[
+    startPoint(target_destination) : "Start point" : ""
+    endPoint(target_destination) : "End point" : ""
+    speed(string) : "Speed at which elevator moves" : "100"
+    
+    input Move(void) : "Move the elevator from start to end"
+    output OnStartMove(void) : "Fired when elevator begins moving"
+    output OnFinishMove(void) : "Fired when elevator finishes moving"
+]
+
+@PointClass base(Targetname) = path_track : "Point in path"
+[
+]
+
+@PointClass base(Targetname, Angles) studio("models/camera.bam") = point_devshot_camera : "Camera"
+[
 ]

@@ -4,5 +4,6 @@ LightmappedGeneric
     "$bumpmap"      "phase_9/maps/FootFactoryFloor_bump.jpg"
     
     "$envmap"       "env_cubemap"
-    "$envmaptint"   ".07 .07 .07"
+    "$roughness"	"0.4"
+    "$metallic"     "0.0"
 }

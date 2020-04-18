@@ -1,0 +1,42 @@
+<CoordinateSystem> { Z-Up }
+
+<Comment> {
+  "egg-optchar -keepall -inplace -flag charger_base -flag charger_glass -inplace health_charger.egg health_charger-empty.egg health_charger-emptyclick.egg health_charger-idle.egg"
+}
+<Table> {
+  <Bundle> health_charger001.qc_skeleton {
+    <Table> "<skeleton>" {
+      <Table> base {
+        <Xfm$Anim_S$> xform {
+          <Scalar> fps { 24 }
+          <Char*> order { sprht }
+          <S$Anim> i { <V> { 0.0625 } }
+          <S$Anim> j { <V> { 0.0625 } }
+          <S$Anim> k { <V> { 0.0625 } }
+          <S$Anim> h { <V> { -0.003495 } }
+          <S$Anim> p { <V> { 89.992988 } }
+          <S$Anim> r { <V> { 0.003495 } }
+        }
+        <Table> healthbar {
+          <Xfm$Anim_S$> xform {
+            <Scalar> fps { 24 }
+            <Char*> order { sprht }
+            <S$Anim> p { <V> { -89.999982 } }
+            <S$Anim> x { <V> { 0.067078 } }
+            <S$Anim> y { <V> { -1.135742 } }
+            <S$Anim> z { <V> { 6.882813 } }
+          }
+        }
+        <Table> roundcap {
+          <Xfm$Anim_S$> xform {
+            <Scalar> fps { 24 }
+            <Char*> order { sprht }
+            <S$Anim> x { <V> { 2.554688 } }
+            <S$Anim> y { <V> { 5.367188 } }
+            <S$Anim> z { <V> { 0.946778 } }
+          }
+        }
+      }
+    }
+  }
+}

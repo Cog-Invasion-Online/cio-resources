@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+    "$basetexture"  "materials/models/health_charger/health_charger001.jpg"
+    "$arme"         "materials/models/health_charger/health_charger001_arme.png"
+    "$selfillum"    "1"
+    "$envmap"       "env_cubemap"
+}

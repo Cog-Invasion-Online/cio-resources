@@ -1,0 +1,64 @@
+<CoordinateSystem> { Z-Up }
+
+<Comment> {
+  "egg-optchar -keepall -inplace -flag charger_base -flag charger_glass -inplace health_charger.egg health_charger-empty.egg health_charger-emptyclick.egg health_charger-idle.egg"
+}
+<Table> {
+  <Bundle> health_charger001.qc_skeleton {
+    <Table> "<skeleton>" {
+      <Table> base {
+        <Xfm$Anim_S$> xform {
+          <Scalar> fps { 24 }
+          <Char*> order { sprht }
+          <S$Anim> i { <V> { 0.0625 } }
+          <S$Anim> j { <V> { 0.0625 } }
+          <S$Anim> k { <V> { 0.0625 } }
+          <S$Anim> h { <V> { -0.003495 } }
+          <S$Anim> p { <V> { 89.992988 } }
+          <S$Anim> r { <V> { 0.003495 } }
+        }
+        <Table> healthbar {
+          <Xfm$Anim_S$> xform {
+            <Scalar> fps { 24 }
+            <Char*> order { sprht }
+            <S$Anim> p { <V> { -89.999982 } }
+            <S$Anim> x {
+              <V> {
+                6.51976 6.50023 6.43773 6.34007 6.20725 6.04318 5.85177
+                5.63301 5.39082 5.12909 4.84783 4.55485 4.25016 3.93765
+                3.61733 3.297 2.97278 2.65245 2.33994 2.03525 1.74227
+                1.46101 1.19929 0.957089 0.738334 0.546922 0.382853
+              }
+            }
+            <S$Anim> y { <V> { -1.13625 } }
+            <S$Anim> z { <V> { 6.883772 } }
+          }
+        }
+        <Table> roundcap {
+          <Xfm$Anim_S$> xform {
+            <Scalar> fps { 24 }
+            <Char*> order { sprht }
+            <S$Anim> h {
+              <V> {
+                0 -1.17009 -4.58143 -10.0748 -17.4907 -26.6647 -37.4371
+                -49.6487 -63.1459 -77.7581 -93.3317 -109.702 -126.715
+                -144.211 -162.026 180 162.026 144.211 126.715 109.702
+                93.3317 77.7581 63.1459 49.6487 37.4371 26.6647 17.4907
+              }
+            }
+            <S$Anim> x { <V> { 2.555 } }
+            <S$Anim> y { <V> { 5.367933 } }
+            <S$Anim> z {
+              <V> {
+                5.87159 5.85987 5.82471 5.77002 5.69189 5.59423 5.48095
+                5.35595 5.21141 5.05906 4.89499 4.72311 4.54342 4.35592
+                4.16841 3.977 3.78559 3.59417 3.40667 3.22307 3.04728
+                2.87931 2.71915 2.5668 2.43008 2.30898 2.20351
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+VertexLitGeneric
+{
+    "$basetexture"  "materials/models/health_charger/health_charger_glass.png"
+    
+    "$envmap"       "env_cubemap"
+    "$roughness"    "0.0"
+    "$metallic"     "0.0"
+    "$translucent"  "1"
+}

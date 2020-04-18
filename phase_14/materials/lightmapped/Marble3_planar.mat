@@ -1,0 +1,13 @@
+LightmappedGeneric
+{
+	"$basetexture"			"phase_10/maps/Marble3.jpg"
+	
+	"$bumpmap"				"phase_10/maps/Marble3_bump.jpg"
+	"$arme"			"phase_10/maps/Marble3_arme.jpg"
+    
+    //"$envmap"       "env_cubemap"
+    
+    "$planarreflection" "1"
+
+	"$surfaceprop"	"tile"
+}

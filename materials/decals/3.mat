@@ -1,0 +1,5 @@
+LightmappedGeneric
+{
+    "$basetexture"  "materials/decals/3.png"
+    "$translucent"  "1"
+}

@@ -3,6 +3,7 @@ LightmappedGeneric
 	"$basetexture"			"phase_14/maps/factory_door_bottom.png"
     "$surfaceprop"          "metalfloor"
     "$envmap"				"env_cubemap"
-    "$envmaptint"     		".15 .15 .15"
+    "$metallic"				"1.0"
+	"$roughness"			"0.6"
     "$bumpmap"            "phase_14/maps/factory_door_bottom_bump.png"
 }

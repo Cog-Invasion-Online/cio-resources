@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+    "$basetexture"  "materials/models/keypad/keypad_albedo.png"
+    "$arme"         "materials/models/keypad/keypad_arme.png"
+    "$envmap"       "env_cubemap"
+    "$selfillum"    "1"
+}

@@ -1,4 +1,4 @@
-VertexLitGeneric
+LightmappedGeneric
 {
     "$basetexture"      "phase_14/maps/pie_splat.png"
     "$translucent"      "1"

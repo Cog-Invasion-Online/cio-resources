@@ -2,7 +2,7 @@ LightmappedGeneric
 {
     "$basetexture"  "phase_10/maps/RollUpDoors.jpg"
     "$bumpmap"      "phase_10/maps/RollUpDoors_normal.jpg"
-    "$surfaceprop"  "metalfloor"
+    "$surfaceprop"  "metal"
     
     "$envmap"       "env_cubemap"
     "$arme"         "phase_10/maps/RollUpDoors_arme.jpg"

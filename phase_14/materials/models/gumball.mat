@@ -11,4 +11,6 @@ VertexLitGeneric
     "$emissive"         "0.4"
     
     "$envmap"           "env_cubemap"
+    
+    "$lightwarp"    "phase_14/maps/weapon_lightwarp.jpg"
 }

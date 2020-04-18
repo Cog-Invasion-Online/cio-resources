@@ -1,0 +1,8 @@
+LightmappedGeneric
+{
+	"$basetexture"			"phase_14/maps/elevator_side.jpg"
+    "$metallic"             "1.0"
+    "$roughness"            "0.4"
+    "$surfaceprop"          "metal"
+    "$envmap"				"env_cubemap"
+}

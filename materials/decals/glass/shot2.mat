@@ -1,0 +1,4 @@
+DecalModulate
+{
+    "$basetexture"  "materials/decals/glass/shot2.png"
+}

@@ -1,0 +1,5 @@
+DecalModulate
+{
+    "$basetexture"  "materials/scorch1.png"
+    "$translucent"  "1"
+}

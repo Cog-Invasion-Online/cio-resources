@@ -2,6 +2,10 @@ LightmappedGeneric
 {
     "$basetexture"  "phase_14/maps/signs/entrance.jpg"
     
+    "$roughness"    "0.2"
+    "$metallic"     "1.0"
+    
+    "$surfaceprop"  "metal"
+    
     "$envmap"       "env_cubemap"
-    "$envmaptint"   ".1 .1 .1"
 }

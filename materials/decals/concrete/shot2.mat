@@ -1,0 +1,4 @@
+DecalModulate
+{
+    "$basetexture"  "materials/decals/concrete/shot2.png"
+}

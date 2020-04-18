@@ -8,6 +8,7 @@ from src.coginvasion.attack import BaseProjectile/AI
 from src.coginvasion.attack import LinearProjectile/AI
 from src.coginvasion.attack import LobProjectile/AI
 from src.coginvasion.gagsnew import WholeCreamPieProjectile/AI
+from src.coginvasion.gagsnew.WholeCreamPie/AI import PieGib/AI
 from src.coginvasion.gagsnew import TNTProjectile/AI
 from src.coginvasion.gagsnew import GumballProjectile/AI
 from src.coginvasion.cog.attacks import BombProjectile/AI
@@ -93,7 +94,7 @@ from src.coginvasion.szboss.sewer import DistributedSewer/AI
 from src.coginvasion.szboss.DistributedTrigger/AI import DistributedTriggerOnce/AI
 from src.coginvasion.szboss.DistributedTrigger/AI import DistributedTriggerMultiple/AI
 from src.coginvasion.szboss import DistributedFuncDoor/AI
-from src.coginvasion.szboss import DistributedGoon/AI
+from src.coginvasion.szboss.goon import NPC_Goon/AI
 from src.coginvasion.szboss import DistributedSZBossSuit/AI
 from src.coginvasion.szboss import DistributedCutscene/AI
 from src.coginvasion.szboss import DistributedIndicatorLight/AI
@@ -102,6 +103,19 @@ from src.coginvasion.szboss import DistributedGenerator/AI
 from src.coginvasion.szboss import DistributedFuncRotating/AI
 from src.coginvasion.szboss import DistributedSZBossToon/AI
 from src.coginvasion.szboss import InfoBgm/AI
+from src.coginvasion.szboss import AmbientGeneric/AI
+from src.coginvasion.szboss import EnvParticleSystem/AI
+from src.coginvasion.szboss import LogicScript/AI
+from src.coginvasion.szboss import EnvFog/AI
+from src.coginvasion.szboss import EnvElevatorCamera/AI
+from src.coginvasion.szboss import EnvPostProcessFlash/AI
+from src.coginvasion.szboss import InfoLandmark/AI
+from src.coginvasion.szboss import TriggerChangeLevel/AI
+from src.coginvasion.szboss import TriggerTransition/AI
+from src.coginvasion.szboss import World/AI
+from src.coginvasion.szboss import PropDynamic/AI
+from src.coginvasion.szboss import PathTrack/AI
+from src.coginvasion.szboss import FuncElevator/AI
 from src.coginvasion.deathmatch import DistributedDeathmatchBattle/AI
 from src.coginvasion.deathmatch import DistributedGagPickup/AI
 
@@ -131,8 +145,19 @@ dclass Account {
 };
 
 dclass IDistributedEntity {
+  // Did this entity come from the BSP file?
+  setIsMapEnt(uint8) required broadcast ram;
   // Index of this entity in the BSP file
   setEntnum(uint16) required broadcast ram;
+  setModel(string, uint8 animating = 0) required broadcast ram;
+  setModelScale(Point3) required broadcast ram;
+  setModelOrigin(Point3) required broadcast ram;
+  setModelAngles(Point3) required broadcast ram;
+  setEntityState(uint8) required broadcast ram;
+  
+  playSound(string soundName) broadcast;
+  loopSound(string soundName) broadcast;
+  stopSound(string soundName) broadcast;
 };
 
 dclass DistributedRoot : DistributedObject {
@@ -183,7 +208,10 @@ dclass ClientServicesManager : DistributedObject {
 dclass StatsManager : DistributedObject {
 };
 
-dclass DistributedAvatar : DistributedSmoothNode {
+dclass DistributedEntity : DistributedSmoothNode, IDistributedEntity {
+};
+
+dclass DistributedAvatar : DistributedEntity {
   setName(string) required broadcast ownrecv db;
   setMaxHealth(int16 = 15) required broadcast ownrecv db;
   setHealth(int16 = 15) required broadcast ownrecv db;
@@ -194,6 +222,14 @@ dclass DistributedAvatar : DistributedSmoothNode {
   setHood(string) required broadcast ram;
   splash(int16/10, int16/10, int16/10) broadcast ownsend;
   takeDamage(uint16) ownsend airecv;
+  doRagdollMode(float64 forceX, float64 forceY, float64 forceZ,
+                float64 forcePosX, float64 forcePosY, float64 forcePosZ) broadcast;
+  fadeOut(float64 time = 1.0) broadcast;
+  fadeIn(float64 time = 1.0) broadcast;
+  
+  updateAttachment(string jointName, float64 x, float64 y,
+                   float64 z, float64 h, float64 p, float64 r,
+                   int16 timestamp) broadcast;
 
   // Special animations
   setActivity(int8 activity, int16 timestamp) broadcast;
@@ -226,6 +262,10 @@ dclass DistributedAvatar : DistributedSmoothNode {
   reloadPress(blob) ownsend airecv udp;
   reloadRelease(blob) ownsend airecv udp;
   // ========================= //
+  
+  doScaleUp() broadcast;
+  
+  handleDamage(float64 x, float64 y, float64 z) ownrecv;
 };
 
 dclass DistributedToon : DistributedAvatar {
@@ -233,6 +273,11 @@ dclass DistributedToon : DistributedAvatar {
   setAnimState(string, int16) broadcast ram ownsend airecv;
   lookAtObject(int16 / 10, int16 / 10, int16 / 10, int8 = 1) broadcast ownsend;
   setLookMode(uint8 mode) required broadcast ram ownsend airecv;
+  
+  setEyeState(uint8) required broadcast ram ownrecv;
+  lookEyesAt(Point3) broadcast ownrecv;
+  lookEyesAtObject(uint32) broadcast ownrecv;
+  lookPupilsMiddle() broadcast ownrecv;
 };
 
 dclass DistributedPlayerToon : DistributedToon {
@@ -424,6 +469,8 @@ dclass DistributedBattleZone : DistributedObject {
   readyToStart() clsend airecv;
   loadedMap() clsend airecv;
   emitSound(string path, Point3 worldPos, uint16 / 100 volume) broadcast;
+  // Sent by the server to all clients: create a temp entity
+  makeTempEnt(uint16 te, blob data) broadcast;
 };
 
 dclass DistributedTutorial : DistributedBattleZone {
@@ -858,12 +905,7 @@ dclass DistributedButterfly : DistributedNode {
 dclass DistributedPhysicsEntity : DistributedSmoothNode {
 };
 
-dclass DistributedEntity : DistributedObject, IDistributedEntity {
-};
-
 dclass DistributedFuncDoor : DistributedEntity {
-  // opened, opening, closed, closing
-  setDoorState(int8) required broadcast ram;
   requestOpen() clsend airecv;
 };
 
@@ -879,27 +921,16 @@ dclass DistributedSewer : DistributedBattleZone {
   startLevel() broadcast;
 };
 
-dclass DistributedGoon : DistributedAvatar, IDistributedEntity {
-  doDetectStuff() broadcast;
-  doUndetectGlow() broadcast;
-  shoot(uint32) broadcast;
-  watchTarget(uint32) broadcast;
-  stopWatchingTarget() broadcast;
-  wakeup() broadcast;
-  doIdle() broadcast;
-  doAsleep() broadcast;
-  stopIdle() broadcast;
-  doScan() broadcast;
-  doMoveTrack(Point3[], uint8, int16 / 10, uint8) broadcast;
-  clearMoveTrack() broadcast;
-  hitByGag(uint8 gagId, uint16 distance = 10) clsend airecv;
-  doRagdollMode() broadcast;
+dclass NPC_Goon : DistributedAvatar {
+  setHatType(int8 type) required broadcast ram;
+  setIdealEyeColor(float64 r, float64 g, float64 b) required broadcast ram;
 };
 
-dclass DistributedSZBossSuit : DistributedSuit, IDistributedEntity {
+dclass DistributedSZBossSuit : DistributedSuit {
 };
 
-dclass DistributedSZBossToon : DistributedToon, IDistributedEntity {
+dclass DistributedSZBossToon : DistributedToon {
+  use() clsend airecv;
 };
 
 dclass DistributedCutscene : DistributedEntity {
@@ -971,6 +1002,7 @@ dclass DistributedDeathmatchBattle : DistributedBattleZone {
 dclass DistributedGagPickup : DistributedEntity {
   setPickupState(uint8 state) required broadcast ram;
   setGagId(int16 gagId) required broadcast ram;
+  setCost(uint16) required broadcast ram;
 
   requestPickup() clsend airecv;
   pickupAccepted();
@@ -983,4 +1015,61 @@ dclass InfoBgm : DistributedEntity {
   
   playMusic() broadcast;
   stopMusic() broadcast;
+  fadeOut(float64) broadcast;
+  
+  setEntityState(uint8) required broadcast ram;
+};
+
+dclass AmbientGeneric : DistributedEntity {
+  setSoundFile(string) required broadcast ram;
+  setLooping(uint8) required broadcast ram;
+  setVolume(uint8 / 100) required broadcast ram;
+  
+  setEntityState(uint8) required broadcast ram;
+  fadeIn(float64 time) broadcast;
+  fadeOut(float64 time) broadcast;
+};
+
+dclass EnvParticleSystem : DistributedEntity {
+};
+
+dclass LogicScript : DistributedEntity {
+};
+
+dclass PieGib : DistributedEntity {
+};
+
+dclass EnvFog : DistributedEntity {
+};
+
+dclass EnvElevatorCamera : DistributedEntity {
+};
+
+dclass EnvPostProcessFlash : DistributedEntity {
+  setFlashColor(float64, float64, float64) required broadcast ram;
+  setBrightTime(float64) required broadcast ram;
+  setDarkTime(float64) required broadcast ram;
+  
+  setEntityState(uint8) required broadcast ram;
+};
+
+dclass InfoLandmark : DistributedEntity {
+};
+
+dclass TriggerChangeLevel : DistributedEntity {
+};
+
+dclass TriggerTransition : DistributedEntity {
+};
+
+dclass World : DistributedEntity {
+};
+
+dclass FuncElevator : DistributedEntity {
+};
+
+dclass PropDynamic : DistributedEntity {
+};
+
+dclass PathTrack : DistributedEntity {
 };

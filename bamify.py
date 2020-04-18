@@ -1,3 +1,4 @@
+from panda3d.bullet import *
 from panda3d.core import *
 from panda3d.bsp import *
 
@@ -36,6 +37,18 @@ lbr()
 loader = Loader.getGlobalPtr()
 node = loader.loadSync(inp_file)
 np = NodePath(node)
+np.clearMaterial()
+for child in np.findAllMatches("**"):
+    child.clearMaterial()
+    if child.node().isOfType(GeomNode.getClassType()):
+        for i in range(child.node().getNumGeoms()):
+            state = child.node().getGeomState(i)
+            if state.hasAttrib(MaterialAttrib.getClassType()):
+                state = state.removeAttrib(MaterialAttrib.getClassType())
+                child.node().setGeomState(i, state)
+            if state.hasAttrib(TextureAttrib.getClassType()):
+                state = state.removeAttrib(TextureAttrib.getClassType())
+                child.node().setGeomState(i, state)
 
 meshes = np.findAllMatches("**/+GeomNode")
 for meshNp in meshes:
@@ -45,6 +58,9 @@ for meshNp in meshes:
     if mat.hasTransparency():
         print meshNp.getName(), "has $translucent or $alpha"
         meshNp.setTransparency(TransparencyAttrib.MDual, 1)
+    dbs = raw_input("\tDouble sided? [Y/N]: ").lower()
+    if dbs == "y":
+        meshNp.setTwoSided(True, 1)
     
 lbr()
     

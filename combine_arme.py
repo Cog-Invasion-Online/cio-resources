@@ -1,5 +1,7 @@
 from panda3d.core import PNMImage, Filename, PNMImageHeader
 
+import math
+
 CHANNEL_AO = 0
 CHANNEL_ROUGHNESS = 1
 CHANNEL_METALLIC = 2
@@ -36,30 +38,43 @@ def getChannelName(channel):
         return "Emissive"
 
 ao = Filename(raw_input("AO Image: "))
+ao_srgb = bool(int(raw_input("sRGB (Edited in image program)? [1/0]: ")))
 roughness = Filename(raw_input("Roughness Image: "))
+roughness_srgb = bool(int(raw_input("sRGB (Edited in image program)? [1/0]: ")))
 metallic = Filename(raw_input("Metallic Image: "))
+metallic_srgb = bool(int(raw_input("sRGB (Edited in image program)? [1/0]: ")))
 emissive = Filename(raw_input("Emissive Image: "))
+emissive_srgb = bool(int(raw_input("sRGB (Edited in image program)? [1/0]: ")))
 
 size = [1024, 1024]
 
-fImgs = [ao, roughness, metallic, emissive]
+fImgs = [[ao, ao_srgb], [roughness, roughness_srgb], [metallic, metallic_srgb], [emissive, emissive_srgb]]
 imgs = {}
 
 foundSize = False
 
 for i in xrange(len(fImgs)):
-    fImg = fImgs[i]
+    fImg, is_sRGB = fImgs[i]
     if fImg.exists():
         img = PNMImage()
         img.read(fImg)
         img.makeRgb()
+        if is_sRGB:
+            # Convert to linear
+            print "Converting", getChannelName(i), "to linear"
+            img.applyExponent(2.2)
         if not foundSize:
             size = [img.getReadXSize(), img.getReadYSize()]
             foundSize = True
         imgs[i] = img
     else:
         # assume it is a constant value
-        imgs[i] = float(fImg.getFullpath())
+        val = float(fImg.getFullpath())
+        if is_sRGB:
+            print "Converting", getChannelName(i), "to linear"
+            # Convert to linear
+            val = math.pow(val, 2.2)
+        imgs[i] = val
         
 print "Size:", size
         
@@ -70,6 +85,7 @@ output.fill(1.0, 0.0, 0.0)
 output.alphaFill(1.0)
 
 for channel, img in imgs.items():
+    img
     print "Filling in", getChannelName(channel), "channel..."
     if isinstance(img, float):
         print "Value", img

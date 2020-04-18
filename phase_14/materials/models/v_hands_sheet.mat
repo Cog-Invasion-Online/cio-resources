@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+    "$basetexture"  "phase_14/maps/v_hands_sheet.png"
+    "$rimlight"     "1"
+    "$halflambert"  "1"
+    "$lightwarp"    "phase_3/maps/toon_lightwarp.jpg"
+}

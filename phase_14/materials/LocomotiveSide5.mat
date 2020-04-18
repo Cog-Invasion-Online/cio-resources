@@ -1,4 +1,8 @@
 LightmappedGeneric
 {
 	"$basetexture"			"phase_10/maps/LocomotiveSide5.jpg"
+    "$surfaceprop"          "metal"
+    "$envmap"               "env_cubemap"
+    "$metallic"             "1"
+    "$roughness"            "0.3"
 }

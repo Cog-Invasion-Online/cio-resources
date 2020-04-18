@@ -5,4 +5,6 @@ VertexLitGeneric
     
     "$envmap"       "env_cubemap"
     "$arme"         "phase_14/maps/tnt/tnt_arme.png"
+    
+    "$lightwarp"    "phase_14/maps/weapon_lightwarp.jpg"
 }

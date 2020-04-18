@@ -6,4 +6,6 @@ LightmappedGeneric
 	
 	"$envmap"				"env_cubemap"
 	"$arme"			"phase_10/maps/Marble3_arme.jpg"
+
+	"$surfaceprop"	"tile"
 }

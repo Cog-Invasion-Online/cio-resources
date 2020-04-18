@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+    "$basetexture"      "materials/models/cage/cage_albedo.png"
+    "$bumpmap"          "materials/models/cage/cage_normal.png"
+    "$arme"             "materials/models/cage/cage_arme.png"
+    "$envmap"           "env_cubemap"
+}

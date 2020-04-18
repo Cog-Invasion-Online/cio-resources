@@ -1,0 +1,10 @@
+VertexLitGeneric
+{
+    "$basetexture"      "phase_14/maps/white.jpg"
+    
+    "$rimlight"         "1"
+    "$roughness"        "0.3"
+    "$metallic"         "0.0"
+    
+    "$lightwarp"    "phase_14/maps/weapon_lightwarp.jpg"
+}

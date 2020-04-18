@@ -1,4 +1,5 @@
 LightmappedGeneric
 {
     "$basetexture"  "phase_10/maps/CBCrate.jpg"
+    "$surfaceprop"  "wood"
 }
