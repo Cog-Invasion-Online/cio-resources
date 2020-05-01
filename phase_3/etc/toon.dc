@@ -332,6 +332,9 @@ dclass DistributedPlayerToon : DistributedToon {
   // Not saved in database.
   setSessionHealth(uint16) required broadcast ram;
   setSessionMaxHealth(uint16) required broadcast ram;
+  
+  // FIXME: Maybe encode with int32?
+  setView(float64 x, float64 y, float64 z, float64 h, float64 p, float64 r) ownsend airecv;
 };
 
 dclass DistributedTreasure : DistributedObject {
